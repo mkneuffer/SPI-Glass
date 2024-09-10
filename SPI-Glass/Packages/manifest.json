@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.niantic.lightship.maps": "https://github.com/niantic-lightship/maps-upm.git",
+    "com.nianticlabs.lightship": "https://github.com/niantic-lightship/ardk-upm.git",
     "com.unity.collab-proxy": "2.5.1",
     "com.unity.feature.mobile": "1.0.0",
     "com.unity.ide.rider": "3.0.31",
