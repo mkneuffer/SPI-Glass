@@ -28,6 +28,26 @@
       },
       "hash": "2fa0ccfba75b1c4a1281d5195950050c725cbd7d"
     },
+    "com.nianticlabs.lightship.sharedar": {
+      "version": "https://github.com/niantic-lightship/sharedar-upm.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.nianticlabs.lightship": "3.8.0-2409081646",
+        "com.unity.netcode.gameobjects": "1.2.0"
+      },
+      "hash": "018647d4e73e9a9c5330d0716a351fe7b7cd4978"
+    },
+    "com.nianticlabs.lightship.wps": {
+      "version": "https://github.com/niantic-lightship/wps-upm.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.nianticlabs.lightship": "3.8.0-2409081646",
+        "com.unity.xr.management": "4.0.1"
+      },
+      "hash": "306644fcb9f9faecaac2136bf9c432f5e6f0a943"
+    },
     "com.unity.adaptiveperformance": {
       "version": "4.0.1",
       "depth": 1,
@@ -157,6 +177,16 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.netcode.gameobjects": {
+      "version": "1.10.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.transport": "1.4.0",
+        "com.unity.nuget.mono-cecil": "1.10.1"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.4",
       "depth": 2,
@@ -216,6 +246,17 @@
         "com.unity.modules.director": "1.0.0",
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.transport": {
+      "version": "1.4.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.6.6",
+        "com.unity.collections": "1.2.4",
+        "com.unity.mathematics": "1.2.6"
       },
       "url": "https://packages.unity.com"
     },
