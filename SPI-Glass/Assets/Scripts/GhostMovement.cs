@@ -14,9 +14,9 @@ public class GhostMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(0, .05f * moveDirection, 0);
+        transform.position += new Vector3(0, .01f * moveDirection, 0);
         counter++;
-        if (counter % 50 == 0)
+        if (counter % 250 == 0)
         {
             moveDirection *= -1;
         }
