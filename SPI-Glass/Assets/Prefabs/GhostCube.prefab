@@ -119,3 +119,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  waypointStorage: {fileID: 2118539945289521529, guid: 816317a87987afa47842746a6cf860a5,
+    type: 3}
