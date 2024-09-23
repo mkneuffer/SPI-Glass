@@ -12,7 +12,7 @@ public class MoveGhost : MonoBehaviour
     [SerializeField] private ARWorldPositioningManager positioningManager;
     [SerializeField] private ARCameraManager cameraManager;
 
-    bool first = true;
+
     // Start is called before the first frame update
     void Start()
     {
