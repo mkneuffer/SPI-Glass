@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
@@ -15,8 +16,13 @@ public class GhostMovement : MonoBehaviour
     public float speed;
     private Vector3 startingPosition;
     [SerializeField] private WaypointStorage waypointStorage;
+    [SerializeField] private TextMeshProUGUI ghostHealthTextUI;
     //[SerializeField] private WaypointStorage waypointStorage2;
     private WaypointStorage currentWaypoint;
+
+    private int health = 9;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +33,7 @@ public class GhostMovement : MonoBehaviour
     void Update()
     {
         MoveToPoints(currentWaypoint.GetWaypoints());
+        HandleHealth();
     }
 
     //Moves the ghost along the given waypoints
@@ -40,10 +47,18 @@ public class GhostMovement : MonoBehaviour
             {
                 counter = 0;
             }
-            Debug.Log(currentWaypoint);
         }
         transform.position = Vector3.MoveTowards(transform.position, startingPosition + waypoints[counter], Time.deltaTime * speed);
     }
 
+    void HandleHealth()
+    {
+        ghostHealthTextUI.SetText("Ghost Health: " + health);
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        {
+            health--;
+            Debug.Log("TOUCH");
+        }
 
+    }
 }
