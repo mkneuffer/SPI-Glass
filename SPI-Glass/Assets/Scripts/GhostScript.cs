@@ -20,7 +20,7 @@ public class GhostMovement : MonoBehaviour
     //[SerializeField] private WaypointStorage waypointStorage2;
     private WaypointStorage currentWaypoint;
 
-    private int health = 9;
+    private int health = 10;
 
 
     // Start is called before the first frame update

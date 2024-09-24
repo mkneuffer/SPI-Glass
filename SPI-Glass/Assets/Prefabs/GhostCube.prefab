@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  waypointStorage: {fileID: 2118539945289521529, guid: 4e2a4c97fbc483e40822d54f4a216a75,
+  waypointStorage: {fileID: 2118539945289521529, guid: 816317a87987afa47842746a6cf860a5,
     type: 3}
   ghostHealthTextUI: {fileID: 5096783846462434651, guid: 90228c58bed31ef4f8c86f0a2ac07269,
     type: 3}
