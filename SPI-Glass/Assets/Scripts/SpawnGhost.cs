@@ -23,11 +23,6 @@ public class MoveGhost : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Current Pos = " + cameraManager.GetComponent<Transform>().position);
-        }
-
 
     }
 
@@ -35,6 +30,5 @@ public class MoveGhost : MonoBehaviour
     void SpawnGhost()
     {
         Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, Quaternion.identity);
-        Debug.Log("spawned ghost");
     }
 }
