@@ -14,16 +14,14 @@ public class GhostMovement : MonoBehaviour
     private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
     public float speed;
     private Vector3 startingPosition;
-    [SerializeField] private WaypointStorage waypointStorage1;
-    [SerializeField] private WaypointStorage waypointStorage2;
-    [SerializeField] private Button changePathButton;
+    [SerializeField] private WaypointStorage waypointStorage;
+    //[SerializeField] private WaypointStorage waypointStorage2;
     private WaypointStorage currentWaypoint;
     // Start is called before the first frame update
     void Start()
     {
         startingPosition = transform.position;
-        currentWaypoint = waypointStorage1;
-        changePathButton.onClick.AddListener(swapPaths);
+        currentWaypoint = waypointStorage;
     }
     // Update is called once per frame
     void Update()
@@ -47,19 +45,5 @@ public class GhostMovement : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, startingPosition + waypoints[counter], Time.deltaTime * speed);
     }
 
-    void swapPaths()
-    {
-
-        if (currentWaypoint == waypointStorage1)
-        {
-            currentWaypoint = waypointStorage2;
-            Debug.Log("Swapping to Eight Pattern | Current Waypoint: " + currentWaypoint);
-        }
-        else if (currentWaypoint == waypointStorage2)
-        {
-            currentWaypoint = waypointStorage1;
-            Debug.Log("Swapping to Diamond Pattern | Current Waypoint: " + currentWaypoint);
-        }
-    }
 
 }
