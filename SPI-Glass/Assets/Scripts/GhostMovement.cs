@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public class GhostMovement : MonoBehaviour
 {
@@ -12,17 +14,21 @@ public class GhostMovement : MonoBehaviour
     private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
     public float speed;
     private Vector3 startingPosition;
-    [SerializeField] private WaypointStorage waypointStorage;
-
+    [SerializeField] private WaypointStorage waypointStorage1;
+    [SerializeField] private WaypointStorage waypointStorage2;
+    //[SerializeField] private Button changePathButton;
+    private WaypointStorage currentWaypoint;
     // Start is called before the first frame update
     void Start()
     {
         startingPosition = transform.position;
+        currentWaypoint = waypointStorage1;
+        //changePathButton.onClick.AddListener(swapPaths);
     }
     // Update is called once per frame
     void Update()
     {
-        MoveToPoints(waypointStorage.GetWaypoints());
+        MoveToPoints(currentWaypoint.GetWaypoints());
     }
 
     //Moves the ghost along the given waypoints
@@ -38,6 +44,19 @@ public class GhostMovement : MonoBehaviour
             }
         }
         transform.position = Vector3.MoveTowards(transform.position, startingPosition + waypoints[counter], Time.deltaTime * speed);
+    }
+
+    public void swapPaths()
+    {
+        Debug.Log("sawppah");
+        if (currentWaypoint == waypointStorage1)
+        {
+            currentWaypoint = waypointStorage2;
+        }
+        else
+        {
+            currentWaypoint = waypointStorage1;
+        }
     }
 
 }
