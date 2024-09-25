@@ -15,10 +15,11 @@ public class GhostMovement : MonoBehaviour
     private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
     public float speed;
     private Vector3 startingPosition;
-    [SerializeField] private WaypointStorage waypointStorage;
-    [SerializeField] private TextMeshProUGUI ghostHealthTextUI;
-    //[SerializeField] private WaypointStorage waypointStorage2;
+    [SerializeField] private WaypointStorage waypointStorage1;
+    [SerializeField] private WaypointStorage waypointStorage2;
     private WaypointStorage currentWaypoint;
+
+    //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
     private int health = 10;
 
@@ -27,7 +28,8 @@ public class GhostMovement : MonoBehaviour
     void Start()
     {
         startingPosition = transform.position;
-        currentWaypoint = waypointStorage;
+        currentWaypoint = waypointStorage1;
+        Invoke("SwapPath", 7);
     }
     // Update is called once per frame
     void Update()
@@ -51,14 +53,36 @@ public class GhostMovement : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, startingPosition + waypoints[counter], Time.deltaTime * speed);
     }
 
+    //Deals with the health value of the ghost
+    //Does damage if touched/tapped
+    //Ghost is destroyed if health <= 0
     void HandleHealth()
     {
-        ghostHealthTextUI.SetText("Ghost Health: " + health);
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        //ghostHealthTextUI.SetText("Ghost Health: " + health);
+        if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
         {
             health--;
-            Debug.Log("TOUCH");
+            Debug.Log("Touched, Ghost Health = " + health);
+            if (health <= 0)
+            {
+                Debug.Log("killing ghost");
+                Destroy(gameObject);
+            }
         }
 
+    }
+
+    //Swaps between two different waypoints
+    void SwapPath()
+    {
+        counter = 0;
+        if (currentWaypoint == waypointStorage1)
+        {
+            currentWaypoint = waypointStorage2;
+        }
+        else if (currentWaypoint == waypointStorage2)
+        {
+            currentWaypoint = waypointStorage1;
+        }
     }
 }
