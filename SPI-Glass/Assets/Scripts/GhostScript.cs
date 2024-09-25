@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 
 public class GhostMovement : MonoBehaviour
@@ -27,6 +28,7 @@ public class GhostMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
         startingPosition = transform.position;
         currentWaypoint = waypointStorage1;
         Invoke("SwapPath", 7);
