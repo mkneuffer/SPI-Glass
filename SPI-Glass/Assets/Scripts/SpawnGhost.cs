@@ -29,6 +29,8 @@ public class MoveGhost : MonoBehaviour
     //Spawns the ghost at the cameras location
     void SpawnGhost()
     {
-        Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, Camera.main.transform.rotation);
+        Quaternion rotation = Quaternion.identity;
+        rotation.Set(rotation.x, Camera.main.transform.rotation.y + 180.0f, rotation.z, rotation.w);
+        Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, rotation);
     }
 }

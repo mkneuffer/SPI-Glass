@@ -13,7 +13,7 @@ public class GhostMovement : MonoBehaviour
 
     float WRadius = .05f; //How close the ghost has to be to a point to count as being at that point
     int counter = 0;
-    private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
+    //private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
     public float speed;
     private Vector3 startingPosition;
     [SerializeField] private WaypointStorage waypointStorage1;
@@ -28,7 +28,7 @@ public class GhostMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+        //transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
         startingPosition = transform.position;
         currentWaypoint = waypointStorage1;
         Invoke("SwapPath", 7);
