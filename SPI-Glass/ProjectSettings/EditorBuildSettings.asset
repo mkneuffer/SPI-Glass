@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main.unity
     guid: 697d8be581ba04e2dbe7998526acc5cf
+  - enabled: 1
+    path: Assets/Scenes/InventoryScene.unity
+    guid: b492965b2cbdcc8499007ac277b9fa8d
+  - enabled: 1
+    path: Assets/Scenes/StarterScene.unity
+    guid: 5841a2b78d950fc4d8392a81a2187bc4
   m_configObjects:
     Niantic.Lightship.AR.LightshipSettings: {fileID: 11400000, guid: 1adebb225450d43d792b3fd931de6645,
       type: 2}
