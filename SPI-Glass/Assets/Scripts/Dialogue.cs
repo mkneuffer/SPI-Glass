@@ -7,15 +7,21 @@ using System;
 public class Dialogue : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
-    public string[] lines;
+    List<string> lines;
     public float textSpeed;
     private int index;
 
     // Start is called before the first frame update
     void Start()
     {
+        lines = new List<string>();
         textComponent.text = string.Empty;
-        StartDialogue();
+        index = 0;
+    }
+
+    void Awake()
+    {
+        StartCoroutine(TypeLine());
     }
 
     // Update is called once per frame
@@ -23,6 +29,7 @@ public class Dialogue : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+
             if (textComponent.text == lines[index])
             {
                 NextLine();
@@ -35,16 +42,24 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    void StartDialogue()
+    public void AddText(string text)
     {
-        index = 0;
-        StartCoroutine(TypeLine());
+        lines.Add(text);
+        Debug.Log("Adding: " + text);
+        Debug.Log("linescounr addtext:" + lines.Count);
     }
+
 
     IEnumerator TypeLine()
     {
+
+        Debug.Log("index:" + index);
+        Debug.Log("linescounr typeline:" + lines.Count);
+
+        Debug.Log("lines[0]" + lines[0]);
         foreach (char c in lines[index].ToCharArray())
         {
+            Debug.Log(c);
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
@@ -52,7 +67,7 @@ public class Dialogue : MonoBehaviour
 
     void NextLine()
     {
-        if (index < lines.Length - 1)
+        if (index < lines.Count - 1)
         {
             index++;
             textComponent.text = string.Empty;
@@ -60,8 +75,8 @@ public class Dialogue : MonoBehaviour
         }
         else
         {
-            Debug.Log("kill");
-            Destroy(gameObject.transform.parent.gameObject);
+            lines.Clear();
+            Destroy(gameObject);
         }
     }
 }
