@@ -70,6 +70,5 @@ public class NewBehaviourScript : MonoBehaviour
     void OnDestroy()
     {
         Settings.onClick.RemoveListener(ToggleMenu);
-    }
-    */
+    } */
 }
