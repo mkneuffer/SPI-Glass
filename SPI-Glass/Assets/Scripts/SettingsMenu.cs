@@ -53,10 +53,23 @@ public class NewBehaviourScript : MonoBehaviour
             }
         }
     }
+/*
+    public void OnItemClick(int index) {
+        // Does not include the main settings button
+        switch(index) {
+            case 0:
+                Debug.log("Audio");
+                break;
+            case 1:
+                Debug.log("Vibration");
+                break;
+        }
+    }
 
     // Update is called once per frame
-    void onDestroy()
+    void OnDestroy()
     {
         Settings.onClick.RemoveListener(ToggleMenu);
     }
+    */
 }
