@@ -20,6 +20,10 @@ public class DialogueManager : MonoBehaviour
 
     private static DialogueManager instance;
 
+    private const string SPEAKER_TAG = "speaker";
+    private const string PORTRAIT_TAG = "portrait";
+    private const string LAYOUT_TAG = "layout";
+
     private void Awake()
     {
         if (instance != null)
@@ -84,6 +88,7 @@ public class DialogueManager : MonoBehaviour
         {
             dialogueText.text = currentStory.Continue();
             DisplayChoices();
+            // HandleTags(currentStory.currentTags);
         }
         else
         {
