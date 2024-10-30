@@ -506,6 +506,7 @@ GameObject:
   - component: {fileID: 370630597}
   - component: {fileID: 370630599}
   - component: {fileID: 370630598}
+  - component: {fileID: 370630600}
   m_Layer: 5
   m_Name: DialoguePanel
   m_TagString: Untagged
@@ -575,6 +576,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370630596}
   m_CullTransparentMesh: 1
+--- !u!95 &370630600
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370630596}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3f3064434d5e9904db055d0679ba0d9b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &378556568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,7 +1513,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 29.203394, y: 40.154655, z: -1112.5123, w: -702.92334}
+  m_margin: {x: 29.203394, y: 40.154655, z: -1103.1035, w: -702.92334}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
