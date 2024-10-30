@@ -9,9 +9,9 @@ public class TestTriggerDialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1) && !DialogueManager.GetInstance().isDialoguePlaying)
+        bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+        if (clicked)
         {
-            Debug.Log("calling dialogue");
             DialogueManager.GetInstance().EnterDialogueMode(inkJSON);
         }
     }

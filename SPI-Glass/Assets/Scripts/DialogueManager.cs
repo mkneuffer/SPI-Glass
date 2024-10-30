@@ -65,15 +65,24 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        //Advance to next line on click
         List<Choice> currentChoices = currentStory.currentChoices;
-        if (Input.GetMouseButtonDown(0) && currentChoices.Count == 0)
+        bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+        if (clicked && currentChoices.Count == 0)
         {
             ContinueStory();
         }
     }
 
+    //Start the dialogue
+    //Call this function to run the dialogue
     public void EnterDialogueMode(TextAsset inkJSON)
     {
+        //If dialogue is already playing, return
+        if (isDialoguePlaying)
+        {
+            return;
+        }
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
@@ -85,6 +94,7 @@ public class DialogueManager : MonoBehaviour
         ContinueStory();
     }
 
+    //Leave the dialogue
     private void ExitDialogueMode()
     {
         isDialoguePlaying = false;
@@ -92,6 +102,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
     }
 
+    //Goes to next line in the diaglogue
     private void ContinueStory()
     {
         if (currentStory.canContinue)
@@ -106,8 +117,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //Given the current dialogue's tags, do the things we need to do
     private void HandleTags(List<string> currentTags)
     {
+        //Loop through each tag
         foreach (string tag in currentTags)
         {
             string[] splitTag = tag.Split(':');
@@ -118,6 +131,7 @@ public class DialogueManager : MonoBehaviour
             string tagKey = splitTag[0].Trim();
             string tagValue = splitTag[1].Trim();
 
+            //Does stuff with the tags
             switch (tagKey)
             {
                 case SPEAKER_TAG:
@@ -136,6 +150,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //Display the list of all choices
     private void DisplayChoices()
     {
         List<Choice> currentChoices = currentStory.currentChoices;
@@ -160,17 +175,10 @@ public class DialogueManager : MonoBehaviour
         {
             choices[i].gameObject.SetActive(false);
         }
-
-        //StartCoroutine(SelectFirstChoice());
     }
 
 
-    private IEnumerator SelectFirstChoice()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
-    }
+    //Connected to the onclick funciton of the buttons, chooses the choice of the button clicked
     public void MakeChoice(int choiceIndex)
     {
         EventSystem.current.SetSelectedGameObject(choices[choiceIndex].gameObject);
