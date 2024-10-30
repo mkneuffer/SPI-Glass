@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
+    [SerializeField] private Animator portraitAnimator;
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -112,11 +113,10 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
-                    Debug.Log("speaker" + tagValue);
                     displayNameText.text = tagValue;
                     break;
                 case PORTRAIT_TAG:
-                    Debug.Log("port" + tagValue);
+                    portraitAnimator.Play(tagValue);
                     break;
                 case LAYOUT_TAG:
                     Debug.Log("layout" + tagValue);

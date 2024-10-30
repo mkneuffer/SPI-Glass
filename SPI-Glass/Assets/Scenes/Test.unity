@@ -1791,6 +1791,7 @@ MonoBehaviour:
   dialoguePanel: {fileID: 370630596}
   dialogueText: {fileID: 1116104885}
   displayNameText: {fileID: 427546421}
+  portraitAnimator: {fileID: 2097120311}
   choices:
   - {fileID: 1168039474}
   - {fileID: 677132213}
@@ -2353,6 +2354,7 @@ GameObject:
   - component: {fileID: 2097120308}
   - component: {fileID: 2097120310}
   - component: {fileID: 2097120309}
+  - component: {fileID: 2097120311}
   m_Layer: 5
   m_Name: PortraitImage
   m_TagString: Untagged
@@ -2417,6 +2419,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097120307}
   m_CullTransparentMesh: 1
+--- !u!95 &2097120311
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097120307}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 442ddfd486c8a334eac2bbe89090fd9f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
