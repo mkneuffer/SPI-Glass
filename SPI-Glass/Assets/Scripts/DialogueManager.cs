@@ -77,6 +77,11 @@ public class DialogueManager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
+
+        //Reset display name, portrait and layout
+        displayNameText.text = "???";
+        portraitAnimator.Play("default");
+        layoutAnimator.Play("right");
         ContinueStory();
     }
 
@@ -169,7 +174,6 @@ public class DialogueManager : MonoBehaviour
     public void MakeChoice(int choiceIndex)
     {
         EventSystem.current.SetSelectedGameObject(choices[choiceIndex].gameObject);
-        Debug.Log("makeing choice");
         currentStory.ChooseChoiceIndex(choiceIndex);
         ContinueStory();
     }
