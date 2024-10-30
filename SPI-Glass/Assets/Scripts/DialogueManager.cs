@@ -95,8 +95,10 @@ public class DialogueManager : MonoBehaviour
     }
 
     //Leave the dialogue
-    private void ExitDialogueMode()
+    private IEnumerator ExitDialogueMode()
     {
+        yield return new WaitForSeconds(0.05f);
+
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
@@ -113,7 +115,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            ExitDialogueMode();
+            StartCoroutine(ExitDialogueMode());
         }
     }
 
