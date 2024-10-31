@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
     private Animator layoutAnimator;
+    [SerializeField] private float automaticTextSpeed;
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -22,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     public bool isDialoguePlaying { get; private set; }
 
     private static DialogueManager instance;
-
+    private bool interupting;
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
@@ -46,7 +47,8 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
-
+        interupting = true;
+        automaticTextSpeed = 3.0f;
 
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
@@ -65,28 +67,90 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        List<Choice> currentChoices = currentStory.currentChoices;
-        if (Input.GetMouseButtonDown(0) && currentChoices.Count == 0)
+        if (interupting)
         {
-            ContinueStory();
+            //Advance to next line on click
+            List<Choice> currentChoices = currentStory.currentChoices;
+            bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+            if (clicked && currentChoices.Count == 0)
+            {
+                ContinueStory();
+            }
         }
     }
 
-    public void EnterDialogueMode(TextAsset inkJSON)
+
+
+    //Start the dialogue
+    //Call this function to run the dialogue
+    public void EnterDialogueMode(TextAsset inkJSON, bool interruptable)
     {
+        interupting = interruptable;
+        //If dialogue is already playing, return
+        if (isDialoguePlaying)
+        {
+            return;
+        }
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
-        ContinueStory();
+
+        //Reset display name, portrait and layout
+        displayNameText.text = "???";
+        portraitAnimator.Play("default");
+        layoutAnimator.Play("right");
+        if (interupting)
+        {
+            ContinueStory();
+        }
+        else
+        {
+            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+        }
+
     }
 
-    private void ExitDialogueMode()
+    //Start the dialogue
+    //Call this function to run the dialogue
+    public void EnterDialogueMode(TextAsset inkJSON, bool interruptable, float automaticTextSpeed)
     {
+        interupting = interruptable;
+        //If dialogue is already playing, return
+        if (isDialoguePlaying)
+        {
+            return;
+        }
+        currentStory = new Story(inkJSON.text);
+        isDialoguePlaying = true;
+        dialoguePanel.SetActive(true);
+
+        //Reset display name, portrait and layout
+        displayNameText.text = "???";
+        portraitAnimator.Play("default");
+        layoutAnimator.Play("right");
+
+        if (interupting)
+        {
+            ContinueStory();
+        }
+        else
+        {
+            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+        }
+
+    }
+
+    //Leave the dialogue
+    private IEnumerator ExitDialogueMode()
+    {
+        yield return new WaitForSeconds(0.05f);
+
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
     }
 
+    //Goes to next line in the diaglogue
     private void ContinueStory()
     {
         if (currentStory.canContinue)
@@ -97,12 +161,42 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            ExitDialogueMode();
+            StartCoroutine(ExitDialogueMode());
         }
     }
 
+    private IEnumerator NonInterruptableContinueStory(float automaticTextSpeed)
+    {
+        if (currentStory.canContinue)
+        {
+            dialogueText.text = currentStory.Continue();
+            HandleTags(currentStory.currentTags);
+
+            //Give error if trying to do choices
+            if (currentStory.currentChoices.Count > 0)
+            {
+                Debug.LogError("Non-Interruptable Dialogue does not support choices");
+            }
+            //Disables all choices
+            for (int i = 0; i < choices.Length; i++)
+            {
+                choices[i].gameObject.SetActive(false);
+            }
+
+            yield return new WaitForSeconds(automaticTextSpeed);
+
+            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+        }
+        else
+        {
+            StartCoroutine(ExitDialogueMode());
+        }
+    }
+
+    //Given the current dialogue's tags, do the things we need to do
     private void HandleTags(List<string> currentTags)
     {
+        //Loop through each tag
         foreach (string tag in currentTags)
         {
             string[] splitTag = tag.Split(':');
@@ -113,6 +207,7 @@ public class DialogueManager : MonoBehaviour
             string tagKey = splitTag[0].Trim();
             string tagValue = splitTag[1].Trim();
 
+            //Does stuff with the tags
             switch (tagKey)
             {
                 case SPEAKER_TAG:
@@ -122,7 +217,25 @@ public class DialogueManager : MonoBehaviour
                     portraitAnimator.Play(tagValue);
                     break;
                 case LAYOUT_TAG:
-                    layoutAnimator.Play(tagValue);
+                    if (!interupting)
+                    {
+                        if (tagValue == "right")
+                        {
+                            layoutAnimator.Play("right-noninterrupt");
+                        }
+                        else if (tagValue == "left")
+                        {
+                            layoutAnimator.Play("left-noninterrupt");
+                        }
+                        else
+                        {
+                            layoutAnimator.Play(tagValue);
+                        }
+                    }
+                    else
+                    {
+                        layoutAnimator.Play(tagValue);
+                    }
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
@@ -131,6 +244,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //Display the list of all choices
     private void DisplayChoices()
     {
         List<Choice> currentChoices = currentStory.currentChoices;
@@ -155,21 +269,13 @@ public class DialogueManager : MonoBehaviour
         {
             choices[i].gameObject.SetActive(false);
         }
-
-        //StartCoroutine(SelectFirstChoice());
     }
 
 
-    private IEnumerator SelectFirstChoice()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
-    }
+    //Connected to the onclick funciton of the buttons, chooses the choice of the button clicked
     public void MakeChoice(int choiceIndex)
     {
         EventSystem.current.SetSelectedGameObject(choices[choiceIndex].gameObject);
-        Debug.Log("makeing choice");
         currentStory.ChooseChoiceIndex(choiceIndex);
         ContinueStory();
     }

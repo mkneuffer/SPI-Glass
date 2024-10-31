@@ -1,9 +1,9 @@
 Hello there #speaker:Crazy Ghost #portrait:archibald #layout:right
-My name is Archibald #speaker:Archibald 
+My name is Archibald #speaker:Archibald #layout: left-noninterrupt
 -> main
 
 === main ===
-How are you feeling today?
+How are you feeling today? #layout: right-noninterrupt
 + [Happy]
     That makes me feel happy as well!
 + [Sad]
