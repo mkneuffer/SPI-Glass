@@ -128,6 +128,7 @@ public class DialogueManager : MonoBehaviour
         displayNameText.text = "???";
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
+
         if (interupting)
         {
             ContinueStory();
@@ -169,8 +170,18 @@ public class DialogueManager : MonoBehaviour
         if (currentStory.canContinue)
         {
             dialogueText.text = currentStory.Continue();
-            DisplayChoices();
             HandleTags(currentStory.currentTags);
+
+            //Give error if trying to do choices
+            if (currentStory.currentChoices.Count > 0)
+            {
+                Debug.LogError("Non-Interruptable Dialogue does not support choices");
+            }
+            //Disables all choices
+            for (int i = 0; i < choices.Length; i++)
+            {
+                choices[i].gameObject.SetActive(false);
+            }
 
             yield return new WaitForSeconds(automaticTextSpeed);
 
@@ -206,7 +217,25 @@ public class DialogueManager : MonoBehaviour
                     portraitAnimator.Play(tagValue);
                     break;
                 case LAYOUT_TAG:
-                    layoutAnimator.Play(tagValue);
+                    if (!interupting)
+                    {
+                        if (tagValue == "right")
+                        {
+                            layoutAnimator.Play("right-noninterrupt");
+                        }
+                        else if (tagValue == "left")
+                        {
+                            layoutAnimator.Play("left-noninterrupt");
+                        }
+                        else
+                        {
+                            layoutAnimator.Play(tagValue);
+                        }
+                    }
+                    else
+                    {
+                        layoutAnimator.Play(tagValue);
+                    }
                     break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);

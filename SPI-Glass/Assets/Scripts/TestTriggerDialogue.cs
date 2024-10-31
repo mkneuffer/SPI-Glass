@@ -16,7 +16,7 @@ public class TestTriggerDialogue : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began))
         {
-            DialogueManager.GetInstance().EnterDialogueMode(inkJSON, false, 1.0f);
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSON, false);
         }
     }
 }
