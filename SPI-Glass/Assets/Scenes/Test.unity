@@ -1450,7 +1450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: ' this is a test function'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1513,7 +1513,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 29.203394, y: 40.154655, z: -1103.1035, w: -702.92334}
+  m_margin: {x: 29.203394, y: 40.154655, z: -1076.255, w: -695.2847}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2019,7 +2019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSON: {fileID: 4900000, guid: f437919dde8d1d94cbda0883676623b5, type: 3}
+  inkJSON: {fileID: 4900000, guid: f1468febe4ec56248b8c8d92ba7a01c3, type: 3}
 --- !u!1 &1970817308
 GameObject:
   m_ObjectHideFlags: 0

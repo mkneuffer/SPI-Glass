@@ -13,6 +13,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
     private Animator layoutAnimator;
+    [SerializeField] private float automaticTextSpeed;
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -22,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     public bool isDialoguePlaying { get; private set; }
 
     private static DialogueManager instance;
-
+    private bool interupting;
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
@@ -46,7 +47,8 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
-
+        interupting = true;
+        automaticTextSpeed = 3.0f;
 
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
@@ -65,19 +67,25 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        //Advance to next line on click
-        List<Choice> currentChoices = currentStory.currentChoices;
-        bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
-        if (clicked && currentChoices.Count == 0)
+        if (interupting)
         {
-            ContinueStory();
+            //Advance to next line on click
+            List<Choice> currentChoices = currentStory.currentChoices;
+            bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+            if (clicked && currentChoices.Count == 0)
+            {
+                ContinueStory();
+            }
         }
     }
 
+
+
     //Start the dialogue
     //Call this function to run the dialogue
-    public void EnterDialogueMode(TextAsset inkJSON)
+    public void EnterDialogueMode(TextAsset inkJSON, bool interruptable)
     {
+        interupting = interruptable;
         //If dialogue is already playing, return
         if (isDialoguePlaying)
         {
@@ -91,7 +99,44 @@ public class DialogueManager : MonoBehaviour
         displayNameText.text = "???";
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
-        ContinueStory();
+        if (interupting)
+        {
+            ContinueStory();
+        }
+        else
+        {
+            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+        }
+
+    }
+
+    //Start the dialogue
+    //Call this function to run the dialogue
+    public void EnterDialogueMode(TextAsset inkJSON, bool interruptable, float automaticTextSpeed)
+    {
+        interupting = interruptable;
+        //If dialogue is already playing, return
+        if (isDialoguePlaying)
+        {
+            return;
+        }
+        currentStory = new Story(inkJSON.text);
+        isDialoguePlaying = true;
+        dialoguePanel.SetActive(true);
+
+        //Reset display name, portrait and layout
+        displayNameText.text = "???";
+        portraitAnimator.Play("default");
+        layoutAnimator.Play("right");
+        if (interupting)
+        {
+            ContinueStory();
+        }
+        else
+        {
+            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+        }
+
     }
 
     //Leave the dialogue
@@ -112,6 +157,24 @@ public class DialogueManager : MonoBehaviour
             dialogueText.text = currentStory.Continue();
             DisplayChoices();
             HandleTags(currentStory.currentTags);
+        }
+        else
+        {
+            StartCoroutine(ExitDialogueMode());
+        }
+    }
+
+    private IEnumerator NonInterruptableContinueStory(float automaticTextSpeed)
+    {
+        if (currentStory.canContinue)
+        {
+            dialogueText.text = currentStory.Continue();
+            DisplayChoices();
+            HandleTags(currentStory.currentTags);
+
+            yield return new WaitForSeconds(automaticTextSpeed);
+
+            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
         }
         else
         {
