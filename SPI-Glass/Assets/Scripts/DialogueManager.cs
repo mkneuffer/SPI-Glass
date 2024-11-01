@@ -85,12 +85,12 @@ public class DialogueManager : MonoBehaviour
     //Call this function to run the dialogue
     public void EnterDialogueMode(TextAsset inkJSON, bool interruptable)
     {
-        interupting = interruptable;
         //If dialogue is already playing, return
         if (isDialoguePlaying)
         {
             return;
         }
+        interupting = interruptable;
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);

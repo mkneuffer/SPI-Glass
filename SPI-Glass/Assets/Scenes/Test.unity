@@ -1814,6 +1814,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1116104885}
   displayNameText: {fileID: 427546421}
   portraitAnimator: {fileID: 2097120311}
+  automaticTextSpeed: 0
   choices:
   - {fileID: 1168039474}
   - {fileID: 677132213}
@@ -2019,7 +2020,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSON: {fileID: 4900000, guid: f1468febe4ec56248b8c8d92ba7a01c3, type: 3}
+  inkJSONChoice: {fileID: 4900000, guid: f437919dde8d1d94cbda0883676623b5, type: 3}
+  inkJSONNoChoice: {fileID: 4900000, guid: f1468febe4ec56248b8c8d92ba7a01c3, type: 3}
 --- !u!1 &1970817308
 GameObject:
   m_ObjectHideFlags: 0
