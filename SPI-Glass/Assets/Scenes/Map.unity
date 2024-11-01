@@ -122,6 +122,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &12540508 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4679712108560714345, guid: 652c0f1d2f3184a959f719dbc90057a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 252321464}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0065c20f13fc326408fe756c97b2d701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &252321464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -392,6 +404,11 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 757271290}
+    - target: {fileID: 2982294553187493921, guid: b788caf524c30444f85f967a8858cbd5,
+        type: 3}
+      propertyPath: _lightshipMapView
+      value: 
+      objectReference: {fileID: 12540508}
     - target: {fileID: 2982294553187493921, guid: b788caf524c30444f85f967a8858cbd5,
         type: 3}
       propertyPath: _editorMovementSpeed
