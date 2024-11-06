@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class SettingsMenu : MonoBehaviour
 {
     [Header("space between icons")]
     [SerializeField] Vector2 spacing;
@@ -53,15 +53,15 @@ public class NewBehaviourScript : MonoBehaviour
             }
         }
     }
-/*
+
     public void OnItemClick(int index) {
         // Does not include the main settings button
         switch(index) {
             case 0:
-                Debug.log("Audio");
+                Debug.Log("Audio");
                 break;
             case 1:
-                Debug.log("Vibration");
+                Debug.Log("Vibration");
                 break;
         }
     }
@@ -70,5 +70,5 @@ public class NewBehaviourScript : MonoBehaviour
     void OnDestroy()
     {
         Settings.onClick.RemoveListener(ToggleMenu);
-    } */
+    }
 }
