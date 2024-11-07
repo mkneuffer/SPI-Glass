@@ -10,7 +10,6 @@ public class TestTriggerDialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
         if (clicked)
         {
