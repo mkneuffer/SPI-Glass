@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
     private Animator layoutAnimator;
-    [SerializeField] private float automaticTextSpeed;
+    [SerializeField] private float automaticTextSpeedPerWord;
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     public bool isDialoguePlaying { get; private set; }
 
     private static DialogueManager instance;
-    private bool interupting;
+    private bool notAutomatic;
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
@@ -47,8 +47,8 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
-        interupting = true;
-        automaticTextSpeed = 3.0f;
+        notAutomatic = true;
+        automaticTextSpeedPerWord = 0.5f;
 
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
@@ -67,7 +67,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (interupting)
+        if (notAutomatic)
         {
             //Advance to next line on click
             List<Choice> currentChoices = currentStory.currentChoices;
@@ -83,14 +83,17 @@ public class DialogueManager : MonoBehaviour
 
     //Start the dialogue
     //Call this function to run the dialogue
-    public void EnterDialogueMode(TextAsset inkJSON, bool interruptable)
+    //Parameters:
+    //inkJSON: the .json file related to the .ink file of the text that will be played
+    //notAutomatic: if true, player will need to click to advance the text, if false, text advances automatically
+    public void EnterDialogueMode(TextAsset inkJSON, bool notAutomatic)
     {
         //If dialogue is already playing, return
         if (isDialoguePlaying)
         {
             return;
         }
-        interupting = interruptable;
+        this.notAutomatic = notAutomatic;
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
@@ -99,20 +102,24 @@ public class DialogueManager : MonoBehaviour
         displayNameText.text = "???";
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
-        if (interupting)
+        if (this.notAutomatic)
         {
             ContinueStory();
         }
         else
         {
-            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+            StartCoroutine(AutomaticContinueStory(automaticTextSpeedPerWord));
         }
 
     }
 
     //Start the dialogue
     //Call this function to run the dialogue
-    public void EnterDialogueMode(TextAsset inkJSON, bool interruptable, float automaticTextSpeed)
+    //Parameters:
+    //inkJSON: the .json file related to the .ink file of the text that will be played
+    //notAutomatic: if true, player will need to click to advance the text, if false, text advances automatically
+    //automaticTextSpeed: how fast the automatic text updates
+    public void EnterDialogueMode(TextAsset inkJSON, bool notAutomatic, float automaticTextSpeedPerWord)
     {
 
         //If dialogue is already playing, return
@@ -120,7 +127,7 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        interupting = interruptable;
+        this.notAutomatic = notAutomatic;
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
@@ -130,13 +137,13 @@ public class DialogueManager : MonoBehaviour
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
 
-        if (interupting)
+        if (this.notAutomatic)
         {
             ContinueStory();
         }
         else
         {
-            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+            StartCoroutine(AutomaticContinueStory(automaticTextSpeedPerWord));
         }
 
     }
@@ -166,17 +173,19 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private IEnumerator NonInterruptableContinueStory(float automaticTextSpeed)
+    private IEnumerator AutomaticContinueStory(float automaticTextSpeedPerWord)
     {
         if (currentStory.canContinue)
         {
-            dialogueText.text = currentStory.Continue();
+
+            string currentText = currentStory.Continue();
+            dialogueText.text = currentText;
             HandleTags(currentStory.currentTags);
 
             //Give error if trying to do choices
             if (currentStory.currentChoices.Count > 0)
             {
-                Debug.LogError("Non-Interruptable Dialogue does not support choices");
+                Debug.LogError("Automatic Dialogue does not support choices");
             }
             //Disables all choices
             for (int i = 0; i < choices.Length; i++)
@@ -184,14 +193,31 @@ public class DialogueManager : MonoBehaviour
                 choices[i].gameObject.SetActive(false);
             }
 
-            yield return new WaitForSeconds(automaticTextSpeed);
 
-            StartCoroutine(NonInterruptableContinueStory(automaticTextSpeed));
+            //Calculate autotextspeed
+            float textSpeed = 1.0f + GetWordCount(currentText) * automaticTextSpeedPerWord;
+            yield return new WaitForSeconds(textSpeed);
+
+            StartCoroutine(AutomaticContinueStory(automaticTextSpeedPerWord));
         }
         else
         {
             StartCoroutine(ExitDialogueMode());
         }
+    }
+
+    //Given an input string, return the number of words in that string
+    private float GetWordCount(string input)
+    {
+        float count = 1.0f;
+        foreach (char c in input)
+        {
+            if (c == ' ')
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     //Given the current dialogue's tags, do the things we need to do
@@ -218,7 +244,7 @@ public class DialogueManager : MonoBehaviour
                     portraitAnimator.Play(tagValue);
                     break;
                 case LAYOUT_TAG:
-                    if (!interupting)
+                    if (!notAutomatic)
                     {
                         if (tagValue == "right")
                         {
