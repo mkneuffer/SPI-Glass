@@ -1,6 +1,6 @@
 This is the dialogue for the sword cutscenes
 
-Look, over there! The mighty Excalibur! #speaker:Archibald
+Look, over there! The mighty Excalibur! #speaker:Archibald #portrait:archibald
 Can you try pulling it out? It'd make our job a hundred times simpler.
 -> sword1
 
