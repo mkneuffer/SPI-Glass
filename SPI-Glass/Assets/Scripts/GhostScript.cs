@@ -44,6 +44,7 @@ public class GhostMovement : MonoBehaviour
     void Update()
     {
         MoveToPoints(currentWaypoint.GetWaypoints());
+        //MoveToPoints(new Vector3[2]);
         HandleHealth();
     }
 
@@ -68,13 +69,43 @@ public class GhostMovement : MonoBehaviour
         Vector3 P0 = previousWaypoint;
         Vector3 P1 = P0;
         Vector3 P3 = startingPosition + waypoints[counter];
-        Vector3 P2 = new Vector3(P0.x, P3.y, P0.z);
+        Vector3 P2 = new Vector3();
+        if (Mathf.Abs(P0.x - startingPosition.x) > Mathf.Abs(P3.x - startingPosition.x))
+        {
+            P2.x = P0.x;
+        }
+        else
+        {
+            P2.x = P3.x;
+        }
+
+        if (Mathf.Abs(P0.y - startingPosition.y) > Mathf.Abs(P3.y - startingPosition.y))
+        {
+            P2.y = P0.y;
+        }
+        else
+        {
+            P2.y = P3.y;
+        }
+
+        if (Mathf.Abs(P0.z - startingPosition.z) > Mathf.Abs(P3.z - startingPosition.z))
+        {
+            P2.z = P0.z;
+        }
+        else
+        {
+            P2.z = P3.z;
+        }
+
+        //Vector3 P2 = new Vector3(Mathf.Max(P0.x, P3.x), Mathf.Max(P3.y, P0.y), Mathf.Max(P0.z, P3.z));
         //float angle += speed / (radius * Mathf.Tau) * Time.deltaTime;
         transform.position = BezierCurve(BezierCurveT, P0, P1, P2, P3);
         //transform.position = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
         //transform.position = Vector3.MoveTowards(transform.position, startingPosition + waypoints[counter], Time.deltaTime * speed);
 
     }
+
+
 
     Vector3 BezierCurve(float t, Vector3 P0, Vector3 P1, Vector3 P2, Vector3 P3)
     {

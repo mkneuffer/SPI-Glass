@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaypointStorage : MonoBehaviour
 {
-    [SerializeField] private Vector3[] waypoints = { Vector3.zero };
+    [SerializeField] private Vector3[] waypoints = { };
 
     public Vector3[] GetWaypoints()
     {
