@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class WaypointStorage : MonoBehaviour
 {
-    [SerializeField] private Vector3[] waypoints = { };
+    [SerializeField] private Waypoints[] waypoints;
 
-    public Vector3[] GetWaypoints()
+    public Waypoints[] GetWaypoints()
     {
         return waypoints;
     }
+}
+
+[SerializeField]
+[System.Serializable]
+public struct Waypoints
+{
+    public Vector3 point;
+    public bool curvesUp;
 }

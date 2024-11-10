@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints:
-  - {x: 0, y: 1, z: 0}
-  - {x: 1, y: 0, z: 0}
-  - {x: 0, y: -1, z: 0}
-  - {x: -1, y: 0, z: 0}
+  - point: {x: 0, y: 1, z: 0}
+    curvesUp: 0
+  - point: {x: 1, y: 0, z: 0}
+    curvesUp: 1
+  - point: {x: 0, y: -1, z: 0}
+    curvesUp: 0
+  - point: {x: -1, y: 0, z: 0}
+    curvesUp: 1
