@@ -137,6 +137,11 @@ public class GhostMovement : MonoBehaviour
         return speed;
     }
 
+    void multSpeed(float mult)
+    {
+        this.speed *= mult;
+    }
+
     //Deals with the health value of the ghost
     //Does damage if touched/tapped
     //Ghost is destroyed if health <= 0
