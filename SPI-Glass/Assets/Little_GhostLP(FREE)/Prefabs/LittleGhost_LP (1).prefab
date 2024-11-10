@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f8727872f9cd94095147e0e57b91df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0.02
   waypointStorage1: {fileID: 2118539945289521529, guid: 4e2a4c97fbc483e40822d54f4a216a75,
     type: 3}
   waypointStorage2: {fileID: 2118539945289521529, guid: 816317a87987afa47842746a6cf860a5,
