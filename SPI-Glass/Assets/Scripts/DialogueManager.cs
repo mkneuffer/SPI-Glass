@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class DialogueManager : MonoBehaviour
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
+    public Button grail;
 
     private Story currentStory;
     public bool isDialoguePlaying { get; private set; }
@@ -57,7 +59,16 @@ public class DialogueManager : MonoBehaviour
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
         }
+        grail.onClick.AddListener(OnContinueClick); // For grail cutscene
 
+    }
+
+    public void OnContinueClick() {
+        if (currentStory.canContinue) {
+            ContinueStory();
+        } else{
+            StartCoroutine(ExitDialogueMode());
+        }
     }
 
     private void Update()
