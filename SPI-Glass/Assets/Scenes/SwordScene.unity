@@ -1561,7 +1561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inkJSONChoice: {fileID: 4900000, guid: 1ee68c826e7b2304394860684a51655b, type: 3}
-  inkJSONNoChoice: {fileID: 4900000, guid: f1468febe4ec56248b8c8d92ba7a01c3, type: 3}
+  inkJSONNoChoice: {fileID: 4900000, guid: 1ee68c826e7b2304394860684a51655b, type: 3}
 --- !u!4 &663914653
 Transform:
   m_ObjectHideFlags: 0
