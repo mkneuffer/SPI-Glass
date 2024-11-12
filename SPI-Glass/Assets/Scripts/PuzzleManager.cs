@@ -8,10 +8,11 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private GameObject square1;
     [SerializeField] private GameObject square2;
     [SerializeField] private GameObject square3;
+    [SerializeField] private GameObject puzzleCanvas;
     public bool puzzleSolved = false;
-    public int zValue1;
-    public int zValue2;
-    public int zValue3;
+    private int zValue1;
+    private int zValue2;
+    private int zValue3;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class PuzzleManager : MonoBehaviour
         square1.transform.Rotate(0, 0, zValue1);
         square2.transform.Rotate(0, 0, zValue2);
         square3.transform.Rotate(0, 0, zValue3);
+        puzzleCanvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -89,5 +91,17 @@ public class PuzzleManager : MonoBehaviour
             }
         }
         checkSolved();
+    }
+
+    public void setCanvasState (int i) //i = 0 to make canvas invisible, 1 to make canvas visible
+    {
+        if (i == 0)
+        {
+            puzzleCanvas.SetActive(false);
+        }
+        else
+        {
+            puzzleCanvas.SetActive(true);
+        }
     }
 }
