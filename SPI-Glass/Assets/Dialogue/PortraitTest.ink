@@ -1,5 +1,6 @@
-Hello there #speaker:Crazy Ghost #portrait:archibald #layout:right
+Hello there #speaker:Crazy Ghost #portrait:archibald #layout:left
 My name is Archibald #speaker:Archibald
+The echo of your shoes against concrete is the only thing you hear wandering around the city.
 -> main
 
 === main ===
