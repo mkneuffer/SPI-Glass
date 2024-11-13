@@ -104,7 +104,7 @@ public class DialogueManager : MonoBehaviour
 
         currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
         {
-            puzzleManager.SetActiveState(true);
+            puzzleManager.setCanvasState(true);
         });
 
         //Reset display name, portrait and layout
@@ -143,7 +143,7 @@ public class DialogueManager : MonoBehaviour
 
         currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
         {
-            puzzleManager.SetCanvasState(true);
+            puzzleManager.setCanvasState(true);
         });
 
         //Reset display name, portrait and layout
@@ -166,7 +166,6 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.05f);
-        dialogueVariables.StopListening(currentStory);
         currentStory.UnbindExternalFunction("startPuzzle");
 
         isDialoguePlaying = false;

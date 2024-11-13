@@ -96,6 +96,6 @@ public class PuzzleManager : MonoBehaviour
 
     public void setCanvasState (bool state) //i = 0 to make canvas invisible, 1 to make canvas visible
     {
-        puzzleCanvas.setState(state);
+        puzzleCanvas.SetActive(state);
     }
 }
