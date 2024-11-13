@@ -1891,7 +1891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2484d962056078546b5b721d224e89bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghost: {fileID: 6076470537165917328, guid: 0691445c98ea5ea4da35131e1db422d3, type: 3}
+  ghost: {fileID: 498253721416304272, guid: f6ab88624626d1249bd73bcb4a1c7d59, type: 3}
   objectHelper: {fileID: 344143794}
   positioningManager: {fileID: 344143793}
   cameraManager: {fileID: 675065570}
