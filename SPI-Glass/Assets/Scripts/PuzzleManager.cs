@@ -45,6 +45,7 @@ public class PuzzleManager : MonoBehaviour
 
     void continueHolyWater ()
     {
+        setCanvasState(false);
         // call dialogue
         // holy water get
     }
@@ -93,15 +94,8 @@ public class PuzzleManager : MonoBehaviour
         checkSolved();
     }
 
-    public void setCanvasState (int i) //i = 0 to make canvas invisible, 1 to make canvas visible
+    public void setCanvasState (bool state) //i = 0 to make canvas invisible, 1 to make canvas visible
     {
-        if (i == 0)
-        {
-            puzzleCanvas.SetActive(false);
-        }
-        else
-        {
-            puzzleCanvas.SetActive(true);
-        }
+        puzzleCanvas.setState(state);
     }
 }

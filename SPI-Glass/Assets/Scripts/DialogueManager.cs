@@ -14,8 +14,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Animator portraitAnimator;
     [SerializeField] private GameObject PortraitFrame;
     [SerializeField] private GameObject SpeakerFrame;
+    [SerializeField] private PuzzleManager puzzleManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
+    
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -100,6 +102,11 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
+        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        {
+            puzzleManager.SetActiveState(true);
+        });
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -134,6 +141,11 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
+        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        {
+            puzzleManager.SetCanvasState(true);
+        });
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -154,6 +166,8 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.05f);
+        dialogueVariables.StopListening(currentStory);
+        currentStory.UnbindExternalFunction("startPuzzle");
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
