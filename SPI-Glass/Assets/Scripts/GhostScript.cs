@@ -45,8 +45,8 @@ public class GhostMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveToPoints(currentWaypoint.GetWaypoints());
-        HandleHealth();
+            MoveToPoints(currentWaypoint.GetWaypoints());
+            HandleHealth();
     }
 
     //Moves the ghost along the given waypoints

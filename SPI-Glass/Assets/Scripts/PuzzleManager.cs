@@ -9,6 +9,8 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private GameObject square2;
     [SerializeField] private GameObject square3;
     [SerializeField] private GameObject puzzleCanvas;
+    [SerializeField] private DialogueManager dialogueManager;
+    public TextAsset inkJSON;
     public bool puzzleSolved = false;
     private int zValue1;
     private int zValue2;
@@ -46,7 +48,7 @@ public class PuzzleManager : MonoBehaviour
     void continueHolyWater ()
     {
         setCanvasState(false);
-        // call dialogue
+        dialogueManager.EnterDialogueMode(inkJSON, true);
         // holy water get
     }
 
