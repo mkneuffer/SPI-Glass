@@ -1,4 +1,4 @@
-﻿Finish him with the sword! #speaker:Archibald #portrait:archibald
+Finish him with the sword! #speaker:Archibald #portrait:archibald
 The knight ghost struggles to regain his bearings — but you don’t give him the chance. #speaker:0 #portrait:0
 You strike him, the holy sword stabbing cleanly through him.
 The knight ghost makes a choked sound but he doesn’t look at you—

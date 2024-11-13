@@ -1,4 +1,4 @@
-﻿The echo of your shoes against concrete is the only thing you hear wandering around the city. #speaker:0 #portrait:0 #layout:left
+The echo of your shoes against concrete is the only thing you hear wandering around the city. #speaker:0 #portrait:0 #layout:left
 You aren’t quite sure what you’re looking for — only that you’ve made it part of your routine to wander around at night in hopes of stumbling across something supernatural.
 You need to make yourself useful as a recently joined member of the Society for Paranormal Investigators.
 After training, you were assigned to this city.

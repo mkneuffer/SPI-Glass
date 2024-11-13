@@ -17,6 +17,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject SpeakerFrame;
     [SerializeField] private PuzzleManager puzzleManager;
     [SerializeField] private MoveGhost ghostManager;
+    [SerializeField] private InventoryManager InventoryManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
     
@@ -85,9 +86,9 @@ public class DialogueManager : MonoBehaviour
 
         if (notAutomatic)
         {
-            //Advance to next line on click
+            //Advance to next line on input
             List<Choice> currentChoices = currentStory.currentChoices;
-            bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+            bool clicked = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
             if (clicked && currentChoices.Count == 0)
             {
                 ContinueStory();
@@ -117,6 +118,20 @@ public class DialogueManager : MonoBehaviour
         currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
         {
             puzzleManager.setCanvasState(true);
+        });
+
+        currentStory.BindExternalFunction("addItem", (string itemName) => {
+            ItemData item = InventoryManager.FindItemByName(itemName);
+            if(item != null) {
+                InventoryManager.addItem(item);
+            }
+        });
+
+        currentStory.BindExternalFunction("removeItem", (string itemName) => {
+            ItemData item = InventoryManager.FindItemByName(itemName);
+            if(item != null) {
+                InventoryManager.RemoveItemByType(item);
+            }
         });
 
         currentStory.BindExternalFunction("startFight", (string start) =>
@@ -282,6 +297,7 @@ public class DialogueManager : MonoBehaviour
                     }
                     
                     break;
+
                 case PORTRAIT_TAG:
                     if (tagValue != "0")
                     {
@@ -294,6 +310,7 @@ public class DialogueManager : MonoBehaviour
                     }
                     
                     break;
+
                 case LAYOUT_TAG:
                     if (!notAutomatic)
                     {
@@ -311,6 +328,21 @@ public class DialogueManager : MonoBehaviour
                         layoutAnimator.Play(tagValue);
                     }
                     break;
+
+                case "add_item":
+                    ItemData itemToAdd = InventoryManager.FindItemByName(tagValue);
+                    if(itemToAdd != null) {
+                        InventoryManager.addItem(itemToAdd);
+                    }
+                    break;
+
+                case "remove_item":
+                    ItemData itemToRemove = InventoryManager.FindItemByName(tagValue);
+                    if(itemToRemove != null) {
+                        InventoryManager.addItem(itemToRemove);
+                    }
+                    break;
+
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
