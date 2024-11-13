@@ -454,6 +454,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6151662358197154036}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &870509394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3193060587918196973, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 6151662358197154036}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &957854496
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +828,12 @@ Transform:
   - {fileID: 612270570}
   m_Father: {fileID: 1589646124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1862208680 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6891925043836776838, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 6151662358197154036}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1889455790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,9 +1192,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
         type: 3}
+      propertyPath: SpeakerFrame
+      value: 
+      objectReference: {fileID: 870509394}
+    - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
+        type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 1116104885}
+    - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
+        type: 3}
+      propertyPath: PortraitFrame
+      value: 
+      objectReference: {fileID: 1862208680}
     - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
         type: 3}
       propertyPath: dialoguePanel
