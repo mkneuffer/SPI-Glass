@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject PortraitFrame;
     [SerializeField] private GameObject SpeakerFrame;
     [SerializeField] private PuzzleManager puzzleManager;
+    [SerializeField] private MoveGhost ghostManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
     
@@ -107,6 +108,11 @@ public class DialogueManager : MonoBehaviour
             puzzleManager.setCanvasState(true);
         });
 
+        currentStory.BindExternalFunction("startFight", (string start) =>
+        {
+            ghostManager.startGhostFight();
+        });
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -167,6 +173,7 @@ public class DialogueManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.05f);
         currentStory.UnbindExternalFunction("startPuzzle");
+        currentStory.UnbindExternalFunction("startFight");
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
