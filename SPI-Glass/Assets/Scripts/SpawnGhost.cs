@@ -11,18 +11,23 @@ public class MoveGhost : MonoBehaviour
     [SerializeField] private ARWorldPositioningObjectHelper objectHelper;
     [SerializeField] private ARWorldPositioningManager positioningManager;
     [SerializeField] private ARCameraManager cameraManager;
+    public bool startFight = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("SpawnGhost", 1);
+  
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (startFight == true)
+        {
+            Invoke("SpawnGhost", 1);
+            startFight = false;
+        }
 
     }
 
@@ -32,5 +37,10 @@ public class MoveGhost : MonoBehaviour
         Quaternion rotation = Quaternion.identity;
         rotation.Set(rotation.x, Camera.main.transform.rotation.y + 180.0f, rotation.z, rotation.w);
         Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, rotation);
+    }
+
+    public void startGhostFight()
+    {
+        startFight = true;
     }
 }
