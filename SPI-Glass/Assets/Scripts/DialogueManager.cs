@@ -12,8 +12,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
+    [SerializeField] private GameObject PortraitFrame;
+    [SerializeField] private GameObject SpeakerFrame;
+    [SerializeField] private PuzzleManager puzzleManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
+    
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -98,6 +102,11 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
+        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        {
+            puzzleManager.setCanvasState(true);
+        });
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -132,10 +141,15 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
+        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        {
+            puzzleManager.setCanvasState(true);
+        });
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
-        layoutAnimator.Play("right");
+        layoutAnimator.Play("left");
 
         if (this.notAutomatic)
         {
@@ -152,6 +166,7 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.05f);
+        currentStory.UnbindExternalFunction("startPuzzle");
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
@@ -238,19 +253,33 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
-                    displayNameText.text = tagValue;
+                    if (tagValue != "0")
+                    {
+                        SpeakerFrame.SetActive(true);
+                        displayNameText.text = tagValue;
+                    }
+                    else
+                    {
+                        SpeakerFrame.SetActive(false);
+                    }
+                    
                     break;
                 case PORTRAIT_TAG:
-                    portraitAnimator.Play(tagValue);
+                    if (tagValue != "0")
+                    {
+                        PortraitFrame.SetActive(true);
+                        portraitAnimator.Play(tagValue);
+                    }
+                    else
+                    {
+                        PortraitFrame.SetActive(false);
+                    }
+                    
                     break;
                 case LAYOUT_TAG:
                     if (!notAutomatic)
                     {
-                        if (tagValue == "right")
-                        {
-                            layoutAnimator.Play("right-noninterrupt");
-                        }
-                        else if (tagValue == "left")
+                        if (tagValue == "left")
                         {
                             layoutAnimator.Play("left-noninterrupt");
                         }
