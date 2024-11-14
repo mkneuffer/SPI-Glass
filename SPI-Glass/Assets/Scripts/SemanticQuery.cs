@@ -73,11 +73,11 @@ public class SemanticQuery : MonoBehaviour
 
                         foreach (var channelToObject in ChannelToObjects)
                         {
-                            if ("foliage" == channel && woodCount < 10)
+                            if ("foliage" == channel && woodCount < 1)
                             {
                                 woodCount++;
                                 inventoryManager.addItem(channelToObject.item);
-                                Debug.Log($"the channel {channel} has been detected and will spawn an object");
+                                //Debug.Log($"the channel {channel} has been detected and will spawn an object");
                                 GameObject newObject = Instantiate(channelToObject.item.GetGameObject(), pos, Quaternion.identity, spawnObjectParent);
                                 Destroy(newObject, 3f);
                             }

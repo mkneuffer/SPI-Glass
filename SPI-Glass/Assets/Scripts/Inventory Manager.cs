@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject itemList;
     [SerializeField] private GameObject inventoryPrefab;
+    [SerializeField] private ItemUsageManager itemUsageManager;
 
 
     // Positions for each of the UI boxes, i dont wanna code these in when we r gonna change them anyway later
@@ -99,7 +100,6 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
-        Debug.Log("I[date] inv");
         foreach (Transform child in itemList.transform)
         {
             Destroy(child.gameObject);
@@ -107,23 +107,20 @@ public class InventoryManager : MonoBehaviour
 
         foreach (ItemData item in Inventory)
         {
-            Debug.Log("For each" + item);
             GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
             Image iconImage = itemUI.GetComponentInChildren<Image>();
             TextMeshProUGUI itemNameText = itemUI.GetComponentInChildren<TextMeshProUGUI>();
-            Debug.Log(itemNameText.text);
+            Button button = itemUI.GetComponentInChildren<Button>();
 
             if (iconImage != null)
             {
-                Debug.Log("setting icon");
                 iconImage.sprite = item.GetItemIcon();
             }
             if (itemNameText != null)
             {
-                Debug.Log("setting name");
                 itemNameText.text = item.name;
+                button.onClick.AddListener(delegate { itemUsageManager.useItem(item.name); });
             }
-            Debug.Log(itemNameText.text);
         }
     }
 }
