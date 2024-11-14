@@ -70,7 +70,7 @@ public class SemanticQuery : MonoBehaviour
 
                         foreach (var channelToObject in ChannelToObjects)
                         {
-                            if (channelToObject.channel == channel)
+                            if ("foliage" == channel)
                             {
                                 Debug.Log($"the channel {channel} has been detected and will spawn an object");
                                 GameObject newObject = Instantiate(channelToObject.GameObject, pos, Quaternion.identity, spawnObjectParent);
