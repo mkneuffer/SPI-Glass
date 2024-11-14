@@ -97,6 +97,7 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
+        Debug.Log("I[date] inv");
         foreach (Transform child in itemList.transform)
         {
             Destroy(child.gameObject);
@@ -104,12 +105,14 @@ public class InventoryManager : MonoBehaviour
 
         foreach (ItemData item in Inventory)
         {
+            Debug.Log("For each" + item);
             GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
             Image iconImage = itemUI.GetComponent<Image>();
             Text itemNameText = itemUI.GetComponentInChildren<Text>();
 
             if (iconImage != null)
             {
+                Debug.Log("setting icon");
                 iconImage.sprite = item.GetItemIcon();
             }
             if (itemNameText != null)
