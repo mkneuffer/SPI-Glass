@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditorInternal.Profiling.Memory.Experimental;
+using Unity.VisualScripting;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -107,8 +109,9 @@ public class InventoryManager : MonoBehaviour
         {
             Debug.Log("For each" + item);
             GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
-            Image iconImage = itemUI.GetComponent<Image>();
-            Text itemNameText = itemUI.GetComponentInChildren<Text>();
+            Image iconImage = itemUI.GetComponentInChildren<Image>();
+            TextMeshProUGUI itemNameText = itemUI.GetComponentInChildren<TextMeshProUGUI>();
+            Debug.Log(itemNameText.text);
 
             if (iconImage != null)
             {
@@ -117,8 +120,10 @@ public class InventoryManager : MonoBehaviour
             }
             if (itemNameText != null)
             {
+                Debug.Log("setting name");
                 itemNameText.text = item.name;
             }
+            Debug.Log(itemNameText.text);
         }
     }
 }

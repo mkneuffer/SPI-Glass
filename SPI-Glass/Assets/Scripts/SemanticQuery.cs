@@ -73,7 +73,7 @@ public class SemanticQuery : MonoBehaviour
 
                         foreach (var channelToObject in ChannelToObjects)
                         {
-                            if ("foliage" == channel && woodCount < 1)
+                            if ("foliage" == channel && woodCount < 10)
                             {
                                 woodCount++;
                                 inventoryManager.addItem(channelToObject.item);

@@ -397,6 +397,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GhostUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8209641384461681872, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209641384461681872, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209641384461681872, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8474429817959763510, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -417,8 +432,15 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -893.54
       objectReference: {fileID: 0}
+    - target: {fileID: 8861572363427896949, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: inventoryPrefab
+      value: 
+      objectReference: {fileID: 6755729776962837297, guid: 00a27b1354ca91e429d63b9c6652cb91,
+        type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1417391648913627540, guid: bc95b34c4ee7ede4bb22a38169fb7e72, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc95b34c4ee7ede4bb22a38169fb7e72, type: 3}
