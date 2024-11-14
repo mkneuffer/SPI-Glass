@@ -355,9 +355,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSONChoice: {fileID: 4900000, guid: 972f395fe47bf1b44b837081c4adaf01, type: 3}
-  inkJSONNoChoice: {fileID: 4900000, guid: af039d0f68f2f7043bb5015b5720c2f0, type: 3}
-  state: 0
 --- !u!4 &663914653
 Transform:
   m_ObjectHideFlags: 0
@@ -1107,6 +1104,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6010383709685775075, guid: 5448b6722b902de4ba1c3dfdbefec495,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
         type: 3}
       propertyPath: m_Enabled
@@ -1213,6 +1215,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 269907521284332911, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2187719432274246745, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
         type: 3}
       propertyPath: m_Pivot.x

@@ -16,9 +16,12 @@ public class SemanticQuery : MonoBehaviour
 
     [SerializeField] Transform spawnObjectParent;
     public List<ChannelToObject> ChannelToObjects;
+    [SerializeField] private InventoryManager inventoryManager;
+    private int woodCount;
 
     private void OnEnable()
     {
+        woodCount = 0;
         //cameraManager.frameReceived += CameraManagerOnFrameReceived;
     }
 
@@ -70,10 +73,12 @@ public class SemanticQuery : MonoBehaviour
 
                         foreach (var channelToObject in ChannelToObjects)
                         {
-                            if ("foliage" == channel)
+                            if ("foliage" == channel && woodCount < 1)
                             {
+                                woodCount++;
+                                inventoryManager.addItem(channelToObject.item);
                                 Debug.Log($"the channel {channel} has been detected and will spawn an object");
-                                GameObject newObject = Instantiate(channelToObject.GameObject, pos, Quaternion.identity, spawnObjectParent);
+                                GameObject newObject = Instantiate(channelToObject.item.GetGameObject(), pos, Quaternion.identity, spawnObjectParent);
                                 Destroy(newObject, 3f);
                             }
                         }
@@ -89,5 +94,5 @@ public class SemanticQuery : MonoBehaviour
 public struct ChannelToObject
 {
     public string channel;
-    public GameObject GameObject;
+    public ItemData item;
 }

@@ -15,6 +15,7 @@ public class ItemData : ScriptableObject
     [SerializeField] private GameObject itemIcon;
 
     public Sprite GetItemIcon() => itemModel;
+    public GameObject GetGameObject() => itemIcon;
     public string GetItemName() => itemName;
-    
+
 }
