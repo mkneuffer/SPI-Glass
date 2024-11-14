@@ -1,4 +1,4 @@
-﻿You don’t stay long in the Ghost World after that. #portrait:0 #speaker:0 #layout:left
+You don’t stay long in the Ghost World after that. #portrait:0 #speaker:0 #layout:left
 In the Living World, you stand quietly.
 There’s a faint feeling of sorrow in your chest.
 Archibald seems to have followed you back as well, a cheerful look on his face.

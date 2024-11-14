@@ -1,4 +1,4 @@
-﻿Stop. #speaker:Archibald #portrait:archibald #layout:left
+Stop. #speaker:Archibald #portrait:archibald #layout:left
 You’ve already stopped in your tracks before Archibald told you to — the EMF reader is flashing orange. #portrait:0 #speaker:0
 Dangerous, for sure, but it could be worse.
 You clip the reader onto your belt.
