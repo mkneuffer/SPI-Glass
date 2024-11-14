@@ -89,14 +89,27 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void UpdateInventoryUI() {
-        foreach (Transform child in itemList.transform) {
+    private void UpdateInventoryUI()
+    {
+        foreach (Transform child in itemList.transform)
+        {
             Destroy(child.gameObject);
         }
-        foreach (ItemData item in Inventory) {
-            GameObject slot = Instantiate(inventoryPrefab, itemList.transform);
-            Image iconImage = slot.GetComponent<Image>();
-            //iconImage.sprite = item.GetItemIcon();
+
+        foreach (ItemData item in Inventory)
+        {
+            GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
+            Image iconImage = itemUI.GetComponent<Image>();
+            Text itemNameText = itemUI.GetComponentInChildren<Text>();
+
+            if (iconImage != null)
+            {
+                iconImage.sprite = item.GetItemIcon();
+            }
+            if (itemNameText != null)
+            {
+                itemNameText.text = item.name;
+            }
         }
     }
 }
