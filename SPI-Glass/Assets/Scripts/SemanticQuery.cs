@@ -12,8 +12,6 @@ public class SemanticQuery : MonoBehaviour
     public ARCameraManager cameraManager;
     public ARSemanticSegmentationManager segmentationManager;
 
-    public Material material;
-
     private string channel = "ground";
 
     [SerializeField] Transform spawnObjectParent;
@@ -21,24 +19,24 @@ public class SemanticQuery : MonoBehaviour
 
     private void OnEnable()
     {
-        cameraManager.frameReceived += CameraManagerOnFrameReceived;
+        //cameraManager.frameReceived += CameraManagerOnFrameReceived;
     }
 
     private void CameraManagerOnFrameReceived(ARCameraFrameEventArgs args)
     {
-        if (!segmentationManager.subsystem.running)
-        {
-            return;
-        }
+        // if (!segmentationManager.subsystem.running)
+        // {
+        //     return;
+        // }
 
 
-        Matrix4x4 mat = Matrix4x4.identity;
-        var texture = segmentationManager.GetSemanticChannelTexture(channel, out mat);
+        // Matrix4x4 mat = Matrix4x4.identity;
+        // var texture = segmentationManager.GetSemanticChannelTexture(channel, out mat);
 
-        if (texture)
-        {
-            Matrix4x4 cameraMatrix = args.displayMatrix ?? Matrix4x4.identity;  
-        }
+        // if (texture)
+        // {
+        //     Matrix4x4 cameraMatrix = args.displayMatrix ?? Matrix4x4.identity;  
+        // }
     }
 
     private float timer = 0.0f;
@@ -53,7 +51,8 @@ public class SemanticQuery : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
         {
             var pos = Input.mousePosition;
-            if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
+            if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+            {
                 Touch touch = Input.GetTouch(0);
                 pos = touch.position;
             }
@@ -71,7 +70,7 @@ public class SemanticQuery : MonoBehaviour
 
                         foreach (var channelToObject in ChannelToObjects)
                         {
-                            if ("foliage" == channel)
+                            if (channelToObject.channel == channel)
                             {
                                 Debug.Log($"the channel {channel} has been detected and will spawn an object");
                                 GameObject newObject = Instantiate(channelToObject.GameObject, pos, Quaternion.identity, spawnObjectParent);
