@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class ItemUsageManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private ItemData holyGrailReplica;
     public void useItem(string item)
     {
-        Debug.Log("This is " + item);
+        switch (item)
+        {
+            case "Wood":
+                useWood();
+                break;
+            default:
+                Debug.Log("Attempting to use an incorrect item. {" + item + "} is not a valid item or does not have any attached use data");
+                break;
+        }
     }
 
+
+    private void useWood()
+    {
+        ItemData woodItem = inventoryManager.FindItemByName("Wood");
+        inventoryManager.RemoveItem(woodItem);
+        inventoryManager.addItem(holyGrailReplica);
+    }
 }

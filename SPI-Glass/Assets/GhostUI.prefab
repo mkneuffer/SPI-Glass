@@ -144,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6785604847575536254}
   - component: {fileID: 8861572363427896949}
+  - component: {fileID: 2634866724335986137}
   m_Layer: 5
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -187,7 +188,23 @@ MonoBehaviour:
   Inventory: []
   currentItem: {fileID: 0}
   itemList: {fileID: 1270569324590450366}
-  inventoryPrefab: {fileID: 0}
+  inventoryPrefab: {fileID: 6755729776962837297, guid: 00a27b1354ca91e429d63b9c6652cb91,
+    type: 3}
+  itemUsageManager: {fileID: 2634866724335986137}
+--- !u!114 &2634866724335986137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259126025406081127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92e807a3f19d1946b9117c00036c9ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 8861572363427896949}
+  holyGrailReplica: {fileID: 11400000, guid: a95995df38b60ed4f95a329369f1d019, type: 2}
 --- !u!1 &293119394303196499
 GameObject:
   m_ObjectHideFlags: 0

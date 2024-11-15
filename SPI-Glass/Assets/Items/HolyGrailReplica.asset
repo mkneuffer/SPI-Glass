@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6abf1d8e00cd84043968f49ddac1432e, type: 3}
-  m_Name: Wood
+  m_Name: HolyGrailReplica
   m_EditorClassIdentifier: 
   inInventory: 0
-  name: Wood
+  name: Holy Grail Replica
   itemNum: 0
-  itemModel: {fileID: 21300000, guid: 473f86b7014c7ef4d90dc336478427af, type: 3}
-  itemIcon: {fileID: 2490412710213930542, guid: 5db3a936914b94343bee09291f01cc12,
+  itemModel: {fileID: 21300000, guid: c8b67a3034ff3c245801acc4e64cdaf9, type: 3}
+  itemIcon: {fileID: 4269380926490554139, guid: 5e51a586e52d8e34c878d863ed619f65,
     type: 3}

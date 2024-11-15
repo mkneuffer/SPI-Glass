@@ -766,6 +766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92e807a3f19d1946b9117c00036c9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 417246947}
+  holyGrailReplica: {fileID: 11400000, guid: a95995df38b60ed4f95a329369f1d019, type: 2}
 --- !u!1 &1946051784
 GameObject:
   m_ObjectHideFlags: 0
