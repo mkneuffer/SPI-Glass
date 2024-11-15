@@ -6,7 +6,7 @@ public class FlashlightHitboxManager : MonoBehaviour
 {
 
     public GhostMovement ghostMovement;
-    public float stunTime = 2.0f; // max stun time
+    public float stunTime = 12.0f; // max stun time
     private bool isStunned = false;
     private float stunTimer = 0f; // logs stun length
 
@@ -30,13 +30,12 @@ public class FlashlightHitboxManager : MonoBehaviour
         }
     }
 
-        private void OnTriggerEnter(Collider other)
+    public void StunGhost()
     {
-        if (other.CompareTag("Flashlight"))
-        {
+        if (!isStunned) {
             isStunned = true;
             ghostMovement.enabled = false;
-            Debug.Log("Ghost is stunned by flashlight!");
+            Debug.Log("Ghost is stunned!");
         }
     }
 }
