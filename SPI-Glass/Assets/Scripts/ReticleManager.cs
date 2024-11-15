@@ -33,7 +33,7 @@ public class ReticleManager : MonoBehaviour
     private void HandleInteraction()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ghostLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ghostLayer))
         {
             if (hit.collider.CompareTag("Ghost"))
             {
