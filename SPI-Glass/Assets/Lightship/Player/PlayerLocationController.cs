@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using Niantic.Lightship.Maps.Core.Coordinates;
 using UnityEngine;
-using UnityEngine.UI;  // Add this to work with UI elements
+using UnityEngine.UI;  // Required for UI elements
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -26,6 +26,9 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
 
         [SerializeField]
         private Toggle useEditorControlsToggle;  // Reference to the UI Toggle
+
+        [SerializeField]
+        private GameObject buttonPanel;  // Reference to the panel containing the 4 movement buttons
 
         private double _lastGpsUpdateTime;
         private Vector3 _targetMapPosition;
@@ -60,6 +63,9 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
             // Add a listener to update useEditorControls when the toggle is changed
             useEditorControlsToggle.onValueChanged.AddListener(OnToggleChanged);
 
+            // Update the UI visibility based on the initial state of the toggle
+            buttonPanel.SetActive(useEditorControls);
+
             // Start GPS location update coroutine if not using editor controls
             if (!useEditorControls)
             {
@@ -71,6 +77,9 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
         {
             // Update the useEditorControls flag based on the toggle's state
             useEditorControls = isOn;
+
+            // Show or hide the button panel based on the toggle state
+            buttonPanel.SetActive(useEditorControls);
 
             // If we switched to GPS, start the coroutine
             if (!useEditorControls)
@@ -204,6 +213,7 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
             }
         }
 
+        // Methods to start/stop movement for UI buttons
         public void StartMoveUp() { _isMovingUp = true; }
         public void StopMoveUp() { _isMovingUp = false; }
 
