@@ -105,12 +105,11 @@ public class InventoryManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
+        int index = 1;
         foreach (ItemData item in Inventory)
         {
             GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
-            itemUI.transform.position += new Vector3((defaultObjectLocation - 1) * 400, 0, 0);
-            Debug.Log(Inventory.Count);
+            itemUI.transform.position += new Vector3(defaultObjectLocation + (index * 400), 0, 0);
             Image iconImage = itemUI.GetComponentInChildren<Image>();
             TextMeshProUGUI itemNameText = itemUI.GetComponentInChildren<TextMeshProUGUI>();
             Button button = itemUI.GetComponentInChildren<Button>();
@@ -124,6 +123,7 @@ public class InventoryManager : MonoBehaviour
                 itemNameText.text = item.name;
                 button.onClick.AddListener(delegate { itemUsageManager.useItem(item.name); });
             }
+            index++;
         }
     }
 }
