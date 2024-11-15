@@ -1,9 +1,8 @@
-// Copyright 2022 Niantic, Inc. All Rights Reserved.
-
 using System;
 using System.Collections;
 using Niantic.Lightship.Maps.Core.Coordinates;
 using UnityEngine;
+using UnityEngine.UI;  // Add this to work with UI elements
 
 #if UNITY_ANDROID
 using UnityEngine.Android;
@@ -11,13 +10,6 @@ using UnityEngine.Android;
 
 namespace Niantic.Lightship.Maps.SampleAssets.Player
 {
-    /// <summary>
-    /// This class positions the player's <see cref="PlayerModel"/> based on GPS
-    /// data (if running on device), and updates the <see cref="LightshipMapView"/>
-    /// with these movements to keep the map view centered on the player.  The map
-    /// view position is updated periodically to avoid spamming the map service.
-    /// Much of this class is also handling movement in editor using WASD.
-    /// </summary>
     public class PlayerLocationController : MonoBehaviour
     {
         [SerializeField]
@@ -32,18 +24,27 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
         [SerializeField]
         private PlayerModel _model;
 
+        [SerializeField]
+        private Toggle useEditorControlsToggle;  // Reference to the UI Toggle
+
         private double _lastGpsUpdateTime;
         private Vector3 _targetMapPosition;
         private Vector3 _currentMapPosition;
         private float _lastMapViewUpdateTime;
 
-        /// <summary>
-        /// Event to notify the UI about any issues with the GPS location
-        /// </summary>
+        // Track if UI buttons are held down
+        private bool _isMovingUp = false;
+        private bool _isMovingDown = false;
+        private bool _isMovingLeft = false;
+        private bool _isMovingRight = false;
+
         public Action<string> OnGpsError;
 
         private const float WalkThreshold = 0.5f;
         private const float TeleportThreshold = 200f;
+
+        // Boolean to track if we should use editor controls
+        private bool useEditorControls;
 
         private static bool IsLocationServiceInitializing
             => Input.location.status == LocationServiceStatus.Initializing;
@@ -53,7 +54,29 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
             _lightshipMapView.MapOriginChanged += OnMapViewOriginChanged;
             _currentMapPosition = _targetMapPosition = transform.position;
 
-            StartCoroutine(UpdateGpsLocation());
+            // Set initial value of useEditorControls based on the toggle's state
+            useEditorControls = useEditorControlsToggle.isOn;
+
+            // Add a listener to update useEditorControls when the toggle is changed
+            useEditorControlsToggle.onValueChanged.AddListener(OnToggleChanged);
+
+            // Start GPS location update coroutine if not using editor controls
+            if (!useEditorControls)
+            {
+                StartCoroutine(UpdateGpsLocation());
+            }
+        }
+
+        private void OnToggleChanged(bool isOn)
+        {
+            // Update the useEditorControls flag based on the toggle's state
+            useEditorControls = isOn;
+
+            // If we switched to GPS, start the coroutine
+            if (!useEditorControls)
+            {
+                StartCoroutine(UpdateGpsLocation());
+            }
         }
 
         private void OnMapViewOriginChanged(LatLng center)
@@ -67,7 +90,7 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
         {
             yield return null;
 
-            if (Application.isEditor)
+            if (Application.isEditor && !useEditorControls)
             {
                 while (isActiveAndEnabled)
                 {
@@ -78,28 +101,23 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
             else
             {
 #if UNITY_ANDROID
-                // Request location permission for Android
                 if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
                 {
                     Permission.RequestUserPermission(Permission.FineLocation);
                     while (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
                     {
-                        // Wait until permission is enabled
                         yield return new WaitForSeconds(1.0f);
                     }
                 }
 #endif
-                // Check if the user has location service enabled.
                 if (!Input.location.isEnabledByUser)
                 {
                     OnGpsError?.Invoke("Location permission not enabled");
                     yield break;
                 }
 
-                // Starts the location service.
                 Input.location.Start();
 
-                // Waits until the location service initializes
                 int maxWait = 20;
                 while (IsLocationServiceInitializing && maxWait > 0)
                 {
@@ -107,22 +125,19 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
                     maxWait--;
                 }
 
-                // If the service didn't initialize in 20
-                // seconds, this cancels location service use.
                 if (maxWait < 1)
                 {
                     OnGpsError?.Invoke("GPS initialization timed out");
                     yield break;
                 }
 
-                // If the connection failed this cancels location service use.
                 if (Input.location.status == LocationServiceStatus.Failed)
                 {
                     OnGpsError?.Invoke("Unable to determine device location");
                     yield break;
                 }
 
-                while (isActiveAndEnabled)
+                while (isActiveAndEnabled && !useEditorControls)  // Only run if not using editor controls
                 {
                     var gpsInfo = Input.location.lastData;
                     if (gpsInfo.timestamp > _lastGpsUpdateTime)
@@ -135,32 +150,23 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
                     yield return null;
                 }
 
-                // Stops the location service if there is no
-                // need to query location updates continuously.
                 Input.location.Stop();
             }
         }
 
         private void UpdatePlayerLocation(in LatLng location)
         {
-            // New GPS location data available, will lerp the player's
-            // position to this new coordinate, or jump if it is far.
             _targetMapPosition = _lightshipMapView.LatLngToScene(location);
         }
 
         public void Update()
         {
-            // Update the map view position based on where our player is.
-            // This will actually be last frame's position, but the map
-            // update needs to happen first as the player is positioned
-            // on the map relative to the offset to the tile parent node.
             UpdateMapViewPosition();
 
-            // Maintain the player's position on the map, and interpolate
-            // to new coordinates as they come in.  Interpolate player's
-            // map position without the camera offset, so that camera
-            // movements don't result in lerps.  Jump rather than
-            // interpolate if the coordinates are really far.
+            if (useEditorControls)
+            {
+                UpdateEditorInput();
+            }
 
             var movementVector = _targetMapPosition - _currentMapPosition;
             var movementDistance = movementVector.magnitude;
@@ -173,8 +179,6 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
 
                 case > WalkThreshold:
                 {
-                    // If the player is not stationary,
-                    // rotate to face their movement vector
                     var forward = movementVector.normalized;
                     var rotation = Quaternion.LookRotation(forward, Vector3.up);
                     transform.rotation = rotation;
@@ -189,51 +193,50 @@ namespace Niantic.Lightship.Maps.SampleAssets.Player
 
             transform.position = _currentMapPosition;
             _model.UpdatePlayerState(movementDistance);
+
+            // Check if any direction button is held down (only in editor control mode)
+            if (useEditorControls)
+            {
+                if (_isMovingUp) { MoveCharacter(Vector3.forward); }
+                if (_isMovingDown) { MoveCharacter(Vector3.back); }
+                if (_isMovingLeft) { MoveCharacter(Vector3.left); }
+                if (_isMovingRight) { MoveCharacter(Vector3.right); }
+            }
+        }
+
+        public void StartMoveUp() { _isMovingUp = true; }
+        public void StopMoveUp() { _isMovingUp = false; }
+
+        public void StartMoveDown() { _isMovingDown = true; }
+        public void StopMoveDown() { _isMovingDown = false; }
+
+        public void StartMoveLeft() { _isMovingLeft = true; }
+        public void StopMoveLeft() { _isMovingLeft = false; }
+
+        public void StartMoveRight() { _isMovingRight = true; }
+        public void StopMoveRight() { _isMovingRight = false; }
+
+        private void MoveCharacter(Vector3 direction)
+        {
+            var cameraForward = _camera.transform.forward;
+            float yRotation = Vector3.SignedAngle(Vector3.forward, cameraForward, Vector3.up);
+            Vector3 adjustedDirection = Quaternion.AngleAxis(yRotation, Vector3.up) * direction;
+
+            _targetMapPosition += adjustedDirection * (_editorMovementSpeed * Time.deltaTime);
         }
 
         private void UpdateEditorInput()
         {
-            // In the Editor, move the character around
-            // with the keyboard rather than GPS.
-
-            var movementVector = Vector3.zero;
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                movementVector += Vector3.forward;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                movementVector -= Vector3.forward;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                movementVector += Vector3.left;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                movementVector += Vector3.right;
-            }
-
-            // Make Editor movement relative to the camera's forward direction
-            var cameraForward = _camera.transform.forward;
-            float yRotation = Vector3.SignedAngle(Vector3.forward, cameraForward, Vector3.up);
-            movementVector = Quaternion.AngleAxis(yRotation, Vector3.up) * movementVector;
-
-            _targetMapPosition += movementVector * (_editorMovementSpeed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.W)) { MoveCharacter(Vector3.forward); }
+            if (Input.GetKey(KeyCode.S)) { MoveCharacter(Vector3.back); }
+            if (Input.GetKey(KeyCode.A)) { MoveCharacter(Vector3.left); }
+            if (Input.GetKey(KeyCode.D)) { MoveCharacter(Vector3.right); }
         }
 
         private void UpdateMapViewPosition()
         {
-            // Only update the map tile view periodically so as not to spam tile fetches
-            if (Time.time < _lastMapViewUpdateTime + 1.0f)
-            {
-                return;
-            }
-
+            if (Time.time < _lastMapViewUpdateTime + 1.0f) { return; }
             _lastMapViewUpdateTime = Time.time;
-
-            // Update the map's view based on where our player is
             _lightshipMapView.SetMapCenter(transform.position);
         }
     }
