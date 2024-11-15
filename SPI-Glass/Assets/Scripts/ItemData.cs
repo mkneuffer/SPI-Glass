@@ -7,7 +7,7 @@ public class ItemData : ScriptableObject
 {
 
     // What does item need
-    public string itemName;
+    // public string itemName;
     public bool inInventory;
     public string name;
     public int itemNum;
@@ -15,6 +15,7 @@ public class ItemData : ScriptableObject
     [SerializeField] private GameObject itemIcon;
 
     public Sprite GetItemIcon() => itemModel;
-    public string GetItemName() => itemName;
-    
+    public GameObject GetGameObject() => itemIcon;
+    public string GetItemName() => name;
+
 }
