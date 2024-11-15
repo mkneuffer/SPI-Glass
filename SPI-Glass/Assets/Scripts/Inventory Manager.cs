@@ -16,6 +16,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject itemList;
     [SerializeField] private GameObject inventoryPrefab;
     [SerializeField] private ItemUsageManager itemUsageManager;
+    private float defaultObjectLocation = -564;
 
 
     // Positions for each of the UI boxes, i dont wanna code these in when we r gonna change them anyway later
@@ -108,6 +109,8 @@ public class InventoryManager : MonoBehaviour
         foreach (ItemData item in Inventory)
         {
             GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
+            itemUI.transform.position += new Vector3((defaultObjectLocation - 1) * 400, 0, 0);
+            Debug.Log(Inventory.Count);
             Image iconImage = itemUI.GetComponentInChildren<Image>();
             TextMeshProUGUI itemNameText = itemUI.GetComponentInChildren<TextMeshProUGUI>();
             Button button = itemUI.GetComponentInChildren<Button>();
