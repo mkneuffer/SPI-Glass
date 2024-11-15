@@ -29,6 +29,8 @@ public class GhostMovement : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
     private int health = 10;
+    private int phase = 1;
+    private bool isStunned = false;
 
 
     // Start is called before the first frame update
@@ -46,7 +48,16 @@ public class GhostMovement : MonoBehaviour
     void Update()
     {
             MoveToPoints(currentWaypoint.GetWaypoints());
-            HandleHealth();
+            if(!isStunned) {
+                MoveToPoints(currentWaypoint.GetWaypoints());
+            }
+
+            if(isStunned) {
+                if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+                {
+                    HandleHealth(1);
+                }
+            }
     }
 
     //Moves the ghost along the given waypoints
@@ -145,20 +156,22 @@ public class GhostMovement : MonoBehaviour
     //Deals with the health value of the ghost
     //Does damage if touched/tapped
     //Ghost is destroyed if health <= 0
-    void HandleHealth()
+    public void HandleHealth(int amount)
     {
-        //ghostHealthTextUI.SetText("Ghost Health: " + health);
-        if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
-        {
-            health--;
-            Debug.Log("Touched, Ghost Health = " + health);
-            if (health <= 0)
-            {
-                Debug.Log("killing ghost");
+        health -= amount;
+        Debug.Log("Health: " + health);
+        if(health <= 0) {
+            phase++;
+
+            if(phase >= 3) {
+                Debug.Log("End fight");
                 Destroy(gameObject);
+            } else {
+                health = 10;
+                Debug.Log("Phase: " + phase);
+                SwapPath();
             }
         }
-
     }
 
     //Swaps between two different waypoints
