@@ -26,37 +26,25 @@ public class ReticleManager : MonoBehaviour
 
     private void MoveReticle() {
         Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10f;
         reticle.transform.position = mousePos;
     }
 
-    void HandleInteraction() {
+    private void HandleInteraction()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ghostLayer)) {
-            if (isFlashlightEnabled) {
-                flashlightManager.StunGhost();
-            }
-            else if (Input.GetMouseButtonDown(0)) {
-                ghostMovement.HandleHealth(1);
-            }
-        }
-    }
-
-    private void CheckFlashlightInteraction() {
-        Ray ray = Camera.main.ScreenPointToRay(reticle.transform.position);
-        if(Physics.Raycast(ray, out RaycastHit hit)) {
-            if(hit.collider.CompareTag("Ghost")) {
-                flashlightManager.StunGhost();
-            }
-        }
-    }
-
-        private void CheckHolyWaterInteraction() {
-        Ray ray = Camera.main.ScreenPointToRay(reticle.transform.position);
-        if(Physics.Raycast(ray, out RaycastHit hit)) {
-            if(hit.collider.CompareTag("Ghost")) {
-                ghostMovement.HandleHealth(1);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ghostLayer))
+        {
+            if (hit.collider.CompareTag("Ghost"))
+            {
+                if (isFlashlightEnabled)
+                {
+                    flashlightManager.StunGhost();
+                }
+                else if (Input.GetMouseButtonDown(0))
+                {
+                    ghostMovement.HandleHealth(1);
+                }
             }
         }
     }
