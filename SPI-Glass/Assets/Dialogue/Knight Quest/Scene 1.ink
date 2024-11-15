@@ -1,4 +1,6 @@
-﻿The echo of your shoes against concrete is the only thing you hear wandering around the city. #speaker:0 #portrait:0 #layout:left
+EXTERNAL addItem(itemName)
+
+The echo of your shoes against concrete is the only thing you hear wandering around the city. #speaker:0 #portrait:0 #layout:left
 You aren’t quite sure what you’re looking for — only that you’ve made it part of your routine to wander around at night in hopes of stumbling across something supernatural.
 You need to make yourself useful as a recently joined member of the Society for Paranormal Investigators.
 After training, you were assigned to this city.
@@ -20,7 +22,7 @@ You narrow your eyes at his words. Ghosts are known for trickery and you aren’
 Of course, not all ghosts are evil and out to harm the living, but it’s better to be safe than sorry.
 This ghost hasn’t taken physical form, and his aura is weak. You’re sure you can exorcise him with just holy water.
 You uncork a bottle of holy water—
-You’re a member of SPI! You can help me. Aren’t you guys all about exorcising ghosts that cause problems? #speaker:0 #portrait:archibald
+You’re a member of SPI! You can help me. Aren’t you guys all about exorcising ghosts that cause problems? #speaker:??? #portrait:archibald
 The words spill out of the ghost’s mouth at an incredible speed, and you pause. #speaker:0 #portrait:0
 Does it recognize the pin on your jacket?
 Hear me out, I have an offer for you. Don’t kill me and I can help you get rid of a malicious ghost that’ll get you a better reputation in SPI. #speaker:??? #portrait:archibald
@@ -61,4 +63,6 @@ What if you really are being tricked?
 You have your backpack full of gadgets and tools for ghost exorcism.
 As long as you’re careful, you should be able to handle anything.
 And you’re absolutely confident you can exorcise Archibald with just the holy water in your hand if he’s lying.
+~ addItem("Flashlight")
+~ addItem("Holy Water")
 -> END
