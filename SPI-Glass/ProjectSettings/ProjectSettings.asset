@@ -162,6 +162,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DefaultCompany.SPIGlass
+    Standalone: com.DefaultCompany.SPI-Glass
     iPhone: com.DefaultCompany.SPI-Glass
   buildNumber:
     Standalone: 0
