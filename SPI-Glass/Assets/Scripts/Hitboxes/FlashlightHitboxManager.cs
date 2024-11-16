@@ -36,6 +36,14 @@ public class FlashlightHitboxManager : MonoBehaviour
             isStunned = true;
             ghostMovement.enabled = false;
             Debug.Log("Ghost is stunned!");
+            StartCoroutine(ResumeAfterStun());
         }
+    }
+
+    private IEnumerator ResumeAfterStun() {
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
+        ghostMovement.enabled = true;
+        Debug.Log("Ghost recovered!");
     }
 }

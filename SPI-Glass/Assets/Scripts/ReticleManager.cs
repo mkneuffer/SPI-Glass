@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ReticleManager : MonoBehaviour
 {
@@ -11,12 +12,15 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 1f;
-    private bool isFlashlightEnabled = true;
-
+    private bool isFlashlightEnabled = false;
+    private bool isHolyWaterEnabled = false;
+    private bool isMenuOpen = false;
+    
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
+        SetReticleVisibility(false);
 
         if(Camera.main == null) {
             Debug.Log("Error with camera");
@@ -26,20 +30,38 @@ public class ReticleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveReticle();
-        HandleInteraction();
-    }
 
-    private void MoveReticle() {
-        if(Camera.main == null) {
+        if(isMenuOpen) {
+            SetReticleVisibility(false);
             return;
         }
-        Vector3 mousePos = Input.mousePosition;
 
+        if(!IsPointerOverUI()) {
+            MoveReticle();
+            HandleInteraction();
+        } else {
+            SetReticleVisibility(false);
+        }
+
+    }
+
+    private bool IsPointerOverUI() {
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
+
+    private void MoveReticle() {
+        if(Camera.main == null || reticle == null) {
+            Debug.Log("Error!");
+            return;
+        }
+
+        Vector3 mousePos = Input.mousePosition;
         mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
         mousePos.y = Mathf.Clamp(mousePos.y, 0, Screen.height);
         mousePos.z = 10f;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
         if(reticle != null) {
             reticle.transform.position = mousePos;
         } else {
@@ -50,6 +72,7 @@ public class ReticleManager : MonoBehaviour
     private void HandleInteraction()
     {
         if(reticle == null) {
+            Debug.Log("Error!");
             return;
         }
 
@@ -78,6 +101,25 @@ public class ReticleManager : MonoBehaviour
 
     public void SelectFlashlight(bool isActive) {
         isFlashlightEnabled = isActive;
+        isHolyWaterEnabled = false;
+        SetReticleVisibility(isFlashlightEnabled);
+    }
+
+    public void SelectHolyWater(bool isActive) {
+        isHolyWaterEnabled = isActive;
+        isFlashlightEnabled = false;
+        SetReticleVisibility(isHolyWaterEnabled);
+    }
+
+    private void SetReticleVisibility(bool isVisible) {
+        if(reticle != null) {
+            reticle.SetActive(isVisible);
+        }
+    }
+
+    public void ToggleMenu(bool isOpen) {
+        isMenuOpen = isOpen;
+        SetReticleVisibility(false);
     }
 
 }

@@ -30,7 +30,7 @@ public class GhostMovement : MonoBehaviour
 
     private int health = 10;
     private int phase = 1;
-    private bool isStunned = false;
+    public bool isStunned = false;
 
 
     // Start is called before the first frame update
@@ -186,5 +186,18 @@ public class GhostMovement : MonoBehaviour
         {
             currentWaypoint = waypointStorage1;
         }
+    }
+
+    public void StunGhost(float stunTime) {
+        if(!isStunned) {
+            isStunned = true;
+            StartCoroutine(StunCoroutine(stunTime));
+        }
+    }
+
+    private IEnumerator StunCoroutine(float stunTime) {
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
+        Debug.Log("Ghost recovered!");
     }
 }

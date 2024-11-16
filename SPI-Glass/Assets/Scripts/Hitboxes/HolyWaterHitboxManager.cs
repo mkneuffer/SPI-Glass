@@ -8,8 +8,16 @@ public class HolyWaterHitboxManager : MonoBehaviour
     public int damage = 1;
 
     public void ApplyDamage() {
-        ghostMovement.HandleHealth(damage);
-        Debug.Log("Damage dealt");
+        if (ghostMovement != null) {
+            ghostMovement.HandleHealth(damage);
+            Debug.Log("Damage dealt");
+        }
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Ghost") && ghostMovement.isStunned) {
+            ApplyDamage();
+        }
     }
 
     // Start is called before the first frame update
