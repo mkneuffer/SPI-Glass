@@ -9,12 +9,18 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private LayerMask ghostLayer; 
     [SerializeField] private FlashlightHitboxManager flashlightManager; 
     [SerializeField] private GhostMovement ghostMovement;
+    [SerializeField] private float raycastDistance = 50f;
+    [SerializeField] private float interactionRadius = 1f;
     private bool isFlashlightEnabled = true;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
+
+        if(Camera.main == null) {
+            Debug.Log("Error with camera");
+        }
     }
 
     // Update is called once per frame
@@ -25,25 +31,46 @@ public class ReticleManager : MonoBehaviour
     }
 
     private void MoveReticle() {
+        if(Camera.main == null) {
+            return;
+        }
         Vector3 mousePos = Input.mousePosition;
+
+        mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
+        mousePos.y = Mathf.Clamp(mousePos.y, 0, Screen.height);
         mousePos.z = 10f;
-        reticle.transform.position = mousePos;
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        if(reticle != null) {
+            reticle.transform.position = mousePos;
+        } else {
+            Debug.Log("Error with reticle");
+        }
     }
 
     private void HandleInteraction()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, ghostLayer))
+        if(reticle == null) {
+            return;
+        }
+
+        Collider[] hitColliders = Physics.OverlapSphere(reticle.transform.position, interactionRadius, ghostLayer);
+
+        if (hitColliders.Length > 0)
         {
-            if (hit.collider.CompareTag("Ghost"))
+            foreach (Collider hitCollider in hitColliders)
             {
-                if (isFlashlightEnabled)
+                GameObject hitObject = hitCollider.gameObject;
+
+                if (hitObject.CompareTag("Ghost"))
                 {
-                    flashlightManager.StunGhost();
-                }
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    ghostMovement.HandleHealth(1);
+                    if (isFlashlightEnabled)
+                    {
+                        flashlightManager.StunGhost();
+                    }
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        ghostMovement.HandleHealth(1);
+                    }
                 }
             }
         }

@@ -122,6 +122,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &277252866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5071160359894943937, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 1646650176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &557575879
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,8 +165,13 @@ MonoBehaviour:
   SpeakerFrame: {fileID: 1646650177}
   puzzleManager: {fileID: 0}
   ghostManager: {fileID: 0}
+  InventoryManager: {fileID: 0}
   automaticTextSpeedPerWord: 0
-  choices: []
+  choices:
+  - {fileID: 816556588}
+  - {fileID: 1162590192}
+  - {fileID: 277252866}
+  grail: {fileID: 0}
 --- !u!4 &557575881
 Transform:
   m_ObjectHideFlags: 0
@@ -223,6 +234,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &816556588 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8038516889464145675, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 1646650176}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1162590192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5309935993888123051, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 1646650176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1229251345
 GameObject:
   m_ObjectHideFlags: 0
