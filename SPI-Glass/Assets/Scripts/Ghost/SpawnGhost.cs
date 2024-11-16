@@ -8,26 +8,27 @@ using UnityEngine.XR.ARFoundation;
 public class MoveGhost : MonoBehaviour
 {
     [SerializeField] private GameObject ghost;
+    private GhostScript ghostScript;
     [SerializeField] private ARWorldPositioningObjectHelper objectHelper;
     [SerializeField] private ARWorldPositioningManager positioningManager;
     [SerializeField] private ARCameraManager cameraManager;
-    public bool startFight = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-  
+        Invoke("SpawnGhost", 1);
+        ghostScript = ghost.GetComponent<GhostScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (startFight == true)
-        {
-            Invoke("SpawnGhost", 1);
-            startFight = false;
-        }
+        // if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+        // {
+        //     ghostScript.setFollowPath(false);
+        //     ghostScript.MoveTo(ghostScript.transform.position + new Vector3(0, 3, 0), 1);
+        // }
 
     }
 
@@ -36,11 +37,7 @@ public class MoveGhost : MonoBehaviour
     {
         Quaternion rotation = Quaternion.identity;
         rotation.Set(rotation.x, Camera.main.transform.rotation.y + 180.0f, rotation.z, rotation.w);
-        Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, rotation);
-    }
-
-    public void startGhostFight()
-    {
-        startFight = true;
+        ghost = Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, rotation);
+        ghostScript = ghost.GetComponent<GhostScript>();
     }
 }
