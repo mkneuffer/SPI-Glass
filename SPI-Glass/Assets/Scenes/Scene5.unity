@@ -159,10 +159,8 @@ MonoBehaviour:
   SpeakerFrame: {fileID: 1646650177}
   puzzleManager: {fileID: 0}
   ghostManager: {fileID: 0}
-  InventoryManager: {fileID: 0}
   automaticTextSpeedPerWord: 0
   choices: []
-  grail: {fileID: 0}
 --- !u!4 &557575881
 Transform:
   m_ObjectHideFlags: 0
@@ -207,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSONChoice: {fileID: 4900000, guid: e65b5e5f8d8d5bd4f9623ac5b85c22fc, type: 3}
+  inkJSONChoice: {fileID: 4900000, guid: 6f65e69239f13a54a9c375c10a53640d, type: 3}
   inkJSONNoChoice: {fileID: 0}
   state: 0
 --- !u!4 &590437800
