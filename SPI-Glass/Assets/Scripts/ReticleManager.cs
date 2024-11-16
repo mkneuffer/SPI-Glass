@@ -12,6 +12,7 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 1f;
+    [SerializeField] private float lowerScreenLimit = 200f;
     private bool isFlashlightEnabled = false;
     private bool isHolyWaterEnabled = false;
     private bool isMenuOpen = false;
@@ -20,7 +21,7 @@ public class ReticleManager : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
-        SetReticleVisibility(false);
+        //SetReticleVisibility(false);
 
         if(Camera.main == null) {
             Debug.Log("Error with camera");
@@ -32,17 +33,14 @@ public class ReticleManager : MonoBehaviour
     {
 
         if(isMenuOpen) {
-            SetReticleVisibility(false);
+            //SetReticleVisibility(false);
             return;
         }
 
         if(!IsPointerOverUI()) {
             MoveReticle();
             HandleInteraction();
-        } else {
-            SetReticleVisibility(false);
         }
-
     }
 
     private bool IsPointerOverUI() {
@@ -57,16 +55,21 @@ public class ReticleManager : MonoBehaviour
         }
 
         Vector3 mousePos = Input.mousePosition;
+        if(mousePos.y < lowerScreenLimit) {
+            return;
+        }
         mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
-        mousePos.y = Mathf.Clamp(mousePos.y, 0, Screen.height);
+        mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
         mousePos.z = 10f;
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
         if(reticle != null) {
             reticle.transform.position = mousePos;
         } else {
             Debug.Log("Error with reticle");
         }
+        Vector3 reticleWorldPos = Camera.main.ScreenToWorldPoint(reticle.transform.position);
+        reticleWorldPos.z = 0f;
     }
 
     private void HandleInteraction()
@@ -102,24 +105,24 @@ public class ReticleManager : MonoBehaviour
     public void SelectFlashlight(bool isActive) {
         isFlashlightEnabled = isActive;
         isHolyWaterEnabled = false;
-        SetReticleVisibility(isFlashlightEnabled);
+        //SetReticleVisibility(isFlashlightEnabled);
     }
 
     public void SelectHolyWater(bool isActive) {
         isHolyWaterEnabled = isActive;
         isFlashlightEnabled = false;
-        SetReticleVisibility(isHolyWaterEnabled);
+        //SetReticleVisibility(isHolyWaterEnabled);
     }
-
+/*
     private void SetReticleVisibility(bool isVisible) {
         if(reticle != null) {
             reticle.SetActive(isVisible);
         }
     }
-
+*/
     public void ToggleMenu(bool isOpen) {
         isMenuOpen = isOpen;
-        SetReticleVisibility(false);
+        //SetReticleVisibility(false);
     }
 
 }
