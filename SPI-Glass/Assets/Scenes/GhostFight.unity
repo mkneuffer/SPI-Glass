@@ -302,32 +302,32 @@ PrefabInstance:
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 428.3128
       objectReference: {fileID: 0}
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 428.31268
       objectReference: {fileID: 0}
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 428.3128
       objectReference: {fileID: 0}
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.579
+      value: 602.69
       objectReference: {fileID: 0}
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 714.37
       objectReference: {fileID: 0}
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.069
+      value: -31.113
       objectReference: {fileID: 0}
     - target: {fileID: 498253721416304299, guid: f6ab88624626d1249bd73bcb4a1c7d59,
         type: 3}
@@ -418,11 +418,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3706457316939880080, guid: f6ab88624626d1249bd73bcb4a1c7d59,
-        type: 3}
-      propertyPath: speed
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1067,7 +1062,6 @@ MonoBehaviour:
   flashlightManager: {fileID: 1103468115}
   ghostMovement: {fileID: 273098093}
   raycastDistance: 50
-  lowerScreenLimit: 200
   interactionRadius: 1
 --- !u!114 &1271266688
 MonoBehaviour:
