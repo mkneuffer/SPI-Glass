@@ -79,9 +79,9 @@ public class ReticleManager : MonoBehaviour
             return;
         }
         Vector3 reticleWorldPos = Camera.main.ScreenToWorldPoint(reticle.transform.position);
-        reticleWorldPos.z = -3f;
+        reticleWorldPos.z = 0f;
 
-        Collider[] hitColliders = Physics.OverlapSphere(reticleWorldPos, interactionRadius, ghostLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(reticle.transform.position, interactionRadius, ghostLayer);
 
         if (hitColliders.Length > 0)
         {
