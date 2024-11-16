@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditorInternal.Profiling.Memory.Experimental;
-using Unity.VisualScripting;
-using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -15,10 +13,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject itemList;
     [SerializeField] private GameObject inventoryPrefab;
-    [SerializeField] private ItemUsageManager itemUsageManager;
-    private float defaultObjectLocation = -564;
-
-
+    
     // Positions for each of the UI boxes, i dont wanna code these in when we r gonna change them anyway later
     // posX-1
     // posY-1
@@ -26,25 +21,24 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
-    public List<ItemData> GetInventory()
-    {
+    public List<ItemData> GetInventory() {
         return Inventory;
     }
-    /*
-        public ItemData[] getInventory(InventoryManager mainInv)
-        {
-            return mainInv.Inventory;
-        }
-    */
+/*
+    public ItemData[] getInventory(InventoryManager mainInv)
+    {
+        return mainInv.Inventory;
+    }
+*/
     public ItemData getItem(int i)
     {
         return i >= 0 && i < Inventory.Count ? Inventory[i] : null;
@@ -52,19 +46,16 @@ public class InventoryManager : MonoBehaviour
 
     public void setCurrentItem(int i)
     {
-        if (i >= 0 && i < Inventory.Count)
-        {
+        if(i >= 0 && i < Inventory.Count) {
             currentItem = Inventory[i];
         }
     }
 
-    public ItemData FindItemByName(string itemName)
-    {
-        return Inventory.FirstOrDefault(item => item.name == itemName);
+    public ItemData FindItemByName(string itemName) {
+        return Inventory.FirstOrDefault(item => item.name == itemName );
     }
 
-    public void RemoveItemByType(ItemData item)
-    {
+    public void RemoveItemByType(ItemData item) {
         if (Inventory.Contains(item))
         {
             Inventory.Remove(item);
@@ -75,8 +66,7 @@ public class InventoryManager : MonoBehaviour
 
     public void addItem(ItemData item)
     {
-        if (!Inventory.Contains(item))
-        {
+        if(!Inventory.Contains(item)) {
             Inventory.Add(item);
             item.inInventory = true;
             UpdateInventoryUI();
@@ -105,14 +95,12 @@ public class InventoryManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        int index = 1;
+
         foreach (ItemData item in Inventory)
         {
             GameObject itemUI = Instantiate(inventoryPrefab, itemList.transform);
-            itemUI.transform.position += new Vector3(defaultObjectLocation + (index * 400), 0, 0);
-            Image iconImage = itemUI.GetComponentInChildren<Image>();
-            TextMeshProUGUI itemNameText = itemUI.GetComponentInChildren<TextMeshProUGUI>();
-            Button button = itemUI.GetComponentInChildren<Button>();
+            Image iconImage = itemUI.GetComponent<Image>();
+            Text itemNameText = itemUI.GetComponentInChildren<Text>();
 
             if (iconImage != null)
             {
@@ -121,9 +109,7 @@ public class InventoryManager : MonoBehaviour
             if (itemNameText != null)
             {
                 itemNameText.text = item.name;
-                button.onClick.AddListener(delegate { itemUsageManager.useItem(item.name); });
             }
-            index++;
         }
     }
 }

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -12,12 +13,19 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
+    [SerializeField] private GameObject PortraitFrame;
+    [SerializeField] private GameObject SpeakerFrame;
+    [SerializeField] private PuzzleManager puzzleManager;
+    [SerializeField] private MoveGhost ghostManager;
+    [SerializeField] private InventoryManager InventoryManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
+    
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
+    public Button grail;
 
     private Story currentStory;
     public bool isDialoguePlaying { get; private set; }
@@ -57,7 +65,16 @@ public class DialogueManager : MonoBehaviour
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
         }
+        grail.onClick.AddListener(OnContinueClick); // For grail cutscene
 
+    }
+
+    public void OnContinueClick() {
+        if (currentStory.canContinue) {
+            ContinueStory();
+        } else{
+            StartCoroutine(ExitDialogueMode());
+        }
     }
 
     private void Update()
@@ -69,9 +86,9 @@ public class DialogueManager : MonoBehaviour
 
         if (notAutomatic)
         {
-            //Advance to next line on click
+            //Advance to next line on input
             List<Choice> currentChoices = currentStory.currentChoices;
-            bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+            bool clicked = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
             if (clicked && currentChoices.Count == 0)
             {
                 ContinueStory();
@@ -97,6 +114,30 @@ public class DialogueManager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
+
+        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        {
+            puzzleManager.setCanvasState(true);
+        });
+
+        currentStory.BindExternalFunction("addItem", (string itemName) => {
+            ItemData item = InventoryManager.FindItemByName(itemName);
+            if(item != null) {
+                InventoryManager.addItem(item);
+            }
+        });
+
+        currentStory.BindExternalFunction("removeItem", (string itemName) => {
+            ItemData item = InventoryManager.FindItemByName(itemName);
+            if(item != null) {
+                InventoryManager.RemoveItemByType(item);
+            }
+        });
+
+        currentStory.BindExternalFunction("startFight", (string start) =>
+        {
+            ghostManager.startGhostFight();
+        });
 
         //Reset display name, portrait and layout
         displayNameText.text = "???";
@@ -132,10 +173,15 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
+        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        {
+            puzzleManager.setCanvasState(true);
+        });
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
-        layoutAnimator.Play("right");
+        layoutAnimator.Play("left");
 
         if (this.notAutomatic)
         {
@@ -152,6 +198,8 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.05f);
+        currentStory.UnbindExternalFunction("startPuzzle");
+        currentStory.UnbindExternalFunction("startFight");
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
@@ -238,19 +286,35 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
-                    displayNameText.text = tagValue;
+                    if (tagValue != "0")
+                    {
+                        SpeakerFrame.SetActive(true);
+                        displayNameText.text = tagValue;
+                    }
+                    else
+                    {
+                        SpeakerFrame.SetActive(false);
+                    }
+                    
                     break;
+
                 case PORTRAIT_TAG:
-                    portraitAnimator.Play(tagValue);
+                    if (tagValue != "0")
+                    {
+                        PortraitFrame.SetActive(true);
+                        portraitAnimator.Play(tagValue);
+                    }
+                    else
+                    {
+                        PortraitFrame.SetActive(false);
+                    }
+                    
                     break;
+
                 case LAYOUT_TAG:
                     if (!notAutomatic)
                     {
-                        if (tagValue == "right")
-                        {
-                            layoutAnimator.Play("right-noninterrupt");
-                        }
-                        else if (tagValue == "left")
+                        if (tagValue == "left")
                         {
                             layoutAnimator.Play("left-noninterrupt");
                         }
@@ -264,6 +328,21 @@ public class DialogueManager : MonoBehaviour
                         layoutAnimator.Play(tagValue);
                     }
                     break;
+
+                case "add_item":
+                    ItemData itemToAdd = InventoryManager.FindItemByName(tagValue);
+                    if(itemToAdd != null) {
+                        InventoryManager.addItem(itemToAdd);
+                    }
+                    break;
+
+                case "remove_item":
+                    ItemData itemToRemove = InventoryManager.FindItemByName(tagValue);
+                    if(itemToRemove != null) {
+                        InventoryManager.addItem(itemToRemove);
+                    }
+                    break;
+
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;

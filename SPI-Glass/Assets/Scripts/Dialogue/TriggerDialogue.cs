@@ -6,18 +6,15 @@ public class TestTriggerDialogue : MonoBehaviour
 {
     public TextAsset inkJSONChoice;
     public TextAsset inkJSONNoChoice;
+    public bool state = false;
 
     // Update is called once per frame
     void Update()
     {
-        bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
-        if (clicked)
+        if (state == false)
         {
             DialogueManager.GetInstance().EnterDialogueMode(inkJSONChoice, true);
-        }
-        else if (Input.GetMouseButtonDown(1) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began))
-        {
-            DialogueManager.GetInstance().EnterDialogueMode(inkJSONNoChoice, false);
+            state = true;
         }
     }
 }
