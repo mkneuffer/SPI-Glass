@@ -115,32 +115,45 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
-        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        if (puzzleManager != null)
         {
-            puzzleManager.setCanvasState(true);
-        });
-
-        currentStory.BindExternalFunction("addItem", (string itemName) => {
-            ItemData item = InventoryManager.FindItemByName(itemName);
-            if(item != null) {
-                InventoryManager.addItem(item);
-            }
-        });
-
-        currentStory.BindExternalFunction("removeItem", (string itemName) => {
-            ItemData item = InventoryManager.FindItemByName(itemName);
-            if(item != null) {
-                InventoryManager.RemoveItemByType(item);
-            }
-        });
-
-        currentStory.BindExternalFunction("startFight", (string start) =>
+            currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+            {
+                puzzleManager.setCanvasState(true);
+            });
+        }
+        
+        if (InventoryManager != null)
         {
-            ghostManager.startGhostFight();
-        });
+            currentStory.BindExternalFunction("addItem", (string itemName) => {
+                ItemData item = InventoryManager.FindItemByName(itemName);
+                if (item != null)
+                {
+                    InventoryManager.addItem(item);
+                }
+            });
+            currentStory.BindExternalFunction("removeItem", (string itemName) => {
+                ItemData item = InventoryManager.FindItemByName(itemName);
+                if (item != null)
+                {
+                    InventoryManager.RemoveItemByType(item);
+                }
+            });
+        }
 
-        //Reset display name, portrait and layout
-        displayNameText.text = "???";
+
+
+        if (ghostManager != null)
+        {
+            currentStory.BindExternalFunction("startFight", (string start) =>
+            {
+                ghostManager.startGhostFight();
+            });
+        }
+
+
+            //Reset display name, portrait and layout
+            displayNameText.text = "???";
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
         if (this.notAutomatic)

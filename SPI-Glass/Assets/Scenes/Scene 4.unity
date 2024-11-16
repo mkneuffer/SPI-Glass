@@ -666,55 +666,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203769161}
   m_CullTransparentMesh: 1
---- !u!1 &272213236
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 272213238}
-  - component: {fileID: 272213237}
-  m_Layer: 0
-  m_Name: Ghost Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &272213237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272213236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2484d962056078546b5b721d224e89bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghost: {fileID: 6076470537165917328, guid: 0691445c98ea5ea4da35131e1db422d3, type: 3}
-  objectHelper: {fileID: 344143794}
-  positioningManager: {fileID: 344143793}
-  cameraManager: {fileID: 675065570}
-  startFight: 0
---- !u!4 &272213238
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272213236}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.11896, y: 110.689896, z: 26.345825}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &327208027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2412,9 +2363,11 @@ MonoBehaviour:
   PortraitFrame: {fileID: 327208033}
   SpeakerFrame: {fileID: 327208031}
   puzzleManager: {fileID: 1720826656}
-  ghostManager: {fileID: 272213237}
+  ghostManager: {fileID: 0}
+  InventoryManager: {fileID: 0}
   automaticTextSpeedPerWord: 0
   choices: []
+  grail: {fileID: 0}
 --- !u!4 &2025253961
 Transform:
   m_ObjectHideFlags: 0
@@ -2624,4 +2577,3 @@ SceneRoots:
   - {fileID: 2025253961}
   - {fileID: 1259811827}
   - {fileID: 1289427146}
-  - {fileID: 272213238}

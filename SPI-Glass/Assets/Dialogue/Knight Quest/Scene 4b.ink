@@ -23,5 +23,4 @@ I will… I must…
 My sword… give me my sword!
 Crazy bastard. #speaker:Archibald #portrait:archibald
 Get ready, human.
-~startFight("start")
 -> END
