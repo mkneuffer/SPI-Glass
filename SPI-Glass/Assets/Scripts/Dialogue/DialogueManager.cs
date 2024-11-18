@@ -95,7 +95,7 @@ public class DialogueManager : MonoBehaviour
         {
             //Advance to next line on input
             List<Choice> currentChoices = currentStory.currentChoices;
-            bool clicked = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
+            bool clicked = Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began);
             if (clicked && currentChoices.Count == 0)
             {
                 ContinueStory();

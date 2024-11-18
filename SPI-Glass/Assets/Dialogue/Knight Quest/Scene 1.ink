@@ -48,7 +48,7 @@ If we get rid of him, it’s a win for both of us.
 Are you up for the task?
 + [Yes]
  -> continue
-+[Lead the way]
++ [Lead the way]
  -> continue
 
 === continue ===
