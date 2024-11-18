@@ -5,9 +5,36 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 697d8be581ba04e2dbe7998526acc5cf
+  - enabled: 1
+    path: Assets/Scenes/Scene1.unity
+    guid: 83b55601e56a42541a95c06a28c37678
+  - enabled: 1
+    path: Assets/Scenes/Map1.unity
+    guid: a0f724681d7ae495a805cf0139db82bd
+  - enabled: 1
+    path: Assets/Scenes/Scene2.unity
+    guid: a3b15f7f23800ea44bda56909c691564
+  - enabled: 1
+    path: Assets/Scenes/ObjectDetection.unity
+    guid: e701e73d0946b464fa4744cb076796ec
+  - enabled: 1
+    path: Assets/Scenes/Scene3.unity
+    guid: 7f00ff528182bcf4ea13864b34f7c02d
+  - enabled: 1
+    path: Assets/Scenes/Scene4.unity
+    guid: 5baa2426653113540b03d81813cfa93d
+  - enabled: 1
+    path: Assets/Scenes/GhostFight.unity
+    guid: 6de8611e27b199e49b42ca8e61109018
+  - enabled: 1
+    path: Assets/Scenes/Scene5.unity
+    guid: 2328a3bd7bc55fb44b6f7d9ef7edc9cc
+  - enabled: 1
+    path: Assets/Scenes/Scene6.unity
+    guid: 5af7984781f782346a22df39974bc4ed
   m_configObjects:
     Niantic.Lightship.AR.LightshipSettings: {fileID: 11400000, guid: 1adebb225450d43d792b3fd931de6645,
       type: 2}

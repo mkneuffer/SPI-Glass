@@ -160,6 +160,53 @@ public class DialogueManager : MonoBehaviour
             });
         }
 
+        
+        currentStory.BindExternalFunction("SwitchToMap", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        });
+
+        currentStory.BindExternalFunction("SwitchToScene1", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        });
+
+        currentStory.BindExternalFunction("SwitchToScene2", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        });
+
+        currentStory.BindExternalFunction("SwitchToObjectDetection", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+        });
+
+        currentStory.BindExternalFunction("SwitchToScene3", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+        });
+
+        currentStory.BindExternalFunction("SwitchToScene4", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+        });
+
+        currentStory.BindExternalFunction("SwitchToGhostFight", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+        });
+
+        currentStory.BindExternalFunction("SwitchToScene5", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+        });
+
+        currentStory.BindExternalFunction("SwitchToScene6", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(8);
+        });
+
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -219,8 +266,16 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.05f);
-        currentStory.UnbindExternalFunction("startPuzzle");
-        currentStory.UnbindExternalFunction("startFight");
+        if (puzzleManager != null)
+        {
+            currentStory.UnbindExternalFunction("startPuzzle");
+        }
+        
+        if (ghostManager != null)
+        {
+            currentStory.UnbindExternalFunction("startFight");
+        }
+        
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
@@ -408,4 +463,8 @@ public class DialogueManager : MonoBehaviour
         currentStory.ChooseChoiceIndex(choiceIndex);
         ContinueStory();
     }
+
+   
 }
+
+

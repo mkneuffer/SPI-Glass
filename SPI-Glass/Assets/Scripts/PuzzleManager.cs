@@ -15,6 +15,7 @@ public class PuzzleManager : MonoBehaviour
     private int zValue1;
     private int zValue2;
     private int zValue3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +35,8 @@ public class PuzzleManager : MonoBehaviour
         if (puzzleSolved == true)
         {
             continueHolyWater();
+            puzzleSolved = false;
+            
         }
     }
 
@@ -45,7 +48,7 @@ public class PuzzleManager : MonoBehaviour
         }
     }
 
-    void continueHolyWater ()
+    void continueHolyWater()
     {
         setCanvasState(false);
         dialogueManager.EnterDialogueMode(inkJSON, true);
@@ -96,7 +99,7 @@ public class PuzzleManager : MonoBehaviour
         checkSolved();
     }
 
-    public void setCanvasState (bool state) //i = 0 to make canvas invisible, 1 to make canvas visible
+    public void setCanvasState (bool state)
     {
         puzzleCanvas.SetActive(state);
     }

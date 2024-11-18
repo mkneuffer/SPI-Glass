@@ -1,3 +1,5 @@
+EXTERNAL SwitchToMap()
+
 You don’t stay long in the Ghost World after that. #portrait:0 #speaker:0 #layout:left
 In the Living World, you stand quietly.
 There’s a faint feeling of sorrow in your chest.
@@ -23,7 +25,7 @@ You shrug in response and click on the article. #speaker:0 #portrait:0
 ... #speaker:Archibald #portrait:archibald
 Archibald is quiet for a moment before letting out an incredulous laugh. #speaker:0 #portrait:0
 I think I understand why he was so angry now. What a good friend he made. #speaker:Archibald #portrait:archibald
-<em>The Holy Grail was found in 1331 by Sir Tristan Beaumont. #speaker:0 #portrait:0
+The Holy Grail was found in 1331 by Sir Tristan Beaumont. #speaker:0 #portrait:0
 Upon his return, he was given the highest honor by the Pope of the Old Church. He was given the title of Count and gifted a piece of land by the monarchy for his achievements.
 At the end of the year, Sir Tristan gave a speech at  Christmas mass, dedicating part of it to his close friend, Sir Reginald Norwood, who embarked with him on the journey to find the Holy Grail.
 Unfortunately, Sir Reginald lost his life near the end of the journey.
@@ -31,5 +33,6 @@ Sir Tristan asks the people to remember his friend, and that the honor bestowed 
 “After all, without Reginald, I would have never found the Holy Grail."
 "He contributed to finding it as much as I did. He gave his life for a noble cause."
 He was my best friend and a valiant knight.
-I will miss him dearly.”</em>
+I will miss him dearly.”
+~ SwitchToMap()
 -> END

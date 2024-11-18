@@ -1,3 +1,5 @@
+EXTERNAL SwitchToScene6()
+
 Finish him with the sword! #speaker:Archibald #portrait:archibald
 The knight ghost struggles to regain his bearings — but you don’t give him the chance. #speaker:0 #portrait:0
 You strike him, the holy sword stabbing cleanly through him.
@@ -17,4 +19,5 @@ He fades and dissipates into the air. #speaker:0 #portrait:0
 In the end, the Knight Ghost doesn’t get the answer to his questions.
 After all, Archibald wasn’t Tristan.
 // Get quest reward
+~SwitchToScene6()
 -> END
