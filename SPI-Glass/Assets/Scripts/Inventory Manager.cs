@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using Unity.VisualScripting;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -31,8 +32,16 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        CheckForHolyGrail();
     }
+
+    private void CheckForHolyGrail()
+{
+    if (FindItemByName("Holy Grail Replica") != null)
+    {
+        SceneManager.LoadScene(3);
+    }
+}
 
     public List<ItemData> GetInventory()
     {

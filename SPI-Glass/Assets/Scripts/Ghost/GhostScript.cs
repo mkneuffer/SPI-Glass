@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.SceneManagement;
 
 public class GhostMovement : MonoBehaviour
 {
@@ -166,6 +167,7 @@ public class GhostMovement : MonoBehaviour
             if(phase >= 3) {
                 Debug.Log("End fight");
                 Destroy(gameObject);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(7);
             } else {
                 health = 10;
                 Debug.Log("Phase: " + phase);

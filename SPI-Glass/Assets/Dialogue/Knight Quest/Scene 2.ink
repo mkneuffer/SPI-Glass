@@ -1,3 +1,5 @@
+EXTERNAL SwitchToObjectDetection()
+
 Stop. #speaker:Archibald #portrait:archibald #layout:left
 You’ve already stopped in your tracks before Archibald told you to — the EMF reader is flashing orange. #portrait:0 #speaker:0
 Dangerous, for sure, but it could be worse.
@@ -68,4 +70,6 @@ A grail is a good idea. #portrait:0 #speaker:0
 You certainly don’t have one sitting in your backpack, so the next best thing would be making your own.
 There are trees nearby, you can probably put sticks together in the shape of a grail.
 You tell Archibald to keep watch of the knight ghost as you head towards the trees.
+
+~SwitchToObjectDetection()
 -> END
