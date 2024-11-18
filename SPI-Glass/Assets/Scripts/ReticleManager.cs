@@ -39,11 +39,11 @@ public class ReticleManager : MonoBehaviour
             return;
         }
 
-        if (!IsPointerOverUI())
-        {
-            MoveReticle();
-            HandleInteraction();
-        }
+        //if (!IsPointerOverUI())
+        //{
+        MoveReticle();
+        HandleInteraction();
+        //}
     }
 
     private bool IsPointerOverUI()
@@ -95,18 +95,26 @@ public class ReticleManager : MonoBehaviour
             return;
         }
 
-        Collider[] hitColliders = Physics.OverlapSphere(reticle.transform.position, interactionRadius, ghostLayer);
+        if (!(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began || Input.GetMouseButtonDown(0)))
+        {
+            return;
+        }
 
+        Collider[] hitColliders = Physics.OverlapSphere(reticle.transform.position, interactionRadius, ghostLayer);
         if (hitColliders.Length > 0)
         {
+            Debug.Log("HIT1");
             foreach (Collider hitCollider in hitColliders)
             {
                 GameObject hitObject = hitCollider.gameObject;
+                Debug.Log("HIT");
 
                 if (hitObject.CompareTag("Ghost"))
                 {
+                    Debug.Log("HIT GHOST");
                     if (isFlashlightEnabled)
                     {
+                        Debug.Log("HIT GHOST FLASHLIFGT");
                         flashlightManager.StunGhost();
                     }
                     else if (Input.GetMouseButtonDown(0))
