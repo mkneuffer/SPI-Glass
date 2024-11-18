@@ -1,3 +1,5 @@
+EXTERNAL SwitchToMap()
+
 The echo of your shoes against concrete is the only thing you hear wandering around the city. #speaker:0 #portrait:0 #layout:left
 You aren’t quite sure what you’re looking for — only that you’ve made it part of your routine to wander around at night in hopes of stumbling across something supernatural.
 You need to make yourself useful as a recently joined member of the Society for Paranormal Investigators.
@@ -61,4 +63,6 @@ What if you really are being tricked?
 You have your backpack full of gadgets and tools for ghost exorcism.
 As long as you’re careful, you should be able to handle anything.
 And you’re absolutely confident you can exorcise Archibald with just the holy water in your hand if he’s lying.
+
+~SwitchToMap()
 -> END

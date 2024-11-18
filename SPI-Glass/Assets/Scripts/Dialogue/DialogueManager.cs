@@ -160,6 +160,13 @@ public class DialogueManager : MonoBehaviour
             });
         }
 
+        
+        currentStory.BindExternalFunction("switchToMap", () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        });
+
+
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -408,4 +415,8 @@ public class DialogueManager : MonoBehaviour
         currentStory.ChooseChoiceIndex(choiceIndex);
         ContinueStory();
     }
+
+   
 }
+
+
