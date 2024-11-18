@@ -20,7 +20,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private InventoryManager InventoryManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
-    
+
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -65,14 +65,21 @@ public class DialogueManager : MonoBehaviour
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
         }
-        grail.onClick.AddListener(OnContinueClick); // For grail cutscene
+        if (grail != null)
+        {
+            grail.onClick.AddListener(OnContinueClick); // For grail cutscene
+        }
 
     }
 
-    public void OnContinueClick() {
-        if (currentStory.canContinue) {
+    public void OnContinueClick()
+    {
+        if (currentStory.canContinue)
+        {
             ContinueStory();
-        } else{
+        }
+        else
+        {
             StartCoroutine(ExitDialogueMode());
         }
     }
@@ -115,29 +122,43 @@ public class DialogueManager : MonoBehaviour
         isDialoguePlaying = true;
         dialoguePanel.SetActive(true);
 
-        currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+        if (puzzleManager != null)
         {
-            puzzleManager.setCanvasState(true);
-        });
+            currentStory.BindExternalFunction("startPuzzle", (string puzzleName) =>
+            {
+                puzzleManager.setCanvasState(true);
+            });
+        }
 
-        currentStory.BindExternalFunction("addItem", (string itemName) => {
-            ItemData item = InventoryManager.FindItemByName(itemName);
-            if(item != null) {
-                InventoryManager.addItem(item);
-            }
-        });
-
-        currentStory.BindExternalFunction("removeItem", (string itemName) => {
-            ItemData item = InventoryManager.FindItemByName(itemName);
-            if(item != null) {
-                InventoryManager.RemoveItemByType(item);
-            }
-        });
-
-        currentStory.BindExternalFunction("startFight", (string start) =>
+        if (InventoryManager != null)
         {
-            ghostManager.startGhostFight();
-        });
+            currentStory.BindExternalFunction("addItem", (string itemName) =>
+            {
+                ItemData item = InventoryManager.FindItemByName(itemName);
+                if (item != null)
+                {
+                    InventoryManager.addItem(item);
+                }
+            });
+
+
+            currentStory.BindExternalFunction("removeItem", (string itemName) =>
+            {
+                ItemData item = InventoryManager.FindItemByName(itemName);
+                if (item != null)
+                {
+                    InventoryManager.RemoveItemByType(item);
+                }
+            });
+        }
+
+        if (ghostManager != null)
+        {
+            currentStory.BindExternalFunction("startFight", (string start) =>
+            {
+                ghostManager.startGhostFight();
+            });
+        }
 
         //Reset display name, portrait and layout
         displayNameText.text = "???";
@@ -295,7 +316,7 @@ public class DialogueManager : MonoBehaviour
                     {
                         SpeakerFrame.SetActive(false);
                     }
-                    
+
                     break;
 
                 case PORTRAIT_TAG:
@@ -308,7 +329,7 @@ public class DialogueManager : MonoBehaviour
                     {
                         PortraitFrame.SetActive(false);
                     }
-                    
+
                     break;
 
                 case LAYOUT_TAG:
@@ -331,14 +352,16 @@ public class DialogueManager : MonoBehaviour
 
                 case "add_item":
                     ItemData itemToAdd = InventoryManager.FindItemByName(tagValue);
-                    if(itemToAdd != null) {
+                    if (itemToAdd != null)
+                    {
                         InventoryManager.addItem(itemToAdd);
                     }
                     break;
 
                 case "remove_item":
                     ItemData itemToRemove = InventoryManager.FindItemByName(tagValue);
-                    if(itemToRemove != null) {
+                    if (itemToRemove != null)
+                    {
                         InventoryManager.addItem(itemToRemove);
                     }
                     break;

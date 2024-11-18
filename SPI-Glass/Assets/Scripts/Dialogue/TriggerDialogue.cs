@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerDialogue : MonoBehaviour
+public class TestTriggerDialogue : MonoBehaviour
 {
-    public TextAsset inkJSON;
+    public TextAsset inkJSONChoice;
+    public TextAsset inkJSONNoChoice;
     public bool state = false;
 
     // Update is called once per frame
@@ -12,7 +13,7 @@ public class TriggerDialogue : MonoBehaviour
     {
         if (state == false)
         {
-            DialogueManager.GetInstance().EnterDialogueMode(inkJSON, true);
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSONChoice, true);
             state = true;
         }
     }

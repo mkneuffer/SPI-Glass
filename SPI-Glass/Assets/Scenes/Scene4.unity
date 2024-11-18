@@ -255,6 +255,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10608682}
   m_CullTransparentMesh: 1
+--- !u!1 &95655133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8038516889464145675, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 327208027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &95655134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5309935993888123051, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 327208027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &95655135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5071160359894943937, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 327208027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &179258224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,7 +2046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1289427146}
-  - component: {fileID: 1289427145}
+  - component: {fileID: 1289427147}
   m_Layer: 0
   m_Name: TriggerDialogue
   m_TagString: Untagged
@@ -2036,21 +2054,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1289427145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1289427144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inkJSONChoice: {fileID: 4900000, guid: 3663b479b8b76ba4cba04d7ae3de9794, type: 3}
-  inkJSONNoChoice: {fileID: 0}
-  state: 0
 --- !u!4 &1289427146
 Transform:
   m_ObjectHideFlags: 0
@@ -2066,6 +2069,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1289427147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289427144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114bc747af42b42418fbd4711e221de2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inkJSON: {fileID: 4900000, guid: 3663b479b8b76ba4cba04d7ae3de9794, type: 3}
+  state: 0
+--- !u!114 &1417940549 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7185659864955202644, guid: dc6f99f3229769d4ebcb863d913c6295,
+    type: 3}
+  m_PrefabInstance: {fileID: 327208027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1485638419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,14 +2436,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialoguePanel: {fileID: 327208030}
   dialogueText: {fileID: 327208029}
-  displayNameText: {fileID: 0}
+  displayNameText: {fileID: 1417940549}
   portraitAnimator: {fileID: 327208032}
   PortraitFrame: {fileID: 327208033}
   SpeakerFrame: {fileID: 327208031}
   puzzleManager: {fileID: 1720826656}
   ghostManager: {fileID: 272213237}
+  InventoryManager: {fileID: 0}
   automaticTextSpeedPerWord: 0
-  choices: []
+  choices:
+  - {fileID: 95655133}
+  - {fileID: 95655134}
+  - {fileID: 95655135}
+  grail: {fileID: 0}
 --- !u!4 &2025253961
 Transform:
   m_ObjectHideFlags: 0
