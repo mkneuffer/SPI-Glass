@@ -13,6 +13,11 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 1f;
     [SerializeField] private float lowerScreenLimit = 200f;
+    [SerializeField] private GameObject interactionDetectorPrefab;
+    [SerializeField] private float maxDistance =  50f;
+    [SerializeField] private float scaleSpeed = 5f;
+
+    private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
     private bool isHolyWaterEnabled = false;
     private bool isMenuOpen = false;
@@ -95,11 +100,12 @@ public class ReticleManager : MonoBehaviour
             return;
         }
 
-        if (!(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began || Input.GetMouseButtonDown(0)))
+        if (!IsInteractionInput())
         {
-            return;
+            LaunchDetector();
         }
 
+        Vector3 interactionPosition = GetInteractionPosition();
         Collider[] hitColliders = Physics.OverlapSphere(reticle.transform.position, interactionRadius, ghostLayer);
         if (hitColliders.Length > 0)
         {
@@ -111,19 +117,83 @@ public class ReticleManager : MonoBehaviour
 
                 if (hitObject.CompareTag("Ghost"))
                 {
-                    Debug.Log("HIT GHOST");
-                    if (isFlashlightEnabled)
-                    {
-                        Debug.Log("HIT GHOST FLASHLIFGT");
-                        flashlightManager.StunGhost();
-                    }
-                    else if (Input.GetMouseButtonDown(0))
-                    {
-                        ghostMovement.HandleHealth(1);
-                    }
+                    RegisterHit(hitObject);
                 }
             }
         }
+    }
+
+    private void LaunchDetector() {
+        if(activeDetector != null) {
+            Destroy(activeDetector);
+        }
+        activeDetector = Instantiate(interactionDetectorPrefab, reticle.transform.position, Quaternion.identity);
+        StartCoroutine(ScaleDetector());
+    }
+
+    private IEnumerator ScaleDetector() {
+        Vector3 initialScale = Vector3.zero;
+        Vector3 maxScale = new Vector3(1f, 1f, maxDistance);
+
+        while(activeDetector != null) {
+            activeDetector.transform.localScale = Vector3.MoveTowards(activeDetector.transform.localScale, maxScale, scaleSpeed * Time.deltaTime);
+
+            Collider[] hitColliders = Physics.OverlapBox(
+            activeDetector.transform.position, 
+            activeDetector.transform.localScale / 2, 
+            activeDetector.transform.rotation, 
+            ghostLayer
+        );
+
+            foreach(Collider hitCollider in hitColliders) {
+                GameObject hitObject = hitCollider.gameObject;
+                if(hitObject.CompareTag("Ghost")) {
+                    RegisterHit(hitObject);
+                    Destroy(activeDetector);
+                    yield break;
+                }
+            }
+
+            if(activeDetector.transform.localScale.z >= maxDistance) {
+                Destroy(activeDetector);
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    private void RegisterHit(GameObject hitObject) {
+        Debug.Log($"Hit: {hitObject.name}");
+        if (isFlashlightEnabled)
+        {
+            Debug.Log("HIT GHOST STUNNED");
+            flashlightManager.StunGhost();
+        }
+        else if (isHolyWaterEnabled)
+        {
+            ghostMovement.HandleHealth(1);
+        } else {
+            return;
+        }
+}
+
+    private bool IsInteractionInput() {
+        return(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0);
+    }
+
+    private Vector3 GetInteractionPosition() {
+        Vector3 interactionPosition;
+        if(Input.mousePresent) {
+            interactionPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            interactionPosition.z = 0f;
+        } else if(Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+            interactionPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            interactionPosition.z = 0f;
+        } else {
+            interactionPosition = reticle.transform.position;
+        }
+        return interactionPosition;
     }
 
     public void SelectFlashlight(bool isActive)
