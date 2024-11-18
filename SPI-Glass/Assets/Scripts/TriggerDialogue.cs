@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TestTriggerDialogue : MonoBehaviour
 {
-    public TextAsset inkJSONChoice;
-    public TextAsset inkJSONNoChoice;
+    public TextAsset inkJSON;
     public bool state = false;
 
     // Update is called once per frame
@@ -13,7 +12,7 @@ public class TestTriggerDialogue : MonoBehaviour
     {
         if (state == false)
         {
-            DialogueManager.GetInstance().EnterDialogueMode(inkJSONChoice, true);
+            DialogueManager.GetInstance().EnterDialogueMode(inkJSON, true);
             state = true;
         }
     }

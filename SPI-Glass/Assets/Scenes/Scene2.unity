@@ -261,8 +261,10 @@ MonoBehaviour:
   SpeakerFrame: {fileID: 1304579716}
   puzzleManager: {fileID: 0}
   ghostManager: {fileID: 0}
+  InventoryManager: {fileID: 0}
   automaticTextSpeedPerWord: 0
   choices: []
+  grail: {fileID: 0}
 --- !u!4 &557575881
 Transform:
   m_ObjectHideFlags: 0
@@ -287,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 590437800}
-  - component: {fileID: 590437799}
+  - component: {fileID: 590437801}
   m_Layer: 0
   m_Name: TriggerDialogue
   m_TagString: Untagged
@@ -295,21 +297,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &590437799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 590437798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inkJSONChoice: {fileID: 4900000, guid: efb24e9b23f8bd14385140a17028497e, type: 3}
-  inkJSONNoChoice: {fileID: 0}
-  state: 0
 --- !u!4 &590437800
 Transform:
   m_ObjectHideFlags: 0
@@ -325,6 +312,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &590437801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590437798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114bc747af42b42418fbd4711e221de2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inkJSON: {fileID: 4900000, guid: efb24e9b23f8bd14385140a17028497e, type: 3}
+  state: 0
 --- !u!1001 &1304579714
 PrefabInstance:
   m_ObjectHideFlags: 0
