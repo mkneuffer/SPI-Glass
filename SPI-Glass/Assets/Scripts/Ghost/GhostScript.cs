@@ -164,7 +164,7 @@ public class GhostMovement : MonoBehaviour
         if(health <= 0) {
             phase++;
 
-            if(phase >= 3) {
+            if(phase > 3) {
                 Debug.Log("End fight");
                 Destroy(gameObject);
                 UnityEngine.SceneManagement.SceneManager.LoadScene(7);
