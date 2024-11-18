@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 
 public class ReticleManager : MonoBehaviour
 {
-    [SerializeField] private GameObject reticle; 
-    [SerializeField] private LayerMask ghostLayer; 
-    [SerializeField] private FlashlightHitboxManager flashlightManager; 
+    [SerializeField] private GameObject reticle;
+    [SerializeField] private LayerMask ghostLayer;
+    [SerializeField] private FlashlightHitboxManager flashlightManager;
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 1f;
@@ -16,14 +16,15 @@ public class ReticleManager : MonoBehaviour
     private bool isFlashlightEnabled = false;
     private bool isHolyWaterEnabled = false;
     private bool isMenuOpen = false;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
         //SetReticleVisibility(false);
 
-        if(Camera.main == null) {
+        if (Camera.main == null)
+        {
             Debug.Log("Error with camera");
         }
     }
@@ -32,30 +33,41 @@ public class ReticleManager : MonoBehaviour
     void Update()
     {
 
-        if(isMenuOpen) {
+        if (isMenuOpen)
+        {
             //SetReticleVisibility(false);
             return;
         }
 
-        if(!IsPointerOverUI()) {
+        if (!IsPointerOverUI())
+        {
             MoveReticle();
             HandleInteraction();
         }
     }
 
-    private bool IsPointerOverUI() {
+    private bool IsPointerOverUI()
+    {
         return EventSystem.current.IsPointerOverGameObject();
     }
 
 
-    private void MoveReticle() {
-        if(Camera.main == null || reticle == null) {
+    private void MoveReticle()
+    {
+        if (Camera.main == null || reticle == null)
+        {
             Debug.Log("Error!");
             return;
         }
 
         Vector3 mousePos = Input.mousePosition;
-        if(mousePos.y < lowerScreenLimit) {
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        {
+            Touch touch = Input.GetTouch(0);
+            mousePos = touch.position;
+        }
+        if (mousePos.y < lowerScreenLimit)
+        {
             return;
         }
         mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
@@ -63,9 +75,12 @@ public class ReticleManager : MonoBehaviour
         mousePos.z = 10f;
         //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
-        if(reticle != null) {
+        if (reticle != null)
+        {
             reticle.transform.position = mousePos;
-        } else {
+        }
+        else
+        {
             Debug.Log("Error with reticle");
         }
         Vector3 reticleWorldPos = Camera.main.ScreenToWorldPoint(reticle.transform.position);
@@ -74,7 +89,8 @@ public class ReticleManager : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if(reticle == null) {
+        if (reticle == null)
+        {
             Debug.Log("Error!");
             return;
         }
@@ -102,25 +118,28 @@ public class ReticleManager : MonoBehaviour
         }
     }
 
-    public void SelectFlashlight(bool isActive) {
+    public void SelectFlashlight(bool isActive)
+    {
         isFlashlightEnabled = isActive;
         isHolyWaterEnabled = false;
         //SetReticleVisibility(isFlashlightEnabled);
     }
 
-    public void SelectHolyWater(bool isActive) {
+    public void SelectHolyWater(bool isActive)
+    {
         isHolyWaterEnabled = isActive;
         isFlashlightEnabled = false;
         //SetReticleVisibility(isHolyWaterEnabled);
     }
-/*
-    private void SetReticleVisibility(bool isVisible) {
-        if(reticle != null) {
-            reticle.SetActive(isVisible);
+    /*
+        private void SetReticleVisibility(bool isVisible) {
+            if(reticle != null) {
+                reticle.SetActive(isVisible);
+            }
         }
-    }
-*/
-    public void ToggleMenu(bool isOpen) {
+    */
+    public void ToggleMenu(bool isOpen)
+    {
         isMenuOpen = isOpen;
         //SetReticleVisibility(false);
     }

@@ -17,7 +17,7 @@ public class MoveGhost : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-  
+        Invoke("PutGhostInSpawn", 1);
     }
 
     // Update is called once per frame
@@ -25,18 +25,31 @@ public class MoveGhost : MonoBehaviour
     {
         if (startFight == true)
         {
-            Invoke("SpawnGhost", 1);
+            //Invoke("PutGhostInSpawn", 1);
+
             startFight = false;
         }
 
     }
 
     //Spawns the ghost at the cameras location
-    void SpawnGhost()
+    /*void SpawnGhost()
     {
         Quaternion rotation = Quaternion.identity;
         rotation.Set(rotation.x, Camera.main.transform.rotation.y + 180.0f, rotation.z, rotation.w);
         Instantiate(ghost, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3, rotation);
+    }*/
+
+    void PutGhostInSpawn()
+    {
+        Debug.Log(ghost.transform.position);
+        Quaternion rotation = Quaternion.identity;
+        rotation.Set(rotation.x, Camera.main.transform.rotation.y + 180.0f, rotation.z, rotation.w);
+        ghost.transform.position = cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 3;
+        ghost.transform.rotation = rotation;
+        Debug.Log(ghost.transform.position);
+        ghost.SetActive(true);
+
     }
 
     public void startGhostFight()
