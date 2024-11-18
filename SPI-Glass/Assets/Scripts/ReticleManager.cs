@@ -12,7 +12,7 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 1f;
-    [SerializeField] private float lowerScreenLimit = 200f;
+    [SerializeField] private float lowerScreenLimit = 100f;
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance =  50f;
     [SerializeField] private float scaleSpeed = 5f;
@@ -64,32 +64,46 @@ public class ReticleManager : MonoBehaviour
             Debug.Log("Error!");
             return;
         }
+        Vector3 mousePos;
 
-        Vector3 mousePos = Input.mousePosition;
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
-        {
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
             Touch touch = Input.GetTouch(0);
             mousePos = touch.position;
         }
-        if (mousePos.y < lowerScreenLimit)
-        {
+        else if (Input.mousePresent) {
+            mousePos = Input.mousePosition;
+        } else {
+            Debug.Log("No valid input detected!");
             return;
         }
+
+        if(mousePos.y < lowerScreenLimit) {
+            return;
+        }
+
         mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
         mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
-        mousePos.z = 10f;
-        //Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
+        if (float.IsInfinity(mousePos.x) || float.IsInfinity(mousePos.y)) {
+            Debug.Log("Set to infinity; resetting mouse position");
+            mousePos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        }
+
+        float depth = Camera.main.nearClipPlane + 1f;
+        mousePos.z = depth;
+
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
         if (reticle != null)
         {
-            reticle.transform.position = mousePos;
+            reticle.transform.position = worldPosition;
         }
         else
         {
             Debug.Log("Error with reticle");
         }
-        Vector3 reticleWorldPos = Camera.main.ScreenToWorldPoint(reticle.transform.position);
-        reticleWorldPos.z = 0f;
+
+        Debug.Log($"Mouse Position: {mousePos}, World Position: {worldPosition}");
     }
 
     private void HandleInteraction()
@@ -181,16 +195,23 @@ public class ReticleManager : MonoBehaviour
         return(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0);
     }
 
+
     private Vector3 GetInteractionPosition() {
         Vector3 interactionPosition;
+
         if(Input.mousePresent) {
-            interactionPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            interactionPosition.z = 0f;
+            float depth = Camera.main.nearClipPlane + 1f;
+            interactionPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, depth));
         } else if(Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
-            interactionPosition = Camera.main.ScreenToWorldPoint(touch.position);
-            interactionPosition.z = 0f;
+            float depth = Camera.main.nearClipPlane + 1f;
+            interactionPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, depth));
         } else {
+            interactionPosition = reticle.transform.position;
+        }
+
+        if (float.IsInfinity(interactionPosition.x) || float.IsInfinity(interactionPosition.y)) {
+            Debug.Log("Interaction position set to infinity; resetting position");
             interactionPosition = reticle.transform.position;
         }
         return interactionPosition;
