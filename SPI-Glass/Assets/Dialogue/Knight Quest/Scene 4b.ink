@@ -1,8 +1,4 @@
-EXTERNAL startFight(start)
-EXTERNAL addItem(itemName)
-
 It comes out just as the knight ghost returns. #speaker:0 #portrait:0 #layout:left
-~ addItem("Excalibur")
 You feel the malicious energy rolling off of him in waves.
 The crushed grail in his hands drops onto the ground as he glares vehemently at you.
 He’s weaker now, look at your EMF reader. #speaker:Archibald #portrait:archibald
@@ -23,5 +19,4 @@ I will… I must…
 My sword… give me my sword!
 Crazy bastard. #speaker:Archibald #portrait:archibald
 Get ready, human.
-~startFight("start")
 -> END

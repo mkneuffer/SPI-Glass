@@ -219,8 +219,16 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.05f);
-        currentStory.UnbindExternalFunction("startPuzzle");
-        currentStory.UnbindExternalFunction("startFight");
+        if (puzzleManager != null)
+        {
+            currentStory.UnbindExternalFunction("startPuzzle");
+        }
+        
+        if (ghostManager != null)
+        {
+            currentStory.UnbindExternalFunction("startFight");
+        }
+        
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
