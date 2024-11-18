@@ -16,6 +16,8 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance =  50f;
     [SerializeField] private float scaleSpeed = 5f;
+    private int mouseClicks;
+    private Vector3 worldPos;
 
     private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
@@ -66,7 +68,9 @@ public class ReticleManager : MonoBehaviour
         }
         Vector3 mousePos;
 
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) {
+        
+
+        if (Input.touchCount > 1 && Input.touches[0].phase == TouchPhase.Began) {
             Touch touch = Input.GetTouch(0);
             mousePos = touch.position;
         }
@@ -77,12 +81,13 @@ public class ReticleManager : MonoBehaviour
             return;
         }
 
-        if(mousePos.y < lowerScreenLimit) {
-            return;
-        }
+        //if(mousePos.y < lowerScreenLimit) {
+        //    return;
+        //}
 
         mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
         mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
+
 
         if (float.IsInfinity(mousePos.x) || float.IsInfinity(mousePos.y)) {
             Debug.Log("Set to infinity; resetting mouse position");
@@ -96,13 +101,14 @@ public class ReticleManager : MonoBehaviour
 
         if (reticle != null)
         {
-            reticle.transform.position = worldPosition;
+            reticle.transform.position = mousePos;
+            
         }
         else
         {
             Debug.Log("Error with reticle");
         }
-
+        worldPos = worldPosition;
         Debug.Log($"Mouse Position: {mousePos}, World Position: {worldPosition}");
     }
 
@@ -120,7 +126,7 @@ public class ReticleManager : MonoBehaviour
         }
 
         Vector3 interactionPosition = GetInteractionPosition();
-        Collider[] hitColliders = Physics.OverlapSphere(reticle.transform.position, interactionRadius, ghostLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(worldPos, interactionRadius, ghostLayer);
         if (hitColliders.Length > 0)
         {
             Debug.Log("HIT1");
