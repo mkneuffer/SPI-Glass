@@ -1,35 +1,64 @@
-You don’t stay long in the Ghost World after that. #portrait:0 #speaker:0 #layout:left
-In the Living World, you stand quietly.
-There’s a faint feeling of sorrow in your chest.
-Archibald seems to have followed you back as well, a cheerful look on his face.
-Good job, human! #speaker:Archibald #portrait:archibald
-Honestly, I didn’t think you had it in you.
-I can finally be at peace now that the lunatic knight is off my case.
-You stare at him. #speaker:0 #portrait:0
-His tone has changed significantly from before you exorcized the knight ghost.
-Why does he seem a lot more haughty now?
-Who the hell even was Tristan anyway? #speaker:Archibald #portrait:archibald
-You’re curious about that too. #speaker:0 #portrait:0
-The Holy Grail was a thing that really existed, you know? #speaker:Archibald
-When I was still alive, it wasn’t found yet.
-It’s been so long, it must’ve been found by now, right?
-He prods you with his finger. His pointer finger sinks straight into your shoulder. #speaker:0 #portrait:0
-As a result, your right shoulder now feels a bit cold.
-You should look it up on that device you modern humans have. #speaker:Archibald #portrait:archibald
-That is a good idea. #speaker:0 #portrait:0
-You pull out your phone. The first result shows you an oil painting of a blonde man.
-First of all, I don’t even look like this guy. Is it because we’re both blonde? #speaker:Archibald #portrait:archibald
-You shrug in response and click on the article. #speaker:0 #portrait:0
-... #speaker:Archibald #portrait:archibald
-Archibald is quiet for a moment before letting out an incredulous laugh. #speaker:0 #portrait:0
-I think I understand why he was so angry now. What a good friend he made. #speaker:Archibald #portrait:archibald
-The Holy Grail was found in 1331 by Sir Tristan Beaumont. #speaker:0 #portrait:0
-Upon his return, he was given the highest honor by the Pope of the Old Church. He was given the title of Count and gifted a piece of land by the monarchy for his achievements.
-At the end of the year, Sir Tristan gave a speech at  Christmas mass, dedicating part of it to his close friend, Sir Reginald Norwood, who embarked with him on the journey to find the Holy Grail.
-Unfortunately, Sir Reginald lost his life near the end of the journey.
-Sir Tristan asks the people to remember his friend, and that the honor bestowed on him should be his too.
-“After all, without Reginald, I would have never found the Holy Grail."
-"He contributed to finding it as much as I did. He gave his life for a noble cause."
-He was my best friend and a valiant knight.
-I will miss him dearly.”
+The echo of your shoes against concrete is the only thing you hear wandering around the city. #speaker:0 #portrait:0 #layout:left
+You aren’t quite sure what you’re looking for — only that you’ve made it part of your routine to wander around at night in hopes of stumbling across something supernatural.
+You need to make yourself useful as a recently joined member of the Society for Paranormal Investigators.
+After training, you were assigned to this city.
+You haven’t contributed anything to SPI since joining over a month prior — no information provided, no ghosts exorcized.
+It’s a little embarrassing.
+You hold your EMF reader in your hand, but it isn’t turned on.
+No need to waste battery. In the time you’ve been in this city, you’ve never run into anything supernatural.
+You feel a little wronged, sent to a city with barely any supernatural activity.
+How are you supposed to prove your worth like this?
+You shiver. The air is colder than usual, but you don’t think too much about it, just that you should’ve worn a thicker jacket.
+That is, until a man materializes right in front of you.
+Immediately, you recognize him as a ghost.
+Even when he’s slightly transparent, you notice the impressive shine of his blonde hair, the deep maroon of his collared jacquard shirt lined with golden patterns, and a cape hanging off his left shoulder in the same design.
+You take a step back, reaching for the bottles of holy water strapped to your work belt.
+This is it. This can be your first contribution to SPI.
+Don’t, don’t! I’m not here to harm you! #speaker:??? #portrait: archibald
+He raises his hands in surrender. #speaker:0 #portrait:0
+You narrow your eyes at his words. Ghosts are known for trickery and you aren’t about to fall for such a blatant lie.
+Of course, not all ghosts are evil and out to harm the living, but it’s better to be safe than sorry.
+This ghost hasn’t taken physical form, and his aura is weak. You’re sure you can exorcise him with just holy water.
+You uncork a bottle of holy water—
+You’re a member of SPI! You can help me. Aren’t you guys all about exorcising ghosts that cause problems? #speaker:??? #portrait:archibald
+The words spill out of the ghost’s mouth at an incredible speed, and you pause. #speaker:0 #portrait:0
+Does it recognize the pin on your jacket?
+Hear me out, I have an offer for you. Don’t kill me and I can help you get rid of a malicious ghost that’ll get you a better reputation in SPI. #speaker:??? #portrait:archibald
+There’s no point in killing me. You noticed already, haven’t you?
+I’m… weak. I barely have any powers and I can’t even physically materialize in the living world anymore.
+He gives you a pleading look. #speaker:0 #portrait:0
+“Anymore?”
+It seems he was formerly a powerful ghost, but lost his powers somehow.
+How sad.
+You don’t care about his plight, but you can’t say you aren’t interested in this proposal.
+This ghost can’t hurt you regardless.
+Tell me about this malicious ghost. #speaker:player #portrait:0
+The ghost sags with relief. #speaker:0 #portrait:0
+There’s a ghost of a medieval knight near here. #speaker:??? #portrait:archibald
+I was only passing by, but he attacked me, which wouldn’t be weird since malicious ghosts like to absorb weaker ghosts to get stronger. 
+But, he called me Tristan and chased me for so long. I only managed to lose him a little way back.
+Before you ask, my name isn’t Tristan. It’s Archibald.
+So now there’s some murderous knight after me for no reason. I can’t float around in peace with the threat of him looming around. #speaker:Archibald #portrait:archibald
+If we get rid of him, it’s a win for both of us.
+-> choice1
+
+=== choice1 ===
+Are you up for the task?
++ [Yes]
+ -> continue
++ [Lead the way]
+ -> continue
+
+=== continue ===
+Frankly, you’re a little scared. #speaker:0 #portrait:0
+You’ve been through the training by SPI, and know the procedures and steps of ghost exorcism.
+However, other than the ghosts you’ve taken out with supervision from senior members, you haven’t taken one on by yourself.
+But… you can do this. You have to.
+Great. You should probably take out your EMF reader and use it to find the knight ghost. I’m not sure if he’s back where I ran into him, or if he’s lingering somewhere else. #speaker:Archibald #portrait:archibald
+Thoughts populate your mind as you turn on the EMF reader and follow Archibald in the general direction of where the knight ghost may be. #speaker:0 #portrait:0
+How does Archibald know about the basics of ghost hunting?
+What if you really are being tricked?
+You have your backpack full of gadgets and tools for ghost exorcism.
+As long as you’re careful, you should be able to handle anything.
+And you’re absolutely confident you can exorcise Archibald with just the holy water in your hand if he’s lying.
 -> END

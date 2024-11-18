@@ -875,11 +875,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1889455790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b41e115252a17498fdb35d88355883, type: 3}
+  m_Script: {fileID: 11500000, guid: 0da4dc0838473574aa3c6c430ecf2701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inkJSONChoice: {fileID: 4900000, guid: f437919dde8d1d94cbda0883676623b5, type: 3}
-  inkJSONNoChoice: {fileID: 4900000, guid: f1468febe4ec56248b8c8d92ba7a01c3, type: 3}
+  inkJSONNoChoice: {fileID: 0}
+  state: 0
 --- !u!95 &2097120311 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1080165946819435934, guid: dc6f99f3229769d4ebcb863d913c6295,
