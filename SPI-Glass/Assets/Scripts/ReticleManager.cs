@@ -11,13 +11,15 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private FlashlightHitboxManager flashlightManager;
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private float raycastDistance = 50f;
-    [SerializeField] private float interactionRadius = 1f;
+    [SerializeField] private float interactionRadius = 100f;
     [SerializeField] private float lowerScreenLimit = 100f;
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance =  50f;
     [SerializeField] private float scaleSpeed = 5f;
     private int mouseClicks;
     private Vector3 worldPos;
+    bool start = false;
+    bool isTouch = false;
 
     private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
@@ -28,6 +30,7 @@ public class ReticleManager : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        SelectFlashlight();
         //SetReticleVisibility(false);
 
         if (Camera.main == null)
@@ -49,7 +52,11 @@ public class ReticleManager : MonoBehaviour
         //if (!IsPointerOverUI())
         //{
         MoveReticle();
-        HandleInteraction();
+        if (isTouch != false)
+        {
+            HandleInteraction();
+        }
+        
         //}
     }
 
@@ -61,24 +68,49 @@ public class ReticleManager : MonoBehaviour
 
     private void MoveReticle()
     {
+        reticle.SetActive(true);
         if (Camera.main == null || reticle == null)
         {
             Debug.Log("Error!");
             return;
         }
         Vector3 mousePos;
-
+        if (start == false)
+        {
+            mousePos.x = 0;
+            mousePos.y = 0;
+            mousePos.z = 0;
+            start = true;
+        }
+        else
+        {
+            mousePos = reticle.transform.position;
+        }
         
 
+
+
         if (Input.touchCount > 1 && Input.touches[0].phase == TouchPhase.Began) {
-            Touch touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(1);
             mousePos = touch.position;
+            Debug.Log("mobile input");
+            isTouch = true;
+            
         }
         else if (Input.mousePresent) {
-            mousePos = Input.mousePosition;
-        } else {
-            Debug.Log("No valid input detected!");
-            return;
+            bool isMouseClick = Input.GetMouseButton(0);
+            if (isMouseClick != false)
+            {
+                mousePos = Input.mousePosition;
+                Debug.Log("input registered");
+                isTouch = true;
+            }
+            else {
+                //Debug.Log("No mouse input detected!");
+                isTouch = false;
+                mousePos.x = 100000;
+                mousePos.y = 100000;
+            }
         }
 
         //if(mousePos.y < lowerScreenLimit) {
@@ -109,7 +141,7 @@ public class ReticleManager : MonoBehaviour
             Debug.Log("Error with reticle");
         }
         worldPos = worldPosition;
-        Debug.Log($"Mouse Position: {mousePos}, World Position: {worldPosition}");
+        //Debug.Log($"Mouse Position: {mousePos}, World Position: {worldPosition}");
     }
 
     private void HandleInteraction()
@@ -129,15 +161,16 @@ public class ReticleManager : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(worldPos, interactionRadius, ghostLayer);
         if (hitColliders.Length > 0)
         {
-            Debug.Log("HIT1");
+            //Debug.Log("HIT1");
             foreach (Collider hitCollider in hitColliders)
             {
                 GameObject hitObject = hitCollider.gameObject;
-                Debug.Log("HIT");
+                //Debug.Log("HIT");
 
                 if (hitObject.CompareTag("Ghost"))
                 {
                     RegisterHit(hitObject);
+                    Debug.Log("Hit registered");
                 }
             }
         }
@@ -191,6 +224,7 @@ public class ReticleManager : MonoBehaviour
         }
         else if (isHolyWaterEnabled)
         {
+            Debug.Log("Hit ghost damaged");
             ghostMovement.HandleHealth(1);
         } else {
             return;
@@ -223,17 +257,21 @@ public class ReticleManager : MonoBehaviour
         return interactionPosition;
     }
 
-    public void SelectFlashlight(bool isActive)
+    public void SelectFlashlight()
     {
-        isFlashlightEnabled = isActive;
+        isFlashlightEnabled = true;
         isHolyWaterEnabled = false;
+        Debug.Log("Flashlight selected");
+        reticle.GetComponent<Image>().color = Color.yellow;
         //SetReticleVisibility(isFlashlightEnabled);
     }
 
-    public void SelectHolyWater(bool isActive)
+    public void SelectHolyWater()
     {
-        isHolyWaterEnabled = isActive;
+        isHolyWaterEnabled = true;
         isFlashlightEnabled = false;
+        Debug.Log("Holy Water selected");
+        reticle.GetComponent<Image>().color = Color.cyan;
         //SetReticleVisibility(isHolyWaterEnabled);
     }
     /*
