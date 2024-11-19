@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class PuzzleManager : MonoBehaviour
         if (zValue1 == 0 && zValue2 == 0 && zValue3 == 0) 
         {
             puzzleSolved = true;
+            SceneManager.LoadScene(6);
         }
     }
 

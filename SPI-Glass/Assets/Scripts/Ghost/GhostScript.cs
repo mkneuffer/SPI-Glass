@@ -1,15 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using UnityEngine.XR.ARFoundation;
-using Vector3 = UnityEngine.Vector3;
 using UnityEngine.SceneManagement;
 
 public class GhostMovement : MonoBehaviour
