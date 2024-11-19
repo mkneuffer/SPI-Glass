@@ -19,7 +19,7 @@ public class GhostMovement : MonoBehaviour
     int counter = 0;
     float BezierCurveT = 0; //Way through each bezier curve
     //private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
-    public float speed; //Value should be around .02
+    public float speed; //Value should be around .01
     private Vector3 startingPosition;
     private Vector3 previousWaypoint;
     [SerializeField] private WaypointStorage waypointStorage1;
@@ -139,9 +139,9 @@ public class GhostMovement : MonoBehaviour
         return output;
     }
 
-    void SetSpeed(float speed)
+    public void SetSpeed(float change)
     {
-        this.speed = speed;
+        speed = change;
     }
 
     float GetSpeed()
@@ -151,7 +151,7 @@ public class GhostMovement : MonoBehaviour
 
     void multSpeed(float mult)
     {
-        this.speed *= mult;
+        speed *= mult;
     }
 
     //Deals with the health value of the ghost
@@ -163,7 +163,7 @@ public class GhostMovement : MonoBehaviour
         Debug.Log("Health: " + health);
         if(health <= 0) {
             phase++;
-
+            Debug.Log("Phase:" + phase);
             if(phase > 3) {
                 Debug.Log("End fight");
                 Destroy(gameObject);
