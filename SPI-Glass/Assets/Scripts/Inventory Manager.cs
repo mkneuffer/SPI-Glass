@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditorInternal.Profiling.Memory.Experimental;
-using Unity.VisualScripting;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -40,7 +38,7 @@ public class InventoryManager : MonoBehaviour
 {
     if (FindItemByName("Holy Grail Replica") != null)
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 }
 
