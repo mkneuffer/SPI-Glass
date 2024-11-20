@@ -21,7 +21,6 @@ public class ReticleManager : MonoBehaviour
     bool start = false;
     bool isTouch = false;
     int hold = 0;
-    int flashlightHealth = 10;
 
     private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
