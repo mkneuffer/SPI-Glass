@@ -25,6 +25,7 @@ public class GhostMovement : MonoBehaviour
 
     private int health = 20;
     private int flashlightHealth = 60;
+    private int maxFlashlightHealth;
     private int phase = 1;
     public bool isStunned = false;
 
@@ -38,6 +39,7 @@ public class GhostMovement : MonoBehaviour
         currentWaypoint = waypointStorage1;
         previousPosition = startingPosition;
         BezierCurveT = 0;
+        maxFlashlightHealth = flashlightHealth;
         //Invoke("SwapPath", 7);
     }
     // Update is called once per frame
@@ -216,5 +218,10 @@ public class GhostMovement : MonoBehaviour
     public int GetFlashlightHealth()
     {
         return flashlightHealth;
+    }
+
+    public void ResetFlashlightHealth()
+    {
+        flashlightHealth = maxFlashlightHealth;
     }
 }

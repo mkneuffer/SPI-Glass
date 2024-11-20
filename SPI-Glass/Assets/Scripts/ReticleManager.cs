@@ -169,7 +169,7 @@ public class ReticleManager : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(worldPos, interactionRadius, ghostLayer);
         if (hitColliders.Length > 0)
         {
-            //Debug.Log("HIT1");
+            //Debug.Log("HIT0");
             foreach (Collider hitCollider in hitColliders)
             {
                 GameObject hitObject = hitCollider.gameObject;

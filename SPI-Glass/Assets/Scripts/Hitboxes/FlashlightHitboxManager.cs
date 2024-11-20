@@ -34,6 +34,7 @@ public class FlashlightHitboxManager : MonoBehaviour
             ghostMovement.SetSpeed(0);
             Debug.Log("Ghost is stunned!");
             stunTimer = stunTime;
+            ghostMovement.ResetFlashlightHealth();
             StartCoroutine(stunCountdown());
         }
     }
