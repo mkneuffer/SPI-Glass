@@ -464,7 +464,10 @@ public class DialogueManager : MonoBehaviour
         ContinueStory();
     }
 
-   
+   public void resetGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
 }
 
 
