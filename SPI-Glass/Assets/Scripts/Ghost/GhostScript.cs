@@ -19,10 +19,11 @@ public class GhostMovement : MonoBehaviour
     [SerializeField] private WaypointStorage waypointStorage2;
     private WaypointStorage currentWaypoint;
     private Vector3 previousPosition;
+    [SerializeField] FlashlightHitboxManager flashlight;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
-    private int health = 10;
+    private int health = 20;
     private int phase = 1;
     public bool isStunned = false;
 
@@ -162,9 +163,10 @@ public class GhostMovement : MonoBehaviour
                 Destroy(gameObject);
                 UnityEngine.SceneManagement.SceneManager.LoadScene(7);
             } else {
-                health = 10;
+                health = 20;
                 Debug.Log("Phase: " + phase);
                 SwapPath();
+                flashlight.stopStun();
             }
         }
     }
