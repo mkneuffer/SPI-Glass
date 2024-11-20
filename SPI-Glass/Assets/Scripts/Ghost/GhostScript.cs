@@ -24,6 +24,8 @@ public class GhostMovement : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
     private int health = 20;
+    private int flashlightHealth = 60;
+    private int maxFlashlightHealth;
     private int phase = 1;
     public bool isStunned = false;
 
@@ -37,22 +39,25 @@ public class GhostMovement : MonoBehaviour
         currentWaypoint = waypointStorage1;
         previousPosition = startingPosition;
         BezierCurveT = 0;
+        maxFlashlightHealth = flashlightHealth;
         //Invoke("SwapPath", 7);
     }
     // Update is called once per frame
     void Update()
     {
+        MoveToPoints(currentWaypoint.GetWaypoints());
+        if (!isStunned)
+        {
             MoveToPoints(currentWaypoint.GetWaypoints());
-            if(!isStunned) {
-                MoveToPoints(currentWaypoint.GetWaypoints());
-            }
+        }
 
-            if(isStunned) {
-                if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
-                {
-                    HandleHealth(1);
-                }
+        if (isStunned)
+        {
+            if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+            {
+                HandleHealth(1);
             }
+        }
     }
 
     //Moves the ghost along the given waypoints
@@ -155,14 +160,18 @@ public class GhostMovement : MonoBehaviour
     {
         health -= amount;
         Debug.Log("Health: " + health);
-        if(health <= 0) {
+        if (health <= 0)
+        {
             phase++;
             Debug.Log("Phase:" + phase);
-            if(phase > 3) {
+            if (phase > 3)
+            {
                 Debug.Log("End fight");
                 Destroy(gameObject);
                 UnityEngine.SceneManagement.SceneManager.LoadScene(7);
-            } else {
+            }
+            else
+            {
                 health = 20;
                 Debug.Log("Phase: " + phase);
                 SwapPath();
@@ -185,16 +194,34 @@ public class GhostMovement : MonoBehaviour
         }
     }
 
-    public void StunGhost(float stunTime) {
-        if(!isStunned) {
+    public void StunGhost(float stunTime)
+    {
+        if (!isStunned)
+        {
             isStunned = true;
             StartCoroutine(StunCoroutine(stunTime));
         }
     }
 
-    private IEnumerator StunCoroutine(float stunTime) {
+    private IEnumerator StunCoroutine(float stunTime)
+    {
         yield return new WaitForSeconds(stunTime);
         isStunned = false;
         Debug.Log("Ghost recovered!");
+    }
+
+    public void TakeFlashlightDamage(int damage)
+    {
+        flashlightHealth -= damage;
+    }
+
+    public int GetFlashlightHealth()
+    {
+        return flashlightHealth;
+    }
+
+    public void ResetFlashlightHealth()
+    {
+        flashlightHealth = maxFlashlightHealth;
     }
 }
