@@ -36,16 +36,6 @@ public class FlashlightHitboxManager : MonoBehaviour
         }
     }
 
-    public void waitForStun()
-    {
-        if (stunTimer > 0f)
-        {
-            if (time >= stunTimer)
-            {
-                stopStun();
-            }
-        }
-    }
 
     public void stopStun()
     {
@@ -64,4 +54,8 @@ public class FlashlightHitboxManager : MonoBehaviour
         stopStun();
     }
 
+    public bool getStun()
+    {
+        return isStunned;
+    }
 }

@@ -20,6 +20,7 @@ public class ReticleManager : MonoBehaviour
     private Vector3 worldPos;
     bool start = false;
     bool isTouch = false;
+    int hold = 0;
 
     private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
@@ -95,7 +96,7 @@ public class ReticleManager : MonoBehaviour
             mousePos = touch.position;
             Debug.Log("mobile input");
             isTouch = true;
-            
+            hold++;
         }
         else if (Input.mousePresent) {
             bool isMouseClick = Input.GetMouseButton(0);
@@ -104,10 +105,12 @@ public class ReticleManager : MonoBehaviour
                 mousePos = Input.mousePosition;
                 Debug.Log("input registered");
                 isTouch = true;
+                hold++;
             }
             else {
                 //Debug.Log("No mouse input detected!");
                 isTouch = false;
+                hold = 0;
                 mousePos.x = 100000;
                 mousePos.y = 100000;
             }
@@ -224,12 +227,13 @@ public class ReticleManager : MonoBehaviour
         }
         else if (isHolyWaterEnabled)
         {
-            Debug.Log("Hit ghost damaged");
-            ghostMovement.HandleHealth(1);
-        } else {
-            return;
+            if (hold <= 1 && flashlightManager.getStun())
+            {
+                Debug.Log("Hit ghost damaged");
+                ghostMovement.HandleHealth(1);
+            }
         }
-}
+    }
 
     private bool IsInteractionInput() {
         return(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0);
