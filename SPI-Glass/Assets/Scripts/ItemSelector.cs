@@ -8,10 +8,11 @@ public class ItemSelector : MonoBehaviour
     [SerializeField] private HolyWaterHitboxManager holyWaterManager;
     private bool isFlashlightActive = true;
 
-    public void OnInteract() {
+    public void OnInteract()
+    {
         if (isFlashlightActive)
         {
-            flashlightManager.StunGhost();
+            flashlightManager.DoFlashlightDamage();
         }
         else
         {
@@ -19,14 +20,16 @@ public class ItemSelector : MonoBehaviour
         }
     }
 
-    public void SelectFlashlight() {
+    public void SelectFlashlight()
+    {
         isFlashlightActive = true;
         flashlightManager.enabled = true;
         holyWaterManager.enabled = false;
         Debug.Log("Flashlight is active");
     }
 
-        public void SelectHolyWater() {
+    public void SelectHolyWater()
+    {
         isFlashlightActive = false;
         flashlightManager.enabled = false;
         holyWaterManager.enabled = true;
@@ -36,12 +39,12 @@ public class ItemSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

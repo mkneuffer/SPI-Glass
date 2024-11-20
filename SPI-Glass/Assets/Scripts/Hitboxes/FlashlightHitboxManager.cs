@@ -16,18 +16,20 @@ public class FlashlightHitboxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-    
+
     }
 
-    public void StunGhost()
+    public void DoFlashlightDamage()
     {
-        if (!isStunned) {
+        ghostMovement.TakeFlashlightDamage(1);
+        if (ghostMovement.GetFlashlightHealth() <= 0 && !isStunned)
+        {
             isStunned = true;
             ghostMovement.SetSpeed(0);
             Debug.Log("Ghost is stunned!");

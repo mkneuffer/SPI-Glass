@@ -14,13 +14,14 @@ public class ReticleManager : MonoBehaviour
     [SerializeField] private float interactionRadius = 100f;
     [SerializeField] private float lowerScreenLimit = 100f;
     [SerializeField] private GameObject interactionDetectorPrefab;
-    [SerializeField] private float maxDistance =  50f;
+    [SerializeField] private float maxDistance = 50f;
     [SerializeField] private float scaleSpeed = 5f;
     private int mouseClicks;
     private Vector3 worldPos;
     bool start = false;
     bool isTouch = false;
     int hold = 0;
+    int flashlightHealth = 10;
 
     private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
@@ -57,7 +58,7 @@ public class ReticleManager : MonoBehaviour
         {
             HandleInteraction();
         }
-        
+
         //}
     }
 
@@ -87,18 +88,20 @@ public class ReticleManager : MonoBehaviour
         {
             mousePos = reticle.transform.position;
         }
-        
 
 
 
-        if (Input.touchCount > 1 && Input.touches[0].phase == TouchPhase.Began) {
+
+        if (Input.touchCount > 1 && Input.touches[0].phase == TouchPhase.Began)
+        {
             Touch touch = Input.GetTouch(1);
             mousePos = touch.position;
             Debug.Log("mobile input");
             isTouch = true;
             hold++;
         }
-        else if (Input.mousePresent) {
+        else if (Input.mousePresent)
+        {
             bool isMouseClick = Input.GetMouseButton(0);
             if (isMouseClick != false)
             {
@@ -107,7 +110,8 @@ public class ReticleManager : MonoBehaviour
                 isTouch = true;
                 hold++;
             }
-            else {
+            else
+            {
                 //Debug.Log("No mouse input detected!");
                 isTouch = false;
                 hold = 0;
@@ -124,7 +128,8 @@ public class ReticleManager : MonoBehaviour
         mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
 
 
-        if (float.IsInfinity(mousePos.x) || float.IsInfinity(mousePos.y)) {
+        if (float.IsInfinity(mousePos.x) || float.IsInfinity(mousePos.y))
+        {
             Debug.Log("Set to infinity; resetting mouse position");
             mousePos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         }
@@ -137,7 +142,7 @@ public class ReticleManager : MonoBehaviour
         if (reticle != null)
         {
             reticle.transform.position = mousePos;
-            
+
         }
         else
         {
@@ -179,38 +184,45 @@ public class ReticleManager : MonoBehaviour
         }
     }
 
-    private void LaunchDetector() {
-        if(activeDetector != null) {
+    private void LaunchDetector()
+    {
+        if (activeDetector != null)
+        {
             Destroy(activeDetector);
         }
         activeDetector = Instantiate(interactionDetectorPrefab, reticle.transform.position, Quaternion.identity);
         StartCoroutine(ScaleDetector());
     }
 
-    private IEnumerator ScaleDetector() {
+    private IEnumerator ScaleDetector()
+    {
         Vector3 initialScale = Vector3.zero;
         Vector3 maxScale = new Vector3(1f, 1f, maxDistance);
 
-        while(activeDetector != null) {
+        while (activeDetector != null)
+        {
             activeDetector.transform.localScale = Vector3.MoveTowards(activeDetector.transform.localScale, maxScale, scaleSpeed * Time.deltaTime);
 
             Collider[] hitColliders = Physics.OverlapBox(
-            activeDetector.transform.position, 
-            activeDetector.transform.localScale / 2, 
-            activeDetector.transform.rotation, 
+            activeDetector.transform.position,
+            activeDetector.transform.localScale / 2,
+            activeDetector.transform.rotation,
             ghostLayer
         );
 
-            foreach(Collider hitCollider in hitColliders) {
+            foreach (Collider hitCollider in hitColliders)
+            {
                 GameObject hitObject = hitCollider.gameObject;
-                if(hitObject.CompareTag("Ghost")) {
+                if (hitObject.CompareTag("Ghost"))
+                {
                     RegisterHit(hitObject);
                     Destroy(activeDetector);
                     yield break;
                 }
             }
 
-            if(activeDetector.transform.localScale.z >= maxDistance) {
+            if (activeDetector.transform.localScale.z >= maxDistance)
+            {
                 Destroy(activeDetector);
                 yield break;
             }
@@ -218,12 +230,13 @@ public class ReticleManager : MonoBehaviour
         }
     }
 
-    private void RegisterHit(GameObject hitObject) {
+    private void RegisterHit(GameObject hitObject)
+    {
         Debug.Log($"Hit: {hitObject.name}");
         if (isFlashlightEnabled)
         {
             Debug.Log("HIT GHOST STUNNED");
-            flashlightManager.StunGhost();
+            flashlightManager.DoFlashlightDamage();
         }
         else if (isHolyWaterEnabled)
         {
@@ -235,26 +248,34 @@ public class ReticleManager : MonoBehaviour
         }
     }
 
-    private bool IsInteractionInput() {
-        return(Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0);
+    private bool IsInteractionInput()
+    {
+        return (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0);
     }
 
 
-    private Vector3 GetInteractionPosition() {
+    private Vector3 GetInteractionPosition()
+    {
         Vector3 interactionPosition;
 
-        if(Input.mousePresent) {
+        if (Input.mousePresent)
+        {
             float depth = Camera.main.nearClipPlane + 1f;
             interactionPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, depth));
-        } else if(Input.touchCount > 0) {
+        }
+        else if (Input.touchCount > 0)
+        {
             Touch touch = Input.GetTouch(0);
             float depth = Camera.main.nearClipPlane + 1f;
             interactionPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, depth));
-        } else {
+        }
+        else
+        {
             interactionPosition = reticle.transform.position;
         }
 
-        if (float.IsInfinity(interactionPosition.x) || float.IsInfinity(interactionPosition.y)) {
+        if (float.IsInfinity(interactionPosition.x) || float.IsInfinity(interactionPosition.y))
+        {
             Debug.Log("Interaction position set to infinity; resetting position");
             interactionPosition = reticle.transform.position;
         }
