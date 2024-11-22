@@ -265,7 +265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &204367694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -619,6 +619,8 @@ MonoBehaviour:
   ghostManager: {fileID: 0}
   InventoryManager: {fileID: 0}
   automaticTextSpeedPerWord: 0
+  transition: {fileID: 204367695}
+  transitionTime: 3
   choices:
   - {fileID: 70932382}
   - {fileID: 70932381}

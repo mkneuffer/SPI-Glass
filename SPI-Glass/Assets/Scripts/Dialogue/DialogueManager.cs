@@ -20,6 +20,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private InventoryManager InventoryManager;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
+    [SerializeField] private Animator transition;
+    [SerializeField] private float transitionTime;
 
 
     [Header("Choices UI")]
@@ -163,48 +165,111 @@ public class DialogueManager : MonoBehaviour
         
         currentStory.BindExternalFunction("SwitchToMap", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            StartCoroutine(LoadMapScene());
         });
+
+        IEnumerator LoadMapScene()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        }
 
         currentStory.BindExternalFunction("SwitchToScene1", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+           StartCoroutine(LoadScene1());
         });
+
+        IEnumerator LoadScene1()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
 
         currentStory.BindExternalFunction("SwitchToScene2", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+            StartCoroutine(LoadScene2());
         });
+
+        IEnumerator LoadScene2()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        }
 
         currentStory.BindExternalFunction("SwitchToObjectDetection", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+            StartCoroutine(LoadObjectDetectionScene());
         });
+
+        IEnumerator LoadObjectDetectionScene()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+        }
 
         currentStory.BindExternalFunction("SwitchToScene3", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+            StartCoroutine(LoadScene3());
         });
+
+        IEnumerator LoadScene3()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+        }
 
         currentStory.BindExternalFunction("SwitchToScene4", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+            StartCoroutine(LoadScene4());
         });
+
+        IEnumerator LoadScene4()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+        }
 
         currentStory.BindExternalFunction("SwitchToGhostFight", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+            StartCoroutine(LoadGhostFight());
         });
+
+        IEnumerator LoadGhostFight()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+        }
 
         currentStory.BindExternalFunction("SwitchToScene5", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+            StartCoroutine(LoadScene5());
         });
+
+        IEnumerator LoadScene5()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+        }
 
         currentStory.BindExternalFunction("SwitchToScene6", () =>
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(8);
+            StartCoroutine(LoadScene6());
         });
+
+        IEnumerator LoadScene6()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(8);
+        }
 
 
         //Reset display name, portrait and layout

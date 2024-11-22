@@ -11,12 +11,13 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] InventoryManager mainInventory;
     [SerializeField] private List<ItemData> Inventory = new List<ItemData>();
     [SerializeField] private ItemData currentItem;
-
+[SerializeField] private Animator transition;
     [SerializeField] private GameObject itemList;
     [SerializeField] private GameObject inventoryPrefab;
     [SerializeField] private ItemUsageManager itemUsageManager;
     private float defaultObjectLocation = -564;
 
+    //public Animator transition;
 
     // Positions for each of the UI boxes, i dont wanna code these in when we r gonna change them anyway later
     // posX-1
@@ -38,8 +39,15 @@ public class InventoryManager : MonoBehaviour
 {
     if (FindItemByName("Holy Grail Replica") != null)
     {
-        SceneManager.LoadScene(4);
+        StartCoroutine(LoadObjectDetectionScene());
     }
+
+    IEnumerator LoadObjectDetectionScene()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(1f);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+        }
 }
 
     public List<ItemData> GetInventory()
