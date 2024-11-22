@@ -23,7 +23,7 @@ public class GhostMovement : MonoBehaviour
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
-    private int health = 20;
+    [SerializeField] private int health = 10;
     private int flashlightHealth = 60;
     private int maxFlashlightHealth;
     private int phase = 1;

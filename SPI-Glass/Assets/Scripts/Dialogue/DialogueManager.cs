@@ -103,6 +103,7 @@ public class DialogueManager : MonoBehaviour
                 ContinueStory();
             }
         }
+
     }
 
 
