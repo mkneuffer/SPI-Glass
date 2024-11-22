@@ -1390,6 +1390,7 @@ GameObject:
   - component: {fileID: 1271266689}
   - component: {fileID: 1271266688}
   - component: {fileID: 1271266687}
+  - component: {fileID: 1271266691}
   m_Layer: 5
   m_Name: Reticle
   m_TagString: Untagged
@@ -1404,7 +1405,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271266686}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86ef3fae6a9d5104bb319b526adcd46f, type: 3}
   m_Name: 
@@ -1479,6 +1480,30 @@ RectTransform:
   m_AnchoredPosition: {x: -43, y: 428}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1271266691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271266686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbda763b6408495f9a524d4d3a1375f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reticle: {fileID: 1271266686}
+  ghostLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  flashlightManager: {fileID: 1802302154}
+  ghostMovement: {fileID: 2130492252}
+  raycastDistance: 50
+  interactionRadius: 3
+  lowerScreenLimit: 200
+  interactionDetectorPrefab: {fileID: 7941405224578499646}
+  maxDistance: 50
+  scaleSpeed: 5
 --- !u!1 &1352945262
 GameObject:
   m_ObjectHideFlags: 0
