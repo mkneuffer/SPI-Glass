@@ -93,7 +93,7 @@ public class ReticleManager : MonoBehaviour
 
         if (Input.touchCount > 1 && Input.touches[0].phase == TouchPhase.Began)
         {
-            Touch touch = Input.GetTouch(1);
+            Touch touch = Input.GetTouch(0);
             mousePos = touch.position;
             Debug.Log("mobile input");
             isTouch = true;
