@@ -20,6 +20,7 @@ public class GhostMovement : MonoBehaviour
     private WaypointStorage currentWaypoint;
     private Vector3 previousPosition;
     [SerializeField] FlashlightHitboxManager flashlight;
+    [SerializeField] private Animator transition;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
@@ -168,7 +169,7 @@ public class GhostMovement : MonoBehaviour
             {
                 Debug.Log("End fight");
                 Destroy(gameObject);
-                UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+                StartCoroutine(LoadScene5());
             }
             else
             {
@@ -177,6 +178,13 @@ public class GhostMovement : MonoBehaviour
                 SwapPath();
                 flashlight.stopStun();
             }
+        }
+
+        IEnumerator LoadScene5()
+        {
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(3f);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
         }
     }
 

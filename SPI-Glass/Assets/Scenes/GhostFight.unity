@@ -3043,6 +3043,7 @@ MonoBehaviour:
   waypointStorage2: {fileID: 2118539945289521529, guid: 816317a87987afa47842746a6cf860a5,
     type: 3}
   flashlight: {fileID: 1802302154}
+  transition: {fileID: 1636793729}
   isStunned: 0
 --- !u!136 &2130492253
 CapsuleCollider:

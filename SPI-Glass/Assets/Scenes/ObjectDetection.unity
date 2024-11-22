@@ -210,6 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
         type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 844181599}
+    - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
+        type: 3}
       propertyPath: SpeakerFrame
       value: 
       objectReference: {fileID: 243382096}
@@ -228,6 +233,11 @@ PrefabInstance:
       propertyPath: dialoguePanel
       value: 
       objectReference: {fileID: 2142000066}
+    - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
+        type: 3}
+      propertyPath: transitionTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
         type: 3}
       propertyPath: displayNameText
@@ -607,6 +617,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -893.54
       objectReference: {fileID: 0}
+    - target: {fileID: 8861572363427896949, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 844181599}
     - target: {fileID: 8861572363427896949, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
         type: 3}
       propertyPath: inventoryPrefab
