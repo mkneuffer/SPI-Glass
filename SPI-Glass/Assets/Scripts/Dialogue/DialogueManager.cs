@@ -175,6 +175,19 @@ public class DialogueManager : MonoBehaviour
             }
         });
         
+        currentStory.BindExternalFunction("DeleteGhost", () =>
+        {
+            XR_Placement placement = FindObjectOfType<XR_Placement>();
+            if (placement != null)
+            {
+                placement.DeleteGhost(); // Call the method in XR_Placement
+            }
+            else
+            {
+                Debug.LogWarning("XR_Placement script not found in the scene.");
+            }
+        });
+        
         currentStory.BindExternalFunction("SwitchToMap", () =>
         {
             StartCoroutine(LoadMapScene());

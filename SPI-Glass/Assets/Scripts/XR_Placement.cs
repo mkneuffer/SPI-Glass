@@ -11,6 +11,7 @@ public class XR_Placement : MonoBehaviour
     private ARRaycastManager raycastManager; // Reference to the ARRaycastManager
     private ARPlaneManager planeManager; // Reference to the ARPlaneManager
     private bool hasSpawned = false; // Flag to ensure only one spawn
+    private GameObject spawnedObject; // Reference to the spawned prefab
 
     // Start is called before the first frame update
     void Start()
@@ -79,7 +80,24 @@ public class XR_Placement : MonoBehaviour
     // Spawn the prefab at the given position and rotation
     private void SpawnPrefab(Vector3 position, Quaternion rotation)
     {
-        Instantiate(prefab, position, rotation); // Instantiate the prefab with the calculated rotation
+        spawnedObject = Instantiate(prefab, position, rotation); // Instantiate the prefab with the calculated rotation
         Debug.Log($"Prefab spawned at position: {position} and is facing the camera.");
+    }
+
+    // Public function to delete the ghost from the scene
+    public void DeleteGhost()
+    {
+        // Check if a prefab has been spawned
+        if (spawnedObject != null)
+        {
+            Destroy(spawnedObject); // Destroy the spawned prefab
+            hasSpawned = false; // Reset the spawn flag
+            spawnedObject = null; // Clear the reference to the prefab
+            Debug.Log("Ghost deleted successfully!");
+        }
+        else
+        {
+            Debug.LogWarning("No ghost found to delete.");
+        }
     }
 }
