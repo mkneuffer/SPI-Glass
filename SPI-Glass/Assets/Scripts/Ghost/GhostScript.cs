@@ -52,13 +52,13 @@ public class GhostMovement : MonoBehaviour
             MoveToPoints(currentWaypoint.GetWaypoints());
         }
 
-        if (isStunned)
-        {
-            if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
-            {
-                HandleHealth(1);
-            }
-        }
+        //if (isStunned)
+        //{
+        //    if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
+        //    {
+        //        HandleHealth(1);
+        //    }
+        //}
     }
 
     //Moves the ghost along the given waypoints

@@ -76,6 +76,7 @@ public class ReticleManager2 : MonoBehaviour
             mousePos = touch.position;
             Debug.Log("Touch input detected");
             isTouch = true;
+            hold++;
         }
         else if (Input.mousePresent)
         {
@@ -84,11 +85,13 @@ public class ReticleManager2 : MonoBehaviour
                 mousePos = Input.mousePosition;
                 Debug.Log("Mouse input detected");
                 isTouch = true;
+                hold++;
             }
             else
             {
                 isTouch = false;
-                mousePos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+                mousePos = new Vector3(100000, 100000, 0);
+                hold = 0;
             }
         }
         else
@@ -97,8 +100,8 @@ public class ReticleManager2 : MonoBehaviour
             return;
         }
 
-        mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
-        mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
+        //mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
+        //mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
 
         float depth = Camera.main.nearClipPlane + 1f;
         mousePos.z = depth;
@@ -191,14 +194,14 @@ public class ReticleManager2 : MonoBehaviour
     private void RegisterHit(GameObject hitObject)
     {
         Debug.Log($"Hit: {hitObject.name}");
-        if (isFlashlightEnabled)
+        if (isFlashlightEnabled == true)
         {
             Debug.Log("Hit ghost stunned");
             flashlightManager.DoFlashlightDamage();
         }
-        else if (isHolyWaterEnabled)
+        else if (isHolyWaterEnabled == true)
         {
-            if (hold <= 1 && flashlightManager.getStun())
+            if (hold <= 1 && flashlightManager.getStun() == true)
             {
                 Debug.Log("Hit ghost damaged");
                 ghostMovement.HandleHealth(1);
