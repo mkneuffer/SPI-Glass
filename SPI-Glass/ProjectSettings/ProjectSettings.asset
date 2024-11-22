@@ -587,7 +587,7 @@ PlayerSettings:
   enableCrashReportAPI: 0
   cameraUsageDescription: Augmented Reality requires the camera
   locationUsageDescription: Lightship VPS needs access to your location.
-  microphoneUsageDescription: 
+  microphoneUsageDescription: for AR usage
   bluetoothUsageDescription: 
   macOSTargetOSVersion: 10.13.0
   switchNMETAOverride: 
