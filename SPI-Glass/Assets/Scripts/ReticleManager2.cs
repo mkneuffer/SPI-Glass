@@ -199,15 +199,15 @@ public class ReticleManager2 : MonoBehaviour
             Debug.Log("Hit ghost stunned");
             flashlightManager.DoFlashlightDamage();
         }
-        else if (isHolyWaterEnabled == true)
+        else if (isHolyWaterEnabled == true) 
         {
             Debug.Log("Hit ghost damaged");
             ghostMovement.HandleHealth(1);
-            //if (hold <= 1 && flashlightManager.getStun() == true)
-            //{
-            //    //Debug.Log("Hit ghost damaged");
+            if (hold <= 1 && flashlightManager.getStun() == true) // not being triggered currently
+            {
+                Debug.Log("Hit ghost damaged");
                 
-            //}
+            }
         }
     }
 

@@ -163,6 +163,7 @@ public class GhostMovement : MonoBehaviour
         Debug.Log("Health: " + health);
         if (health <= 0)
         {
+            isStunned = false;
             phase++;
             Debug.Log("Phase:" + phase);
             if (phase > 3)
