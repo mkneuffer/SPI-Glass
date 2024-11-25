@@ -18,6 +18,7 @@ public class SemanticQuery : MonoBehaviour
     public List<ChannelToObject> ChannelToObjects;
     [SerializeField] private InventoryManager inventoryManager;
     private int woodCount;
+    [SerializeField] private int woodNeededToCraftGrail = 5;
 
     private void OnEnable()
     {
@@ -73,7 +74,7 @@ public class SemanticQuery : MonoBehaviour
 
                         foreach (var channelToObject in ChannelToObjects)
                         {
-                            if ("foliage" == channel && woodCount < 1)
+                            if ("foliage" == channel && woodCount < woodNeededToCraftGrail)
                             {
                                 woodCount++;
                                 inventoryManager.addItem(channelToObject.item);
