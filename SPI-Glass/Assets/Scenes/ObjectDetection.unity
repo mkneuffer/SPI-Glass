@@ -567,6 +567,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GhostUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7690787663036633830, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7787208280781957286, guid: bc95b34c4ee7ede4bb22a38169fb7e72,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
