@@ -17,8 +17,9 @@ public class SemanticQuery : MonoBehaviour
     [SerializeField] Transform spawnObjectParent;
     public List<ChannelToObject> ChannelToObjects;
     [SerializeField] private InventoryManager inventoryManager;
-    private int woodCount;
-    [SerializeField] private int woodNeededToCraftGrail = 5;
+    public int woodCount;
+    [SerializeField] public int woodNeededToCraftGrail = 5;
+    [SerializeField] private Animator transition;
 
     private void OnEnable()
     {
@@ -77,7 +78,7 @@ public class SemanticQuery : MonoBehaviour
                             if ("foliage" == channel && woodCount < woodNeededToCraftGrail)
                             {
                                 woodCount++;
-                                inventoryManager.addItem(channelToObject.item);
+                                //inventoryManager.addItem(channelToObject.item);
                                 //Debug.Log($"the channel {channel} has been detected and will spawn an object");
                                 GameObject newObject = Instantiate(channelToObject.item.GetGameObject(), pos, Quaternion.identity, spawnObjectParent);
                                 Destroy(newObject, 3f);
@@ -88,8 +89,21 @@ public class SemanticQuery : MonoBehaviour
                 }
             }
         }
+        //Have gotten the required amount of wood
+        if (woodCount >= woodNeededToCraftGrail)
+        {
+            StartCoroutine(LoadScene3());
+        }
     }
+    IEnumerator LoadScene3()
+    {
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+    }
+
 }
+
 
 [System.Serializable]
 public struct ChannelToObject

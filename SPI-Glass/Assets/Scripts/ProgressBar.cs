@@ -7,10 +7,9 @@ using UnityEngine.UI;
 public class ProgressBar : MonoBehaviour
 {
     public int maximum;
-    public int current;
+    public int current = 0;
     public Image mask;
-    public Image fill;
-    public Color color;
+    public SemanticQuery semanticQuery;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +25,9 @@ public class ProgressBar : MonoBehaviour
 
     void GetCurrentFill()
     {
+        current = semanticQuery.woodCount;
+        maximum = semanticQuery.woodNeededToCraftGrail;
         float fillAmount = (float)current / (float)maximum;
         mask.fillAmount = fillAmount;
-
-        fill.color = color;
     }
 }
