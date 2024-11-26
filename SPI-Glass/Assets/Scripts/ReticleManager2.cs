@@ -205,7 +205,7 @@ public class ReticleManager2 : MonoBehaviour
             ghostMovement.HandleHealth(1);
             if (hold <= 1 && flashlightManager.getStun() == true) // not being triggered currently
             {
-                Debug.Log("Hit ghost damaged");
+                Debug.Log("Hit ghost damaged 2");
                 
             }
         }

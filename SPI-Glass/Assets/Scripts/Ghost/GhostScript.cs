@@ -239,9 +239,9 @@ IEnumerator LoadScene5()
     }
 
     public void SkipScene()
-{
-    StartCoroutine(LoadScene5());
-}
+    {
+        StartCoroutine(LoadScene5());
+    }
 }
 
 
