@@ -18,12 +18,14 @@ public class SemanticQuery : MonoBehaviour
     public List<ChannelToObject> ChannelToObjects;
     [SerializeField] private InventoryManager inventoryManager;
     public int woodCount;
+    public int woodInProgressBar;
     [SerializeField] public int woodNeededToCraftGrail = 5;
     [SerializeField] private Animator transition;
 
     private void OnEnable()
     {
         woodCount = 0;
+        woodInProgressBar = 0;
         //cameraManager.frameReceived += CameraManagerOnFrameReceived;
     }
 
@@ -45,6 +47,7 @@ public class SemanticQuery : MonoBehaviour
     }
 
     private float timer = 0.0f;
+    private List<GameObject> woodObjects = new List<GameObject>();
     // Update is called once per frame
     void Update()
     {
@@ -81,7 +84,7 @@ public class SemanticQuery : MonoBehaviour
                                 //inventoryManager.addItem(channelToObject.item);
                                 //Debug.Log($"the channel {channel} has been detected and will spawn an object");
                                 GameObject newObject = Instantiate(channelToObject.item.GetGameObject(), pos, Quaternion.identity, spawnObjectParent);
-                                Destroy(newObject, 3f);
+                                woodObjects.Add(newObject);
                             }
                         }
                     }
@@ -89,8 +92,22 @@ public class SemanticQuery : MonoBehaviour
                 }
             }
         }
+        Vector3 goingTo = new Vector3(0 + 210, Screen.height - 1 - 260, -1);
+        foreach (GameObject wood in woodObjects)
+        {
+            if (wood != null)
+            {
+                wood.transform.position = Vector3.MoveTowards(wood.transform.position, goingTo, Time.deltaTime * 1000);
+                if (Vector3.Distance(goingTo, wood.transform.position) < 150)
+                {
+                    Destroy(wood);
+                    woodInProgressBar++;
+                }
+            }
+        }
+
         //Have gotten the required amount of wood
-        if (woodCount >= woodNeededToCraftGrail)
+        if (woodInProgressBar >= woodNeededToCraftGrail)
         {
             StartCoroutine(LoadScene3());
         }

@@ -25,7 +25,7 @@ public class ProgressBar : MonoBehaviour
 
     void GetCurrentFill()
     {
-        current = semanticQuery.woodCount;
+        current = semanticQuery.woodInProgressBar;
         maximum = semanticQuery.woodNeededToCraftGrail;
         float fillAmount = (float)current / (float)maximum;
         mask.fillAmount = fillAmount;
