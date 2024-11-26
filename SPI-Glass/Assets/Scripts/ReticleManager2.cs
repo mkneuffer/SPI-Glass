@@ -68,7 +68,7 @@ public class ReticleManager2 : MonoBehaviour
             return;
         }
 
-        Vector3 mousePos;
+        Vector3 mousePos = Vector3.zero;
 
         if (Input.touchCount > 0)
         {
@@ -76,7 +76,7 @@ public class ReticleManager2 : MonoBehaviour
             mousePos = touch.position;
             Debug.Log("Touch input detected");
             isTouch = true;
-            hold++;
+            //hold++;
         }
         else if (Input.mousePresent)
         {
@@ -85,20 +85,20 @@ public class ReticleManager2 : MonoBehaviour
                 mousePos = Input.mousePosition;
                 Debug.Log("Mouse input detected");
                 isTouch = true;
-                hold++;
+                //hold++;
             }
             else
             {
                 isTouch = false;
-                mousePos = new Vector3(100000, 100000, 0);
-                hold = 0;
+                //mousePos = new Vector3(100000, 100000, 0);
+                //hold = 0;
             }
         }
         else
         {
             isTouch = false;
             return;
-        }
+        } 
 
         //mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
         //mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
@@ -110,7 +110,7 @@ public class ReticleManager2 : MonoBehaviour
 
         if (reticle != null)
         {
-            reticle.transform.position = mousePos;
+            reticle.transform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);;
         }
         else
         {

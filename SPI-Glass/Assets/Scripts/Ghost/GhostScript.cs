@@ -164,6 +164,9 @@ public class GhostMovement : MonoBehaviour
         if (health <= 0)
         {
             isStunned = false;
+            health = 10;
+            SwapPath();
+            flashlight.stopStun();
             phase++;
             Debug.Log("Phase:" + phase);
             if (phase > 3)
@@ -171,13 +174,13 @@ public class GhostMovement : MonoBehaviour
                 Debug.Log("End fight");
                 StartCoroutine(LoadScene5());
             }
-            else
+      /*    else
             {
                 health = 10;
-                Debug.Log("Phase: " + phase);
+                //Debug.Log("Phase: " + phase);
                 SwapPath();
                 flashlight.stopStun();
-            }
+            } */
         }
 
         
