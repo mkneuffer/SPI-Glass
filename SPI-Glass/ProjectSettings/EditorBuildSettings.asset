@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene6.unity
     guid: 5af7984781f782346a22df39974bc4ed
+  - enabled: 0
+    path: Assets/Scenes/VPS TEST.unity
+    guid: 46550591f465f4ae7acf04e39ffb5d28
   m_configObjects:
     Niantic.Lightship.AR.LightshipSettings: {fileID: 11400000, guid: 1adebb225450d43d792b3fd931de6645,
       type: 2}
