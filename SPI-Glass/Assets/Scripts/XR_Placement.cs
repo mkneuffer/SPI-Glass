@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -8,6 +7,7 @@ public class XR_Placement : MonoBehaviour
 {
     [SerializeField] private GameObject prefab; // Prefab to be spawned
     [SerializeField] private float minimumSpawnDistance = 1.0f; // Minimum distance to camera for spawning
+    [SerializeField] private float maximumSpawnDistance = 10.0f; // Maximum distance to camera for spawning
     private ARRaycastManager raycastManager; // Reference to the ARRaycastManager
     private ARPlaneManager planeManager; // Reference to the ARPlaneManager
     private GameObject instantiatedPrefab; // The instantiated prefab
@@ -40,10 +40,14 @@ public class XR_Placement : MonoBehaviour
 
     private void TryPlacePrefab()
     {
+        float furthestValidDistance = minimumSpawnDistance; // Start at the minimum distance
+        Vector3 furthestValidPosition = Vector3.zero; // Store the position of the furthest valid point
+        ARPlane furthestValidPlane = null; // Store the plane with the furthest valid point
+
         // Loop through all planes detected by the AR Plane Manager
         foreach (ARPlane plane in planeManager.trackables)
         {
-            // Ensure the plane is horizontal and detected
+            // Ensure the plane is horizontal
             if (plane.alignment == PlaneAlignment.HorizontalUp)
             {
                 Vector3 planePosition = plane.center;
@@ -51,28 +55,39 @@ public class XR_Placement : MonoBehaviour
                 // Calculate the distance to the camera
                 float distanceToCamera = Vector3.Distance(Camera.main.transform.position, planePosition);
 
-                // Ensure the plane is far enough from the camera
-                if (distanceToCamera >= minimumSpawnDistance)
+                // Check if this plane is within the valid range of distances
+                if (distanceToCamera >= minimumSpawnDistance && distanceToCamera <= maximumSpawnDistance)
                 {
-                    // Update the prefab's position to the plane
-                    instantiatedPrefab.transform.position = planePosition;
-
-                    // Calculate the direction to face the camera
-                    Vector3 directionToCamera = (Camera.main.transform.position - planePosition).normalized;
-                    directionToCamera.y = 0; // Keep the rotation on the horizontal plane
-
-                    // Apply the rotation to face the camera (NO inversion)
-                    instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera);
-
-                    // Debug log for successful placement
-                    Debug.Log($"Prefab positioned invisibly at {planePosition} on a valid plane and now correctly facing the camera.");
-
-                    return; // Stop after finding a valid plane
+                    // Check if this is the furthest valid plane so far
+                    if (distanceToCamera > furthestValidDistance)
+                    {
+                        furthestValidDistance = distanceToCamera;
+                        furthestValidPosition = planePosition;
+                        furthestValidPlane = plane;
+                    }
                 }
             }
         }
 
-        Debug.LogWarning("No suitable plane found at the required distance.");
+        // If we found a valid plane, update the prefab's position and rotation
+        if (furthestValidPlane != null)
+        {
+            instantiatedPrefab.transform.position = furthestValidPosition;
+
+            // Calculate the direction to face the camera
+            Vector3 directionToCamera = (Camera.main.transform.position - furthestValidPosition).normalized;
+            directionToCamera.y = 0; // Keep the rotation on the horizontal plane
+
+            // Apply the rotation to face the camera
+            instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera);
+
+            // Debug log for successful placement
+            Debug.Log($"Prefab positioned invisibly at {furthestValidPosition} on a valid plane at distance {furthestValidDistance}.");
+        }
+        else
+        {
+            Debug.LogWarning("No suitable plane found within the specified distance range.");
+        }
     }
 
     public void SpawnGhost()
