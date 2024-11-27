@@ -13,6 +13,8 @@ public class XR_Placement : MonoBehaviour
     private GameObject instantiatedPrefab; // The instantiated prefab
     private bool isGhostVisible = false; // Tracks visibility state
 
+    public static System.Action<Transform> OnGhostSpawned;
+
     void Start()
     {
         raycastManager = GetComponent<ARRaycastManager>();
@@ -97,6 +99,9 @@ public class XR_Placement : MonoBehaviour
             instantiatedPrefab.SetActive(true);
             isGhostVisible = true;
             EnablePrefabAnimations();
+
+            OnGhostSpawned?.Invoke(instantiatedPrefab.transform);
+
             Debug.Log("Ghost has been spawned and made visible.");
         }
         else

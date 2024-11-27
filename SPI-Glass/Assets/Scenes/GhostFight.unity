@@ -662,9 +662,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghost: {fileID: 2130492251}
-  objectHelper: {fileID: 2135383270}
-  positioningManager: {fileID: 2135383269}
-  cameraManager: {fileID: 1913847489}
+  objectHelper: {fileID: 0}
+  positioningManager: {fileID: 0}
+  cameraManager: {fileID: 0}
   startFight: 1
 --- !u!1 &805297089
 GameObject:
