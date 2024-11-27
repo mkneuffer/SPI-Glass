@@ -40,39 +40,39 @@ public class XR_Placement : MonoBehaviour
 
     private void TryPlacePrefab()
     {
-        List<ARRaycastHit> hits = new List<ARRaycastHit>();
-
-        // Perform raycasting from the center of the screen
-        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-        if (raycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinBounds | TrackableType.PlaneWithinPolygon))
+        // Loop through all planes detected by the AR Plane Manager
+        foreach (ARPlane plane in planeManager.trackables)
         {
-            foreach (var hit in hits)
+            // Ensure the plane is horizontal and detected
+            if (plane.alignment == PlaneAlignment.HorizontalUp)
             {
-                Pose hitPose = hit.pose;
+                Vector3 planePosition = plane.center;
 
                 // Calculate the distance to the camera
-                float distanceToCamera = Vector3.Distance(Camera.main.transform.position, hitPose.position);
+                float distanceToCamera = Vector3.Distance(Camera.main.transform.position, planePosition);
 
-                // Check if the plane is far enough from the camera
+                // Ensure the plane is far enough from the camera
                 if (distanceToCamera >= minimumSpawnDistance)
                 {
-                    // Update the prefab's position
-                    instantiatedPrefab.transform.position = hitPose.position;
+                    // Update the prefab's position to the plane
+                    instantiatedPrefab.transform.position = planePosition;
 
-                    // Set the prefab to face the camera
-                    Vector3 directionToCamera = Camera.main.transform.position - hitPose.position;
+                    // Calculate the direction to face the camera
+                    Vector3 directionToCamera = (Camera.main.transform.position - planePosition).normalized;
                     directionToCamera.y = 0; // Keep the rotation on the horizontal plane
-                    instantiatedPrefab.transform.rotation = Quaternion.LookRotation(-directionToCamera);
 
-                    // Add debug log when the prefab is placed while invisible
-                    Debug.Log($"Prefab positioned invisibly at {hitPose.position} while waiting to be spawned.");
+                    // Apply the rotation to face the camera (NO inversion)
+                    instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera);
+
+                    // Debug log for successful placement
+                    Debug.Log($"Prefab positioned invisibly at {planePosition} on a valid plane and now correctly facing the camera.");
 
                     return; // Stop after finding a valid plane
                 }
             }
-
-            Debug.LogWarning("No suitable plane found at the required distance.");
         }
+
+        Debug.LogWarning("No suitable plane found at the required distance.");
     }
 
     public void SpawnGhost()
