@@ -65,7 +65,7 @@ MonoBehaviour:
     m_Value: 0
   colorFilter:
     m_OverrideState: 0
-    m_Value: {r: 0.8301887, g: 0.36418653, b: 0.36418653, a: 1}
+    m_Value: {r: 0.89578736, g: 0.8306337, b: 0.9622642, a: 1}
   hueShift:
     m_OverrideState: 0
     m_Value: -2
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_Value: 6
   intensity:
     m_OverrideState: 1
-    m_Value: 0.767
+    m_Value: 0.811
   response:
     m_OverrideState: 0
     m_Value: 0
@@ -128,13 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
   m_Name: WhiteBalance
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   temperature:
     m_OverrideState: 1
-    m_Value: -30
+    m_Value: -55
   tint:
     m_OverrideState: 1
-    m_Value: -44
+    m_Value: 100
 --- !u!114 &7731536339189271538
 MonoBehaviour:
   m_ObjectHideFlags: 3

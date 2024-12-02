@@ -72,7 +72,7 @@ VisualEffect:
         m_Overridden: 1
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 0.10586509, y: 0.5754717, z: 0.36221477, w: 0.23529412}
+      - m_Value: {x: 0.10586509, y: 0.5754717, z: 0.36221477, w: 0.050980393}
         m_Name: FogBaseColor
         m_Overridden: 1
       - m_Value: {x: 0.03203987, y: 0.4528302, z: 0.26007423, w: 0}
