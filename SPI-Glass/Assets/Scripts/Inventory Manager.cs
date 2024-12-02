@@ -39,14 +39,14 @@ public class InventoryManager : MonoBehaviour
 {
     if (FindItemByName("Holy Grail Replica") != null)
     {
-        StartCoroutine(LoadScene3());
+        StartCoroutine(LoadScene9());
     }
 
-    IEnumerator LoadScene3()
+    IEnumerator LoadScene9()
         {
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(3f);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(9);
         }
 }
 
