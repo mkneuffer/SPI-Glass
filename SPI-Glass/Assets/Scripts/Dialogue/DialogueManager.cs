@@ -164,17 +164,17 @@ public class DialogueManager : MonoBehaviour
         }
 
         currentStory.BindExternalFunction("SpawnGhost", () =>
-        {
-            XR_Placement placement = FindObjectOfType<XR_Placement>();
-            if (placement != null)
-            {
-                placement.SpawnGhost(); // Call the method in XR_Placement
-            }
-            else
-            {
-                Debug.LogWarning("XR_Placement script not found in the scene.");
-            }
-        });
+{
+    XR_Placement placement = FindObjectOfType<XR_Placement>();
+    if (placement != null)
+    {
+        placement.SpawnGhost();
+    }
+    else
+    {
+        Debug.LogWarning("XR_Placement script not found in the scene.");
+    }
+});
         
         currentStory.BindExternalFunction("DeleteGhost", () =>
         {

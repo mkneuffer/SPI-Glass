@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 3224206184558200200, guid: 1e080ec5cba644b7c96b6a9951596a1e,
         type: 3}
       propertyPath: m_Name
-      value: Ghost and Rock
+      value: Ghost and Rock Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
