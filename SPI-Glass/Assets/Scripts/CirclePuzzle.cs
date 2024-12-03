@@ -19,8 +19,8 @@ public class CirclePuzzle : MonoBehaviour
     private bool isDragging = false;
     private const float dragThreshold = 5f;  // Minimum distance to consider as a drag
 
-    // Default rotation values
-    private Vector3 defaultRotation = new Vector3(0f, -180f, -15f);
+    // Store the initial rotations for alignment checks
+    private Quaternion[] initialRotations;
 
     void Start()
     {
@@ -32,26 +32,21 @@ public class CirclePuzzle : MonoBehaviour
 
         int circleCount = circles.Length;
         isRotating = new bool[circleCount];
+        initialRotations = new Quaternion[circleCount];
 
         for (int i = 0; i < circleCount; i++)
         {
             isRotating[i] = false;
 
-            // Set each circle to the default rotation
-            circles[i].localEulerAngles = defaultRotation;
+            // Store the initial rotation for alignment checks
+            initialRotations[i] = circles[i].localRotation;
 
-            // Apply a random rotation around the local Y-axis, excluding zero degrees
-            int randomStep = Random.Range(1, 12);  // 1 to 11 inclusive
+            // Set a random initial rotation (multiple of 30 degrees), excluding zero degrees
+            int randomStep = Random.Range(1, 12);  // 1 to 11 inclusive, excludes 0
             float randomRotation = randomStep * 30f;
 
-            // Ensure the random rotation does not result in the default rotation
-            if (randomRotation % 360f == 0f)
-            {
-                randomRotation += 30f;
-            }
-
-            // Apply the random rotation
-            circles[i].localRotation = circles[i].localRotation * Quaternion.Euler(0f, randomRotation, 0f);
+            // Apply random rotation around the circle's local Z-axis
+            circles[i].localRotation *= Quaternion.Euler(0f, 0f, randomRotation);
         }
     }
 
@@ -62,7 +57,7 @@ public class CirclePuzzle : MonoBehaviour
 
         HandleInput();
 
-        // Check if all circles are aligned (rotation matches defaultRotation within tolerance)
+        // Check if all circles are aligned
         if (AllCirclesAligned())
         {
             puzzleComplete = true;
@@ -117,7 +112,7 @@ public class CirclePuzzle : MonoBehaviour
                         if (!isDragging)
                         {
                             // Tap detected, rotate 30 degrees counterclockwise
-                            StartCoroutine(RotateToAngle(selectedCircle, -30f));
+                            StartCoroutine(RotateByAngle(selectedCircle, -30f));
                         }
                         else
                         {
@@ -172,7 +167,7 @@ public class CirclePuzzle : MonoBehaviour
                     if (!isDragging)
                     {
                         // Click detected, rotate 30 degrees counterclockwise
-                        StartCoroutine(RotateToAngle(selectedCircle, -30f));
+                        StartCoroutine(RotateByAngle(selectedCircle, -30f));
                     }
                     else
                     {
@@ -199,20 +194,22 @@ public class CirclePuzzle : MonoBehaviour
 
         float angle = Vector2.SignedAngle(prevDirection, currDirection);
 
-        // Rotate around the circle's local Y-axis
-        circle.Rotate(Vector3.up, -angle, Space.Self); // Negative to match drag direction
+        // Rotate around the circle's local Z-axis
+        circle.Rotate(Vector3.forward, -angle, Space.Self); // Negative to match drag direction
     }
 
     void SnapCircle(Transform circle)
     {
-        // Get the current rotation around the local Y-axis
-        float currentRotation = circle.localEulerAngles.y;
+        // Get the current rotation around the local Z-axis
+        float currentRotation = circle.localEulerAngles.z;
         float snappedRotation = Mathf.Round(currentRotation / 30f) * 30f;
         float deltaRotation = Mathf.DeltaAngle(currentRotation, snappedRotation);
-        StartCoroutine(RotateToAngle(circle, deltaRotation));
+
+        // Rotate the circle to snap to the nearest 30 degrees
+        StartCoroutine(RotateByAngle(circle, deltaRotation));
     }
 
-    IEnumerator RotateToAngle(Transform circle, float angle)
+    IEnumerator RotateByAngle(Transform circle, float angle)
     {
         int index = GetCircleIndex(circle);
         if (isRotating[index])
@@ -222,8 +219,9 @@ public class CirclePuzzle : MonoBehaviour
 
         float duration = 0.25f;  // Rotation duration
         float elapsed = 0f;
+
         Quaternion initialRotation = circle.localRotation;
-        Quaternion targetRotation = initialRotation * Quaternion.Euler(0f, angle, 0f);
+        Quaternion targetRotation = initialRotation * Quaternion.Euler(0f, 0f, angle);
 
         while (elapsed < duration)
         {
@@ -238,23 +236,14 @@ public class CirclePuzzle : MonoBehaviour
 
     bool AllCirclesAligned()
     {
-        foreach (Transform circle in circles)
+        for (int i = 0; i < circles.Length; i++)
         {
-            Vector3 currentRotation = circle.localEulerAngles;
+            Quaternion currentRotation = circles[i].localRotation;
+            Quaternion deltaRotation = Quaternion.Inverse(initialRotations[i]) * currentRotation;
 
-            // Adjust angles to be between -180 and 180 degrees
-            float currentY = Mathf.DeltaAngle(0f, currentRotation.y);
-            float currentZ = Mathf.DeltaAngle(0f, currentRotation.z);
+            float angle = Quaternion.Angle(Quaternion.identity, deltaRotation);
 
-            // Compare with default rotation
-            float targetY = defaultRotation.y;
-            float targetZ = defaultRotation.z;
-
-            float deltaY = Mathf.Abs(Mathf.DeltaAngle(currentY, targetY));
-            float deltaZ = Mathf.Abs(Mathf.DeltaAngle(currentZ, targetZ));
-
-            // Check if rotations are within a small tolerance (e.g., 1 degree)
-            if (deltaY > 1f || deltaZ > 1f)
+            if (Mathf.Abs(angle) > 1f)  // Allow a small tolerance
                 return false;
         }
         return true;

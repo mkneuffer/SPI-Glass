@@ -880,8 +880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cfadb14929e94d4a80686f8d9897add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5507997155517262149, guid: 33d7c609b35b74e88a082ec39d1e0583, type: 3}
-  minimumSpawnDistance: 1
+  prefab: {fileID: 7117857188567671634, guid: 75912d89451b04c12a5a953838c68b77, type: 3}
+  minimumSpawnDistance: 2
   maximumSpawnDistance: 3
 --- !u!1 &898872506
 GameObject:
