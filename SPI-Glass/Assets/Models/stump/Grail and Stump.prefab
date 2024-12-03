@@ -1010,7 +1010,7 @@ MonoBehaviour:
   interpolationDuration: 0.5
   delayBeforeNextPiece: 1
   delayBeforeSceneChange: 3
-  nextSceneName: Scene3
+  nextSceneName: CirclesPuzzle
   transition: {fileID: 5938196745521515390}
   transitionTriggerName: Start
   transitionDuration: 3
