@@ -841,7 +841,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fee7cb0981897184ca8e254670a1d84f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b83ff4fd8177cc3438768c06499f2bbd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1047,6 +1047,7 @@ MonoBehaviour:
     item: {fileID: 11400000, guid: 27f776504a1f8d947adaf9448b56a8a8, type: 2}
   inventoryManager: {fileID: 417246947}
   woodCount: 0
+  woodInProgressBar: 0
   woodNeededToCraftGrail: 5
   transition: {fileID: 844181599}
 --- !u!114 &505250066
@@ -1134,7 +1135,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 100ff609716c53d41946de50887f4a6f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 473f86b7014c7ef4d90dc336478427af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1572,7 +1573,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1543359354
@@ -2276,6 +2277,7 @@ MonoBehaviour:
   current: 0
   mask: {fileID: 1543359353}
   semanticQuery: {fileID: 505250065}
+  testing: 0
 --- !u!114 &1968096612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2296,7 +2298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fee7cb0981897184ca8e254670a1d84f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 572955b2fc805584aaa343215e806606, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

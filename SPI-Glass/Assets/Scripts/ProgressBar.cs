@@ -10,11 +10,12 @@ public class ProgressBar : MonoBehaviour
     public int current = 0;
     public Image mask;
     public SemanticQuery semanticQuery;
+    [SerializeField] bool testing;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        testing = false;
     }
 
     // Update is called once per frame
@@ -25,8 +26,11 @@ public class ProgressBar : MonoBehaviour
 
     void GetCurrentFill()
     {
-        current = semanticQuery.woodInProgressBar;
-        maximum = semanticQuery.woodNeededToCraftGrail;
+        if (!testing)
+        {
+            current = semanticQuery.woodInProgressBar;
+            maximum = semanticQuery.woodNeededToCraftGrail;
+        }
         float fillAmount = (float)current / (float)maximum;
         mask.fillAmount = fillAmount;
     }
