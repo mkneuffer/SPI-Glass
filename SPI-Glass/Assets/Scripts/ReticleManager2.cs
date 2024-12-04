@@ -26,6 +26,8 @@ public class ReticleManager2 : MonoBehaviour
     private bool isFlashlightEnabled = false;
     private bool isHolyWaterEnabled = false;
     private bool isMenuOpen = false;
+    private float holdDuration = 0f;
+    private float stunHoldDuration = 3f;
 
     // Start is called before the first frame update
     void Start()

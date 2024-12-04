@@ -21,6 +21,7 @@ public class GhostMovement : MonoBehaviour
     private Vector3 previousPosition;
     [SerializeField] FlashlightHitboxManager flashlight;
     [SerializeField] private Animator transition;
+    private float playerHealth = 600;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
@@ -29,6 +30,7 @@ public class GhostMovement : MonoBehaviour
     private int maxFlashlightHealth;
     private int phase = 1;
     public bool isStunned = false;
+    private bool isVulnerable = false;
 
 
     // Start is called before the first frame update
@@ -41,6 +43,7 @@ public class GhostMovement : MonoBehaviour
         previousPosition = startingPosition;
         BezierCurveT = 0;
         maxFlashlightHealth = flashlightHealth;
+
         //Invoke("SwapPath", 7);
     }
     // Update is called once per frame
@@ -50,6 +53,10 @@ public class GhostMovement : MonoBehaviour
         if (!isStunned)
         {
             MoveToPoints(currentWaypoint.GetWaypoints());
+        }
+        playerHealth--;
+        if(playerHealth <= 0) {
+            Debug.Log("Health ran out!");
         }
 
         //if (isStunned)
@@ -159,6 +166,10 @@ public class GhostMovement : MonoBehaviour
     //Ghost is destroyed if health <= 0
     public void HandleHealth(int amount)
     {
+        if(!isVulnerable) {
+            return;
+        }
+        
         health -= amount;
         Debug.Log("Health: " + health);
         if (health <= 0)
