@@ -22,6 +22,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float automaticTextSpeedPerWord;
     [SerializeField] private Animator transition;
     [SerializeField] private float transitionTime;
+    [SerializeField] private PostProcessingSwitcher postProcessingSwitcher;
+
 
 
     [Header("Choices UI")]
@@ -296,6 +298,20 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(8);
         }
+
+        currentStory.BindExternalFunction("EnterGhostWorld", () =>
+{
+    if (postProcessingSwitcher != null)
+    {
+        postProcessingSwitcher.EnterGhostWorld();
+    }
+    else
+    {
+        Debug.LogError("PostProcessingSwitcher is not assigned in DialogueManager.");
+    }
+});
+
+
 
 
         //Reset display name, portrait and layout

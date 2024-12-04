@@ -1004,7 +1004,7 @@ MonoBehaviour:
   - {fileID: 4717921679282384874}
   finalModel: {fileID: 1700360143035764436}
   tolerance: 0.05
-  speedRange: {x: 1, y: 2}
+  speedRange: {x: 0.5, y: 1.5}
   movementDistance: 0.5
   fadeDuration: 2
   interpolationDuration: 0.5
