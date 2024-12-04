@@ -59,7 +59,7 @@ public class PlayerHealthManager : MonoBehaviour
         {
             yield return new WaitForSeconds(drainRate);
             playerHealth--;
-            Debug.Log($"Current health: {playerHealth}");
+            //Debug.Log($"Current health: {playerHealth}");
             UpdateVignette();
             if(playerHealth <= 0) 
             {
