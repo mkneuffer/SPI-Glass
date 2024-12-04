@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
-public class ItemData : MonoBehaviour
+public class ItemData : ScriptableObject
 {
 
     // What does item need
