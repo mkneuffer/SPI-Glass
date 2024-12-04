@@ -332,6 +332,29 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &460663106 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1676854957203996418, guid: 5be7dac5b2b96004f8262bdb6326a611,
+    type: 3}
+  m_PrefabInstance: {fileID: 1675514060}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &460663110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460663106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abf1d8e00cd84043968f49ddac1432e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inInventory: 0
+  name: Sword
+  itemNum: 0
+  itemModel: {fileID: 21300000, guid: f0de9c73a2a6d0a4f82757ad4903cf5a, type: 3}
+  itemIcon: {fileID: 0}
 --- !u!1 &562650139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,6 +1371,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &995000271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995000264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abf1d8e00cd84043968f49ddac1432e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inInventory: 0
+  name: HolyWater
+  itemNum: 0
+  itemModel: {fileID: 21300000, guid: 9fe53398a8c43451ba4b9ee6aa8f0493, type: 3}
+  itemIcon: {fileID: 0}
 --- !u!1 &1009216863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,10 +2539,20 @@ PrefabInstance:
       propertyPath: m_TagString
       value: HolyWater
       objectReference: {fileID: 0}
+    - target: {fileID: 1676854957203996418, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      propertyPath: m_Name
+      value: Sword
+      objectReference: {fileID: 0}
     - target: {fileID: 1762318663470638380, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
       propertyPath: m_TagString
       value: Flashlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131425116558768610, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      propertyPath: Inventory.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2518583998845140860, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
@@ -2607,7 +2657,12 @@ PrefabInstance:
     - target: {fileID: 3498789560149318850, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279048000520950035, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5072313520297919051, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
@@ -2627,7 +2682,12 @@ PrefabInstance:
     - target: {fileID: 6670858881266393901, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563022656547919470, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8277199666466318344, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
@@ -2648,10 +2708,22 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2016485378}
+    - targetCorrespondingSourceObject: {fileID: 1762318663470638380, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2016485381}
     - targetCorrespondingSourceObject: {fileID: 212561639611315713, guid: 5be7dac5b2b96004f8262bdb6326a611,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 995000268}
+    - targetCorrespondingSourceObject: {fileID: 212561639611315713, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 995000271}
+    - targetCorrespondingSourceObject: {fileID: 1676854957203996418, guid: 5be7dac5b2b96004f8262bdb6326a611,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 460663110}
   m_SourcePrefab: {fileID: 100100000, guid: 5be7dac5b2b96004f8262bdb6326a611, type: 3}
 --- !u!114 &1675514061 stripped
 MonoBehaviour:
@@ -3468,6 +3540,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &2016485381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016485374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abf1d8e00cd84043968f49ddac1432e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inInventory: 0
+  name: Flashlight
+  itemNum: 0
+  itemModel: {fileID: 21300000, guid: 43d27c85f3039924795605d5a5782ba5, type: 3}
+  itemIcon: {fileID: -927199367670048503, guid: b44e4c4723bdd124293c37ea721360f3,
+    type: 3}
 --- !u!1001 &2130492250
 PrefabInstance:
   m_ObjectHideFlags: 0
