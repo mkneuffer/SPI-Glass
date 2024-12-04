@@ -16,24 +16,25 @@ public class HolyWaterHitboxManager : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other) 
+    {
         if (!alreadyHit && other.CompareTag("Ghost")) 
         {
             GhostMovement ghostMovement = other.GetComponent<GhostMovement>();
             if (ghostMovement != null && ghostMovement.isStunned) 
             {
+                alreadyHit = true;
+                StartCoroutine(DestroyAfterFrame());
                 ApplyDamage();
                 Debug.Log("Damaged Applied!");
-                Destroy(gameObject);
-                StartCoroutine(ResetDamageFlag());
             }
         }
     }
 
-    private IEnumerator ResetDamageFlag()
+    private IEnumerator DestroyAfterFrame()
     {
-        yield return new WaitForEndOfFrame();
-        alreadyHit = false;
+        yield return null;
+        Destroy(gameObject);
     }
 
 

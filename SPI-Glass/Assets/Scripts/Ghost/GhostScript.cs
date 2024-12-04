@@ -192,12 +192,12 @@ public class GhostMovement : MonoBehaviour
         
     }
 
-IEnumerator LoadScene5()
-        {
-            transition.SetTrigger("Start");
-            yield return new WaitForSeconds(3f);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
-        }
+    IEnumerator LoadScene5()
+    {
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+    }
 
     //Swaps between two different waypoints
     void SwapPath()
