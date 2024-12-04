@@ -3004,7 +3004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5b14a9a28f6417caef70d171109b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowUI: {fileID: 0}
+  arrowUI: {fileID: 213238447}
   sideActivationAngle: 35
   verticalActivationAngle: 45
   screenEdgeBuffer: 200
@@ -3663,6 +3663,7 @@ MonoBehaviour:
   automaticTextSpeedPerWord: 0
   transition: {fileID: 1161379378}
   transitionTime: 3
+  postProcessingSwitcher: {fileID: 0}
   choices:
   - {fileID: 15641288}
   - {fileID: 15641290}

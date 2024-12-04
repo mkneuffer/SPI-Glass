@@ -764,6 +764,7 @@ MonoBehaviour:
   automaticTextSpeedPerWord: 0
   transition: {fileID: 793328087}
   transitionTime: 3
+  postProcessingSwitcher: {fileID: 0}
   choices:
   - {fileID: 0}
   - {fileID: 0}
@@ -1189,8 +1190,7 @@ MonoBehaviour:
   sideActivationAngle: 35
   verticalActivationAngle: 45
   screenEdgeBuffer: 200
-  customTarget: {fileID: 7360999087900822157, guid: eecccd038955f46ab8727ca09a2b4601,
-    type: 3}
+  customTarget: {fileID: 0}
   targetOffset: {x: -0.5, y: 0.7, z: 0}
 --- !u!114 &1117002590
 MonoBehaviour:
@@ -2099,7 +2099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2030141262
 RectTransform:
   m_ObjectHideFlags: 0
