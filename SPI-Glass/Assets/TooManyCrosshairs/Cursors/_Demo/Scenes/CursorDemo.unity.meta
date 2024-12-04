@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SPI-Glass/Assets/TooManyCrosshairs/Cursors/_Demo/Scenes/CursorDemo.unity.meta
 guid: 894e2448832513f4aa6392b47bf43f8c
+========
+guid: b36a5deb9769dc448bda09f19d9eacba
+folderAsset: yes
+>>>>>>>> dev-main:SPI-Glass/Assets/TooManyCrosshairs/Cursors.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

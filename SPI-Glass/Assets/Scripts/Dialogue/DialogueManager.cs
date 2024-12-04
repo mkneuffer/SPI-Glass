@@ -318,7 +318,7 @@ public class DialogueManager : MonoBehaviour
         displayNameText.text = "???";
         portraitAnimator.Play("default");
         layoutAnimator.Play("right");
-        if (this.notAutomatic)
+        if (this.notAutomatic == true)
         {
             ContinueStory();
         }
@@ -335,7 +335,7 @@ public class DialogueManager : MonoBehaviour
     //inkJSON: the .json file related to the .ink file of the text that will be played
     //notAutomatic: if true, player will need to click to advance the text, if false, text advances automatically
     //automaticTextSpeed: how fast the automatic text updates
-    public void EnterDialogueMode(TextAsset inkJSON, bool notAutomatic, float automaticTextSpeedPerWord)
+    public void EnterAutomaticDialogueMode(TextAsset inkJSON, bool notAutomatic, float automaticTextSpeedPerWord)
     {
 
         //If dialogue is already playing, return
@@ -358,14 +358,7 @@ public class DialogueManager : MonoBehaviour
         portraitAnimator.Play("default");
         layoutAnimator.Play("left");
 
-        if (this.notAutomatic)
-        {
-            ContinueStory();
-        }
-        else
-        {
-            StartCoroutine(AutomaticContinueStory(automaticTextSpeedPerWord));
-        }
+        StartCoroutine(AutomaticContinueStory(automaticTextSpeedPerWord));
 
     }
 
@@ -426,7 +419,7 @@ public class DialogueManager : MonoBehaviour
 
 
             //Calculate autotextspeed
-            float textSpeed = 1.0f + GetWordCount(currentText) * automaticTextSpeedPerWord;
+            float textSpeed = 1.0f + (GetWordCount(currentText) * automaticTextSpeedPerWord);
             yield return new WaitForSeconds(textSpeed);
 
             StartCoroutine(AutomaticContinueStory(automaticTextSpeedPerWord));
@@ -575,6 +568,7 @@ public class DialogueManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
+
 }
 
 
