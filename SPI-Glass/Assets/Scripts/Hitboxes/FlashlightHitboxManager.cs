@@ -45,6 +45,7 @@ public class FlashlightHitboxManager : MonoBehaviour
     {
         ghostMovement.isStunned = false;
         ghostMovement.SetSpeed(0.01f); // will need to change ghost speed to its variable
+        isStunned = false;
         Debug.Log($"Ghost stun is {isStunned}");
     }
 
