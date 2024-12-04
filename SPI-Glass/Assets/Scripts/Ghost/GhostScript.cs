@@ -21,7 +21,7 @@ public class GhostMovement : MonoBehaviour
     private Vector3 previousPosition;
     [SerializeField] FlashlightHitboxManager flashlight;
     [SerializeField] private Animator transition;
-    private float playerHealth = 10;
+    private int playerHealth = 10;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
@@ -30,7 +30,6 @@ public class GhostMovement : MonoBehaviour
     private int maxFlashlightHealth;
     private int phase = 1;
     public bool isStunned = false;
-    private bool isVulnerable = false;
 
 
     // Start is called before the first frame update
@@ -43,7 +42,6 @@ public class GhostMovement : MonoBehaviour
         previousPosition = startingPosition;
         BezierCurveT = 0;
         maxFlashlightHealth = flashlightHealth;
-
         //Invoke("SwapPath", 7);
     }
     // Update is called once per frame
@@ -54,11 +52,7 @@ public class GhostMovement : MonoBehaviour
         {
             MoveToPoints(currentWaypoint.GetWaypoints());
         }
-        //yield return new WaitForSeconds(1f);
-        //playerHealth--;
-        //if(playerHealth == 0) {
-        //    Debug.Log("Health ran out!");
-        //}
+
 
         //if (isStunned)
         //{
@@ -67,8 +61,6 @@ public class GhostMovement : MonoBehaviour
         //        HandleHealth(1);
         //    }
         //}
-
-        StartCoroutine(HealthCoroutine(playerHealth));
     }
 
     //Moves the ghost along the given waypoints
@@ -231,6 +223,18 @@ IEnumerator LoadScene5()
         }
     }
 
+    public void healthManager(int playerHealth)
+    {
+        while(playerHealth > 0)
+        {
+            StartCoroutine(HealthCoroutine(playerHealth));
+        }
+        if(playerHealth == 0)
+        {
+            Debug.Log("No health left!");
+        }
+    }
+
     private IEnumerator StunCoroutine(float stunTime)
     {
         Debug.Log($"Ghost stunned for {stunTime} seconds.");
@@ -239,11 +243,11 @@ IEnumerator LoadScene5()
         Debug.Log("Ghost recovered!");
     }
 
-    private IEnumerator HealthCoroutine(float playerHealth)
+    private IEnumerator HealthCoroutine(int playerHealth)
     {
         playerHealth--;
         Debug.Log($"Current health: {health}");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
     }
 
     public void TakeFlashlightDamage(int damage)
