@@ -21,7 +21,6 @@ public class GhostMovement : MonoBehaviour
     private Vector3 previousPosition;
     [SerializeField] FlashlightHitboxManager flashlight;
     [SerializeField] private Animator transition;
-    private int playerHealth = 10;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
@@ -223,31 +222,12 @@ IEnumerator LoadScene5()
         }
     }
 
-    public void healthManager(int playerHealth)
-    {
-        while(playerHealth > 0)
-        {
-            StartCoroutine(HealthCoroutine(playerHealth));
-        }
-        if(playerHealth == 0)
-        {
-            Debug.Log("No health left!");
-        }
-    }
-
     private IEnumerator StunCoroutine(float stunTime)
     {
         Debug.Log($"Ghost stunned for {stunTime} seconds.");
         yield return new WaitForSeconds(stunTime);
         isStunned = false;
         Debug.Log("Ghost recovered!");
-    }
-
-    private IEnumerator HealthCoroutine(int playerHealth)
-    {
-        playerHealth--;
-        Debug.Log($"Current health: {health}");
-        yield return new WaitForSeconds(1f);
     }
 
     public void TakeFlashlightDamage(int damage)
