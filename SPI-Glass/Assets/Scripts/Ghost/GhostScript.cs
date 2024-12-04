@@ -56,7 +56,7 @@ public class GhostMovement : MonoBehaviour
         }
         playerHealth--;
         if(playerHealth <= 0) {
-            Debug.Log("Health ran out!");
+            //Debug.Log("Health ran out!");
         }
 
         //if (isStunned)
@@ -166,10 +166,10 @@ public class GhostMovement : MonoBehaviour
     //Ghost is destroyed if health <= 0
     public void HandleHealth(int amount)
     {
-        if(!isVulnerable) {
+        if(!isStunned) {
             return;
         }
-        
+
         health -= amount;
         Debug.Log("Health: " + health);
         if (health <= 0)

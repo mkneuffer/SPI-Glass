@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ReticleManager2 : MonoBehaviour
+public class ReticleManager2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private GameObject reticle;
     [SerializeField] private LayerMask ghostLayer;
@@ -16,6 +16,7 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance = 50f;
     [SerializeField] private float scaleSpeed = 5f;
+    [SerializeField] private Button flashlightToggle;
     private int mouseClicks;
     private Vector3 worldPos;
     private bool start = false;
@@ -34,7 +35,7 @@ public class ReticleManager2 : MonoBehaviour
     {
         Cursor.visible = false;
         SelectFlashlight();
-
+        SetupListener();
         if (Camera.main == null)
         {
             Debug.LogError("Error: Main Camera is missing");
@@ -51,9 +52,17 @@ public class ReticleManager2 : MonoBehaviour
 
         MoveReticle();
 
-        if (isTouch)
+        if (isTouch && isHolyWaterEnabled)
         {
             HandleInteraction();
+        }
+    }
+
+    private void SetupListener() {
+        if(flashlightToggle != null) {
+            flashlightToggle.onClick.AddListener(SelectFlashlight);
+        } else {
+            Debug.Log("Flashlight not assigned");
         }
     }
 
@@ -76,7 +85,7 @@ public class ReticleManager2 : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             mousePos = touch.position;
-            Debug.Log("Touch input detected");
+            //Debug.Log("Touch input detected");
             isTouch = true;
             //hold++;
         }
@@ -120,6 +129,14 @@ public class ReticleManager2 : MonoBehaviour
         }
 
         worldPos = worldPosition;
+    }
+
+    public void FlashlightInteraction() {
+        if(isFlashlightEnabled) 
+        {
+            //Debug.Log("Flashlight triggered");
+            HandleInteraction();
+        }
     }
 
     private void HandleInteraction()
@@ -222,7 +239,7 @@ public class ReticleManager2 : MonoBehaviour
     {
         isFlashlightEnabled = true;
         isHolyWaterEnabled = false;
-        Debug.Log("Flashlight selected");
+        //Debug.Log("Flashlight selected");
         reticle.GetComponent<Image>().color = Color.yellow;
     }
 
