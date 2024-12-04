@@ -4,15 +4,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Controls;
 
 public class GhostMovement : MonoBehaviour
 {
 
-    float WRadius = .05f; //How close the ghost has to be to a point to count as being at that point
+    float WRadius = .005f; //How close the ghost has to be to a point to count as being at that point
     int counter = 0;
     float BezierCurveT = 0; //Way through each bezier curve
     //private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
-    public float speed; //Value should be around .01
+    public float currentSpeed; //Value should be around .01
+    [SerializeField] float defaultSpeed;
     private Vector3 startingPosition;
     private Vector3 previousWaypoint;
     [SerializeField] private WaypointStorage waypointStorage1;
@@ -43,13 +45,14 @@ public class GhostMovement : MonoBehaviour
         previousPosition = startingPosition;
         BezierCurveT = 0;
         maxFlashlightHealth = flashlightHealth;
+        currentSpeed = defaultSpeed;
 
         //Invoke("SwapPath", 7);
     }
     // Update is called once per frame
     void Update()
     {
-        MoveToPoints(currentWaypoint.GetWaypoints());
+        //MoveToPoints(currentWaypoint.GetWaypoints());
         if (!isStunned)
         {
             MoveToPoints(currentWaypoint.GetWaypoints());
@@ -76,11 +79,10 @@ public class GhostMovement : MonoBehaviour
     void MoveToPoints(Waypoints[] waypoints)
     {
 
-        if (Vector3.Distance(startingPosition + waypoints[counter].point, transform.position) < WRadius)
+        if (Vector3.Distance(startingPosition + waypoints[counter].point, transform.position) < WRadius || BezierCurveT > 1)
         {
-
             previousWaypoint = transform.position;
-            BezierCurveT = speed;
+            BezierCurveT = currentSpeed;
             counter++;
             if (counter >= waypoints.Length)
             {
@@ -105,39 +107,9 @@ public class GhostMovement : MonoBehaviour
             P1 = new Vector3(P0.x, midpoint.y, P0.z);
             P2 = new Vector3(midpoint.x, P3.y, midpoint.z);
         }
-        //Debug.Log("P0:" + P0 + ", P1:" + P1 + ", P2:" + P2 + ", P3:" + P3);
-        // if (Mathf.Abs(P0.x - startingPosition.x) > Mathf.Abs(P3.x - startingPosition.x))
-        // {
-        //     P1.x = P0.x;
-
-        // }
-        // else
-        // {
-        //     //P1.x 
-        //     P2.x = P3.x;
-        // }
-
-        // if (Mathf.Abs(P0.y - startingPosition.y) > Mathf.Abs(P3.y - startingPosition.y))
-        // {
-        //     P2.y = P0.y;
-        // }
-        // else
-        // {
-        //     P2.y = P3.y;
-        // }
-
-        // if (Mathf.Abs(P0.z - startingPosition.z) > Mathf.Abs(P3.z - startingPosition.z))
-        // {
-        //     P2.z = P0.z;
-        // }
-        // else
-        // {
-        //     P2.z = P3.z;
-        // }
         previousPosition = transform.position;
         transform.position = BezierCurve(BezierCurveT, P0, P1, P2, P3);
-        //print("T" + BezierCurveT);
-        BezierCurveT += speed;
+        BezierCurveT += currentSpeed;
 
     }
 
@@ -151,17 +123,22 @@ public class GhostMovement : MonoBehaviour
 
     public void SetSpeed(float change)
     {
-        speed = change;
+        currentSpeed = change;
     }
 
     float GetSpeed()
     {
-        return speed;
+        return currentSpeed;
+    }
+
+    public void ResetSpeed()
+    {
+        currentSpeed = phase * defaultSpeed;
     }
 
     void multSpeed(float mult)
     {
-        speed *= mult;
+        currentSpeed *= mult;
     }
 
     //Deals with the health value of the ghost
@@ -169,18 +146,19 @@ public class GhostMovement : MonoBehaviour
     //Ghost is destroyed if health <= 0
     public void HandleHealth(int amount)
     {
-        if(!isStunned) {
+        if (!isStunned)
+        {
             Debug.Log("Not stunned!");
             return;
         }
 
         health -= amount;
-        Debug.Log("Health: " + health);
+        //Debug.Log("Health: " + health);
         if (health <= 0)
         {
             isStunned = false;
             health = 10;
-            SwapPath();
+            //SwapPath();
             flashlight.stopStun();
             phase++;
             Debug.Log("Phase:" + phase);
@@ -189,24 +167,24 @@ public class GhostMovement : MonoBehaviour
                 Debug.Log("End fight");
                 StartCoroutine(LoadScene5());
             }
-      /*    else
-            {
-                health = 10;
-                //Debug.Log("Phase: " + phase);
-                SwapPath();
-                flashlight.stopStun();
-            } */
+            /*    else
+                  {
+                      health = 10;
+                      //Debug.Log("Phase: " + phase);
+                      SwapPath();
+                      flashlight.stopStun();
+                  } */
         }
 
-        
+
     }
 
-IEnumerator LoadScene5()
-        {
-            transition.SetTrigger("Start");
-            yield return new WaitForSeconds(3f);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
-        }
+    IEnumerator LoadScene5()
+    {
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+    }
 
     //Swaps between two different waypoints
     void SwapPath()
@@ -242,7 +220,7 @@ IEnumerator LoadScene5()
     private IEnumerator HealthCoroutine(float playerHealth)
     {
         playerHealth--;
-        Debug.Log($"Current health: {health}");
+        //Debug.Log($"Current health: {health}");
         yield return new WaitForSeconds(1);
     }
 
