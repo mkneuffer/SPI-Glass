@@ -29,6 +29,7 @@ public class ReticleManager2 : MonoBehaviour
     private bool isMenuOpen = false;
     private float holdDuration = 0f;
     private float stunHoldDuration = 3f;
+    private bool isFlashlightHeld = false;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,20 @@ public class ReticleManager2 : MonoBehaviour
         {
             HandleInteraction();
         }
+
+        if(isFlashlightHeld) {
+            FlashlightInteraction();
+        }
+    }
+
+    public void OnFlashlightButtonPress()
+    {
+        isFlashlightHeld = true;
+    }
+
+    public void OnFlashlightButtonRelease()
+    {
+        isFlashlightHeld = false;
     }
 
     private void SetupListener() {
