@@ -1,8 +1,10 @@
 EXTERNAL SwitchToObjectDetection()
 EXTERNAL SpawnGhost()
+EXTERNAL EnterGhostWorld()
 
 The EMF reader flashes orange. You pull out your SPI-issued Phone, and open the navigation app. #speaker:0 #portrait:0
 The traversal to the Ghost World is instantaneous.
+~EnterGhostWorld()
 ~SpawnGhost()
 The scenery is a faded version of your world, but most notably, there is a sword wedged in a stone in the clearing, exuding a faint glow.
 The knight ghost stands beside it, muttering to himself.
