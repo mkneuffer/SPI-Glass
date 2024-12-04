@@ -7,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 public class PlayerHealthManager : MonoBehaviour
 {
 
-    [SerializeField] private int maxHealth = 120;
+    [SerializeField] private int maxHealth;
     [SerializeField] private int playerHealth;
     [SerializeField] private float drainRate = 1.0f;
     [SerializeField] private Volume postProcessingVolume;
@@ -59,7 +59,7 @@ public class PlayerHealthManager : MonoBehaviour
         {
             yield return new WaitForSeconds(drainRate);
             playerHealth--;
-            //Debug.Log($"Current health: {playerHealth}");
+            Debug.Log($"Current health: {playerHealth}");
             UpdateVignette();
             if(playerHealth <= 0) 
             {
