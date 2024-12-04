@@ -167,6 +167,7 @@ public class GhostMovement : MonoBehaviour
     public void HandleHealth(int amount)
     {
         if(!isStunned) {
+            Debug.Log("Not stunned!");
             return;
         }
 
@@ -229,6 +230,7 @@ IEnumerator LoadScene5()
 
     private IEnumerator StunCoroutine(float stunTime)
     {
+        Debug.Log($"Ghost stunned for {stunTime} seconds.");
         yield return new WaitForSeconds(stunTime);
         isStunned = false;
         Debug.Log("Ghost recovered!");

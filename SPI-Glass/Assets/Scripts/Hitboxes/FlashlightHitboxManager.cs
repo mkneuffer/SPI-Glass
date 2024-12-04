@@ -6,7 +6,7 @@ public class FlashlightHitboxManager : MonoBehaviour
 {
 
     public GhostMovement ghostMovement;
-    public float stunTime = 2.0f; // max stun time
+    public float stunTime = 10.0f; // max stun time
     private bool isStunned = false;
     private float stunTimer = 0f; // logs stun length
     private float time;
@@ -31,8 +31,9 @@ public class FlashlightHitboxManager : MonoBehaviour
         if (ghostMovement.GetFlashlightHealth() <= 0 && !isStunned)
         {
             isStunned = true;
+            ghostMovement.isStunned = true;
             ghostMovement.SetSpeed(0);
-            Debug.Log("Ghost is stunned!");
+            Debug.Log($"Ghost stun is {isStunned}");
             stunTimer = stunTime;
             ghostMovement.ResetFlashlightHealth();
             StartCoroutine(stunCountdown());
@@ -44,7 +45,7 @@ public class FlashlightHitboxManager : MonoBehaviour
     {
         isStunned = false;
         ghostMovement.SetSpeed(0.01f); // will need to change ghost speed to its variable
-        Debug.Log("Ghost no longer stunned");
+        Debug.Log($"Ghost stun is {isStunned}");
     }
 
     private IEnumerator stunCountdown()

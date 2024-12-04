@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ReticleManager2 : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ReticleManager2 : MonoBehaviour
 {
     [SerializeField] private GameObject reticle;
     [SerializeField] private LayerMask ghostLayer;
@@ -159,7 +159,7 @@ public class ReticleManager2 : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             if (hitObject.CompareTag("Ghost"))
             {
                 RegisterHit(hitObject);
-                Debug.Log("Hit registered");
+                //Debug.Log("Hit registered");
             }
         }
     }
@@ -215,12 +215,12 @@ public class ReticleManager2 : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         Debug.Log($"Hit: {hitObject.name}");
         if (isFlashlightEnabled == true)
         {
-            Debug.Log("Hit ghost stunned");
+            Debug.Log("Hit ghost with flashlight");
             flashlightManager.DoFlashlightDamage();
         }
         else if (isHolyWaterEnabled == true) 
         {
-            Debug.Log("Hit ghost damaged");
+            //Debug.Log("Hit ghost with holy water");
             ghostMovement.HandleHealth(1);
             if (hold <= 1 && flashlightManager.getStun() == true) // not being triggered currently
             {

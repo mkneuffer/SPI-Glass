@@ -20,6 +20,7 @@ void OnTriggerEnter(Collider other) {
         GhostMovement ghostMovement = other.GetComponent<GhostMovement>();
         if (ghostMovement != null && ghostMovement.isStunned) {
             ApplyDamage();
+            Debug.Log("Damaged Applied!");
         }
     }
 }
