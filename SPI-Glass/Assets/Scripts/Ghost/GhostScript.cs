@@ -133,7 +133,7 @@ public class GhostMovement : MonoBehaviour
 
     public void ResetSpeed()
     {
-        currentSpeed = phase * defaultSpeed;
+        currentSpeed = 1.5f * phase * defaultSpeed;
     }
 
     void multSpeed(float mult)
@@ -159,8 +159,8 @@ public class GhostMovement : MonoBehaviour
             isStunned = false;
             health = 10;
             //SwapPath();
-            flashlight.stopStun();
             phase++;
+            flashlight.stopStun();
             Debug.Log("Phase:" + phase);
             if (phase > 3)
             {
