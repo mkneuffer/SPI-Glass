@@ -7,6 +7,7 @@ public class HolyWaterHitboxManager : MonoBehaviour
 {
     public GhostMovement ghostMovement;
     public int damage = 1;
+    private bool alreadyHit = false;
 
     public void ApplyDamage() {
         if (ghostMovement != null) {
@@ -15,15 +16,26 @@ public class HolyWaterHitboxManager : MonoBehaviour
         }
     }
 
-void OnTriggerEnter(Collider other) {
-    if (other.CompareTag("Ghost")) {
-        GhostMovement ghostMovement = other.GetComponent<GhostMovement>();
-        if (ghostMovement != null && ghostMovement.isStunned) {
-            ApplyDamage();
-            Debug.Log("Damaged Applied!");
+    void OnTriggerEnter(Collider other) {
+        if (!alreadyHit && other.CompareTag("Ghost")) 
+        {
+            GhostMovement ghostMovement = other.GetComponent<GhostMovement>();
+            if (ghostMovement != null && ghostMovement.isStunned) 
+            {
+                ApplyDamage();
+                Debug.Log("Damaged Applied!");
+                Destroy(gameObject);
+                StartCoroutine(ResetDamageFlag());
+            }
         }
     }
-}
+
+    private IEnumerator ResetDamageFlag()
+    {
+        yield return new WaitForEndOfFrame();
+        alreadyHit = false;
+    }
+
 
     // Start is called before the first frame update
     void Start()

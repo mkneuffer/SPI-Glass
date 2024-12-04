@@ -21,7 +21,6 @@ public class GhostMovement : MonoBehaviour
     private Vector3 previousPosition;
     [SerializeField] FlashlightHitboxManager flashlight;
     [SerializeField] private Animator transition;
-    private float playerHealth = 10;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
@@ -30,7 +29,6 @@ public class GhostMovement : MonoBehaviour
     private int maxFlashlightHealth;
     private int phase = 1;
     public bool isStunned = false;
-    private bool isVulnerable = false;
 
 
     // Start is called before the first frame update
@@ -43,7 +41,6 @@ public class GhostMovement : MonoBehaviour
         previousPosition = startingPosition;
         BezierCurveT = 0;
         maxFlashlightHealth = flashlightHealth;
-
         //Invoke("SwapPath", 7);
     }
     // Update is called once per frame
@@ -54,11 +51,7 @@ public class GhostMovement : MonoBehaviour
         {
             MoveToPoints(currentWaypoint.GetWaypoints());
         }
-        //yield return new WaitForSeconds(1f);
-        //playerHealth--;
-        //if(playerHealth == 0) {
-        //    Debug.Log("Health ran out!");
-        //}
+
 
         //if (isStunned)
         //{
@@ -67,8 +60,6 @@ public class GhostMovement : MonoBehaviour
         //        HandleHealth(1);
         //    }
         //}
-
-        StartCoroutine(HealthCoroutine(playerHealth));
     }
 
     //Moves the ghost along the given waypoints
@@ -237,13 +228,6 @@ IEnumerator LoadScene5()
         yield return new WaitForSeconds(stunTime);
         isStunned = false;
         Debug.Log("Ghost recovered!");
-    }
-
-    private IEnumerator HealthCoroutine(float playerHealth)
-    {
-        playerHealth--;
-        Debug.Log($"Current health: {health}");
-        yield return new WaitForSeconds(1);
     }
 
     public void TakeFlashlightDamage(int damage)
