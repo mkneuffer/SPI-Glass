@@ -10,6 +10,7 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private LayerMask ghostLayer;
     [SerializeField] private FlashlightHitboxManager flashlightManager;
     [SerializeField] private GhostMovement ghostMovement;
+    [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 100f;
     [SerializeField] private float lowerScreenLimit = 100f;
@@ -22,6 +23,7 @@ public class ReticleManager2 : MonoBehaviour
     private bool start = false;
     private bool isTouch = false;
     private int hold = 0;
+    private int activeItem;
 
     private GameObject activeDetector;
     private bool isFlashlightEnabled = false;
@@ -256,7 +258,7 @@ public class ReticleManager2 : MonoBehaviour
     {
         isFlashlightEnabled = true;
         isHolyWaterEnabled = false;
-        //Debug.Log("Flashlight selected");
+        Debug.Log("Flashlight selected");
         if(flashlightToggle != null)
         {
             flashlightToggle.gameObject.SetActive(true);
@@ -289,5 +291,24 @@ public class ReticleManager2 : MonoBehaviour
     public void ToggleMenu(bool isOpen)
     {
         isMenuOpen = isOpen;
+    }
+
+    public void checkCurrentItem()
+    {
+        if (inventoryManager != null)
+        {
+            if (inventoryManager.getCurrentItemNum() != activeItem)
+            {
+                activeItem = inventoryManager.getCurrentItemNum();
+                if (activeItem == 0)
+                {
+                    SelectFlashlight();
+                }
+                else if (activeItem == 1)
+                {
+                    SelectHolyWater();
+                }
+            }
+        }
     }
 }

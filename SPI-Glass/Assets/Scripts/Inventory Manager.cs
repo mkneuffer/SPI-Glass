@@ -8,13 +8,14 @@ using UnityEngine.SceneManagement;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] InventoryManager mainInventory;
-    [SerializeField] private List<ItemData> Inventory = new List<ItemData>();
+    //[SerializeField] private InventoryManager mainInventory;
+    [SerializeField] private List<ItemData> Inventory;
     [SerializeField] private ItemData currentItem;
-[SerializeField] private Animator transition;
-    [SerializeField] private GameObject itemList;
-    [SerializeField] private GameObject inventoryPrefab;
-    [SerializeField] private ItemUsageManager itemUsageManager;
+    [SerializeField] private Animator transition;
+    [SerializeField] private ReticleManager2 reticleManager;
+    //[SerializeField] private GameObject itemList;
+    //[SerializeField] private GameObject inventoryPrefab;
+    //[SerializeField] private ItemUsageManager itemUsageManager;
     private float defaultObjectLocation = -564;
 
     //public Animator transition;
@@ -69,7 +70,17 @@ public class InventoryManager : MonoBehaviour
     {
         if (i >= 0 && i < Inventory.Count)
         {
-            currentItem = Inventory[i];
+            for (int j = 0; j < Inventory.Count; j++)
+            {
+                if (Inventory[j].itemNum == i)
+                {
+                    currentItem = Inventory[j];
+                }
+            }
+        }
+        if (reticleManager != null)
+        {
+            reticleManager.checkCurrentItem();
         }
     }
 
@@ -84,7 +95,7 @@ public class InventoryManager : MonoBehaviour
         {
             Inventory.Remove(item);
             item.inInventory = false;
-            UpdateInventoryUI();
+            //UpdateInventoryUI();
         }
     }
 
@@ -94,7 +105,7 @@ public class InventoryManager : MonoBehaviour
         {
             Inventory.Add(item);
             item.inInventory = true;
-            UpdateInventoryUI();
+            //UpdateInventoryUI();
         }
     }
 
@@ -102,7 +113,7 @@ public class InventoryManager : MonoBehaviour
     {
         Inventory.Remove(item);
         item.inInventory = false;
-        UpdateInventoryUI();
+        //UpdateInventoryUI();
     }
 
     public void RemoveItem(int i)
@@ -114,7 +125,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void UpdateInventoryUI()
+    /*private void UpdateInventoryUI()
     {
         foreach (Transform child in itemList.transform)
         {
@@ -140,5 +151,10 @@ public class InventoryManager : MonoBehaviour
             }
             index++;
         }
+    }*/
+
+    public int getCurrentItemNum()
+    {
+        return currentItem.itemNum;
     }
 }
