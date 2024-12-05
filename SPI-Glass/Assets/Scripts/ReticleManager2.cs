@@ -239,7 +239,7 @@ public class ReticleManager2 : MonoBehaviour
             holyWaterCooldown = true;
             ghostMovement.HandleHealth(1);
             StartCoroutine(HolyWaterCooldown());
-            if (hold <= 1 && flashlightManager.getStun() == true) // not being triggered currently
+            if (hold <= 1 && flashlightManager.getStun() == true)
             {
                 Debug.Log("Hit ghost damaged 2");
                 
@@ -259,6 +259,7 @@ public class ReticleManager2 : MonoBehaviour
         //Debug.Log("Flashlight selected");
         if(flashlightToggle != null)
         {
+            flashlightToggle.gameObject.SetActive(true);
             flashlightToggle.interactable = true;
         }
 
@@ -273,6 +274,7 @@ public class ReticleManager2 : MonoBehaviour
 
         if (flashlightToggle != null)
         {
+            flashlightToggle.gameObject.SetActive(false);
             flashlightToggle.interactable = false;
         }
 
@@ -280,7 +282,7 @@ public class ReticleManager2 : MonoBehaviour
     }
     private IEnumerator HolyWaterCooldown()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         holyWaterCooldown = false;
     }
 
