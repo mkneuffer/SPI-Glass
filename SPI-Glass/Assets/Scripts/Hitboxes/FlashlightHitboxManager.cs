@@ -56,7 +56,7 @@ public class FlashlightHitboxManager : MonoBehaviour
             stunTimer--;
             yield return new WaitForSeconds(1);
         }
-        if (!ghostMovement.isStunned)
+        if (ghostMovement.isStunned)
         {
             stopStun();
         }

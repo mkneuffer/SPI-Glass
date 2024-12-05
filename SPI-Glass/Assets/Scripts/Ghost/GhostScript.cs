@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Controls;
+using TreeEditor;
 
 public class GhostMovement : MonoBehaviour
 {
@@ -17,10 +18,7 @@ public class GhostMovement : MonoBehaviour
     [SerializeField] float defaultSpeed;
     private Vector3 startingPosition;
     private Vector3 previousWaypoint;
-    [SerializeField] private WaypointStorage waypointStorage1;
-    [SerializeField] private WaypointStorage waypointStorage2;
-    private WaypointStorage currentWaypoint;
-    private Vector3 previousPosition;
+    [SerializeField] private WaypointStorage[] paths;
     [SerializeField] FlashlightHitboxManager flashlight;
     [SerializeField] private Animator transition;
     private float playerHealth = 10;
@@ -33,7 +31,7 @@ public class GhostMovement : MonoBehaviour
     private int phase = 1;
     public bool isStunned = false;
     private bool isVulnerable = false;
-
+    private bool transitioningPhase = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,8 +39,6 @@ public class GhostMovement : MonoBehaviour
         //transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
         startingPosition = transform.position;
         previousWaypoint = startingPosition;
-        currentWaypoint = waypointStorage1;
-        previousPosition = startingPosition;
         BezierCurveT = 0;
         maxFlashlightHealth = flashlightHealth;
         currentSpeed = defaultSpeed;
@@ -52,10 +48,15 @@ public class GhostMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //MoveToPoints(currentWaypoint.GetWaypoints());
-        if (!isStunned)
+
+        if (!isStunned && !transitioningPhase)
         {
-            MoveToPoints(currentWaypoint.GetWaypoints());
+            MoveToPoints(paths[phase - 1].GetWaypoints());
+        }
+        if (transitioningPhase)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, startingPosition, 0.25f);
+            transitioningPhase = Vector3.Distance(startingPosition, transform.position) > WRadius;
         }
         //yield return new WaitForSeconds(1f);
         //playerHealth--;
@@ -107,7 +108,6 @@ public class GhostMovement : MonoBehaviour
             P1 = new Vector3(P0.x, midpoint.y, P0.z);
             P2 = new Vector3(midpoint.x, P3.y, midpoint.z);
         }
-        previousPosition = transform.position;
         transform.position = BezierCurve(BezierCurveT, P0, P1, P2, P3);
         BezierCurveT += currentSpeed;
 
@@ -133,7 +133,7 @@ public class GhostMovement : MonoBehaviour
 
     public void ResetSpeed()
     {
-        currentSpeed = 1.5f * phase * defaultSpeed;
+        currentSpeed = 1.2f * phase * defaultSpeed;
     }
 
     void multSpeed(float mult)
@@ -158,8 +158,8 @@ public class GhostMovement : MonoBehaviour
         {
             isStunned = false;
             health = 10;
-            //SwapPath();
             phase++;
+            GoToNextPhase();
             flashlight.stopStun();
             Debug.Log("Phase:" + phase);
             if (phase > 3)
@@ -187,17 +187,26 @@ public class GhostMovement : MonoBehaviour
     }
 
     //Swaps between two different waypoints
-    void SwapPath()
+    void GoToNextPhase()
     {
         counter = 0;
-        if (currentWaypoint == waypointStorage1)
+        BezierCurveT = 0;
+        previousWaypoint = startingPosition;
+        //FIX U STARTING IN 0,0
+        transitioningPhase = true;
+        //StartCoroutine(MoveToPosition(startingPosition, .5f));
+    }
+
+    private IEnumerator MoveToPosition(Vector3 moveTo, float speed)
+    {
+        Debug.Log("corutine");
+        while (Vector3.Distance(moveTo, transform.position) > WRadius)
         {
-            currentWaypoint = waypointStorage2;
+            transform.position = Vector3.MoveTowards(transform.position, moveTo, speed);
+            yield return new WaitForSeconds(.01f);
         }
-        else if (currentWaypoint == waypointStorage2)
-        {
-            currentWaypoint = waypointStorage1;
-        }
+        transitioningPhase = false;
+        yield return new WaitForSeconds(1f);
     }
 
     public void StunGhost(float stunTime)
