@@ -11,13 +11,22 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private FlashlightHitboxManager flashlightManager;
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private InventoryManager inventoryManager;
+
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 100f;
     [SerializeField] private float lowerScreenLimit = 100f;
+
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance = 50f;
     [SerializeField] private float scaleSpeed = 5f;
     [SerializeField] private Button flashlightToggle;
+
+    [SerializeField] private GameObject holyWaterPrefab;
+    [SerializeField] private GameObject splashEffect;
+    [SerializeField] private Transform pointThrown;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private float throwForce = 10f;
+
     private int mouseClicks;
     private Vector3 worldPos;
     private bool start = false;
@@ -250,6 +259,7 @@ public class ReticleManager2 : MonoBehaviour
         {
             holyWaterCooldown = true;
             ghostMovement.HandleHealth(1);
+            StartCoroutine(ThrowHolyWater(hitObject.transform.position));
             StartCoroutine(HolyWaterCooldown());
             if (hold <= 1 && flashlightManager.getStun() == true)
             {
@@ -295,6 +305,26 @@ public class ReticleManager2 : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         holyWaterCooldown = false;
+    }
+
+    private IEnumerator ThrowHolyWater(Vector3 targetPosition)
+    {
+        if(playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("Throw");
+        }
+
+        GameObject holyWater = Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
+        Rigidbody rb = holyWater.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            Vector3 direction = (targetPosition - pointThrown.position).normalized;
+            rb.AddForce(direction * throwForce, ForceMode.Impulse);
+        }
+
+        yield return new WaitForSeconds(0.2f);
+        Instantiate(splashEffect, targetPosition, Quaternion.identity);
+        Destroy(holyWater);
     }
 
     public void ToggleMenu(bool isOpen)

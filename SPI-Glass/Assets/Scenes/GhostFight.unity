@@ -2568,6 +2568,11 @@ MonoBehaviour:
   maxDistance: 50
   scaleSpeed: 5
   flashlightToggle: {fileID: 302487364}
+  holyWaterPrefab: {fileID: 0}
+  splashEffect: {fileID: 1846427304}
+  pointThrown: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  throwForce: 10
 --- !u!1 &1352945262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2853,6 +2858,7 @@ RectTransform:
   - {fileID: 1920524624}
   - {fileID: 1271266690}
   - {fileID: 302487363}
+  - {fileID: 1846427305}
   - {fileID: 805838929}
   - {fileID: 1696972357}
   - {fileID: 1467969833}
@@ -3907,6 +3913,18 @@ RectTransform:
   m_AnchoredPosition: {x: -257.8656, y: 6506.984}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1846427304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3774664331697084154, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7296072364711406243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1846427305 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7296072364711406243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1887220157
 GameObject:
   m_ObjectHideFlags: 0
@@ -5496,6 +5514,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _altitudeMode: 0
   _altitudeOffset: 0
+--- !u!1001 &7296072364711406243
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1483721882}
+    m_Modifications:
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1676
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035346248940701047, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281218483086768670, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281218483086768670, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281218483086768670, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3774664331697084154, guid: 22956eccfc88a5e44a3de4ccc1eac9d4,
+        type: 3}
+      propertyPath: m_Name
+      value: Holy Water Splash
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22956eccfc88a5e44a3de4ccc1eac9d4, type: 3}
 --- !u!1001 &7941405224578499644
 PrefabInstance:
   m_ObjectHideFlags: 0
