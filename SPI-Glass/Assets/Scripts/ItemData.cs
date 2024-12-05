@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
-public class ItemData : ScriptableObject
+//[CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
+public class ItemData : MonoBehaviour
 {
 
     // What does item need
@@ -11,11 +11,11 @@ public class ItemData : ScriptableObject
     public bool inInventory;
     public string name;
     public int itemNum;
-    [SerializeField] private Sprite itemModel;
-    [SerializeField] private GameObject itemIcon;
+    [SerializeField] private Sprite itemIcon;
+    [SerializeField] private GameObject itemModel;
 
-    public Sprite GetItemIcon() => itemModel;
-    public GameObject GetGameObject() => itemIcon;
+    public Sprite GetItemIcon() => itemIcon;
+    public GameObject GetGameObject() => itemModel;
     public string GetItemName() => name;
 
 }

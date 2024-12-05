@@ -9,24 +9,31 @@ public class HolyWaterHitboxManager : MonoBehaviour
     public int damage = 1;
     private bool alreadyHit = false;
 
-    public void ApplyDamage() {
-        if (ghostMovement != null) {
+    public void ApplyDamage() 
+    {
+        if (ghostMovement != null) 
+        {
+            alreadyHit = true;
             ghostMovement.HandleHealth(damage);
             Debug.Log("Damage dealt");
+            Destroy(gameObject);
         }
     }
 
     void OnTriggerEnter(Collider other) 
     {
-        if (!alreadyHit && other.CompareTag("Ghost")) 
+        if(alreadyHit)
+        {
+            return;
+        }
+
+        if (other.CompareTag("Ghost")) 
         {
             GhostMovement ghostMovement = other.GetComponent<GhostMovement>();
             if (ghostMovement != null && ghostMovement.isStunned) 
             {
-                alreadyHit = true;
-                StartCoroutine(DestroyAfterFrame());
+                this.ghostMovement = ghostMovement;
                 ApplyDamage();
-                Debug.Log("Damaged Applied!");
             }
         }
     }

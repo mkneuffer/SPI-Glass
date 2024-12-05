@@ -21,7 +21,6 @@ public class GhostMovement : MonoBehaviour
     [SerializeField] private WaypointStorage[] paths;
     [SerializeField] FlashlightHitboxManager flashlight;
     [SerializeField] private Animator transition;
-    private float playerHealth = 10;
 
     //[SerializeField] private TextMeshProUGUI ghostHealthTextUI;
 
@@ -53,26 +52,6 @@ public class GhostMovement : MonoBehaviour
         {
             MoveToPoints(paths[phase - 1].GetWaypoints());
         }
-        // if (transitioningPhase)
-        // {
-        //     transform.position = Vector3.MoveTowards(transform.position, startingPosition, 0.25f);
-        //     transitioningPhase = Vector3.Distance(startingPosition, transform.position) > WRadius;
-        // }
-        //yield return new WaitForSeconds(1f);
-        //playerHealth--;
-        //if(playerHealth == 0) {
-        //    Debug.Log("Health ran out!");
-        //}
-
-        //if (isStunned)
-        //{
-        //    if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
-        //    {
-        //        HandleHealth(1);
-        //    }
-        //}
-
-        StartCoroutine(HealthCoroutine(playerHealth));
     }
 
     //Moves the ghost along the given waypoints
