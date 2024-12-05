@@ -49,15 +49,15 @@ public class GhostMovement : MonoBehaviour
     void Update()
     {
 
-        if (!isStunned && !transitioningPhase)
+        if (!isStunned && !transitioningPhase && phase <= 3)
         {
             MoveToPoints(paths[phase - 1].GetWaypoints());
         }
-        if (transitioningPhase)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, startingPosition, 0.25f);
-            transitioningPhase = Vector3.Distance(startingPosition, transform.position) > WRadius;
-        }
+        // if (transitioningPhase)
+        // {
+        //     transform.position = Vector3.MoveTowards(transform.position, startingPosition, 0.25f);
+        //     transitioningPhase = Vector3.Distance(startingPosition, transform.position) > WRadius;
+        // }
         //yield return new WaitForSeconds(1f);
         //playerHealth--;
         //if(playerHealth == 0) {
@@ -133,7 +133,14 @@ public class GhostMovement : MonoBehaviour
 
     public void ResetSpeed()
     {
-        currentSpeed = 1.2f * phase * defaultSpeed;
+        if (phase == 3)
+        {
+            currentSpeed = phase * 2 * defaultSpeed;
+        }
+        else if (phase == 2)
+        {
+            currentSpeed = phase * defaultSpeed;
+        }
     }
 
     void multSpeed(float mult)
@@ -189,12 +196,17 @@ public class GhostMovement : MonoBehaviour
     //Swaps between two different waypoints
     void GoToNextPhase()
     {
+        if (phase > 3)
+        {
+            return;
+        }
+
         counter = 0;
         BezierCurveT = 0;
         previousWaypoint = startingPosition;
-        //FIX U STARTING IN 0,0
         transitioningPhase = true;
-        //StartCoroutine(MoveToPosition(startingPosition, .5f));
+        StartCoroutine(MoveToPosition(startingPosition, .07f));
+
     }
 
     private IEnumerator MoveToPosition(Vector3 moveTo, float speed)
@@ -205,8 +217,8 @@ public class GhostMovement : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, moveTo, speed);
             yield return new WaitForSeconds(.01f);
         }
+        yield return new WaitForSeconds(.5f);
         transitioningPhase = false;
-        yield return new WaitForSeconds(1f);
     }
 
     public void StunGhost(float stunTime)
