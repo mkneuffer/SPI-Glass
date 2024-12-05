@@ -10,11 +10,11 @@ using TreeEditor;
 public class GhostMovement : MonoBehaviour
 {
 
-    float WRadius = .005f; //How close the ghost has to be to a point to count as being at that point
+    float WRadius = .05f; //How close the ghost has to be to a point to count as being at that point
     int counter = 0;
     float BezierCurveT = 0; //Way through each bezier curve
     //private Vector3[] diamond = { Vector3.up, Vector3.right, Vector3.down, Vector3.left };
-    public float currentSpeed; //Value should be around .01
+    public float currentSpeed; //Value should be around .04
     [SerializeField] float defaultSpeed;
     private Vector3 startingPosition;
     private Vector3 previousWaypoint;
@@ -184,19 +184,17 @@ public class GhostMovement : MonoBehaviour
         BezierCurveT = 0;
         previousWaypoint = startingPosition;
         transitioningPhase = true;
-        StartCoroutine(MoveToPosition(startingPosition, .07f));
-
+        StartCoroutine(MoveToPosition(startingPosition, 2f));
     }
 
     private IEnumerator MoveToPosition(Vector3 moveTo, float speed)
     {
-        Debug.Log("corutine");
         while (Vector3.Distance(moveTo, transform.position) > WRadius)
         {
-            transform.position = Vector3.MoveTowards(transform.position, moveTo, speed);
+            transform.position = Vector3.MoveTowards(transform.position, moveTo, speed * Time.deltaTime);
             yield return new WaitForSeconds(.01f);
         }
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.01f);
         transitioningPhase = false;
     }
 
