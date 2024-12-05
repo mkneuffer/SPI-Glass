@@ -293,7 +293,7 @@ public class ReticleManager2 : MonoBehaviour
     }
     private IEnumerator HolyWaterCooldown()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         holyWaterCooldown = false;
     }
 
