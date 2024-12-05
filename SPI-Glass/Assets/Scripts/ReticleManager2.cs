@@ -31,6 +31,7 @@ public class ReticleManager2 : MonoBehaviour
     private float stunHoldDuration = 3f;
     private bool isFlashlightHeld = false;
     private bool holyWaterCooldown = false;
+    private bool hasClicked = false;
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +57,16 @@ public class ReticleManager2 : MonoBehaviour
 
         if (isTouch && isHolyWaterEnabled)
         {
-            HandleInteraction();
+            if (!hasClicked && IsInteractionInput())
+            {
+                HandleInteraction();
+                hasClicked = true;
+            }
+        }
+
+        if(!IsInteractionInput())
+        {
+            hasClicked = false;
         }
 
         if(isFlashlightHeld) {
@@ -242,7 +252,6 @@ public class ReticleManager2 : MonoBehaviour
             if (hold <= 1 && flashlightManager.getStun() == true)
             {
                 Debug.Log("Hit ghost damaged 2");
-                
             }
         }
     }

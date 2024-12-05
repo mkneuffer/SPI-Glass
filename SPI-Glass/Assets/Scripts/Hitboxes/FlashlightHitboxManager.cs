@@ -27,7 +27,10 @@ public class FlashlightHitboxManager : MonoBehaviour
 
     public void DoFlashlightDamage()
     {
-        ghostMovement.TakeFlashlightDamage(1);
+        if(!isStunned)
+        {
+            ghostMovement.TakeFlashlightDamage(1);
+        }
         if (ghostMovement.GetFlashlightHealth() <= 0 && !isStunned)
         {
             isStunned = true;
