@@ -139,7 +139,7 @@ public class GhostMovement : MonoBehaviour
         }
 
         health -= amount;
-        //Debug.Log("Health: " + health);
+        Debug.Log("Health: " + health);
         if (health <= 0)
         {
             isStunned = false;
