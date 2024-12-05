@@ -1164,6 +1164,41 @@ RectTransform:
   m_AnchoredPosition: {x: 139, y: 128}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!135 &720566166 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 6129335788789991589, guid: 97839c8635dc2457196de064133b7a19,
+    type: 3}
+  m_PrefabInstance: {fileID: 787954412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &720566167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7946904799541181123, guid: 97839c8635dc2457196de064133b7a19,
+    type: 3}
+  m_PrefabInstance: {fileID: 787954412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &720566168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720566167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &771030872
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,6 +1411,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 787954419}
+    - targetCorrespondingSourceObject: {fileID: 7946904799541181123, guid: 97839c8635dc2457196de064133b7a19,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 720566168}
     - targetCorrespondingSourceObject: {fileID: 9128418653127987162, guid: 97839c8635dc2457196de064133b7a19,
         type: 3}
       insertIndex: -1
@@ -1407,6 +1446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2138198448}
   uiPanel: {fileID: 1542893310}
+  emfManager: {fileID: 1183464053}
 --- !u!135 &787954416
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1440,8 +1480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6222623552ce46b1a1c733ca7c8cbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 2138198448}
   uiPanel: {fileID: 408275992}
+  emfManager: {fileID: 1183464053}
 --- !u!65 &787954419
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2262,6 +2303,9 @@ MonoBehaviour:
   EMFLevel5: {fileID: 708120543}
   currentGhost: {fileID: 1542893310}
   player: {fileID: 2138198448}
+  playerCollider: {fileID: 2138198454}
+  hauntedZone: {fileID: 720566166}
+  EMF: {fileID: 408275992}
 --- !u!1 &1203444420
 GameObject:
   m_ObjectHideFlags: 0

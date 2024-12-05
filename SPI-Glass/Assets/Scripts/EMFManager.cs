@@ -12,6 +12,9 @@ public class EMFManager : MonoBehaviour
     [SerializeField] private Image EMFLevel5;
     [SerializeField] private GameObject currentGhost;
     [SerializeField] private GameObject player;
+    [SerializeField] private Collider playerCollider;
+    [SerializeField] private Collider hauntedZone;
+    [SerializeField] private GameObject EMF;
 
     private float distance;
 
@@ -59,7 +62,7 @@ public class EMFManager : MonoBehaviour
     {
         if (distance < 0)
         {
-            Debug.Log("negative distance");
+            //Debug.Log("negative distance");
         }
         else if (distance > 0 && distance <= 100)
         {
@@ -68,7 +71,7 @@ public class EMFManager : MonoBehaviour
             EMFLevel3.color = Level3_On;
             EMFLevel4.color = Level4_On;
             EMFLevel5.color = Level5_On;
-            Debug.Log("Level 5");
+            //Debug.Log("Level 5");
         }
         else if (distance > 100 && distance <= 120)
         {
@@ -77,7 +80,7 @@ public class EMFManager : MonoBehaviour
             EMFLevel3.color = Level3_On;
             EMFLevel4.color = Level4_On;
             EMFLevel5.color = Level5_Off;
-            Debug.Log("Level 4");
+            //Debug.Log("Level 4");
         }
         else if (distance > 120 && distance <= 140)
         {
@@ -86,7 +89,7 @@ public class EMFManager : MonoBehaviour
             EMFLevel3.color = Level3_On;
             EMFLevel4.color = Level4_Off;
             EMFLevel5.color = Level5_Off;
-            Debug.Log("Level 3");
+            //Debug.Log("Level 3");
         }
         else if (distance > 140 && distance <= 160)
         {
@@ -95,7 +98,7 @@ public class EMFManager : MonoBehaviour
             EMFLevel3.color = Level3_Off;
             EMFLevel4.color = Level4_Off;
             EMFLevel5.color = Level5_Off;
-            Debug.Log("Level 2");
+            //Debug.Log("Level 2");
         }
         else if (distance > 160 && distance <= 180)
         {
@@ -104,7 +107,7 @@ public class EMFManager : MonoBehaviour
             EMFLevel3.color = Level3_Off;
             EMFLevel4.color = Level4_Off;
             EMFLevel5.color = Level5_Off;
-            Debug.Log("Level 1");
+            //Debug.Log("Level 1");
         }
         else
         {
@@ -113,7 +116,13 @@ public class EMFManager : MonoBehaviour
             EMFLevel3.color = Level3_Off;
             EMFLevel4.color = Level4_Off;
             EMFLevel5.color = Level5_Off;
-            Debug.Log("Level 0");
+            //Debug.Log("Level 0");
         }
+    }
+    
+    public void setEMFActive(bool state)
+    {
+        EMF.SetActive(state);
+        Debug.Log("EMF state changed");
     }
 }

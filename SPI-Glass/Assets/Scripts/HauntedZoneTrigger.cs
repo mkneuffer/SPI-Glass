@@ -6,6 +6,7 @@ public class ShowUIPanelOnEnter : MonoBehaviour
 {
     public GameObject player;
     public GameObject uiPanel;
+    [SerializeField] private EMFManager emfManager;
 
     private SphereCollider sphereCollider;
 
@@ -18,6 +19,7 @@ public class ShowUIPanelOnEnter : MonoBehaviour
 
         sphereCollider = gameObject.GetComponent<SphereCollider>();
         sphereCollider.isTrigger = true;  // Ensure the collider is set to be a trigger
+        emfManager.setEMFActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,6 +27,7 @@ public class ShowUIPanelOnEnter : MonoBehaviour
         if (other.gameObject == player)
         {
             Debug.Log("Player entered the collider area.");  // Debug statement for testing
+            emfManager.setEMFActive(true);
             if (uiPanel != null)
             {
                 uiPanel.SetActive(true);
@@ -37,6 +40,7 @@ public class ShowUIPanelOnEnter : MonoBehaviour
         if (other.gameObject == player)
         {
             Debug.Log("Player exited the collider area.");  // Debug statement for testing
+            emfManager.setEMFActive(false);
             if (uiPanel != null)
             {
                 uiPanel.SetActive(false);
