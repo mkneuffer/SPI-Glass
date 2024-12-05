@@ -325,6 +325,7 @@ public class ReticleManager2 : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         Instantiate(splashEffect, targetPosition, Quaternion.identity);
         Destroy(holyWater);
+        //Destroy(splashEffect);
     }
 
     public void ToggleMenu(bool isOpen)
