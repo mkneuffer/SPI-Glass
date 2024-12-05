@@ -30,6 +30,7 @@ public class ReticleManager2 : MonoBehaviour
     private float holdDuration = 0f;
     private float stunHoldDuration = 3f;
     private bool isFlashlightHeld = false;
+    private bool holyWaterCooldown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -227,17 +228,18 @@ public class ReticleManager2 : MonoBehaviour
 
     private void RegisterHit(GameObject hitObject)
     {
-        Debug.Log($"Hit: {hitObject.name}");
+        //Debug.Log($"Hit: {hitObject.name}");
         if (isFlashlightEnabled == true)
         {
             Debug.Log("Hit ghost with flashlight");
             flashlightManager.DoFlashlightDamage();
         }
-        else if (isHolyWaterEnabled == true) 
+        else if (isHolyWaterEnabled == true && !holyWaterCooldown) 
         {
-            //Debug.Log("Hit ghost with holy water");
+            holyWaterCooldown = true;
             ghostMovement.HandleHealth(1);
-            if (hold <= 1 && flashlightManager.getStun() == true) // not being triggered currently
+            StartCoroutine(HolyWaterCooldown());
+            if (hold <= 1 && flashlightManager.getStun() == true)
             {
                 Debug.Log("Hit ghost damaged 2");
                 
@@ -255,6 +257,12 @@ public class ReticleManager2 : MonoBehaviour
         isFlashlightEnabled = true;
         isHolyWaterEnabled = false;
         //Debug.Log("Flashlight selected");
+        if(flashlightToggle != null)
+        {
+            flashlightToggle.gameObject.SetActive(true);
+            flashlightToggle.interactable = true;
+        }
+
         reticle.GetComponent<Image>().color = Color.yellow;
     }
 
@@ -263,7 +271,19 @@ public class ReticleManager2 : MonoBehaviour
         isHolyWaterEnabled = true;
         isFlashlightEnabled = false;
         Debug.Log("Holy Water selected");
+
+        if (flashlightToggle != null)
+        {
+            flashlightToggle.gameObject.SetActive(false);
+            flashlightToggle.interactable = false;
+        }
+
         reticle.GetComponent<Image>().color = Color.cyan;
+    }
+    private IEnumerator HolyWaterCooldown()
+    {
+        yield return new WaitForSeconds(0.5f);
+        holyWaterCooldown = false;
     }
 
     public void ToggleMenu(bool isOpen)
