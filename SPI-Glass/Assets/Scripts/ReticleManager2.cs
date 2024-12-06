@@ -24,7 +24,6 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private GameObject holyWaterPrefab;
     [SerializeField] private GameObject splashEffect;
     [SerializeField] private Transform pointThrown;
-    [SerializeField] private Animator playerAnimator;
     [SerializeField] private float throwForce = 10f;
 
     private int mouseClicks;
@@ -316,6 +315,7 @@ public class ReticleManager2 : MonoBehaviour
         if(holyWaterHitbox != null)
         {
             holyWaterHitbox.ghostMovement = ghostMovement;
+            //holyWaterHitbox.Initialize(targetPosition);
         }
 
         Rigidbody rb = holyWater.GetComponent<Rigidbody>();
