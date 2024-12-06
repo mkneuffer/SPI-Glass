@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.93962264, g: 0.634712, b: 0, a: 1}
+  m_Color: {r: 0.4566037, g: 0.20934846, b: 0.42512816, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   current: 0
   mask: {fileID: 1543359353}
   semanticQuery: {fileID: 505250065}
-  testing: 0
+  testing: 1
 --- !u!114 &1968096612
 MonoBehaviour:
   m_ObjectHideFlags: 0
