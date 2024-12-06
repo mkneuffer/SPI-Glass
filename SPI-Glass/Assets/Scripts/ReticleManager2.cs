@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class ReticleManager2 : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private float maxDistance = 50f;
     [SerializeField] private float scaleSpeed = 5f;
     [SerializeField] private Button flashlightToggle;
+    [SerializeField] private GameObject flashlightSpotLight;
     private int mouseClicks;
     private Vector3 worldPos;
     private bool start = false;
@@ -45,6 +47,7 @@ public class ReticleManager2 : MonoBehaviour
         {
             Debug.LogError("Error: Main Camera is missing");
         }
+
     }
 
     // Update is called once per frame
@@ -66,12 +69,13 @@ public class ReticleManager2 : MonoBehaviour
             }
         }
 
-        if(!IsInteractionInput())
+        if (!IsInteractionInput())
         {
             hasClicked = false;
         }
 
-        if(isFlashlightHeld) {
+        if (isFlashlightHeld)
+        {
             FlashlightInteraction();
         }
     }
@@ -79,17 +83,23 @@ public class ReticleManager2 : MonoBehaviour
     public void OnFlashlightButtonPress()
     {
         isFlashlightHeld = true;
+        flashlightSpotLight.SetActive(true);
     }
 
     public void OnFlashlightButtonRelease()
     {
         isFlashlightHeld = false;
+        flashlightSpotLight.SetActive(false);
     }
 
-    private void SetupListener() {
-        if(flashlightToggle != null) {
+    private void SetupListener()
+    {
+        if (flashlightToggle != null)
+        {
             flashlightToggle.onClick.AddListener(SelectFlashlight);
-        } else {
+        }
+        else
+        {
             Debug.Log("Flashlight not assigned");
         }
     }
@@ -137,7 +147,7 @@ public class ReticleManager2 : MonoBehaviour
         {
             isTouch = false;
             return;
-        } 
+        }
 
         //mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
         //mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
@@ -149,7 +159,7 @@ public class ReticleManager2 : MonoBehaviour
 
         if (reticle != null)
         {
-            reticle.transform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);;
+            reticle.transform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0); ;
         }
         else
         {
@@ -159,8 +169,9 @@ public class ReticleManager2 : MonoBehaviour
         worldPos = worldPosition;
     }
 
-    public void FlashlightInteraction() {
-        if(isFlashlightEnabled) 
+    public void FlashlightInteraction()
+    {
+        if (isFlashlightEnabled)
         {
             //Debug.Log("Flashlight triggered");
             HandleInteraction();
@@ -246,7 +257,7 @@ public class ReticleManager2 : MonoBehaviour
             Debug.Log("Hit ghost with flashlight");
             flashlightManager.DoFlashlightDamage();
         }
-        else if (isHolyWaterEnabled == true && !holyWaterCooldown) 
+        else if (isHolyWaterEnabled == true && !holyWaterCooldown)
         {
             holyWaterCooldown = true;
             ghostMovement.HandleHealth(1);
@@ -268,7 +279,7 @@ public class ReticleManager2 : MonoBehaviour
         isFlashlightEnabled = true;
         isHolyWaterEnabled = false;
         Debug.Log("Flashlight selected");
-        if(flashlightToggle != null)
+        if (flashlightToggle != null)
         {
             flashlightToggle.gameObject.SetActive(true);
             flashlightToggle.interactable = true;
