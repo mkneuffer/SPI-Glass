@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //[CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
 public class ItemData : MonoBehaviour
@@ -18,4 +19,8 @@ public class ItemData : MonoBehaviour
     public GameObject GetGameObject() => itemModel;
     public string GetItemName() => name;
 
+    public Sprite getIcon()
+    {
+        return itemIcon;
+    }
 }

@@ -18,6 +18,9 @@ public class InventoryManager : MonoBehaviour
     //[SerializeField] private ItemUsageManager itemUsageManager;
     private float defaultObjectLocation = -564;
 
+    //For Inventory Scene
+    [SerializeField] private Image[] inventoryGrid;
+
     //public Animator transition;
 
     // Positions for each of the UI boxes, i dont wanna code these in when we r gonna change them anyway later
@@ -27,7 +30,10 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (inventoryGrid != null)
+        {
+            fillGrid(Inventory);
+        }
     }
 
     // Update is called once per frame
@@ -156,5 +162,18 @@ public class InventoryManager : MonoBehaviour
     public int getCurrentItemNum()
     {
         return currentItem.itemNum;
+    }
+
+    //Inventory Scene functions
+    public void fillGrid(List<ItemData> inventory)
+    {
+        for (int i = 0; i < inventoryGrid.Length; i++)
+        {
+            if (inventory[i] != null)
+            {
+                inventoryGrid[i].sprite = inventory[i].getIcon();
+                Debug.Log("item placed in grid");
+            }
+        }
     }
 }

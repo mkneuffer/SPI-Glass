@@ -54,7 +54,7 @@ public class EMFManager : MonoBehaviour
         float playerY = player.transform.position.y;
 
         distance = Mathf.Abs(ghostX - playerX) + Mathf.Abs(ghostZ - playerY);
-        Debug.Log("Distance: " + distance);
+        //Debug.Log("Distance: " + distance);
         return distance;
     }
 
