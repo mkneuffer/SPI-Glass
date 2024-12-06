@@ -9,6 +9,8 @@ public class HolyWaterHitboxManager : MonoBehaviour
     public Animator throwAnimator;
     public int damage = 1;
     private bool alreadyHit = false;
+    [SerializeField] private GameObject splashEffect;
+    [SerializeField] private float lifetime = 10f;
 
     public void ApplyDamage() 
     {
@@ -17,7 +19,7 @@ public class HolyWaterHitboxManager : MonoBehaviour
             alreadyHit = true;
             ghostMovement.HandleHealth(damage);
             Debug.Log("Damage dealt");
-            Destroy(gameObject);
+            Destroy(splashEffect);
         }
     }
 
@@ -33,22 +35,25 @@ public class HolyWaterHitboxManager : MonoBehaviour
             GhostMovement ghostMovement = other.GetComponent<GhostMovement>();
             if (ghostMovement != null && ghostMovement.isStunned) 
             {
+                alreadyHit = true;
                 this.ghostMovement = ghostMovement;
                 ApplyDamage();
+                PlaySplashEffect();
+                Destroy(gameObject);
             }
         }
     }
-/*
-    public void ThrowHolyWater()
+
+    private void PlaySplashEffect()
     {
-        if (throwAnimator != null)
+        if(splashEffect != null)
         {
-            throwAnimator.SetTrigger("Throw");
-            Debug.Log("Has been thrown!");
+            GameObject splash = Instantiate(splashEffect, transform.position, Quaternion.identity);
+            Destroy(splash, splash.GetComponent<ParticleSystem>()?.main.duration ?? 1f);
         }
-        StartCoroutine(DestroyAfterFrame());
     }
-*/
+    
+
     private IEnumerator DestroyAfterFrame()
     {
         yield return null;
@@ -59,10 +64,7 @@ public class HolyWaterHitboxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (throwAnimator == null)
-        {
-            throwAnimator = GetComponent<Animator>();
-        }
+        Destroy(gameObject, lifetime);
     }
 
     // Update is called once per frame

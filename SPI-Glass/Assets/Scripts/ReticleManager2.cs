@@ -310,10 +310,6 @@ public class ReticleManager2 : MonoBehaviour
 
     private IEnumerator ThrowHolyWater(Vector3 targetPosition)
     {
-        if(playerAnimator != null)
-        {
-            playerAnimator.SetTrigger("Start");
-        }
 
         GameObject holyWater = Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
         HolyWaterHitboxManager holyWaterHitbox = holyWater.GetComponent<HolyWaterHitboxManager>();
@@ -327,29 +323,47 @@ public class ReticleManager2 : MonoBehaviour
         {
             Vector3 direction = (targetPosition - pointThrown.position).normalized;
             rb.AddForce(direction * throwForce, ForceMode.Impulse);
+            Debug.Log($"Spawn Position: {pointThrown.position}");
         }
 
-        yield return new WaitForSeconds(0.2f);
-
-        Collider[] hitColliders = Physics.OverlapSphere(targetPosition, interactionRadius, ghostLayer);
-        foreach (Collider hitCollider in hitColliders)
+        Vector3 startPosition = holyWater.transform.position;
+        float maxDistance = 10f;
+        while(holyWater != null)
         {
-            GameObject ghost = hitCollider.gameObject;
-            Vector3 effectPosition = ghost.transform.position + Vector3.up * 1.5f;
+            if (Vector3.Distance(startPosition, holyWater.transform.position) > maxDistance)
+            {
+                Destroy(holyWater);
+                SpawnHolyWater();
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ghost"))
+        {
+            Vector3 effectPosition = collision.contacts[0].point;
             GameObject splash = Instantiate(splashEffect, effectPosition, Quaternion.identity);
+
             ParticleSystem ps = splash.GetComponent<ParticleSystem>();
             if (ps != null)
             {
-                yield return new WaitUntil(() => !ps.IsAlive(true));
-                Destroy(splash);
+                Destroy(splash, ps.main.duration);
             }
             else
             {
                 Destroy(splash, 0.5f);
             }
-                break;
+            Destroy(gameObject);
         }
-        Destroy(holyWater);
+    }
+
+    private void SpawnHolyWater()
+    {
+        Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
     }
 
     public void ToggleMenu(bool isOpen)
