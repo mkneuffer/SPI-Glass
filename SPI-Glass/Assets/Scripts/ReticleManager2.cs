@@ -330,9 +330,26 @@ public class ReticleManager2 : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.2f);
-        Instantiate(splashEffect, targetPosition, Quaternion.identity);
+
+        Collider[] hitColliders = Physics.OverlapSphere(targetPosition, interactionRadius, ghostLayer);
+        foreach (Collider hitCollider in hitColliders)
+        {
+            GameObject ghost = hitCollider.gameObject;
+            Vector3 effectPosition = ghost.transform.position + Vector3.up * 1.5f;
+            GameObject splash = Instantiate(splashEffect, effectPosition, Quaternion.identity);
+            ParticleSystem ps = splash.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                yield return new WaitUntil(() => !ps.IsAlive(true));
+                Destroy(splash);
+            }
+            else
+            {
+                Destroy(splash, 0.5f);
+            }
+                break;
+        }
         Destroy(holyWater);
-        //Destroy(splashEffect);
     }
 
     public void ToggleMenu(bool isOpen)
