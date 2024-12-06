@@ -1819,6 +1819,7 @@ MonoBehaviour:
   currentItem: {fileID: 0}
   transition: {fileID: 0}
   reticleManager: {fileID: 1271266691}
+  inventoryGrid: []
 --- !u!4 &824951946
 Transform:
   m_ObjectHideFlags: 0
@@ -5080,6 +5081,8 @@ MonoBehaviour:
   playerHealth: 60
   drainRate: 1
   postProcessingVolume: {fileID: 2110415811}
+  ghostMovement: {fileID: 0}
+  transition: {fileID: 1636793729}
 --- !u!4 &2033040120
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private int playerHealth;
     [SerializeField] private float drainRate = 1.0f;
     [SerializeField] private Volume postProcessingVolume;
+    public GhostMovement ghostMovement;
+    [SerializeField] private Animator transition;
 
     private Vignette vignette;
     private bool isDrain = false;
@@ -50,7 +52,15 @@ public class PlayerHealthManager : MonoBehaviour
     public void StopHealthDrain() 
     {
         isDrain = false;
-        // whatever function to end game/restart scene
+        StartCoroutine(RestartScene());
+        // add game over scene?
+    }
+
+    IEnumerator RestartScene()
+    {
+        transition.SetTrigger("Start");
+        yield return new WaitForSeconds(3f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(6);
     }
 
     private IEnumerator HealthCoroutine()
@@ -59,12 +69,11 @@ public class PlayerHealthManager : MonoBehaviour
         {
             yield return new WaitForSeconds(drainRate);
             playerHealth--;
-            //Debug.Log($"Current health: {playerHealth}");
             UpdateVignette();
             if(playerHealth <= 0) 
             {
                 Debug.Log("Health ran out!");
-                StopHealthDrain(); // Can probably just loop back to earlier scene?
+                StopHealthDrain();
             }
         }
     }
