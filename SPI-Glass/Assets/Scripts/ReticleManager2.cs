@@ -43,6 +43,7 @@ public class ReticleManager2 : MonoBehaviour
     private bool isFlashlightHeld = false;
     private bool holyWaterCooldown = false;
     private bool hasClicked = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -311,10 +312,16 @@ public class ReticleManager2 : MonoBehaviour
     {
         if(playerAnimator != null)
         {
-            playerAnimator.SetTrigger("Throw");
+            playerAnimator.SetTrigger("Start");
         }
 
         GameObject holyWater = Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
+        HolyWaterHitboxManager holyWaterHitbox = holyWater.GetComponent<HolyWaterHitboxManager>();
+        if(holyWaterHitbox != null)
+        {
+            holyWaterHitbox.ghostMovement = ghostMovement;
+        }
+
         Rigidbody rb = holyWater.GetComponent<Rigidbody>();
         if(rb != null)
         {

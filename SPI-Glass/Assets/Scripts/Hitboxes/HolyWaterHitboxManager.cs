@@ -6,6 +6,7 @@ using UnityEngine;
 public class HolyWaterHitboxManager : MonoBehaviour
 {
     public GhostMovement ghostMovement;
+    public Animator throwAnimator;
     public int damage = 1;
     private bool alreadyHit = false;
 
@@ -37,7 +38,17 @@ public class HolyWaterHitboxManager : MonoBehaviour
             }
         }
     }
-
+/*
+    public void ThrowHolyWater()
+    {
+        if (throwAnimator != null)
+        {
+            throwAnimator.SetTrigger("Throw");
+            Debug.Log("Has been thrown!");
+        }
+        StartCoroutine(DestroyAfterFrame());
+    }
+*/
     private IEnumerator DestroyAfterFrame()
     {
         yield return null;
@@ -48,7 +59,10 @@ public class HolyWaterHitboxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (throwAnimator == null)
+        {
+            throwAnimator = GetComponent<Animator>();
+        }
     }
 
     // Update is called once per frame
