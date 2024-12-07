@@ -23,8 +23,8 @@ public class HolyWaterHitboxManager : MonoBehaviour
             if (splashEffect != null && ghostMovement != null)
             {
                 Debug.Log("SPLASH!");
-                Instantiate(splashEffect, ghostMovement.transform.position, Quaternion.identity);
-                Destroy(splashEffect, 0.5f);
+                GameObject splash = Instantiate(splashEffect, ghostMovement.transform.position, Quaternion.identity);
+                Destroy(splash, 0.5f);
             }
 
             Destroy(gameObject);
