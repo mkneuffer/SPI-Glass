@@ -19,6 +19,15 @@ public class HolyWaterHitboxManager : MonoBehaviour
             ghostMovement.HandleHealth(damage);
             Debug.Log("Damage dealt");
             Destroy(gameObject);
+
+            if (splashEffect != null && ghostMovement != null)
+            {
+                Debug.Log("SPLASH!");
+                Instantiate(splashEffect, ghostMovement.transform.position, Quaternion.identity);
+                Destroy(splashEffect, 0.5f);
+            }
+
+            Destroy(gameObject);
         }
     }
 

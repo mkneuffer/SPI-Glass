@@ -2289,7 +2289,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991727311}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03bf2840d73ad894fad18b4ec661abfa, type: 3}
   m_Name: 
@@ -2298,8 +2298,6 @@ MonoBehaviour:
   throwAnimator: {fileID: 991727316}
   damage: 0
   splashEffect: {fileID: 1846427304}
-  lifetime: 10
-  throwSpeed: 10
 --- !u!1 &1009216863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2484,8 +2482,6 @@ MonoBehaviour:
   throwAnimator: {fileID: 991727316}
   damage: 1
   splashEffect: {fileID: 1846427304}
-  lifetime: 10
-  throwSpeed: 10
 --- !u!1 &1078402721
 GameObject:
   m_ObjectHideFlags: 0
@@ -5096,7 +5092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0cadd00e065b44d8b27bb5fc9c9cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 60
+  maxHealth: 120
   playerHealth: 60
   drainRate: 1
   postProcessingVolume: {fileID: 2110415811}
@@ -5600,8 +5596,6 @@ MonoBehaviour:
   throwAnimator: {fileID: 0}
   damage: 1
   splashEffect: {fileID: 0}
-  lifetime: 10
-  throwSpeed: 10
 --- !u!114 &2130492257
 MonoBehaviour:
   m_ObjectHideFlags: 0
