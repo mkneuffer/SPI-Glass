@@ -311,17 +311,17 @@ public class ReticleManager2 : MonoBehaviour
     {
 
         GameObject holyWater = Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
-        HolyWaterHitboxManager holyWaterHitbox = holyWater.GetComponent<HolyWaterHitboxManager>();
-        if(holyWaterHitbox != null)
-        {
-            holyWaterHitbox.ghostMovement = ghostMovement;
+        //HolyWaterHitboxManager holyWaterHitbox = holyWater.GetComponent<HolyWaterHitboxManager>();
+       // if(holyWaterHitbox != null)
+      //  {
+       //     holyWaterHitbox.ghostMovement = ghostMovement;
             //holyWaterHitbox.Initialize(targetPosition);
-        }
+      //  }
 
         Rigidbody rb = holyWater.GetComponent<Rigidbody>();
         if(rb != null)
         {
-            Vector3 direction = (targetPosition - pointThrown.position).normalized;
+            Vector3 direction = pointThrown.forward;
             rb.AddForce(direction * throwForce, ForceMode.Impulse);
             Debug.Log($"Spawn Position: {pointThrown.position}");
         }
