@@ -662,11 +662,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 590437798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 114bc747af42b42418fbd4711e221de2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0da4dc0838473574aa3c6c430ecf2701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSON: {fileID: 4900000, guid: e65b5e5f8d8d5bd4f9623ac5b85c22fc, type: 3}
+  inkJSONDialogue: {fileID: 4900000, guid: e65b5e5f8d8d5bd4f9623ac5b85c22fc, type: 3}
+  inkJSONPrompt: {fileID: 0}
   state: 0
+  onStart: 1
 --- !u!1 &865765172 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5071160359894943937, guid: dc6f99f3229769d4ebcb863d913c6295,
@@ -2192,7 +2194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3224206184558200200, guid: 1e080ec5cba644b7c96b6a9951596a1e, type: 3}
   minimumSpawnDistance: 3
-  maximumSpawnDistance: 6
 --- !u!114 &2103415213
 MonoBehaviour:
   m_ObjectHideFlags: 0

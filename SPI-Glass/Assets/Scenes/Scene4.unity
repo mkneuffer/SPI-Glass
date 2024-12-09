@@ -2592,11 +2592,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1289427144}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 114bc747af42b42418fbd4711e221de2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0da4dc0838473574aa3c6c430ecf2701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSON: {fileID: 4900000, guid: 3663b479b8b76ba4cba04d7ae3de9794, type: 3}
+  inkJSONDialogue: {fileID: 4900000, guid: 3663b479b8b76ba4cba04d7ae3de9794, type: 3}
+  inkJSONPrompt: {fileID: 0}
   state: 0
+  onStart: 1
 --- !u!1 &1485638419
 GameObject:
   m_ObjectHideFlags: 0
@@ -3004,12 +3006,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5b14a9a28f6417caef70d171109b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowUI: {fileID: 213238447}
-  sideActivationAngle: 35
-  verticalActivationAngle: 45
-  screenEdgeBuffer: 200
-  customTarget: {fileID: 0}
-  targetOffset: {x: -0.5, y: 0.7, z: 0}
 --- !u!114 &1808207864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3561,7 +3557,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3224206184558200200, guid: 1e080ec5cba644b7c96b6a9951596a1e, type: 3}
   minimumSpawnDistance: 3
-  maximumSpawnDistance: 6
 --- !u!114 &1996077537
 MonoBehaviour:
   m_ObjectHideFlags: 0
