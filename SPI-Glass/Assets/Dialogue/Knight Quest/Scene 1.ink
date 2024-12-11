@@ -10,7 +10,7 @@ Don’t, don’t! I’m not here to harm you! #speaker:??? #portrait: archibald
 You’re a member of SPI! You can help me. Aren’t you guys all about exorcising ghosts that cause problems? #speaker:??? #portrait:archibald
 Does it recognize the pin on your jacket? #speaker:0 #portrait:0
 Hear me out, I have an offer for you. Don’t kill me and I can help you get rid of a malicious ghost that’ll get you a better reputation in SPI. #speaker:??? #portrait:archibald
-Alright. Tell me about this malicious ghost. #speaker:player #portrait:0
+Alright. Tell me about this malicious ghost. #speaker:Player #portrait:0
 The ghost sags with relief. #speaker:0 #portrait:0
 There’s a ghost of a medieval knight near here. #speaker:??? #portrait:archibald
 He attacked me when I was passing by — do I look like food?
@@ -29,6 +29,5 @@ Are you up for the task?
 Great. #speaker:??? #portrait:archibald
 Name’s Archibald, by the way. Cheers, or whatever you humans say. #speaker:Archibald #portrait:archibald
 You turn on the EMF reader and follow Archibald in the general direction of where the knight ghost may be. #speaker:0 #portrait:0
-
 ~SwitchToMap()
 -> END
