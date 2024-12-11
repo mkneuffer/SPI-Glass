@@ -11,6 +11,7 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private FlashlightHitboxManager flashlightManager;
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private GameObject flashlightLight;
 
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 100f;
@@ -80,8 +81,13 @@ public class ReticleManager2 : MonoBehaviour
             hasClicked = false;
         }
 
-        if(isFlashlightHeld) {
+        if (isFlashlightHeld)
+        {
             FlashlightInteraction();
+            flashlightLight.SetActive(true);
+        }
+        else {
+            flashlightLight.SetActive(false);
         }
     }
 
