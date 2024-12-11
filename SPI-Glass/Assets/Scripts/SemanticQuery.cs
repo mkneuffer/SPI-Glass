@@ -83,7 +83,7 @@ public class SemanticQuery : MonoBehaviour
                                 woodCount++;
                                 //inventoryManager.addItem(channelToObject.item);
                                 //Debug.Log($"the channel {channel} has been detected and will spawn an object");
-                                GameObject newObject = Instantiate(channelToObject.item.GetGameObject(), pos, Quaternion.identity, spawnObjectParent);
+                                GameObject newObject = Instantiate(channelToObject.item, pos, Quaternion.identity, spawnObjectParent);
                                 woodObjects.Add(newObject);
                             }
                         }
@@ -126,5 +126,5 @@ public class SemanticQuery : MonoBehaviour
 public struct ChannelToObject
 {
     public string channel;
-    public ItemData item;
+    public GameObject item;
 }

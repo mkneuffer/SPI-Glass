@@ -39,7 +39,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Stump.unity
     guid: 2af27dac4023c4f25b43c59708659a50
   - enabled: 1
-    path: Assets/Scenes/CirclesPuzzle.unity
+    path: Assets/TooManyCrosshairs/Too Many Crosshairs v1.3.pdf
     guid: b35cb8e1fbea646d1947b3ba1e022fa6
   m_configObjects:
     Niantic.Lightship.AR.LightshipSettings: {fileID: 11400000, guid: 1adebb225450d43d792b3fd931de6645,
