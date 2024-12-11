@@ -6,8 +6,10 @@ using UnityEngine;
 public class HolyWaterHitboxManager : MonoBehaviour
 {
     public GhostMovement ghostMovement;
+    public Animator throwAnimator;
     public int damage = 1;
     private bool alreadyHit = false;
+    [SerializeField] private GameObject splashEffect;
 
     public void ApplyDamage() 
     {
@@ -16,6 +18,15 @@ public class HolyWaterHitboxManager : MonoBehaviour
             alreadyHit = true;
             ghostMovement.HandleHealth(damage);
             Debug.Log("Damage dealt");
+            Destroy(gameObject);
+
+            if (splashEffect != null && ghostMovement != null)
+            {
+                Debug.Log("SPLASH!");
+                GameObject splash = Instantiate(splashEffect, ghostMovement.transform.position, Quaternion.identity);
+                Destroy(splash, 0.5f);
+            }
+
             Destroy(gameObject);
         }
     }
@@ -37,6 +48,7 @@ public class HolyWaterHitboxManager : MonoBehaviour
             }
         }
     }
+    
 
     private IEnumerator DestroyAfterFrame()
     {
@@ -48,7 +60,10 @@ public class HolyWaterHitboxManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (throwAnimator == null)
+        {
+            throwAnimator = GetComponent<Animator>();
+        }
     }
 
     // Update is called once per frame

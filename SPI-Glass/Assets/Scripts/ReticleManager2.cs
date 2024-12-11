@@ -12,13 +12,21 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private FlashlightHitboxManager flashlightManager;
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private InventoryManager inventoryManager;
+
     [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 100f;
     [SerializeField] private float lowerScreenLimit = 100f;
+
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance = 50f;
     [SerializeField] private float scaleSpeed = 5f;
     [SerializeField] private Button flashlightToggle;
+
+    [SerializeField] private GameObject holyWaterPrefab;
+    [SerializeField] private GameObject splashEffect;
+    [SerializeField] private Transform pointThrown;
+    [SerializeField] private float throwForce = 10f;
+
     [SerializeField] private GameObject flashlightSpotLight;
     private int mouseClicks;
     private Vector3 worldPos;
@@ -36,6 +44,7 @@ public class ReticleManager2 : MonoBehaviour
     private bool isFlashlightHeld = false;
     private bool holyWaterCooldown = false;
     private bool hasClicked = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -261,6 +270,7 @@ public class ReticleManager2 : MonoBehaviour
         {
             holyWaterCooldown = true;
             ghostMovement.HandleHealth(1);
+            StartCoroutine(ThrowHolyWater(hitObject.transform.position));
             StartCoroutine(HolyWaterCooldown());
             if (hold <= 1 && flashlightManager.getStun() == true)
             {
@@ -306,6 +316,65 @@ public class ReticleManager2 : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         holyWaterCooldown = false;
+    }
+
+    private IEnumerator ThrowHolyWater(Vector3 targetPosition)
+    {
+
+        GameObject holyWater = Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
+        //HolyWaterHitboxManager holyWaterHitbox = holyWater.GetComponent<HolyWaterHitboxManager>();
+       // if(holyWaterHitbox != null)
+      //  {
+       //     holyWaterHitbox.ghostMovement = ghostMovement;
+            //holyWaterHitbox.Initialize(targetPosition);
+      //  }
+
+        Rigidbody rb = holyWater.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            Vector3 direction = pointThrown.forward;
+            rb.AddForce(direction * throwForce, ForceMode.Impulse);
+            Debug.Log($"Spawn Position: {pointThrown.position}");
+        }
+
+        Vector3 startPosition = holyWater.transform.position;
+        float maxDistance = 10f;
+        while(holyWater != null)
+        {
+            if (Vector3.Distance(startPosition, holyWater.transform.position) > maxDistance)
+            {
+                Destroy(holyWater);
+                SpawnHolyWater();
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ghost"))
+        {
+            Vector3 effectPosition = collision.contacts[0].point;
+            GameObject splash = Instantiate(splashEffect, effectPosition, Quaternion.identity);
+
+            ParticleSystem ps = splash.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                Destroy(splash, ps.main.duration);
+            }
+            else
+            {
+                Destroy(splash, 0.5f);
+            }
+            Destroy(gameObject);
+        }
+    }
+
+    private void SpawnHolyWater()
+    {
+        Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
     }
 
     public void ToggleMenu(bool isOpen)
