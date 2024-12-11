@@ -1735,6 +1735,7 @@ MonoBehaviour:
   currentItem: {fileID: 0}
   transition: {fileID: 0}
   reticleManager: {fileID: 1271266691}
+  inventoryGrid: []
 --- !u!4 &824951946
 Transform:
   m_ObjectHideFlags: 0
@@ -4949,7 +4950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1c2b0c0ff6898b74ea764717f6902e3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25cd99c7f695c9f4b902b52c4979bce8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
