@@ -15,6 +15,6 @@ MonoBehaviour:
   inInventory: 0
   name: Wood
   itemNum: 0
-  itemIcon: {fileID: 21300000, guid: 473f86b7014c7ef4d90dc336478427af, type: 3}
-  itemModel: {fileID: 2490412710213930542, guid: 5db3a936914b94343bee09291f01cc12,
+  itemModel: {fileID: 21300000, guid: 473f86b7014c7ef4d90dc336478427af, type: 3}
+  itemIcon: {fileID: 2490412710213930542, guid: 5db3a936914b94343bee09291f01cc12,
     type: 3}

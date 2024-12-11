@@ -27,7 +27,7 @@ public class FlashlightHitboxManager : MonoBehaviour
 
     public void DoFlashlightDamage()
     {
-        if (!isStunned)
+        if(!isStunned)
         {
             ghostMovement.TakeFlashlightDamage(1);
         }
@@ -35,6 +35,7 @@ public class FlashlightHitboxManager : MonoBehaviour
         {
             isStunned = true;
             ghostMovement.isStunned = true;
+            ghostMovement.SetSpeed(0);
             Debug.Log($"Ghost stun is {isStunned}");
             stunTimer = stunTime;
             ghostMovement.ResetFlashlightHealth();
@@ -45,9 +46,9 @@ public class FlashlightHitboxManager : MonoBehaviour
 
     public void stopStun()
     {
-        isStunned = false;
         ghostMovement.isStunned = false;
-        ghostMovement.ResetSpeed();
+        ghostMovement.SetSpeed(0.01f); // will need to change ghost speed to its variable
+        isStunned = false;
         Debug.Log($"Ghost stun is {isStunned}");
     }
 
@@ -58,10 +59,7 @@ public class FlashlightHitboxManager : MonoBehaviour
             stunTimer--;
             yield return new WaitForSeconds(1);
         }
-        if (ghostMovement.isStunned)
-        {
-            stopStun();
-        }
+        stopStun();
     }
 
     public bool getStun()

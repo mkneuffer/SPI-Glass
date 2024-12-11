@@ -2,7 +2,7 @@ EXTERNAL SwitchToObjectDetection()
 EXTERNAL SpawnGhost()
 EXTERNAL EnterGhostWorld()
 
-The EMF reader flashes orange. You pull out your SPI-issued Phone, and open the navigation app. #speaker:0 #portrait:0 #layout:left
+The EMF reader flashes orange. You pull out your SPI-issued Phone, and open the navigation app. #speaker:0 #portrait:0
 The traversal to the Ghost World is instantaneous.
 ~EnterGhostWorld()
 ~SpawnGhost()
