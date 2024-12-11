@@ -1281,12 +1281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5b14a9a28f6417caef70d171109b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowUI: {fileID: 221615279}
-  sideActivationAngle: 35
-  verticalActivationAngle: 45
-  screenEdgeBuffer: 200
-  customTarget: {fileID: 0}
-  targetOffset: {x: -0.5, y: 0.7, z: 0}
 --- !u!114 &1401288321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2116,7 +2110,7 @@ PrefabInstance:
     - target: {fileID: 5399425634938747064, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 585
+      value: 0.000061035
       objectReference: {fileID: 0}
     - target: {fileID: 5399425634938747064, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}

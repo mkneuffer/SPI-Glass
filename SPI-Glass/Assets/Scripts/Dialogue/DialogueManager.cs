@@ -177,7 +177,7 @@ public class DialogueManager : MonoBehaviour
                 Debug.LogWarning("XR_Placement script not found in the scene.");
             }
         });
-        
+
         currentStory.BindExternalFunction("DeleteGhost", () =>
         {
             XR_Placement placement = FindObjectOfType<XR_Placement>();
@@ -190,7 +190,7 @@ public class DialogueManager : MonoBehaviour
                 Debug.LogWarning("XR_Placement script not found in the scene.");
             }
         });
-        
+
         currentStory.BindExternalFunction("SwitchToMap", () =>
         {
             StartCoroutine(LoadMapScene());
@@ -198,6 +198,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadMapScene()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(1);
@@ -205,11 +206,12 @@ public class DialogueManager : MonoBehaviour
 
         currentStory.BindExternalFunction("SwitchToScene1", () =>
         {
-           StartCoroutine(LoadScene1());
+            StartCoroutine(LoadScene1());
         });
 
         IEnumerator LoadScene1()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
@@ -222,6 +224,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadScene2()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(2);
@@ -234,6 +237,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadObjectDetectionScene()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(3);
@@ -246,6 +250,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadScene3()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(4);
@@ -258,6 +263,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadScene4()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(5);
@@ -270,6 +276,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadGhostFight()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(6);
@@ -282,6 +289,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadScene5()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(7);
@@ -294,6 +302,7 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadScene6()
         {
+            dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene(8);
@@ -370,12 +379,12 @@ public class DialogueManager : MonoBehaviour
         {
             currentStory.UnbindExternalFunction("startPuzzle");
         }
-        
+
         if (ghostManager != null)
         {
             currentStory.UnbindExternalFunction("startFight");
         }
-        
+
 
         isDialoguePlaying = false;
         dialoguePanel.SetActive(false);
@@ -564,7 +573,7 @@ public class DialogueManager : MonoBehaviour
         ContinueStory();
     }
 
-   public void resetGame()
+    public void resetGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
