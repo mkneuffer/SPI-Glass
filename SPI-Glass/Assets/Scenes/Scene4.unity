@@ -2635,7 +2635,6 @@ MonoBehaviour:
   inkJSONDialogue: {fileID: 4900000, guid: 3663b479b8b76ba4cba04d7ae3de9794, type: 3}
   inkJSONPrompt: {fileID: 0}
   state: 0
-  onStart: 1
 --- !u!1 &1485638419
 GameObject:
   m_ObjectHideFlags: 0

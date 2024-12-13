@@ -109,10 +109,13 @@ public class SemanticQuery : MonoBehaviour
         //Have gotten the required amount of wood
         if (woodInProgressBar >= woodNeededToCraftGrail)
         {
-            StartCoroutine(LoadScene3());
+            // spawn stump
         }
     }
-    IEnumerator LoadScene3()
+
+    // check stump puzzle
+    // loadscene4
+    IEnumerator LoadScene4()
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(3f);

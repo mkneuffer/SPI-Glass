@@ -1,4 +1,3 @@
-
 EXTERNAL SwitchToScene4()
 
 You return with some sturdy sticks and quickly sit down to assemble them. #portrait:0 #speaker:0 #layout:left
