@@ -2074,12 +2074,12 @@ PrefabInstance:
     - target: {fileID: 4968345719570557693, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -86
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4968345719570557693, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -204
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5399425634938747064, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
@@ -2865,7 +2865,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: a2ae7897806d7495097162843d0b6132, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 64bb3bb543ecc456a8930f05a8e74d82, type: 2}
 --- !u!4 &1594221272
 Transform:
   m_ObjectHideFlags: 0
@@ -2905,7 +2905,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720826655}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0429116924addd4493a04b3a88b52ad, type: 3}
   m_Name: 
@@ -2914,7 +2914,7 @@ MonoBehaviour:
   square2: {fileID: 920174787}
   square3: {fileID: 709402237}
   puzzleCanvas: {fileID: 491768572}
-  dialogueManager: {fileID: 0}
+  dialogueManager: {fileID: 716980727}
   inkJSON: {fileID: 4900000, guid: 9061ab16fd4fe7745b363a2fc55884a5, type: 3}
   puzzleSolved: 0
 --- !u!4 &1720826657
@@ -3730,7 +3730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7117857188567671634, guid: 75912d89451b04c12a5a953838c68b77, type: 3}
   minimumSpawnDistance: 3
-  maximumSpawnDistance: 10
+  maximumSpawnDistance: 6
 --- !u!114 &1996077537
 MonoBehaviour:
   m_ObjectHideFlags: 0

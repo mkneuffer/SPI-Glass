@@ -1030,7 +1030,6 @@ MonoBehaviour:
   inkJSONDialogue: {fileID: 4900000, guid: af039d0f68f2f7043bb5015b5720c2f0, type: 3}
   inkJSONPrompt: {fileID: 0}
   state: 0
-  onStart: 1
 --- !u!1 &604225164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1138,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: a2ae7897806d7495097162843d0b6132, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 64bb3bb543ecc456a8930f05a8e74d82, type: 2}
 --- !u!4 &1083915759
 Transform:
   m_ObjectHideFlags: 0
@@ -1932,6 +1931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3224206184558200200, guid: 1e080ec5cba644b7c96b6a9951596a1e, type: 3}
   minimumSpawnDistance: 3
+  maximumSpawnDistance: 10
 --- !u!114 &1569361505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2187,7 +2187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1726826452
 RectTransform:
   m_ObjectHideFlags: 0

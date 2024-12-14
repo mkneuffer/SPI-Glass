@@ -1,31 +1,33 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class CirclePuzzle : MonoBehaviour
 {
     [Header("Circle Objects")]
-    public Transform[] circles; // Assign your circle GameObjects here
+    public Transform[] circles;  // Assign your circle GameObjects here
 
     [Header("Dialogue")]
-    private DialogueManager dialogueManager; // Reference to the DialogueManager
-    public TextAsset nextInkJSON; // The next Ink JSON file to load after completing the puzzle
+    public DialogueManager dialogueManager;  // Reference to the DialogueManager
+    public TextAsset nextInkJSON;  // The next dialogue to load after puzzle completion
 
-    [SerializeField] private bool puzzleSolved = false; // Serialized for visibility in the Inspector
+    private bool[] isRotating;    // Flags to indicate if a circle is currently rotating
+    private bool puzzleComplete = false;
 
-    private bool[] isRotating; // Flags to indicate if a circle is currently rotating
+    // Input handling variables
     private Transform selectedCircle = null;
     private Vector2 previousInputPosition;
     private bool isDragging = false;
-    private const float dragThreshold = 5f; // Minimum distance to consider as a drag
+    private const float dragThreshold = 5f;  // Minimum distance to consider as a drag
+
+    // Store the initial rotations for alignment checks
     private Quaternion[] initialRotations;
 
     void Start()
     {
-        // Dynamically find the DialogueManager in the scene
         dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager == null)
         {
-            Debug.LogError("DialogueManager not found in the scene. Make sure it exists before spawning the CirclePuzzle prefab.");
+            Debug.LogError("DialogueManager not found in the scene.");
             return;
         }
 
@@ -47,72 +49,31 @@ public class CirclePuzzle : MonoBehaviour
             initialRotations[i] = circles[i].localRotation;
 
             // Set a random initial rotation (multiple of 30 degrees), excluding zero degrees
-            int randomStep = Random.Range(1, 12); // 1 to 11 inclusive
+            int randomStep = Random.Range(1, 12);  // 1 to 11 inclusive, excludes 0
             float randomRotation = randomStep * 30f;
 
+            // Apply random rotation around the circle's local Z-axis
             circles[i].localRotation *= Quaternion.Euler(0f, 0f, randomRotation);
         }
     }
 
     void Update()
     {
-        if (puzzleSolved)
-        {
-            CompletePuzzle();
-        }
-        else
-        {
-            HandleInput();
-            CheckSolved();
-        }
-    }
+        if (puzzleComplete)
+            return;
 
-    void CheckSolved()
-    {
+        HandleInput();
+
+        // Check if all circles are aligned
         if (AllCirclesAligned())
         {
-            puzzleSolved = true;
-            Debug.Log("Puzzle is solved!");
-
-#if UNITY_EDITOR
-            // Force Unity to update the Inspector for the puzzleSolved checkbox
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
+            puzzleComplete = true;
+            StartCoroutine(CompletePuzzle());
         }
-    }
-
-    void CompletePuzzle()
-    {
-        if (dialogueManager != null && nextInkJSON != null)
-        {
-            Debug.Log("Puzzle complete. Starting next dialogue.");
-            puzzleSolved = false; // Reset for safety
-            dialogueManager.EnterDialogueMode(nextInkJSON, true);
-        }
-        else
-        {
-            Debug.LogWarning("DialogueManager or nextInkJSON not set in CirclePuzzle.");
-        }
-    }
-
-    bool AllCirclesAligned()
-    {
-        foreach (Transform circle in circles)
-        {
-            // Check if each circle is within a small tolerance of its initial rotation
-            if (Quaternion.Angle(circle.localRotation, Quaternion.identity) > 5f) // Adjusted tolerance
-            {
-                Debug.Log($"Circle {circle.name} is not aligned. Angle: {Quaternion.Angle(circle.localRotation, Quaternion.identity)}");
-                return false;
-            }
-        }
-        Debug.Log("All circles aligned!");
-        return true;
     }
 
     void HandleInput()
     {
-        // Handle touch input
         if (Input.touchSupported && Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -156,12 +117,10 @@ public class CirclePuzzle : MonoBehaviour
                     {
                         if (!isDragging)
                         {
-                            // Tap detected, rotate 30 degrees counterclockwise
                             StartCoroutine(RotateByAngle(selectedCircle, -30f));
                         }
                         else
                         {
-                            // Dragging ended, snap to nearest 30 degrees
                             SnapCircle(selectedCircle);
                         }
                         selectedCircle = null;
@@ -169,58 +128,52 @@ public class CirclePuzzle : MonoBehaviour
                     break;
             }
         }
-        // Handle mouse input
-        else
+        else if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            Vector2 mousePosition = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (IsCircle(hit.transform))
+                {
+                    selectedCircle = hit.transform;
+                    previousInputPosition = mousePosition;
+                    isDragging = false;
+                }
+            }
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            if (selectedCircle != null)
             {
                 Vector2 mousePosition = Input.mousePosition;
-                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
+                if (!isDragging && Vector2.Distance(previousInputPosition, mousePosition) > dragThreshold)
                 {
-                    if (IsCircle(hit.transform))
-                    {
-                        selectedCircle = hit.transform;
-                        previousInputPosition = mousePosition;
-                        isDragging = false;
-                    }
+                    isDragging = true;
+                }
+
+                if (isDragging)
+                {
+                    RotateCircle(selectedCircle, previousInputPosition, mousePosition);
+                    previousInputPosition = mousePosition;
                 }
             }
-            else if (Input.GetMouseButton(0))
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (selectedCircle != null)
             {
-                if (selectedCircle != null)
+                if (!isDragging)
                 {
-                    Vector2 mousePosition = Input.mousePosition;
-                    if (!isDragging && Vector2.Distance(previousInputPosition, mousePosition) > dragThreshold)
-                    {
-                        isDragging = true;
-                    }
-
-                    if (isDragging)
-                    {
-                        RotateCircle(selectedCircle, previousInputPosition, mousePosition);
-                        previousInputPosition = mousePosition;
-                    }
+                    StartCoroutine(RotateByAngle(selectedCircle, -30f));
                 }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                if (selectedCircle != null)
+                else
                 {
-                    if (!isDragging)
-                    {
-                        // Click detected, rotate 30 degrees counterclockwise
-                        StartCoroutine(RotateByAngle(selectedCircle, -30f));
-                    }
-                    else
-                    {
-                        // Dragging ended, snap to nearest 30 degrees
-                        SnapCircle(selectedCircle);
-                    }
-                    selectedCircle = null;
+                    SnapCircle(selectedCircle);
                 }
+                selectedCircle = null;
             }
         }
     }
@@ -229,7 +182,6 @@ public class CirclePuzzle : MonoBehaviour
     {
         Vector2 delta = currentPosition - previousPosition;
 
-        // Project the movement onto the screen space around the circle
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(circle.position);
         Vector2 circleCenter = new Vector2(screenPoint.x, screenPoint.y);
 
@@ -238,8 +190,7 @@ public class CirclePuzzle : MonoBehaviour
 
         float angle = Vector2.SignedAngle(prevDirection, currDirection);
 
-        // Rotate around the circle's local Z-axis
-        circle.Rotate(Vector3.forward, -angle, Space.Self); // Negative to match drag direction
+        circle.Rotate(Vector3.forward, -angle, Space.Self);
     }
 
     void SnapCircle(Transform circle)
@@ -255,7 +206,7 @@ public class CirclePuzzle : MonoBehaviour
     {
         int index = GetCircleIndex(circle);
         if (isRotating[index])
-            yield break; // Prevent multiple rotations on the same circle
+            yield break;
 
         isRotating[index] = true;
 
@@ -274,6 +225,36 @@ public class CirclePuzzle : MonoBehaviour
 
         circle.localRotation = targetRotation;
         isRotating[index] = false;
+    }
+
+    bool AllCirclesAligned()
+    {
+        for (int i = 0; i < circles.Length; i++)
+        {
+            Quaternion currentRotation = circles[i].localRotation;
+            Quaternion deltaRotation = Quaternion.Inverse(initialRotations[i]) * currentRotation;
+
+            float angle = Quaternion.Angle(Quaternion.identity, deltaRotation);
+
+            if (Mathf.Abs(angle) > 1f)
+                return false;
+        }
+        return true;
+    }
+
+    IEnumerator CompletePuzzle()
+    {
+        yield return new WaitForSeconds(0.5f);  // Optional delay for user feedback
+
+        if (dialogueManager != null && nextInkJSON != null)
+        {
+            dialogueManager.EnterDialogueMode(nextInkJSON, true);
+            Debug.Log("Puzzle completed! Proceeding to the next part of the dialogue.");
+        }
+        else
+        {
+            Debug.LogError("DialogueManager or nextInkJSON is not assigned.");
+        }
     }
 
     int GetCircleIndex(Transform circle)

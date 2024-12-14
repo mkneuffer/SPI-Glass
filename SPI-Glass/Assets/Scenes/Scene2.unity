@@ -156,7 +156,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: a2ae7897806d7495097162843d0b6132, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 64bb3bb543ecc456a8930f05a8e74d82, type: 2}
 --- !u!114 &107486035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 131612945}
   - component: {fileID: 131612944}
   - component: {fileID: 131612943}
+  - component: {fileID: 131612947}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -338,6 +339,27 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &131612947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131612941}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb27fa2172b9a4d6c87ba91529fcec60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowUI: {fileID: 0}
+  sideActivationAngle: 30
+  verticalActivationAngle: 45
+  screenEdgeBuffer: 200
+  customTarget: {fileID: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
+  mainCamera: {fileID: 0}
+  ghostTransform: {fileID: 0}
+  canvas: {fileID: 0}
 --- !u!1 &305548000 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8038516889464145675, guid: dc6f99f3229769d4ebcb863d913c6295,
@@ -1383,7 +1405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 79cf9fa7771fb404eba1748832000aac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9094c38c322ad4c1f84c556e26f74cc3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1549,22 +1571,22 @@ PrefabInstance:
     - target: {fileID: 4968345719570557693, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 4968345719570557693, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 600
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 4968345719570557693, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4968345719570557693, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -163
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5399425634938747064, guid: dc6f99f3229769d4ebcb863d913c6295,
         type: 3}
@@ -1895,7 +1917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1610080126
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2476,6 +2498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3224206184558200200, guid: 1e080ec5cba644b7c96b6a9951596a1e, type: 3}
   minimumSpawnDistance: 2
+  maximumSpawnDistance: 10
 --- !u!114 &2097994599
 MonoBehaviour:
   m_ObjectHideFlags: 0
