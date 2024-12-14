@@ -1,29 +1,34 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine;
 
 public class CirclePuzzle : MonoBehaviour
 {
     [Header("Circle Objects")]
-    public Transform[] circles;  // Assign your circle GameObjects here
+    public Transform[] circles; // Assign your circle GameObjects here
 
-    [Header("Scene Transition")]
-    public string nextSceneName;  // Name of the scene to load after puzzle completion
+    [Header("Dialogue")]
+    private DialogueManager dialogueManager; // Reference to the DialogueManager
+    public TextAsset nextInkJSON; // The next Ink JSON file to load after completing the puzzle
 
-    private bool[] isRotating;    // Flags to indicate if a circle is currently rotating
-    private bool puzzleComplete = false;
+    [SerializeField] private bool puzzleSolved = false; // Serialized for visibility in the Inspector
 
-    // Input handling variables
+    private bool[] isRotating; // Flags to indicate if a circle is currently rotating
     private Transform selectedCircle = null;
     private Vector2 previousInputPosition;
     private bool isDragging = false;
-    private const float dragThreshold = 5f;  // Minimum distance to consider as a drag
-
-    // Store the initial rotations for alignment checks
+    private const float dragThreshold = 5f; // Minimum distance to consider as a drag
     private Quaternion[] initialRotations;
 
     void Start()
     {
+        // Dynamically find the DialogueManager in the scene
+        dialogueManager = FindObjectOfType<DialogueManager>();
+        if (dialogueManager == null)
+        {
+            Debug.LogError("DialogueManager not found in the scene. Make sure it exists before spawning the CirclePuzzle prefab.");
+            return;
+        }
+
         if (circles == null || circles.Length == 0)
         {
             Debug.LogError("No circles have been assigned in the inspector.");
@@ -42,27 +47,67 @@ public class CirclePuzzle : MonoBehaviour
             initialRotations[i] = circles[i].localRotation;
 
             // Set a random initial rotation (multiple of 30 degrees), excluding zero degrees
-            int randomStep = Random.Range(1, 12);  // 1 to 11 inclusive, excludes 0
+            int randomStep = Random.Range(1, 12); // 1 to 11 inclusive
             float randomRotation = randomStep * 30f;
 
-            // Apply random rotation around the circle's local Z-axis
             circles[i].localRotation *= Quaternion.Euler(0f, 0f, randomRotation);
         }
     }
 
     void Update()
     {
-        if (puzzleComplete)
-            return;
+        if (puzzleSolved)
+        {
+            CompletePuzzle();
+        }
+        else
+        {
+            HandleInput();
+            CheckSolved();
+        }
+    }
 
-        HandleInput();
-
-        // Check if all circles are aligned
+    void CheckSolved()
+    {
         if (AllCirclesAligned())
         {
-            puzzleComplete = true;
-            StartCoroutine(CompletePuzzle());
+            puzzleSolved = true;
+            Debug.Log("Puzzle is solved!");
+
+#if UNITY_EDITOR
+            // Force Unity to update the Inspector for the puzzleSolved checkbox
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
+    }
+
+    void CompletePuzzle()
+    {
+        if (dialogueManager != null && nextInkJSON != null)
+        {
+            Debug.Log("Puzzle complete. Starting next dialogue.");
+            puzzleSolved = false; // Reset for safety
+            dialogueManager.EnterDialogueMode(nextInkJSON, true);
+        }
+        else
+        {
+            Debug.LogWarning("DialogueManager or nextInkJSON not set in CirclePuzzle.");
+        }
+    }
+
+    bool AllCirclesAligned()
+    {
+        foreach (Transform circle in circles)
+        {
+            // Check if each circle is within a small tolerance of its initial rotation
+            if (Quaternion.Angle(circle.localRotation, Quaternion.identity) > 5f) // Adjusted tolerance
+            {
+                Debug.Log($"Circle {circle.name} is not aligned. Angle: {Quaternion.Angle(circle.localRotation, Quaternion.identity)}");
+                return false;
+            }
+        }
+        Debug.Log("All circles aligned!");
+        return true;
     }
 
     void HandleInput()
@@ -182,7 +227,6 @@ public class CirclePuzzle : MonoBehaviour
 
     void RotateCircle(Transform circle, Vector2 previousPosition, Vector2 currentPosition)
     {
-        // Calculate the rotation based on the movement direction
         Vector2 delta = currentPosition - previousPosition;
 
         // Project the movement onto the screen space around the circle
@@ -200,12 +244,10 @@ public class CirclePuzzle : MonoBehaviour
 
     void SnapCircle(Transform circle)
     {
-        // Get the current rotation around the local Z-axis
         float currentRotation = circle.localEulerAngles.z;
         float snappedRotation = Mathf.Round(currentRotation / 30f) * 30f;
         float deltaRotation = Mathf.DeltaAngle(currentRotation, snappedRotation);
 
-        // Rotate the circle to snap to the nearest 30 degrees
         StartCoroutine(RotateByAngle(circle, deltaRotation));
     }
 
@@ -213,11 +255,11 @@ public class CirclePuzzle : MonoBehaviour
     {
         int index = GetCircleIndex(circle);
         if (isRotating[index])
-            yield break;  // Prevent multiple rotations on the same circle
+            yield break; // Prevent multiple rotations on the same circle
 
         isRotating[index] = true;
 
-        float duration = 0.25f;  // Rotation duration
+        float duration = 0.25f;
         float elapsed = 0f;
 
         Quaternion initialRotation = circle.localRotation;
@@ -232,27 +274,6 @@ public class CirclePuzzle : MonoBehaviour
 
         circle.localRotation = targetRotation;
         isRotating[index] = false;
-    }
-
-    bool AllCirclesAligned()
-    {
-        for (int i = 0; i < circles.Length; i++)
-        {
-            Quaternion currentRotation = circles[i].localRotation;
-            Quaternion deltaRotation = Quaternion.Inverse(initialRotations[i]) * currentRotation;
-
-            float angle = Quaternion.Angle(Quaternion.identity, deltaRotation);
-
-            if (Mathf.Abs(angle) > 1f)  // Allow a small tolerance
-                return false;
-        }
-        return true;
-    }
-
-    IEnumerator CompletePuzzle()
-    {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(nextSceneName);
     }
 
     int GetCircleIndex(Transform circle)

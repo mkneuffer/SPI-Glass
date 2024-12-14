@@ -875,7 +875,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 630958551bd344f78989662f097a0cef, type: 2}
+  - {fileID: 2100000, guid: 9f3beb2d3a501491fb50060c77e14b35, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   interpolationDuration: 0.5
   delayBeforeNextPiece: 1
   delayBeforeSceneChange: 3
-  nextSceneName: CirclesPuzzle
+  nextSceneName: Scene4
   transition: {fileID: 5938196745521515390}
   transitionTriggerName: Start
   transitionDuration: 3

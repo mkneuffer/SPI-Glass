@@ -2,9 +2,9 @@ EXTERNAL SwitchToGhostFight()
 EXTERNAL SpawnGhost()
 EXTERNAL DeleteGhost()
 
+~DeleteGhost()
 The seal billows away into nothing. The sword slides out easily from the stone now that there’s no seal to keep it secure. #speaker:0 #portrait:0 #layout:left
 He’s back! #speaker:Archibald #portrait:archibald
-~SpawnGhost()
 The crushed grail in the knight’s hands drops onto the ground as he glares at you. #speaker:0 #portrait:0
 He’s weaker now, look at your EMF reader. #speaker:Archibald #portrait:archibald
 You notice Archibald is right. The EMF reader that you clipped onto your belt is glowing yellow. He’s dropped a level. #speaker:0 #portrait:0

@@ -308,6 +308,19 @@ public class DialogueManager : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene(8);
         }
 
+        currentStory.BindExternalFunction("makePrefabVisible", () =>
+    {
+        XR_Placement placement = FindObjectOfType<XR_Placement>();
+        if (placement != null)
+        {
+            placement.SpawnGhost(); // Makes the prefab visible
+        }
+        else
+        {
+            Debug.LogWarning("XR_Placement script not found in the scene.");
+        }
+    });
+
         currentStory.BindExternalFunction("EnterGhostWorld", () =>
 {
     if (postProcessingSwitcher != null)

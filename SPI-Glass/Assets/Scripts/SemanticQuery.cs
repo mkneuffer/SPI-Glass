@@ -7,6 +7,13 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
+[System.Serializable]
+public struct ChannelToObject
+{
+    public string channel;
+    public GameObject item;
+}
+
 public class SemanticQuery : MonoBehaviour
 {
     public ARCameraManager cameraManager;
@@ -22,76 +29,74 @@ public class SemanticQuery : MonoBehaviour
     [SerializeField] public int woodNeededToCraftGrail = 5;
     [SerializeField] private Animator transition;
 
+    [SerializeField] private XR_Placement xrPlacement; // Reference to the XR_Placement script
+
+    private float actionInterval = 0.05f; // Limit processing to every 50ms
+    private float lastActionTime = 0.0f;
+
+    private List<GameObject> woodObjects = new List<GameObject>();
+    private Queue<GameObject> woodPool = new Queue<GameObject>();
+
     private void OnEnable()
     {
         woodCount = 0;
         woodInProgressBar = 0;
-        //cameraManager.frameReceived += CameraManagerOnFrameReceived;
+        InitializeWoodPool(10); // Preload wood objects
     }
 
-    private void CameraManagerOnFrameReceived(ARCameraFrameEventArgs args)
+    private void InitializeWoodPool(int count)
     {
-        // if (!segmentationManager.subsystem.running)
-        // {
-        //     return;
-        // }
-
-
-        // Matrix4x4 mat = Matrix4x4.identity;
-        // var texture = segmentationManager.GetSemanticChannelTexture(channel, out mat);
-
-        // if (texture)
-        // {
-        //     Matrix4x4 cameraMatrix = args.displayMatrix ?? Matrix4x4.identity;  
-        // }
+        foreach (var channelToObject in ChannelToObjects)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                GameObject obj = Instantiate(channelToObject.item, spawnObjectParent);
+                obj.SetActive(false);
+                woodPool.Enqueue(obj);
+            }
+        }
     }
 
-    private float timer = 0.0f;
-    private List<GameObject> woodObjects = new List<GameObject>();
-    // Update is called once per frame
+    private GameObject GetPooledObject()
+    {
+        if (woodPool.Count > 0)
+        {
+            GameObject obj = woodPool.Dequeue();
+            obj.SetActive(true);
+            return obj;
+        }
+
+        Debug.LogWarning("Wood pool is empty, consider increasing pool size.");
+        return null;
+    }
+
+    private void ReturnToPool(GameObject obj)
+    {
+        obj.SetActive(false);
+        woodPool.Enqueue(obj);
+    }
+
     void Update()
     {
-        if (!segmentationManager.subsystem.running)
+        if (!segmentationManager.subsystem.running || Time.time - lastActionTime < actionInterval)
         {
             return;
         }
 
+        lastActionTime = Time.time;
+
         if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
         {
-            var pos = Input.mousePosition;
+            Vector2 pos = Input.mousePosition;
             if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
             {
                 Touch touch = Input.GetTouch(0);
                 pos = touch.position;
             }
 
-            if (pos.x > 0 && pos.x < Screen.width && pos.y > 0 && pos.y < Screen.height)
-            {
-                timer += Time.deltaTime;
-                if (timer > 0.05f)
-                {
-                    var list = segmentationManager.GetChannelNamesAt((int)pos.x, (int)pos.y);
-
-                    if (list.Count > 0)
-                    {
-                        channel = list[0];
-
-                        foreach (var channelToObject in ChannelToObjects)
-                        {
-                            if ("foliage" == channel && woodCount < woodNeededToCraftGrail)
-                            {
-                                woodCount++;
-                                //inventoryManager.addItem(channelToObject.item);
-                                //Debug.Log($"the channel {channel} has been detected and will spawn an object");
-                                GameObject newObject = Instantiate(channelToObject.item, pos, Quaternion.identity, spawnObjectParent);
-                                woodObjects.Add(newObject);
-                            }
-                        }
-                    }
-                    timer = 0.0f;
-                }
-            }
+            StartCoroutine(ProcessSegmentation(pos));
         }
+
         Vector3 goingTo = new Vector3(0 + 210, Screen.height - 1 - 260, -1);
         foreach (GameObject wood in woodObjects)
         {
@@ -100,34 +105,56 @@ public class SemanticQuery : MonoBehaviour
                 wood.transform.position = Vector3.MoveTowards(wood.transform.position, goingTo, Time.deltaTime * 1000);
                 if (Vector3.Distance(goingTo, wood.transform.position) < 150)
                 {
-                    Destroy(wood);
+                    ReturnToPool(wood);
                     woodInProgressBar++;
                 }
             }
         }
 
-        //Have gotten the required amount of wood
+        // Trigger the prefab spawn when enough wood is collected
         if (woodInProgressBar >= woodNeededToCraftGrail)
         {
-            // spawn stump
+            if (xrPlacement != null)
+            {
+                xrPlacement.SpawnGhost();
+            }
+            else
+            {
+                Debug.LogWarning("XR_Placement reference is not set!");
+            }
         }
     }
 
-    // check stump puzzle
-    // loadscene4
+    private IEnumerator ProcessSegmentation(Vector2 pos)
+    {
+        var list = segmentationManager.GetChannelNamesAt((int)pos.x, (int)pos.y);
+        yield return null; // Allow frame to process before continuing
+
+        if (list.Count > 0)
+        {
+            channel = list[0];
+
+            foreach (var channelToObject in ChannelToObjects)
+            {
+                if ("foliage" == channel && woodCount < woodNeededToCraftGrail)
+                {
+                    woodCount++;
+                    GameObject newObject = GetPooledObject();
+                    if (newObject != null)
+                    {
+                        newObject.transform.position = pos;
+                        newObject.transform.rotation = Quaternion.identity;
+                        woodObjects.Add(newObject);
+                    }
+                }
+            }
+        }
+    }
+
     IEnumerator LoadScene4()
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(3f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(4);
     }
-
-}
-
-
-[System.Serializable]
-public struct ChannelToObject
-{
-    public string channel;
-    public GameObject item;
 }
