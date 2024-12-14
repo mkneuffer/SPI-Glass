@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.93962264, g: 0.634712, b: 0, a: 1}
+  m_Color: {r: 0.554717, g: 0.024072563, b: 0.46782693, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1044,7 +1044,7 @@ MonoBehaviour:
   spawnObjectParent: {fileID: 1859656134}
   ChannelToObjects:
   - channel: foliage
-    item: {fileID: 11400000, guid: 27f776504a1f8d947adaf9448b56a8a8, type: 2}
+    item: {fileID: 2490412710213930542, guid: 5db3a936914b94343bee09291f01cc12, type: 3}
   inventoryManager: {fileID: 417246947}
   woodCount: 0
   woodInProgressBar: 0
@@ -1744,7 +1744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1785280662
 RectTransform:
   m_ObjectHideFlags: 0
