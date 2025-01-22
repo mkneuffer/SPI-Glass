@@ -27,6 +27,7 @@ public class InventoryManager : MonoBehaviour
     // posX-1
     // posY-1
 
+
     // Start is called before the first frame update
     void Start()
     {
