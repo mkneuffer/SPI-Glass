@@ -1,6 +1,6 @@
 EXTERNAL SpawnGhost()
 EXTERNAL EnterGhostWorld()
-EXTERNAL SwitchToScene3()
+EXTERNAL SwitchToObjectDetection()
 
 We can traverse into the Ghost World here. #speaker:Archibald #portrait:archibald
 ~EnterGhostWorld()
@@ -20,6 +20,6 @@ That one is pretty old and simple — probably from the 13th century. Can you br
 Since it’s a seal from the 13th century, the foundations taught in basic training will be enough to break it. We need a way to distract him from the sword.  #speaker:Player #portrait:0
 A faux grail, maybe? Since he’s obsessed with it. #speaker:Archibald #portrait:archibald
 You should collect some wood, I can piece it together to make a grail.
-~SwitchToScene3()
+~SwitchToObjectDetection()
 
 -> END
