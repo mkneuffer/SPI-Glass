@@ -343,6 +343,7 @@ public class DialogueManager : MonoBehaviour
     //Connected to the onclick funciton of the buttons, chooses the choice of the button clicked
     public void MakeChoice(int choiceIndex)
     {
+        Debug.Log("Making choice: " + choiceIndex);
         EventSystem.current.SetSelectedGameObject(choices[choiceIndex].gameObject);
         currentStory.ChooseChoiceIndex(choiceIndex);
         ContinueStory();
@@ -509,7 +510,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GhostFight");
         }
 
         currentStory.BindExternalFunction("SwitchToScene5", () =>
