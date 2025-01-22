@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 24205262}
   - component: {fileID: 24205267}
   - component: {fileID: 24205268}
+  - component: {fileID: 24205269}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -243,22 +244,32 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24205261}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba8fcc344c1f4437c84cacbc219b1989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostPrefab: {fileID: 7109109670063725068, guid: f68f0ce6cbfcc409a812dc3c6c24024f,
+  ghostPrefab: {fileID: 1810335270025799418, guid: bf4ed5275e8c343d093742571e7de456,
     type: 3}
-  planeSizeThreshold: 2
+  minimumSpawnDistance: 3
+  maximumSpawnDistance: 10
   bobbingSpeed: 2
-  bobbingAmount: 1
-  maxHeightAbovePlane: 5
-  movementRange: 3
-  movementDuration: 5
-  minPauseDuration: 1
-  maxPauseDuration: 3
-  spawnDelay: 5
+  bobbingAmount: 3
+--- !u!114 &24205269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24205261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2af1325a2ee44ab3b5b4a9fe6969359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1810335270025799418, guid: bf4ed5275e8c343d093742571e7de456, type: 3}
+  minimumSpawnDistance: 5
+  maximumSpawnDistance: 10
 --- !u!1 &146446633
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,61 +541,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360182723}
   m_CullTransparentMesh: 1
---- !u!1 &466941305
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 466941307}
-  - component: {fileID: 466941306}
-  m_Layer: 0
-  m_Name: GhostPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &466941306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466941305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba8fcc344c1f4437c84cacbc219b1989, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostPrefab: {fileID: 7109109670063725068, guid: f68f0ce6cbfcc409a812dc3c6c24024f,
-    type: 3}
-  planeSizeThreshold: 3
-  bobbingSpeed: 2
-  bobbingAmount: 0.5
-  maxHeightAbovePlane: 5
-  movementRange: 3
-  movementDuration: 5
-  minPauseDuration: 1
-  maxPauseDuration: 3
-  spawnDelay: 5
---- !u!4 &466941307
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466941305}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &489196259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,13 +1640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 476ef91786a314387b5db2ea7c493c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashlight: {fileID: 1007060725}
-  projectilePrefab: {fileID: 6884780271193718604, guid: 1f8e87389987d42ecb287519a53b901f,
-    type: 3}
-  projectileSpeed: 20
-  flashlightRange: 10
-  targetTag: Ghost
-  stunDuration: 5
 --- !u!1 &1141270422
 GameObject:
   m_ObjectHideFlags: 0
@@ -2527,4 +2476,3 @@ SceneRoots:
   - {fileID: 504446755}
   - {fileID: 1658439983}
   - {fileID: 1063376971}
-  - {fileID: 466941307}

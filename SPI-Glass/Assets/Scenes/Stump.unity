@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2af1325a2ee44ab3b5b4a9fe6969359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6800554348828630263, guid: eecccd038955f46ab8727ca09a2b4601, type: 3}
+  prefab: {fileID: 7109109670063725068, guid: f68f0ce6cbfcc409a812dc3c6c24024f, type: 3}
   minimumSpawnDistance: 2
   maximumSpawnDistance: 4
 --- !u!1 &146446633
@@ -1186,12 +1186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5b14a9a28f6417caef70d171109b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowUI: {fileID: 2030141262}
-  sideActivationAngle: 35
-  verticalActivationAngle: 45
-  screenEdgeBuffer: 200
-  customTarget: {fileID: 0}
-  targetOffset: {x: -0.5, y: 0.7, z: 0}
 --- !u!114 &1117002590
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ TagManager:
   - Ghost
   - Flashlight
   - HolyWater
+  - Ball
   layers:
   - Default
   - TransparentFX
