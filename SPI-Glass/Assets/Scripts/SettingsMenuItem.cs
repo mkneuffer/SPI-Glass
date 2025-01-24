@@ -20,24 +20,20 @@ public class SettingsMenuItem : MonoBehaviour
         img = GetComponent<Image>();
         trans = transform;
 
-        settingsMenu = trans.parent.GetComponent<SettingsMenu> ();
-        index = trans.GetSiblingIndex() - 1; 
+        settingsMenu = trans.parent.GetComponent<SettingsMenu>();
+        index = trans.GetSiblingIndex() - 1;
 
-        button = GetComponent<Button> ();
-        button.onClick.AddListener (OnItemClick);
+        button = GetComponent<Button>();
+        button.onClick.AddListener(OnItemClick);
     }
 
-    void OnItemClick() {
-        settingsMenu.OnItemClick (index);
-    }
-
-    void OnDestroy() {
-        button.onClick.RemoveListener (OnItemClick);
-    }
-    
-    // Update is called once per frame
-    void Update()
+    void OnItemClick()
     {
-        // Probably unnecessary to keep this, but I'll leave it here just in case
+        settingsMenu.OnItemClick(index);
+    }
+
+    void OnDestroy()
+    {
+        button.onClick.RemoveListener(OnItemClick);
     }
 }

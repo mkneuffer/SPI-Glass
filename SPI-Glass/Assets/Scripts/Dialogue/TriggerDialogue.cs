@@ -19,7 +19,7 @@ public class TestTriggerDialogue : MonoBehaviour
             }
             else
             {
-                DialogueManager.GetInstance().EnterAutomaticDialogueMode(inkJSONPrompt, false, 0.6f);
+                DialogueManager.GetInstance().EnterDialogueMode(inkJSONPrompt, false, 0.6f);
             }
             state = true;
         }

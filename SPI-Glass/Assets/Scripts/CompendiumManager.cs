@@ -13,21 +13,13 @@ public class CompendiumManager : MonoBehaviour
         currentPage = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void nextPage()
     {
-        
         if ((currentPage + 1) < pages.Length)
         {
             currentPage++;
             swapPage();
         }
-        
     }
 
     public void prevPage()
@@ -37,7 +29,6 @@ public class CompendiumManager : MonoBehaviour
             currentPage--;
             swapPage();
         }
-            
     }
 
     public void swapPage()
@@ -54,7 +45,7 @@ public class CompendiumManager : MonoBehaviour
             }
         }
     }
-    
+
     public void goToPage(int pageNum)
     {
         for (int i = 0; i < pages.Length; i++)
