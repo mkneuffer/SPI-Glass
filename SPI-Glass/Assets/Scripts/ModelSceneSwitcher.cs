@@ -10,8 +10,6 @@ public class SceneSwitcherOnClick : MonoBehaviour
     void OnMouseDown()
     {
         StartCoroutine(LoadScene3());
-        
-        
     }
 
     IEnumerator LoadScene3()

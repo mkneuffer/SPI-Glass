@@ -8,6 +8,7 @@ public class XR_Placement : MonoBehaviour
 {
     [SerializeField] private GameObject prefab; // Prefab to be spawned
     [SerializeField] private float minimumSpawnDistance = 1.0f; // Minimum distance to camera for spawning
+    [SerializeField] private float maximumSpawnDistance = 10.0f; // Maximum distance to camera for spawning
     private ARRaycastManager raycastManager; // Reference to the ARRaycastManager
     private ARPlaneManager planeManager; // Reference to the ARPlaneManager
     private bool hasSpawned = false; // Flag to ensure only one spawn
@@ -28,7 +29,7 @@ public class XR_Placement : MonoBehaviour
         }
     }
 
-    // Public function to spawn the ghost manually
+    // Public function to spawn the prefab manually
     public void SpawnGhost()
     {
         // Exit if we've already spawned the prefab
@@ -49,8 +50,8 @@ public class XR_Placement : MonoBehaviour
                 // Calculate the distance between the camera and the plane
                 float distanceToCamera = Vector3.Distance(Camera.main.transform.position, planePosition);
 
-                // Check if the plane is far enough
-                if (distanceToCamera >= minimumSpawnDistance)
+                // Check if the plane is within the distance range
+                if (distanceToCamera >= minimumSpawnDistance && distanceToCamera <= maximumSpawnDistance)
                 {
                     Quaternion lookAtCameraRotation = CalculateLookAtCameraRotation(planePosition); // Get rotation to face the camera
                     SpawnPrefab(planePosition, lookAtCameraRotation); // Spawn prefab
@@ -61,19 +62,14 @@ public class XR_Placement : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("No suitable plane detected to spawn the ghost.");
+        Debug.LogWarning("No suitable plane detected to spawn the ghost within the specified distance range.");
     }
 
     // Calculate rotation to make the prefab face the camera
     private Quaternion CalculateLookAtCameraRotation(Vector3 spawnPosition)
     {
-        // Get the direction from the prefab position to the camera
-        Vector3 directionToCamera = (Camera.main.transform.position - spawnPosition).normalized;
-
-        // Zero out the Y component to only rotate on the horizontal plane
-        directionToCamera.y = 0;
-
-        // Return the rotation that looks toward the camera
+        Vector3 directionToCamera = Camera.main.transform.position - spawnPosition;
+        directionToCamera.y = 0; // Keep the rotation on the horizontal plane
         return Quaternion.LookRotation(directionToCamera);
     }
 
@@ -84,7 +80,7 @@ public class XR_Placement : MonoBehaviour
         Debug.Log($"Prefab spawned at position: {position} and is facing the camera.");
     }
 
-    // Public function to delete the ghost from the scene
+    // Public function to delete the prefab from the scene
     public void DeleteGhost()
     {
         // Check if a prefab has been spawned

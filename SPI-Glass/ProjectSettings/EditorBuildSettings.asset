@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: 697d8be581ba04e2dbe7998526acc5cf
   - enabled: 1
-    path: Assets/Scenes/Scene1.unity
+    path: Assets/Prefabs/FullGamePrefab/Scene1.unity
     guid: 83b55601e56a42541a95c06a28c37678
   - enabled: 1
     path: Assets/Scenes/Map1.unity
@@ -35,12 +35,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene6.unity
     guid: 5af7984781f782346a22df39974bc4ed
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Stump.unity
     guid: 2af27dac4023c4f25b43c59708659a50
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CirclesPuzzle.unity
-    guid: b35cb8e1fbea646d1947b3ba1e022fa6
+    guid: dba645095c05c4d46aa84792b212fb63
   m_configObjects:
     Niantic.Lightship.AR.LightshipSettings: {fileID: 11400000, guid: 1adebb225450d43d792b3fd931de6645,
       type: 2}

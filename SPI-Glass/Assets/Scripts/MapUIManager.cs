@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MapUIManager : MonoBehaviour
-{ 
+{
 
     [SerializeField] Image settingsButton;
     [SerializeField] GameObject expandMenu;
@@ -14,18 +14,12 @@ public class MapUIManager : MonoBehaviour
         expandMenu.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void openMenu()
     {
         expandMenu.SetActive(true);
     }
 
-    public void closeMenu()    
+    public void closeMenu()
     {
         expandMenu.SetActive(false);
     }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class CirclePuzzle : MonoBehaviour
@@ -7,8 +6,9 @@ public class CirclePuzzle : MonoBehaviour
     [Header("Circle Objects")]
     public Transform[] circles;  // Assign your circle GameObjects here
 
-    [Header("Scene Transition")]
-    public string nextSceneName;  // Name of the scene to load after puzzle completion
+    [Header("Dialogue")]
+    public DialogueManager dialogueManager;  // Reference to the DialogueManager
+    public TextAsset nextInkJSON;  // The next dialogue to load after puzzle completion
 
     private bool[] isRotating;    // Flags to indicate if a circle is currently rotating
     private bool puzzleComplete = false;
@@ -24,6 +24,13 @@ public class CirclePuzzle : MonoBehaviour
 
     void Start()
     {
+        dialogueManager = FindObjectOfType<DialogueManager>();
+        if (dialogueManager == null)
+        {
+            Debug.LogError("DialogueManager not found in the scene.");
+            return;
+        }
+
         if (circles == null || circles.Length == 0)
         {
             Debug.LogError("No circles have been assigned in the inspector.");
@@ -67,7 +74,6 @@ public class CirclePuzzle : MonoBehaviour
 
     void HandleInput()
     {
-        // Handle touch input
         if (Input.touchSupported && Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -111,12 +117,10 @@ public class CirclePuzzle : MonoBehaviour
                     {
                         if (!isDragging)
                         {
-                            // Tap detected, rotate 30 degrees counterclockwise
                             StartCoroutine(RotateByAngle(selectedCircle, -30f));
                         }
                         else
                         {
-                            // Dragging ended, snap to nearest 30 degrees
                             SnapCircle(selectedCircle);
                         }
                         selectedCircle = null;
@@ -124,68 +128,60 @@ public class CirclePuzzle : MonoBehaviour
                     break;
             }
         }
-        // Handle mouse input
-        else
+        else if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            Vector2 mousePosition = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (IsCircle(hit.transform))
+                {
+                    selectedCircle = hit.transform;
+                    previousInputPosition = mousePosition;
+                    isDragging = false;
+                }
+            }
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            if (selectedCircle != null)
             {
                 Vector2 mousePosition = Input.mousePosition;
-                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
+                if (!isDragging && Vector2.Distance(previousInputPosition, mousePosition) > dragThreshold)
                 {
-                    if (IsCircle(hit.transform))
-                    {
-                        selectedCircle = hit.transform;
-                        previousInputPosition = mousePosition;
-                        isDragging = false;
-                    }
+                    isDragging = true;
+                }
+
+                if (isDragging)
+                {
+                    RotateCircle(selectedCircle, previousInputPosition, mousePosition);
+                    previousInputPosition = mousePosition;
                 }
             }
-            else if (Input.GetMouseButton(0))
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (selectedCircle != null)
             {
-                if (selectedCircle != null)
+                if (!isDragging)
                 {
-                    Vector2 mousePosition = Input.mousePosition;
-                    if (!isDragging && Vector2.Distance(previousInputPosition, mousePosition) > dragThreshold)
-                    {
-                        isDragging = true;
-                    }
-
-                    if (isDragging)
-                    {
-                        RotateCircle(selectedCircle, previousInputPosition, mousePosition);
-                        previousInputPosition = mousePosition;
-                    }
+                    StartCoroutine(RotateByAngle(selectedCircle, -30f));
                 }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                if (selectedCircle != null)
+                else
                 {
-                    if (!isDragging)
-                    {
-                        // Click detected, rotate 30 degrees counterclockwise
-                        StartCoroutine(RotateByAngle(selectedCircle, -30f));
-                    }
-                    else
-                    {
-                        // Dragging ended, snap to nearest 30 degrees
-                        SnapCircle(selectedCircle);
-                    }
-                    selectedCircle = null;
+                    SnapCircle(selectedCircle);
                 }
+                selectedCircle = null;
             }
         }
     }
 
     void RotateCircle(Transform circle, Vector2 previousPosition, Vector2 currentPosition)
     {
-        // Calculate the rotation based on the movement direction
         Vector2 delta = currentPosition - previousPosition;
 
-        // Project the movement onto the screen space around the circle
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(circle.position);
         Vector2 circleCenter = new Vector2(screenPoint.x, screenPoint.y);
 
@@ -194,18 +190,15 @@ public class CirclePuzzle : MonoBehaviour
 
         float angle = Vector2.SignedAngle(prevDirection, currDirection);
 
-        // Rotate around the circle's local Z-axis
-        circle.Rotate(Vector3.forward, -angle, Space.Self); // Negative to match drag direction
+        circle.Rotate(Vector3.forward, -angle, Space.Self);
     }
 
     void SnapCircle(Transform circle)
     {
-        // Get the current rotation around the local Z-axis
         float currentRotation = circle.localEulerAngles.z;
         float snappedRotation = Mathf.Round(currentRotation / 30f) * 30f;
         float deltaRotation = Mathf.DeltaAngle(currentRotation, snappedRotation);
 
-        // Rotate the circle to snap to the nearest 30 degrees
         StartCoroutine(RotateByAngle(circle, deltaRotation));
     }
 
@@ -213,11 +206,11 @@ public class CirclePuzzle : MonoBehaviour
     {
         int index = GetCircleIndex(circle);
         if (isRotating[index])
-            yield break;  // Prevent multiple rotations on the same circle
+            yield break;
 
         isRotating[index] = true;
 
-        float duration = 0.25f;  // Rotation duration
+        float duration = 0.25f;
         float elapsed = 0f;
 
         Quaternion initialRotation = circle.localRotation;
@@ -243,7 +236,7 @@ public class CirclePuzzle : MonoBehaviour
 
             float angle = Quaternion.Angle(Quaternion.identity, deltaRotation);
 
-            if (Mathf.Abs(angle) > 1f)  // Allow a small tolerance
+            if (Mathf.Abs(angle) > 1f)
                 return false;
         }
         return true;
@@ -251,8 +244,17 @@ public class CirclePuzzle : MonoBehaviour
 
     IEnumerator CompletePuzzle()
     {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(nextSceneName);
+        yield return new WaitForSeconds(0.5f);  // Optional delay for user feedback
+
+        if (dialogueManager != null && nextInkJSON != null)
+        {
+            dialogueManager.EnterDialogueMode(nextInkJSON, true);
+            Debug.Log("Puzzle completed! Proceeding to the next part of the dialogue.");
+        }
+        else
+        {
+            Debug.LogError("DialogueManager or nextInkJSON is not assigned.");
+        }
     }
 
     int GetCircleIndex(Transform circle)
