@@ -6,11 +6,26 @@ public class Card : MonoBehaviour
 {
     public string rank;
     public string suit;
+    int value;
 
     public void setCard(string suit, string rank)
     {
         this.rank = rank;
         this.suit = suit;
+        //Converts the string rank into an int value
+        //If fails it's an Ace, King, Queen or Jack and we handle accordingly
+        if (!System.Int32.TryParse(rank, out value))
+        {
+            if (rank.Equals("Ace"))
+            {
+                value = 11;
+            }
+            else
+            {
+                value = 10;
+            }
+        }
+
     }
 
     public string getRank()
@@ -23,9 +38,14 @@ public class Card : MonoBehaviour
         return suit;
     }
 
+    public int getValue()
+    {
+        return value;
+    }
+
     public string toString()
     {
-        return rank + " of " + suit;
+        return rank;// + " of " + suit;
     }
 
 }

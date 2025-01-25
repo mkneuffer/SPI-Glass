@@ -9,14 +9,10 @@ public class Deck : MonoBehaviour
     string[] cardRanks = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
     List<Card> deck = new List<Card>();
     int count = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        CreateDeck();
-    }
 
     public void CreateDeck()
     {
+        deck.Clear();
         foreach (string suit in cardSuits)
         {
             foreach (string rank in cardRanks)
@@ -26,6 +22,7 @@ public class Deck : MonoBehaviour
                 deck.Add(card);
             }
         }
+        //Shuffles the deck
         deck = deck.OrderBy(x => Random.value).ToList();
     }
 
