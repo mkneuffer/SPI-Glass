@@ -44,7 +44,7 @@ public class BlackjackManager : MonoBehaviour
     {
         playerHand.Add(deck.DrawCard());
         UpdateHandsDisplay(false);
-        if (SumOfHand(playerHand) >= 21)
+        if (SumOfHand(playerHand) > 21)
         {
             DealersTurn();
         }
@@ -96,17 +96,18 @@ public class BlackjackManager : MonoBehaviour
         gameEndPanel.SetActive(true);
     }
 
-    private void UpdateHandsDisplay(bool displayDealersWholeHand)
+    private void UpdateHandsDisplay(bool endOfGameDisplay)
     {
-        playerHandText.text = "Sum=" + SumOfHand(playerHand) + "\nPlayer's Hand: " + HandToString(playerHand);
 
-        if (displayDealersWholeHand)
+        if (endOfGameDisplay)
         {
+            playerHandText.text = "Sum=" + SumOfHand(playerHand) + "\nPlayer's Hand: " + HandToString(playerHand);
             dealerHandText.text = "Sum=" + SumOfHand(dealerHand) + "\nDealer's Hand: " + HandToString(dealerHand);
         }
         else
         {
-            dealerHandText.text = "Sum=" + SumOfHand(dealerHand) + "\nDealer's Hand: " + dealerHand[0].toString();
+            playerHandText.text = "Player's Hand: " + HandToString(playerHand);
+            dealerHandText.text = "Dealer's Hand: " + dealerHand[0].toString();
         }
     }
 
