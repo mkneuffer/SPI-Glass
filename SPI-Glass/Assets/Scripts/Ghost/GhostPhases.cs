@@ -1,19 +1,21 @@
 using UnityEngine;
 
-public class GhostHealth : MonoBehaviour
+public class GhostPhases : MonoBehaviour
 {
     [Header("Phase Settings")]
     [SerializeField] private int[] phaseHealth = { 20, 10, 20 }; // Health for each phase
-    [SerializeField] private float[] stunDurations = { 5f, 10f, 5f }; // Stun durations for each phase
+    [SerializeField] private float[] stunDurations = { 5f, 10f, 5f }; // Stun duration for each phase
     private int currentPhase = 0; // Tracks the current phase (0 = Phase 1, 1 = Phase 2, etc.)
-    private int currentHealth; // Current health in the current phase
-    private bool isAlive = true; // Tracks if the ghost is alive
-    private bool isStunned = false; // Tracks whether the ghost is stunned
-    private float flashlightTimer = 0f; // Timer for how long the flashlight is on the ghost
-    private float flashlightThreshold = 5f; // Time flashlight must be on ghost to stun
+
+    private int currentHealth; // Tracks the ghost's current health in the current phase
+    private bool isStunned = false; // Whether the ghost is stunned
+    private bool isAlive = true; // Whether the ghost is alive
+
+    private Animator animator; // Reference to the Animator
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         StartPhase(0); // Begin with Phase 1
     }
 
@@ -28,11 +30,14 @@ public class GhostHealth : MonoBehaviour
         currentPhase = phase;
         currentHealth = phaseHealth[phase];
         Debug.Log($"Starting Phase {phase + 1} with {currentHealth} health and {stunDurations[phase]}s stun duration.");
+
+        // Trigger the phase animation
+        animator.SetTrigger($"Phase{phase + 1}");
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ball") && isAlive && isStunned)
+        if (collision.gameObject.CompareTag("Ball") && isStunned && isAlive)
         {
             TakeDamage(2); // Adjust ball damage as needed
             Destroy(collision.gameObject); // Destroy the ball on collision
@@ -56,24 +61,13 @@ public class GhostHealth : MonoBehaviour
         StartPhase(currentPhase + 1); // Advance to the next phase
     }
 
-    public void HandleFlashlight()
+    public void Stun()
     {
-        if (isStunned || !isAlive) return;
+        if (isStunned) return;
 
-        flashlightTimer += Time.deltaTime;
-        Debug.Log($"Flashlight on ghost: {flashlightTimer:F2} seconds");
-
-        if (flashlightTimer >= flashlightThreshold)
-        {
-            StunGhost();
-        }
-    }
-
-    private void StunGhost()
-    {
-        isStunned = true;
-        flashlightTimer = 0f;
         Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
+        animator.SetTrigger("Stun"); // Trigger stun animation
+        isStunned = true;
 
         // Start stun timer
         Invoke(nameof(EndStun), stunDurations[currentPhase]);
@@ -88,12 +82,7 @@ public class GhostHealth : MonoBehaviour
     private void Die()
     {
         isAlive = false;
+        animator.SetTrigger("Die"); // Trigger death animation
         Debug.Log("Ghost is dead.");
-        gameObject.SetActive(false); // Hide the ghost
-    }
-
-    public bool IsStunned()
-    {
-        return isStunned;
     }
 }
