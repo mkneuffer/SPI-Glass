@@ -5,6 +5,7 @@ using System.Linq;
 using Ink.Parsed;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 public class BlackjackManager : MonoBehaviour
 {
@@ -17,9 +18,65 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameEndText;
     [SerializeField] private GameObject HitButton;
     [SerializeField] private GameObject StandButton;
+    [SerializeField] private ARCameraManager cameraManager;
 
+    [Header("Cards")]
 
-
+    //clubdiamondheart spade
+    //2-10 ace jkq
+    [SerializeField] private GameObject twoClub;
+    [SerializeField] private GameObject twoDiamond;
+    [SerializeField] private GameObject twoHeart;
+    [SerializeField] private GameObject twoSpade;
+    [SerializeField] private GameObject threeClub;
+    [SerializeField] private GameObject threeDiamond;
+    [SerializeField] private GameObject threeHeart;
+    [SerializeField] private GameObject threeSpade;
+    [SerializeField] private GameObject fourClub;
+    [SerializeField] private GameObject fourDiamond;
+    [SerializeField] private GameObject fourHeart;
+    [SerializeField] private GameObject fourSpade;
+    [SerializeField] private GameObject fiveClub;
+    [SerializeField] private GameObject fiveDiamond;
+    [SerializeField] private GameObject fiveHeart;
+    [SerializeField] private GameObject fiveSpade;
+    [SerializeField] private GameObject sixClub;
+    [SerializeField] private GameObject sixDiamond;
+    [SerializeField] private GameObject sixHeart;
+    [SerializeField] private GameObject sixSpade;
+    [SerializeField] private GameObject sevenClub;
+    [SerializeField] private GameObject sevenDiamond;
+    [SerializeField] private GameObject sevenHeart;
+    [SerializeField] private GameObject sevenSpade;
+    [SerializeField] private GameObject eightClub;
+    [SerializeField] private GameObject eightDiamond;
+    [SerializeField] private GameObject eightHeart;
+    [SerializeField] private GameObject eightSpade;
+    [SerializeField] private GameObject nineClub;
+    [SerializeField] private GameObject nineDiamond;
+    [SerializeField] private GameObject nineHeart;
+    [SerializeField] private GameObject nineSpade;
+    [SerializeField] private GameObject tenClub;
+    [SerializeField] private GameObject tenDiamond;
+    [SerializeField] private GameObject tenHeart;
+    [SerializeField] private GameObject tenSpade;
+    [SerializeField] private GameObject aceClub;
+    [SerializeField] private GameObject aceDiamond;
+    [SerializeField] private GameObject aceHeart;
+    [SerializeField] private GameObject aceSpade;
+    [SerializeField] private GameObject jackClub;
+    [SerializeField] private GameObject jackDiamond;
+    [SerializeField] private GameObject jackHeart;
+    [SerializeField] private GameObject jackSpade;
+    [SerializeField] private GameObject kingClub;
+    [SerializeField] private GameObject kingDiamond;
+    [SerializeField] private GameObject kingHeart;
+    [SerializeField] private GameObject kingSpade;
+    [SerializeField] private GameObject queenClub;
+    [SerializeField] private GameObject queenDiamond;
+    [SerializeField] private GameObject queenHeart;
+    [SerializeField] private GameObject queenSpade;
+    [SerializeField] private GameObject cardBox;
 
     void Start()
     {
@@ -31,18 +88,18 @@ public class BlackjackManager : MonoBehaviour
     //Deals two cards to both the dealer and the player
     private void DealHands()
     {
-        playerHand.Add(deck.DrawCard());
-        playerHand.Add(deck.DrawCard());
+        DrawCards("player", true);
+        DrawCards("player", true);
 
-        dealerHand.Add(deck.DrawCard());
-        dealerHand.Add(deck.DrawCard());
+        DrawCards("dealer", true);
+        DrawCards("dealer", false);
 
         UpdateHandsDisplay(false);
     }
 
     public void Hit()
     {
-        playerHand.Add(deck.DrawCard());
+        DrawCards("player", true);
         UpdateHandsDisplay(false);
         if (SumOfHand(playerHand) > 21)
         {
@@ -53,9 +110,10 @@ public class BlackjackManager : MonoBehaviour
     public void DealersTurn()
     {
         UpdateHandsDisplay(true);
+        //Make corutine later so takes time
         while (SumOfHand(dealerHand) < 17)
         {
-            dealerHand.Add(deck.DrawCard());
+            DrawCards("dealer", false);
         }
         EndGame();
     }
@@ -94,6 +152,24 @@ public class BlackjackManager : MonoBehaviour
             gameEndText.text = "YOU LOSE";
         }
         gameEndPanel.SetActive(true);
+    }
+
+    private void DrawCards(string hand, bool visible)
+    {
+        Card card = deck.DrawCard();
+        if (hand.Equals("player"))
+        {
+            playerHand.Add(card);
+        }
+        else
+        {
+            dealerHand.Add(card);
+        }
+        GameObject cardModel = CardToModel(card);
+        Quaternion rotation = Quaternion.identity;
+        rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y, Camera.main.transform.rotation.z, rotation.w);
+        cardModel = Instantiate(cardModel, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward, rotation);
+        cardModel.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
     }
 
     private void UpdateHandsDisplay(bool endOfGameDisplay)
@@ -152,5 +228,154 @@ public class BlackjackManager : MonoBehaviour
             output += card.toString() + ", ";
         }
         return output;
+    }
+
+    private GameObject CardToModel(Card card)
+    {
+        if (card.getSuit() == "Hearts")
+        {
+            switch (card.getRank())
+            {
+                case "Ace":
+                    return aceHeart;
+                case "2":
+                    return twoHeart;
+                case "3":
+                    return threeHeart;
+                case "4":
+                    return fourHeart;
+                case "5":
+                    return fiveHeart;
+                case "6":
+                    return sixHeart;
+                case "7":
+                    return sevenHeart;
+                case "8":
+                    return eightHeart;
+                case "9":
+                    return nineHeart;
+                case "10":
+                    return tenHeart;
+                case "Jack":
+                    return jackHeart;
+                case "Queen":
+                    return queenHeart;
+                case "King":
+                    return kingHeart;
+                default:
+                    Debug.Log("Error displying card: Attempting to display " + card.getRank() + " of " + card.getSuit());
+                    return cardBox;
+            }
+        }
+        else if (card.getSuit() == "Clubs")
+        {
+            switch (card.getRank())
+            {
+                case "Ace":
+                    return aceClub;
+                case "2":
+                    return twoClub;
+                case "3":
+                    return threeClub;
+                case "4":
+                    return fourClub;
+                case "5":
+                    return fiveClub;
+                case "6":
+                    return sixClub;
+                case "7":
+                    return sevenClub;
+                case "8":
+                    return eightClub;
+                case "9":
+                    return nineClub;
+                case "10":
+                    return tenClub;
+                case "Jack":
+                    return jackClub;
+                case "Queen":
+                    return queenClub;
+                case "King":
+                    return kingClub;
+                default:
+                    Debug.Log("Error displying card: Attempting to display " + card.getRank() + " of " + card.getSuit());
+                    return cardBox;
+            }
+        }
+        else if (card.getSuit() == "Diamonds")
+        {
+            switch (card.getRank())
+            {
+                case "Ace":
+                    return aceDiamond;
+                case "2":
+                    return twoDiamond;
+                case "3":
+                    return threeDiamond;
+                case "4":
+                    return fourDiamond;
+                case "5":
+                    return fiveDiamond;
+                case "6":
+                    return sixDiamond;
+                case "7":
+                    return sevenDiamond;
+                case "8":
+                    return eightDiamond;
+                case "9":
+                    return nineDiamond;
+                case "10":
+                    return tenDiamond;
+                case "Jack":
+                    return jackDiamond;
+                case "Queen":
+                    return queenDiamond;
+                case "King":
+                    return kingDiamond;
+                default:
+                    Debug.Log("Error displying card: Attempting to display " + card.getRank() + " of " + card.getSuit());
+                    return cardBox;
+            }
+        }
+        else if (card.getSuit() == "Spades")
+        {
+            switch (card.getRank())
+            {
+                case "Ace":
+                    return aceSpade;
+                case "2":
+                    return twoSpade;
+                case "3":
+                    return threeSpade;
+                case "4":
+                    return fourSpade;
+                case "5":
+                    return fiveSpade;
+                case "6":
+                    return sixSpade;
+                case "7":
+                    return sevenSpade;
+                case "8":
+                    return eightSpade;
+                case "9":
+                    return nineSpade;
+                case "10":
+                    return tenSpade;
+                case "Jack":
+                    return jackSpade;
+                case "Queen":
+                    return queenSpade;
+                case "King":
+                    return kingSpade;
+                default:
+                    Debug.Log("Error displying card: Attempting to display " + card.getRank() + " of " + card.getSuit());
+                    return cardBox;
+            }
+        }
+        else
+        {
+            Debug.Log("Error displying card: Attempting to display " + card.getRank() + " of " + card.getSuit());
+            return cardBox;
+        }
     }
 }
