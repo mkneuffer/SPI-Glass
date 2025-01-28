@@ -2,16 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Ink.Parsed;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class BlackjackManager : MonoBehaviour
 {
     [SerializeField] Deck deck;
     List<Card> playerHand = new List<Card>();
     List<Card> dealerHand = new List<Card>();
+    List<GameObject> playerHandModel = new List<GameObject>();
+    List<GameObject> dealerHandModel = new List<GameObject>();
+
     [SerializeField] private TextMeshProUGUI playerHandText;
     [SerializeField] private TextMeshProUGUI dealerHandText;
     [SerializeField] private GameObject gameEndPanel;
@@ -21,9 +27,6 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private ARCameraManager cameraManager;
 
     [Header("Cards")]
-
-    //clubdiamondheart spade
-    //2-10 ace jkq
     [SerializeField] private GameObject twoClub;
     [SerializeField] private GameObject twoDiamond;
     [SerializeField] private GameObject twoHeart;
@@ -103,7 +106,7 @@ public class BlackjackManager : MonoBehaviour
         UpdateHandsDisplay(false);
         if (SumOfHand(playerHand) > 21)
         {
-            DealersTurn();
+            //DealersTurn();
         }
     }
 
@@ -157,19 +160,23 @@ public class BlackjackManager : MonoBehaviour
     private void DrawCards(string hand, bool visible)
     {
         Card card = deck.DrawCard();
+        GameObject cardModel = CardToModel(card);
+        cardModel = Instantiate(cardModel, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 0.5f, Quaternion.identity);
         if (hand.Equals("player"))
         {
             playerHand.Add(card);
+            playerHandModel.Add(cardModel);
+            cardModel.transform.position = playerHandModel[0].transform.position + new Vector3(.2f, 0, 0) * (playerHandModel.Count - 1);
         }
         else
         {
             dealerHand.Add(card);
+            dealerHandModel.Add(cardModel);
         }
-        GameObject cardModel = CardToModel(card);
-        Quaternion rotation = Quaternion.identity;
-        rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y, Camera.main.transform.rotation.z, rotation.w);
-        cardModel = Instantiate(cardModel, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward, rotation);
-        cardModel.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        // Quaternion rotation = Quaternion.identity;
+        // rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y + 180, Camera.main.transform.rotation.z, rotation.w);
+        cardModel.transform.localScale = new Vector3(3f, 3f, 3f);
+        cardModel.transform.rotation = cameraManager.transform.rotation;
     }
 
     private void UpdateHandsDisplay(bool endOfGameDisplay)
