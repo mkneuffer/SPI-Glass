@@ -2,75 +2,87 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockpickCollision : MonoBehaviour
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PinInteraction : MonoBehaviour
 {
-    [SerializeField] GameObject Pin;        // The pin that moves
-    [SerializeField] float moveSpeed = 1f; // Speed of the pin's upward movement
-    [SerializeField] float maxHeight = 2f; // Maximum height the pin can move to
-
-    private bool canMovePin = false;
-    private bool isPinLocked = false;
+    [SerializeField] float moveSpeed = 10f;
+    [SerializeField] Transform resetPosition;
+    [SerializeField] Collider successHitbox;
     private int totalPins = 2;
-    private int pinsLocked;
+    private int pinsLocked = 0;
+    private bool isInteracting = false;
+    private bool isLocked = false;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void Update()
     {
-        // Check if the lockpick collides with the pin
-        if (collision.gameObject.CompareTag("Lockpick") && !isPinLocked)
+        if (isInteracting && !isLocked)
         {
-            //Debug.Log("Lockpick collided with the pin");
+            // Moves pin upward
+            transform.localPosition += Vector3.up * moveSpeed * Time.deltaTime;
 
-            // Check if the pin can still move upwards
-            if (Pin.transform.position.y < maxHeight)
+            // Check if pin has crossed success hitbox
+            if (successHitbox.bounds.Contains(transform.position))
             {
-                canMovePin = true;
-            }
-        }
-
-        // Check if the pin collides with the upper barrier
-        if (collision.gameObject.CompareTag("UpperBarrier") && isPinLocked == false)
-        {
-            Debug.Log("Pin reached the upper barrier and is locked in place");
-            isPinLocked = true;
-            canMovePin = false; // Prevent further movement
-            pinsLocked++;
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        // While the lockpick is in contact, move the pin upwards
-        if (canMovePin && collision.gameObject.CompareTag("Lockpick") && !isPinLocked)
-        {
-            Vector3 currentPosition = Pin.transform.position;
-
-            // Move the pin upwards
-            if (currentPosition.y < maxHeight)
-            {
-                Pin.transform.position += Vector3.up * moveSpeed * Time.deltaTime;
-            }
-            else
-            {
-                canMovePin = false; // Stop movement when max height is reached
+                LockPin();
             }
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+     private void OnTriggerEnter(Collider other)
     {
-        // Stop movement when the lockpick exits collision
-        if (collision.gameObject.CompareTag("Lockpick"))
+        if (other.CompareTag("Lockpick"))
         {
-            //Debug.Log("Lockpick exited collision with the pin");
-            canMovePin = false;
+            if (!isInteracting)
+            {
+                isInteracting = true;
+            }
+        }
+        else if (other == successHitbox)
+        {
+            if (!isLocked)
+            {
+                Debug.Log("Pin exited hitbox. Resetting all pins.");
+                ResetAllPins();
+            }
         }
     }
 
-    private void checkPins()
+    private void LockPin()
     {
-        if(pinsLocked == totalPins)
+        isLocked = true;
+        pinsLocked++;
+        Debug.Log("Pin locked!");
+
+        // Win condition when pins all locked
+        if (pinsLocked == totalPins)
         {
-            Debug.Log("Finished!");
+            Debug.Log("All pins locked!");
         }
+    }
+
+    private void ResetAllPins()
+    {
+        Debug.Log("Pin went too high! Resetting all pins.");
+
+        // Resets all pins
+        PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
+        foreach (PinInteraction pin in allPins)
+        {
+            pin.ResetPin();
+        }
+
+        // Resets counter
+        pinsLocked = 0;
+    }
+
+    private void ResetPin()
+    {
+        // Reset pin position
+        isLocked = false;
+        isInteracting = false;
+        transform.position = resetPosition.position;
     }
 }
