@@ -9,6 +9,7 @@ public class GhostHealth : MonoBehaviour
     [Header("Animation References")]
     [SerializeField] private Animator ghostAnimator;
     [SerializeField] private Animator movementAnimator;
+    [SerializeField] private Rigidbody ghostRigidbody;
 
     private Collider ghostCollider;
     private int currentPhase = 0;
@@ -20,16 +21,19 @@ public class GhostHealth : MonoBehaviour
 
     void Start()
     {
-        // Find the first active collider in the children
         ghostCollider = GetComponentInChildren<Collider>();
+        ghostRigidbody = GetComponent<Rigidbody>();
 
         if (ghostCollider == null)
-        {
-            Debug.LogError("No Collider Found! Make sure the ghost has a collider as a child.");
-        }
+            Debug.LogError("No Collider Found. Make sure the ghost has a collider.");
         else
-        {
             Debug.Log($"Ghost Collider Found: {ghostCollider.gameObject.name}");
+
+        if (ghostRigidbody == null)
+        {
+            Debug.LogWarning("Ghost is missing a Rigidbody. Adding a kinematic one.");
+            ghostRigidbody = gameObject.AddComponent<Rigidbody>();
+            ghostRigidbody.isKinematic = true;
         }
 
         StartPhase(0);
@@ -47,72 +51,37 @@ public class GhostHealth : MonoBehaviour
         currentHealth = phaseHealth[phase];
         Debug.Log($"Starting Phase {phase + 1} with {currentHealth} HP, Stun {stunDurations[phase]}s.");
 
-        switch (phase)
-        {
-            case 0:
-                movementAnimator.SetTrigger("Phase1");
-                break;
-            case 1:
-                movementAnimator.SetTrigger("Phase2");
-                break;
-            case 2:
-                movementAnimator.SetTrigger("Phase3");
-                break;
-        }
-
+        movementAnimator.SetTrigger(phase == 0 ? "Phase1" : phase == 1 ? "Phase2" : "Phase3");
         ghostAnimator.SetTrigger("Float");
     }
 
     private void OnCollisionEnter(Collision collision)
-{
-    Debug.Log($"🔴 Collision Detected with: {collision.gameObject.name} (Tag: {collision.gameObject.tag})");
-
-    if (collision.gameObject.CompareTag("Ball"))
     {
-        Debug.Log("⚽ Ball hit detected!");
+        Debug.Log($"Collision detected with: {collision.gameObject.name} (Tag: {collision.gameObject.tag})");
 
-        if (isStunned && isAlive) // ✅ Ball does damage when ghost is stunned
+        if (collision.gameObject.CompareTag("Ball"))
         {
-            Debug.Log("💀 Ghost is stunned! Taking damage from ball.");
-            TakeDamage(2);
-            Destroy(collision.gameObject);
-        }
-        else
-        {
-            Debug.Log("🚫 Ghost is NOT stunned. Ball does no damage.");
+            Debug.Log("Ball hit detected.");
+
+            if (isStunned && isAlive) 
+            {
+                Debug.Log("Ghost is stunned. Taking 2 damage.");
+                TakeDamage(2);
+                Destroy(collision.gameObject, 0.1f); 
+            }
+            else
+            {
+                Debug.Log("Ball hit ghost, but no damage (not stunned).");
+            }
         }
     }
-}
-
-private void OnTriggerEnter(Collider other)
-{
-    Debug.Log($"🔴 Trigger Enter Detected with: {other.gameObject.name} (Tag: {other.gameObject.tag})");
-
-    if (other.CompareTag("Ball"))
-    {
-        Debug.Log("⚽ Ball entered trigger zone!");
-
-        if (isStunned && isAlive)
-        {
-            Debug.Log("💀 Ghost is stunned! Taking damage from ball.");
-            TakeDamage(2);
-            Destroy(other.gameObject);
-        }
-        else
-        {
-            Debug.Log("🚫 Ghost is NOT stunned. Ball does no damage.");
-        }
-    }
-}
-
-
 
     public void HandleFlashlight()
     {
         if (isStunned || !isAlive) 
         {
-            Debug.Log("Flashlight hit ghost but it is stunned or dead - No effect.");
-            return; // Flashlight cannot stun a ghost that is already stunned or dead
+            Debug.Log("Flashlight hit ghost but it is stunned or dead. No effect.");
+            return;
         }
 
         flashlightTimer += Time.deltaTime;

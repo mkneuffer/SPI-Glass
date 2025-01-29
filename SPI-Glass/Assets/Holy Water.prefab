@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 825330724673632462}
   - component: {fileID: 5633342790866729957}
   - component: {fileID: 4688014169355176363}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Holy Water
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!95 &5633342790866729957
