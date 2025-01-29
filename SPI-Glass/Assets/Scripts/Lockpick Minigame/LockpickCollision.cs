@@ -8,7 +8,8 @@ using UnityEngine;
 
 public class PinInteraction : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 10f;
+    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
     [SerializeField] Collider successHitbox;
     private int totalPins = 2;
@@ -18,20 +19,29 @@ public class PinInteraction : MonoBehaviour
 
     void Update()
     {
-        if (isInteracting && !isLocked)
+        if (isInteracting)
         {
-            // Moves pin upward
+            // Move the pin upward
             transform.localPosition += Vector3.up * moveSpeed * Time.deltaTime;
 
-            // Check if pin has crossed success hitbox
-            if (successHitbox.bounds.Contains(transform.position))
+            // Check if the pin has crossed the success hitbox
+            if (successHitbox.bounds.Contains(transform.position) && !isLocked)
             {
                 LockPin();
             }
         }
+        else if (!isLocked)
+        {
+            // Gradually return the pin to the default position
+            if (transform.localPosition != resetPosition.localPosition)
+            {
+                //Debug.Log("Resetting pin");
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, resetPosition.localPosition, resetSpeed * (Time.deltaTime/2));
+            }
+        }
     }
 
-     private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Lockpick"))
         {
@@ -44,9 +54,21 @@ public class PinInteraction : MonoBehaviour
         {
             if (!isLocked)
             {
-                //Debug.Log("Pin exited hitbox. Resetting all pins.");
-                ResetAllPins();
+                LockPin();
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Lockpick"))
+        {
+            isInteracting = false;
+        }
+        else if (other == successHitbox)
+        {
+            Debug.Log("Pin exited hitbox. Resetting all pins.");
+            ResetAllPins();
         }
     }
 
@@ -54,7 +76,7 @@ public class PinInteraction : MonoBehaviour
     {
         isLocked = true;
         pinsLocked++;
-        Debug.Log("Pin locked!");
+        //Debug.Log("Pin locked! " + pinsLocked);
 
         // Win condition when pins all locked
         if (pinsLocked == totalPins)
@@ -65,7 +87,7 @@ public class PinInteraction : MonoBehaviour
 
     private void ResetAllPins()
     {
-        //Debug.Log("Pin went too high! Resetting all pins.");
+        Debug.Log("Pin went too high! Resetting all pins.");
 
         // Resets all pins
         PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();

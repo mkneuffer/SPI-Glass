@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 100f; // Pick speed
+    [SerializeField] float moveSpeed = 5f; // Pick speed
     [SerializeField] float pushBackForce = 0.5f; // Push force
     private Vector2 touchStartPos;
 
