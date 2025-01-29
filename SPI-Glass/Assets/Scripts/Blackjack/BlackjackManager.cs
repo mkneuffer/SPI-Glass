@@ -88,6 +88,49 @@ public class BlackjackManager : MonoBehaviour
         DealHands();
     }
 
+    void Update()
+    {
+        DisplayPlayerCards();
+    }
+
+    private void DisplayPlayerCards()
+    {
+        playerHandModel[0].transform.position = cameraManager.transform.position + cameraManager.transform.forward;
+
+        playerHandModel[0].transform.LookAt(cameraManager.transform);
+        GameObject card1 = playerHandModel[0];
+        card1.transform.Rotate(90, 0, 0.0f, Space.Self);
+        card1.transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f;
+        card1.transform.Rotate(-90f, 0, 0.0f, Space.Self);
+        card1.transform.Rotate(0, 90f, 0.0f, Space.Self);
+        card1.transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f;
+        card1.transform.Rotate(0, -90f, 0.0f, Space.Self);
+
+        for (int i = 1; i < playerHandModel.Count; i++)
+        {
+            if (i <= 2)
+            {
+                card1.transform.Rotate(0f, -90f, 0.0f, Space.Self);
+                playerHandModel[i].transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f * i;
+                card1.transform.Rotate(0f, 90f, 0.0f, Space.Self);
+            }
+            else if (i == 3)
+            {
+                card1.transform.Rotate(90, 0, 0.0f, Space.Self);
+                playerHandModel[i].transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f;
+                card1.transform.Rotate(-90f, 0, 0.0f, Space.Self);
+            }
+            else
+            {
+                playerHandModel[3].transform.LookAt(cameraManager.transform);
+                playerHandModel[3].transform.Rotate(0f, -90f, 0.0f, Space.Self);
+                playerHandModel[i].transform.position = playerHandModel[3].transform.position + playerHandModel[3].transform.forward * .25f * (i - 3);
+                playerHandModel[3].transform.Rotate(0f, 90f, 0.0f, Space.Self);
+            }
+            playerHandModel[i].transform.LookAt(cameraManager.transform);
+        }
+    }
+
     //Deals two cards to both the dealer and the player
     private void DealHands()
     {
@@ -175,7 +218,7 @@ public class BlackjackManager : MonoBehaviour
         }
         // Quaternion rotation = Quaternion.identity;
         // rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y + 180, Camera.main.transform.rotation.z, rotation.w);
-        cardModel.transform.localScale = new Vector3(3f, 3f, 3f);
+        cardModel.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
         cardModel.transform.rotation = cameraManager.transform.rotation;
     }
 
