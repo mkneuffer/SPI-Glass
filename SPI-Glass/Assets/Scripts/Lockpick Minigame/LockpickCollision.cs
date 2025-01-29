@@ -44,7 +44,7 @@ public class PinInteraction : MonoBehaviour
         {
             if (!isLocked)
             {
-                Debug.Log("Pin exited hitbox. Resetting all pins.");
+                //Debug.Log("Pin exited hitbox. Resetting all pins.");
                 ResetAllPins();
             }
         }
@@ -54,18 +54,18 @@ public class PinInteraction : MonoBehaviour
     {
         isLocked = true;
         pinsLocked++;
-        Debug.Log("Pin locked!");
+        //Debug.Log("Pin locked!");
 
         // Win condition when pins all locked
         if (pinsLocked == totalPins)
         {
-            Debug.Log("All pins locked!");
+           // Debug.Log("All pins locked!");
         }
     }
 
     private void ResetAllPins()
     {
-        Debug.Log("Pin went too high! Resetting all pins.");
+        //Debug.Log("Pin went too high! Resetting all pins.");
 
         // Resets all pins
         PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
