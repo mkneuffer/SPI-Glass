@@ -80,17 +80,20 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private GameObject queenHeart;
     [SerializeField] private GameObject queenSpade;
     [SerializeField] private GameObject cardBox;
+    private bool gameRunning;
 
     void Start()
     {
         deck.CreateDeck();
         gameEndPanel.SetActive(false);
         DealHands();
+        gameRunning = true;
     }
 
     void Update()
     {
         DisplayPlayerCards();
+        DisplayDealerCards();
     }
 
     private void DisplayPlayerCards()
@@ -131,9 +134,52 @@ public class BlackjackManager : MonoBehaviour
         }
     }
 
+    private void DisplayDealerCards()
+    {
+        dealerHandModel[0].transform.position = cameraManager.transform.position + cameraManager.transform.forward;
+
+        dealerHandModel[0].transform.LookAt(cameraManager.transform);
+        GameObject card1 = dealerHandModel[0];
+        card1.transform.Rotate(-90, 0, 0.0f, Space.Self);
+        card1.transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f;
+        card1.transform.Rotate(90f, 0, 0.0f, Space.Self);
+        card1.transform.Rotate(0, 90f, 0.0f, Space.Self);
+        card1.transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f;
+        card1.transform.Rotate(0, -90f, 0.0f, Space.Self);
+
+        for (int i = 1; i < dealerHandModel.Count; i++)
+        {
+            if (i <= 2)
+            {
+                card1.transform.Rotate(0f, -90f, 0.0f, Space.Self);
+                dealerHandModel[i].transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f * i;
+                card1.transform.Rotate(0f, 90f, 0.0f, Space.Self);
+            }
+            else if (i == 3)
+            {
+                card1.transform.Rotate(90, 0, 0.0f, Space.Self);
+                dealerHandModel[i].transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f;
+                card1.transform.Rotate(-90f, 0, 0.0f, Space.Self);
+            }
+            else
+            {
+                dealerHandModel[3].transform.LookAt(cameraManager.transform);
+                dealerHandModel[3].transform.Rotate(0f, -90f, 0.0f, Space.Self);
+                dealerHandModel[i].transform.position = dealerHandModel[3].transform.position + dealerHandModel[3].transform.forward * .25f * (i - 3);
+                dealerHandModel[3].transform.Rotate(0f, 90f, 0.0f, Space.Self);
+            }
+            dealerHandModel[i].transform.LookAt(cameraManager.transform);
+            if (gameRunning)
+            {
+                dealerHandModel[i].transform.Rotate(0f, 180, 0.0f, Space.Self);
+            }
+        }
+    }
+
     //Deals two cards to both the dealer and the player
     private void DealHands()
     {
+        gameRunning = true;
         DrawCards("player", true);
         DrawCards("player", true);
 
@@ -149,7 +195,7 @@ public class BlackjackManager : MonoBehaviour
         UpdateHandsDisplay(false);
         if (SumOfHand(playerHand) > 21)
         {
-            //DealersTurn();
+            DealersTurn();
         }
     }
 
@@ -166,6 +212,7 @@ public class BlackjackManager : MonoBehaviour
 
     private void EndGame()
     {
+        gameRunning = false;
         HitButton.SetActive(false);
         StandButton.SetActive(false);
         UpdateHandsDisplay(true);
@@ -267,6 +314,16 @@ public class BlackjackManager : MonoBehaviour
         deck.CreateDeck();
         playerHand.Clear();
         dealerHand.Clear();
+        foreach (GameObject card in playerHandModel)
+        {
+            Destroy(card);
+        }
+        foreach (GameObject card in dealerHandModel)
+        {
+            Destroy(card);
+        }
+        playerHandModel.Clear();
+        dealerHandModel.Clear();
         DealHands();
     }
 
