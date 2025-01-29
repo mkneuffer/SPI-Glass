@@ -54,12 +54,12 @@ public class PinInteraction : MonoBehaviour
     {
         isLocked = true;
         pinsLocked++;
-        //Debug.Log("Pin locked!");
+        Debug.Log("Pin locked!");
 
         // Win condition when pins all locked
         if (pinsLocked == totalPins)
         {
-           // Debug.Log("All pins locked!");
+            Debug.Log("All pins locked!");
         }
     }
 
