@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PinInteraction : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] float moveSpeed = 3f;
     [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
     [SerializeField] Collider successHitbox;
@@ -67,7 +67,7 @@ public class PinInteraction : MonoBehaviour
         }
         else if (other == successHitbox)
         {
-            Debug.Log("Pin exited hitbox. Resetting all pins.");
+            //Debug.Log("Pin exited hitbox. Resetting all pins.");
             ResetAllPins();
         }
     }

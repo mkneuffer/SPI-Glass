@@ -10,6 +10,7 @@ TagManager:
   - Lockpick
   - UpperBarrier
   - Barrier
+  - LowerBarrier
   layers:
   - Default
   - TransparentFX

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PickMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 5f; // Pick speed
-    [SerializeField] float pushBackForce = 0.5f; // Push force
+    [SerializeField] float moveSpeed = 3f; // Pick speed
     private Vector2 touchStartPos;
+    private bool canMoveUp = true;
+    private bool canMoveDown = true;
 
     void Update()
     {
@@ -46,22 +47,52 @@ public class PickMovement : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             Vector2 mouseDelta = (Vector2)Input.mousePosition - touchStartPos;
-            Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
-            transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-            touchStartPos = Input.mousePosition;
+            if(canMoveUp && canMoveDown)
+            {
+                Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
+                transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                touchStartPos = Input.mousePosition;
+            }
+            else if(!canMoveUp && mouseDelta.y < 0)
+            {
+                Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
+                transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                touchStartPos = Input.mousePosition;
+            }
+            else if(!canMoveDown && mouseDelta.y > 0)
+            {
+                Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
+                transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                touchStartPos = Input.mousePosition;
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Barrier"))
+        if (other.CompareTag("UpperBarrier"))
         {
-            // Pushes pick away from collided barrier
-            Vector3 pushDirection = transform.position - other.ClosestPoint(transform.position);
-            pushDirection.Normalize();
+            //Debug.Log("Collided with upper barrier");
+            canMoveUp = false;
+        }
+        if(other.CompareTag("LowerBarrier"))
+        {
+            //Debug.Log("Collided with lower barrier");
+            canMoveDown = false;
+        }
+    }
 
-            // Applys pushback
-            transform.position += pushDirection * pushBackForce;
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("UpperBarrier"))
+        {
+            //Debug.Log("Exited upper barrier");
+            canMoveUp = true;
+        }
+        if(other.CompareTag("LowerBarrier"))
+        {
+            //Debug.Log("Exited lower barrier");
+            canMoveDown = true;
         }
     }
 }
