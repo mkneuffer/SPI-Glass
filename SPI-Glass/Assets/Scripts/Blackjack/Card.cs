@@ -7,6 +7,19 @@ public class Card : MonoBehaviour
     public string rank;
     public string suit;
     int value;
+    int cardListPos;
+    string player;
+
+    public void Update()
+    {
+
+    }
+
+    public void SetLocation(int cardListPos, string player)
+    {
+        this.cardListPos = cardListPos;
+        this.player = player;
+    }
 
     public void setCard(string suit, string rank)
     {

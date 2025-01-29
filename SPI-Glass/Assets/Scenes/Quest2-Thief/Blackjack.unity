@@ -1773,10 +1773,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2af1325a2ee44ab3b5b4a9fe6969359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5546804077662198657, guid: 816b9128c8a29ca4fadbcd532547bce3, type: 3}
+  prefab: {fileID: 1869553672946919404, guid: f8a59f4e9fdd7a54e811e96aa28d43b7, type: 3}
   parent: {fileID: 215622254569329507}
-  minimumSpawnDistance: 1
-  maximumSpawnDistance: 2
+  minimumSpawnDistance: 2
+  maximumSpawnDistance: 5
 --- !u!114 &2115113556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1963,6 +1963,11 @@ PrefabInstance:
       propertyPath: HitButton
       value: 
       objectReference: {fileID: 337257905}
+    - target: {fileID: 73606526028200281, guid: e0940c0904a79f1499563e3155da31fd,
+        type: 3}
+      propertyPath: ResetButton
+      value: 
+      objectReference: {fileID: 1832757497}
     - target: {fileID: 73606526028200281, guid: e0940c0904a79f1499563e3155da31fd,
         type: 3}
       propertyPath: StandButton

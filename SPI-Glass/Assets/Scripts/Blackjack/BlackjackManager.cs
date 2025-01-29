@@ -25,6 +25,7 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameEndText;
     [SerializeField] private GameObject HitButton;
     [SerializeField] private GameObject StandButton;
+    [SerializeField] private GameObject ResetButton;
     [SerializeField] private ARCameraManager cameraManager;
 
     [Header("Cards")]
@@ -83,20 +84,36 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private GameObject cardBox;
     private bool gameRunning;
     private GameObject table;
+    private bool tableActive = false;
 
     void Start()
     {
+        HitButton.SetActive(false);
+        StandButton.SetActive(false);
+        ResetButton.SetActive(false);
+
         deck.CreateDeck();
         gameEndPanel.SetActive(false);
-        DealHands();
         gameRunning = true;
     }
 
     void Update()
     {
-        table = transform.GetChild(0).gameObject;
+        if (!tableActive) //Only set if table is not child already
+        {
+            table = transform.GetChild(0).gameObject;
+        }
         if (table != null && table.activeInHierarchy)
         {
+            if (!tableActive)
+            {
+                HitButton.SetActive(true);
+                StandButton.SetActive(true);
+                ResetButton.SetActive(true);
+                tableActive = true;
+                DealHands();
+            }
+
             DisplayPlayerCards();
             DisplayDealerCards();
         }
@@ -104,82 +121,12 @@ public class BlackjackManager : MonoBehaviour
 
     private void DisplayPlayerCards()
     {
-        playerHandModel[0].transform.position = cameraManager.transform.position + cameraManager.transform.forward;
 
-        playerHandModel[0].transform.LookAt(cameraManager.transform);
-        GameObject card1 = playerHandModel[0];
-        card1.transform.Rotate(90, 0, 0.0f, Space.Self);
-        card1.transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f;
-        card1.transform.Rotate(-90f, 0, 0.0f, Space.Self);
-        card1.transform.Rotate(0, 90f, 0.0f, Space.Self);
-        card1.transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f;
-        card1.transform.Rotate(0, -90f, 0.0f, Space.Self);
-
-        for (int i = 1; i < playerHandModel.Count; i++)
-        {
-            if (i <= 2)
-            {
-                card1.transform.Rotate(0f, -90f, 0.0f, Space.Self);
-                playerHandModel[i].transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f * i;
-                card1.transform.Rotate(0f, 90f, 0.0f, Space.Self);
-            }
-            else if (i == 3)
-            {
-                card1.transform.Rotate(90, 0, 0.0f, Space.Self);
-                playerHandModel[i].transform.position = playerHandModel[0].transform.position + card1.transform.forward * .25f;
-                card1.transform.Rotate(-90f, 0, 0.0f, Space.Self);
-            }
-            else
-            {
-                playerHandModel[3].transform.LookAt(cameraManager.transform);
-                playerHandModel[3].transform.Rotate(0f, -90f, 0.0f, Space.Self);
-                playerHandModel[i].transform.position = playerHandModel[3].transform.position + playerHandModel[3].transform.forward * .25f * (i - 3);
-                playerHandModel[3].transform.Rotate(0f, 90f, 0.0f, Space.Self);
-            }
-            playerHandModel[i].transform.LookAt(cameraManager.transform);
-        }
     }
 
     private void DisplayDealerCards()
     {
-        dealerHandModel[0].transform.position = cameraManager.transform.position + cameraManager.transform.forward;
 
-        dealerHandModel[0].transform.LookAt(cameraManager.transform);
-        GameObject card1 = dealerHandModel[0];
-        card1.transform.Rotate(-90, 0, 0.0f, Space.Self);
-        card1.transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f;
-        card1.transform.Rotate(90f, 0, 0.0f, Space.Self);
-        card1.transform.Rotate(0, 90f, 0.0f, Space.Self);
-        card1.transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f;
-        card1.transform.Rotate(0, -90f, 0.0f, Space.Self);
-
-        for (int i = 1; i < dealerHandModel.Count; i++)
-        {
-            if (i <= 2)
-            {
-                card1.transform.Rotate(0f, -90f, 0.0f, Space.Self);
-                dealerHandModel[i].transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f * i;
-                card1.transform.Rotate(0f, 90f, 0.0f, Space.Self);
-            }
-            else if (i == 3)
-            {
-                card1.transform.Rotate(90, 0, 0.0f, Space.Self);
-                dealerHandModel[i].transform.position = dealerHandModel[0].transform.position + card1.transform.forward * .25f;
-                card1.transform.Rotate(-90f, 0, 0.0f, Space.Self);
-            }
-            else
-            {
-                dealerHandModel[3].transform.LookAt(cameraManager.transform);
-                dealerHandModel[3].transform.Rotate(0f, -90f, 0.0f, Space.Self);
-                dealerHandModel[i].transform.position = dealerHandModel[3].transform.position + dealerHandModel[3].transform.forward * .25f * (i - 3);
-                dealerHandModel[3].transform.Rotate(0f, 90f, 0.0f, Space.Self);
-            }
-            dealerHandModel[i].transform.LookAt(cameraManager.transform);
-            if (gameRunning)
-            {
-                dealerHandModel[i].transform.Rotate(0f, 180, 0.0f, Space.Self);
-            }
-        }
     }
 
     //Deals two cards to both the dealer and the player
@@ -257,12 +204,14 @@ public class BlackjackManager : MonoBehaviour
     {
         Card card = deck.DrawCard();
         GameObject cardModel = CardToModel(card);
-        cardModel = Instantiate(cardModel, cameraManager.GetComponent<Transform>().position + Camera.main.transform.forward * 0.5f, Quaternion.identity);
+        cardModel = Instantiate(cardModel, table.transform.GetChild(0));
+        Card cardScript = cardModel.AddComponent<Card>();
+
         if (hand.Equals("player"))
         {
             playerHand.Add(card);
             playerHandModel.Add(cardModel);
-            cardModel.transform.position = playerHandModel[0].transform.position + new Vector3(.2f, 0, 0) * (playerHandModel.Count - 1);
+            //cardModel.transform.position = playerHandModel[0].transform.position + new Vector3(.2f, 0, 0) * (playerHandModel.Count - 1);
         }
         else
         {
@@ -272,7 +221,7 @@ public class BlackjackManager : MonoBehaviour
         // Quaternion rotation = Quaternion.identity;
         // rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y + 180, Camera.main.transform.rotation.z, rotation.w);
         cardModel.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
-        cardModel.transform.rotation = cameraManager.transform.rotation;
+        //cardModel.transform.rotation = cameraManager.transform.rotation;
     }
 
     private void UpdateHandsDisplay(bool endOfGameDisplay)
