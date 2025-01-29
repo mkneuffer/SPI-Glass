@@ -63,17 +63,31 @@ public class GameModeController : MonoBehaviour
     }
 
     private void PerformFlashlightRaycast()
+{
+    // Create a ray from the camera's position forward
+    Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+    
+    // Store all hits in an array (useful if multiple colliders exist)
+    RaycastHit[] hits = Physics.RaycastAll(ray, Mathf.Infinity);
+
+    foreach (RaycastHit hit in hits)
     {
-        // Create a ray from the camera's position forward
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        GhostHealth ghost = hit.collider.GetComponentInParent<GhostHealth>(); // Get GhostHealth from parent
+
+        if (ghost != null)
         {
-            // Check if the raycast hit a ghost
-            GhostHealth ghost = hit.collider.GetComponent<GhostHealth>();
-            if (ghost != null)
+            if (!ghost.IsStunned()) // Only stun if the ghost is NOT already stunned
             {
-                ghost.HandleFlashlight(); // Notify the ghost about the flashlight hit
+                Debug.Log($"Flashlight hit: {hit.collider.gameObject.name}");
+                ghost.HandleFlashlight();
             }
+            else
+            {
+                Debug.Log($"Flashlight hit but ghost is already stunned: {hit.collider.gameObject.name}");
+            }
+            return; // Stop checking other hits since we found the correct ghost
         }
     }
+}
+
 }

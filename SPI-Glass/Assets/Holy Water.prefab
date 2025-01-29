@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 825330724673632462}
   - component: {fileID: 5633342790866729957}
   - component: {fileID: 4688014169355176363}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Holy Water
   m_TagString: Ball
   m_Icon: {fileID: 0}
