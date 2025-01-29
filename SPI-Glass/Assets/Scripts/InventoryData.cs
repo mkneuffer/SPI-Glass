@@ -5,11 +5,21 @@ using System.Linq;
 
 public class InventoryData
 {
-    private List<ItemData> inventory;
+    private List<int> inventory;
 
-    public InventoryData(List<ItemData> inventory)
+    public InventoryData(List<int> inventory)
     {
         this.inventory = inventory;
+    }
+
+    public override string ToString()
+    {
+        return ("items in inventory" + inventory);
+    }
+
+    public List<int> getInventory()
+    {
+        return inventory;
     }
     // Start is called before the first frame update
     void Start()

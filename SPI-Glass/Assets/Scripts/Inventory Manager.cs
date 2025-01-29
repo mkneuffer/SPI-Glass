@@ -10,6 +10,8 @@ public class InventoryManager : MonoBehaviour
 {
     //[SerializeField] private InventoryManager mainInventory;
     [SerializeField] private List<ItemData> Inventory;
+    [SerializeField] private List<ItemData> items;
+    [SerializeField] private InventoryData inventoryData;
     [SerializeField] private ItemData currentItem;
     [SerializeField] private Animator transition;
     [SerializeField] private ReticleManager2 reticleManager;
@@ -174,6 +176,22 @@ public class InventoryManager : MonoBehaviour
             {
                 inventoryGrid[i].sprite = inventory[i].getIcon();
                 Debug.Log("item placed in grid");
+            }
+        }
+    }
+
+    public void setInventory(List<ItemData> items, List<int> itemNums, List<ItemData> inventory)
+    {
+        itemNums = inventoryData.getInventory();
+        inventory.Clear();
+        for (int i = 0; i < itemNums.Count(); i++)
+        {
+            for (int j = 0; j < items.Count(); j++)
+            {
+                if (itemNums[i] == items[j].getNum())
+                {
+                    inventory.Add(items[j]);
+                }
             }
         }
     }
