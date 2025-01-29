@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1851319726237411372}
   - component: {fileID: 73606526028200281}
+  - component: {fileID: 1641192732452431379}
+  - component: {fileID: 6881714813396845281}
+  - component: {fileID: 5869662333671766472}
   m_Layer: 0
   m_Name: BlackjackManager
   m_TagString: Untagged
@@ -26,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5802112439846168352}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 683.15344, y: 1270.5521, z: -37.969986}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,4 +47,136 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a715598ce9d90a4fb7cea470f49066c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: {fileID: 0}
+  deck: {fileID: 6659615669686694591, guid: 798746c37cd206b4e9b6fdad58ef1826, type: 3}
+  playerHandText: {fileID: 0}
+  dealerHandText: {fileID: 0}
+  gameEndPanel: {fileID: 0}
+  gameEndText: {fileID: 0}
+  HitButton: {fileID: 0}
+  StandButton: {fileID: 0}
+  cameraManager: {fileID: 0}
+  twoClub: {fileID: 100000, guid: 270161fbc9dca6d4e9df3a22d51ebc57, type: 3}
+  twoDiamond: {fileID: 100000, guid: db5c9937d5295c04983ef22a72d944ad, type: 3}
+  twoHeart: {fileID: 100000, guid: c613a166e38964249b90f3849aeecbd2, type: 3}
+  twoSpade: {fileID: 100000, guid: 0ce4ed33de5f7874c82df132cb2e06d9, type: 3}
+  threeClub: {fileID: 100000, guid: 5284c480af0cfdd46a33d341be0f9164, type: 3}
+  threeDiamond: {fileID: 100000, guid: d1d6e7d66abdd21488c3409dc86a8314, type: 3}
+  threeHeart: {fileID: 100000, guid: 7450257b07d30ee45b5b72c5754e7c0c, type: 3}
+  threeSpade: {fileID: 100000, guid: 7b4f101821a976641865e1afd1fad89c, type: 3}
+  fourClub: {fileID: 100000, guid: 0983ab3d045912846ac4079f7aa1a635, type: 3}
+  fourDiamond: {fileID: 100000, guid: 4f2151ce02311614b8387ec98d6596e9, type: 3}
+  fourHeart: {fileID: 100000, guid: 625a1b694d9bf454ea6f900d711436d0, type: 3}
+  fourSpade: {fileID: 100000, guid: e002d9a98ed1ada40b5fbecb22ab0689, type: 3}
+  fiveClub: {fileID: 100000, guid: ebb8293faa82c4544ad3ac92fb34dacd, type: 3}
+  fiveDiamond: {fileID: 100000, guid: 583df4c94e347e24a9f62996eb9bd886, type: 3}
+  fiveHeart: {fileID: 100000, guid: 41465da6a6671b54b8c867e4ed4b2250, type: 3}
+  fiveSpade: {fileID: 100000, guid: 2af55c969fe59644aa75f41d7dae9425, type: 3}
+  sixClub: {fileID: 100000, guid: 7c35a63a60497664bac4e1b96da1b04f, type: 3}
+  sixDiamond: {fileID: 100000, guid: a5b5cae8b116f0643a8f1d62ecd747ad, type: 3}
+  sixHeart: {fileID: 100000, guid: cacbf1ac0f47070438e43d6607fba4d3, type: 3}
+  sixSpade: {fileID: 100000, guid: 28120b6192fea2044b77e1f972bd9f92, type: 3}
+  sevenClub: {fileID: 100000, guid: 464cdfddb63bd3c408457cb626984107, type: 3}
+  sevenDiamond: {fileID: 100000, guid: b2baf2c9d8e9b6c4aab2d30284e432c0, type: 3}
+  sevenHeart: {fileID: 100000, guid: be387c29fcf9ecf438ff4a57c9cc4a4f, type: 3}
+  sevenSpade: {fileID: 100000, guid: fd695fbbe83d11b4e826b7265f3f1bcb, type: 3}
+  eightClub: {fileID: 100000, guid: 2df549f656beb1c4da454bb838d8240e, type: 3}
+  eightDiamond: {fileID: 100000, guid: fdda9def695112b4aa1c383dc8b3b3fe, type: 3}
+  eightHeart: {fileID: 100000, guid: b234d635c6b4d0c489f4f873832ca399, type: 3}
+  eightSpade: {fileID: 100000, guid: 4ac91e5593af8ca4f8137a558dfaf8f2, type: 3}
+  nineClub: {fileID: 100000, guid: 562d9024df022824badf74c951979904, type: 3}
+  nineDiamond: {fileID: 100000, guid: 5f56c611ee86cf54d99e43961cfd6d3f, type: 3}
+  nineHeart: {fileID: 100000, guid: 1d8c6ffb6859da84aace751faa70163d, type: 3}
+  nineSpade: {fileID: 100000, guid: 5ed5e9b1f70bb544cb4ea990bba41bef, type: 3}
+  tenClub: {fileID: 100000, guid: 844ae378b328e784fb6bcecb1c18e9f5, type: 3}
+  tenDiamond: {fileID: 100000, guid: 75a891c2b1c784f4da76061244438046, type: 3}
+  tenHeart: {fileID: 100000, guid: 15ed08db6d3bbf6448a2db2ff65395ae, type: 3}
+  tenSpade: {fileID: 100000, guid: 0238c29503b9d524c86b29611ec292af, type: 3}
+  aceClub: {fileID: 100000, guid: f100bd56e4d38bb4191b5676772f708d, type: 3}
+  aceDiamond: {fileID: 100000, guid: 692951e1fcd6eca45bfaeeadc4647e0c, type: 3}
+  aceHeart: {fileID: 100000, guid: b67a12bfee1820c419f7e5a8aed87ee4, type: 3}
+  aceSpade: {fileID: 100000, guid: dcf38305f6a653347a98083d1b69c33f, type: 3}
+  jackClub: {fileID: 100000, guid: b767677409213e24098e98e2490c551e, type: 3}
+  jackDiamond: {fileID: 100000, guid: e970db0d17241c64c926dc914d1eb976, type: 3}
+  jackHeart: {fileID: 100000, guid: 8e70cfa2499b0d242850d42b5ff84a2d, type: 3}
+  jackSpade: {fileID: 100000, guid: c7a44176f2063cc48863fa81dbb2d0b2, type: 3}
+  kingClub: {fileID: 100000, guid: 73f139cb661472d46af4e88f82175051, type: 3}
+  kingDiamond: {fileID: 100000, guid: 90a50e6dbd636c84295b725a2bf625eb, type: 3}
+  kingHeart: {fileID: 100000, guid: cafbd75bb165b3c4b8df30b4080d7f27, type: 3}
+  kingSpade: {fileID: 100000, guid: b6cf9c34e3fc75646bb7d83e75ecd2eb, type: 3}
+  queenClub: {fileID: 100000, guid: 36360c12a6623f94f813098c06e74a10, type: 3}
+  queenDiamond: {fileID: 100000, guid: 2b4b8c4bb0796f04093a50f8a8b21c6c, type: 3}
+  queenHeart: {fileID: 100000, guid: 8fef523a36fb4384dbd542c31b34f451, type: 3}
+  queenSpade: {fileID: 100000, guid: da2d1fefc52dcde4db0b9c8ab07e55a3, type: 3}
+  cardBox: {fileID: 100000, guid: b2f3a35b9b7b98b42ae41b95e5efde0a, type: 3}
+--- !u!64 &1641192732452431379
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802112439846168352}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -348084646293344055, guid: 60eea1f6663d1e345ba862e168ffae13, type: 3}
+--- !u!33 &6881714813396845281
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802112439846168352}
+  m_Mesh: {fileID: -348084646293344055, guid: 60eea1f6663d1e345ba862e168ffae13, type: 3}
+--- !u!23 &5869662333671766472
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802112439846168352}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e3205edc05d5aa44480c1d99df065736, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}

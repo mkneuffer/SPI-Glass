@@ -6,6 +6,7 @@ using UnityEngine.XR.ARSubsystems;
 public class StumpPlace : MonoBehaviour
 {
     [SerializeField] private GameObject prefab; // Prefab to be spawned
+    [SerializeField] private GameObject parent; // Will be the parent of the spawned prefab, leave black for no parents
     [SerializeField] private float minimumSpawnDistance = 1.0f; // Minimum distance to camera for spawning
     [SerializeField] private float maximumSpawnDistance = 10.0f; // Maximum distance to camera for spawning
     private ARRaycastManager raycastManager; // Reference to the ARRaycastManager
@@ -28,7 +29,14 @@ public class StumpPlace : MonoBehaviour
         }
 
         // Instantiate the prefab but keep it inactive
-        instantiatedPrefab = Instantiate(prefab);
+        if (parent == null)
+        {
+            instantiatedPrefab = Instantiate(prefab);
+        }
+        else
+        {
+            instantiatedPrefab = Instantiate(prefab, parent.transform);
+        }
         instantiatedPrefab.SetActive(false); // Keep it invisible and inactive initially
     }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using Ink.Parsed;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Quaternion = UnityEngine.Quaternion;
@@ -81,6 +82,7 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private GameObject queenSpade;
     [SerializeField] private GameObject cardBox;
     private bool gameRunning;
+    private GameObject table;
 
     void Start()
     {
@@ -92,8 +94,12 @@ public class BlackjackManager : MonoBehaviour
 
     void Update()
     {
-        DisplayPlayerCards();
-        DisplayDealerCards();
+        table = transform.GetChild(0).gameObject;
+        if (table != null && table.activeInHierarchy)
+        {
+            DisplayPlayerCards();
+            DisplayDealerCards();
+        }
     }
 
     private void DisplayPlayerCards()
