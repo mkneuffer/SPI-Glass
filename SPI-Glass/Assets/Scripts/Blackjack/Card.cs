@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -8,17 +9,47 @@ public class Card : MonoBehaviour
     public string suit;
     int value;
     int cardListPos;
-    string player;
+    string player = "";
+    int totalCards;
 
     public void Update()
     {
-
+        UpdateLocation();
     }
 
-    public void SetLocation(int cardListPos, string player)
+    private void UpdateLocation()
+    {
+        Transform deck = transform.parent;
+        Transform left;
+        Transform right;
+        int mult = 1;
+        if (player.Equals("player"))
+        {
+            left = deck.Find("PlayerAreaLeft");
+            right = deck.Find("PlayerAreaRight");
+            //mult = -1;
+        }
+        else
+        {
+            left = deck.Find("DealerAreaLeft");
+            right = deck.Find("DealerAreaRight");
+        }
+        float length = math.abs(left.localPosition.x - right.localPosition.x);
+        Debug.Log("Length: " + length + " leftX: " + left.localPosition.x + " rigthx: " + right.localPosition.x);
+        float xValue = left.localPosition.x - length / (totalCards + 1) * cardListPos * mult;
+        transform.localPosition = new Vector3(xValue, left.localPosition.y, left.localPosition.z);
+    }
+
+    public void SetLocation(int cardListPos, string player, int totalCards)
     {
         this.cardListPos = cardListPos;
         this.player = player;
+        this.totalCards = totalCards;
+    }
+
+    public void SetTotalCards(int total)
+    {
+        totalCards = total;
     }
 
     public void setCard(string suit, string rank)

@@ -168,6 +168,10 @@ public class BlackjackManager : MonoBehaviour
         gameRunning = false;
         HitButton.SetActive(false);
         StandButton.SetActive(false);
+        for (int i = 1; i < dealerHandModel.Count; i++)
+        {
+            dealerHandModel[i].transform.Rotate(0, 180, 0);
+        }
         UpdateHandsDisplay(true);
         int playerScore = SumOfHand(playerHand);
         int dealerScore = SumOfHand(dealerHand);
@@ -211,16 +215,32 @@ public class BlackjackManager : MonoBehaviour
         {
             playerHand.Add(card);
             playerHandModel.Add(cardModel);
+            cardScript.SetLocation(playerHand.Count, "player", playerHand.Count);
+            foreach (GameObject card1 in playerHandModel)
+            {
+                Card c = card1.GetComponent<Card>();
+                c.SetTotalCards(playerHand.Count);
+            }
             //cardModel.transform.position = playerHandModel[0].transform.position + new Vector3(.2f, 0, 0) * (playerHandModel.Count - 1);
         }
         else
         {
             dealerHand.Add(card);
             dealerHandModel.Add(cardModel);
+            cardScript.SetLocation(dealerHand.Count, "dealer", dealerHand.Count);
+            if (dealerHand.Count > 1)
+            {
+                cardModel.transform.Rotate(0, 180, 0);
+            }
+            foreach (GameObject card1 in dealerHandModel)
+            {
+                Card c = card1.GetComponent<Card>();
+                c.SetTotalCards(dealerHand.Count);
+            }
         }
         // Quaternion rotation = Quaternion.identity;
         // rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y + 180, Camera.main.transform.rotation.z, rotation.w);
-        cardModel.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        cardModel.transform.localScale = new Vector3(150, 150, 150);
         //cardModel.transform.rotation = cameraManager.transform.rotation;
     }
 
