@@ -24,8 +24,8 @@ public class PickMovement : MonoBehaviour
 
     void Update()
     {
-        velocity = (transform.position - lastPosition) / Time.deltaTime; // Calculate velocity
-        lastPosition = transform.position; // Store position for next frame
+        velocity = (transform.position - lastPosition) / Time.deltaTime; // Calculates velocity for pins & pick
+        lastPosition = transform.position;
 
         #if UNITY_EDITOR || UNITY_STANDALONE
         HandleMouseInput();
@@ -47,9 +47,24 @@ public class PickMovement : MonoBehaviour
             else if (touch.phase == TouchPhase.Moved)
             {
                 Vector2 touchDelta = touch.position - touchStartPos;
-                Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
-                transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-                touchStartPos = touch.position;
+                if(canMoveUp && canMoveDown) // Collisions for touch detection
+                {
+                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
+                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                    touchStartPos = touch.position;
+                }
+                else if(!canMoveUp && touchDelta.y < 0)
+                {
+                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
+                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                    touchStartPos = touch.position;
+                }
+                else if(!canMoveDown && touchDelta.y > 0)
+                {
+                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
+                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                    touchStartPos = touch.position;
+                }
             }
         }
     }
@@ -63,7 +78,7 @@ public class PickMovement : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             Vector2 mouseDelta = (Vector2)Input.mousePosition - touchStartPos;
-            if(canMoveUp && canMoveDown)
+            if(canMoveUp && canMoveDown) // Collisions for mouse detection
             {
                 Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
                 transform.position += movement.normalized * moveSpeed * Time.deltaTime;
@@ -116,6 +131,6 @@ public void ResetPickPosition()
 {
     Debug.Log("Resetting pick position.");
     transform.position = pickResetPosition.position;
-    rb.velocity = Vector3.zero; // Stop any movement
+    rb.velocity = Vector3.zero; // Temporarily pause movement
 }
 }

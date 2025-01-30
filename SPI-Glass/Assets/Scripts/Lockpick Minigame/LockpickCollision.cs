@@ -53,20 +53,20 @@ public class PinInteraction : MonoBehaviour
 
     void Update()
     {
-        if (isInteracting && !isLocked && pickMovement != null)
+        if (isInteracting && pickMovement != null)
         {
-            // Move the pin upward based on pick velocity
-            rb.velocity = new Vector3(0, pickMovement.velocity.y, 0);
-
-            // Check if the pin has crossed the success hitbox
-            if (successHitbox.bounds.Contains(transform.position) && !isLocked)
+            if (pickMovement.velocity.y > 0)
             {
-                LockPin();
+                rb.velocity = new Vector3(0, pickMovement.velocity.y, 0);
+            }
+            else
+            {
+                rb.velocity = Vector3.zero; // Pin only moves down when resetting position
             }
         }
         else if (!isLocked)
         {
-            // Gradually return the pin to default position
+            // Returns to default position if not locked & not interacted with
             rb.velocity = Vector3.zero; // Stop current movement
             transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
         }
@@ -99,7 +99,7 @@ public class PinInteraction : MonoBehaviour
         }
         else if (other == successHitbox)
         {
-            ChangeCapColor(defaultMaterial); // Reset cap color
+            ChangeCapColor(defaultMaterial);
             ResetAllPins();
         }
     }
@@ -144,14 +144,14 @@ public class PinInteraction : MonoBehaviour
         isLocked = false;
         isInteracting = false;
         transform.position = resetPosition.position;
-        ChangeCapColor(defaultMaterial); // Reset cap color
+        ChangeCapColor(defaultMaterial); // Reset cap color back to red
     }
 
     private void ChangeCapColor(Material newMaterial)
     {
         if (capRenderer != null)
         {
-            capRenderer.material = newMaterial;
+            capRenderer.material = newMaterial; // Change cap color to red/green
         }
     }
 }
