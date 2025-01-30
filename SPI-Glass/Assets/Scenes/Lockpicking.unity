@@ -560,6 +560,9 @@ MonoBehaviour:
   resetSpeed: 3
   resetPosition: {fileID: 234170607}
   successHitbox: {fileID: 613738853}
+  defaultMaterial: {fileID: 2100000, guid: e65c1ab1af8f67049ba034b5dca7e12f, type: 2}
+  successMaterial: {fileID: 2100000, guid: 2f63230d7ea9aff408582f094799677a, type: 2}
+  capObjectName: Cap
 --- !u!54 &286003950
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -843,6 +846,9 @@ MonoBehaviour:
   resetSpeed: 5
   resetPosition: {fileID: 537381009}
   successHitbox: {fileID: 613738853}
+  defaultMaterial: {fileID: 2100000, guid: e65c1ab1af8f67049ba034b5dca7e12f, type: 2}
+  successMaterial: {fileID: 2100000, guid: 2f63230d7ea9aff408582f094799677a, type: 2}
+  capObjectName: Cap2
 --- !u!1 &393773350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,7 +1219,7 @@ Transform:
   m_GameObject: {fileID: 613738848}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.37, y: 2.574, z: -2.613}
+  m_LocalPosition: {x: -3.37, y: 3.54, z: -2.613}
   m_LocalScale: {x: 9.06578, y: 0.122012205, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -2,20 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PinInteraction : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
     [SerializeField] Collider successHitbox;
+    [SerializeField] Material defaultMaterial; // Default cap material
+    [SerializeField] Material successMaterial; // Cap material when in correct position
+    [SerializeField] string capObjectName = "PinCap"; // Name of the child object for the cap
+
     private int totalPins = 2;
-    private int pinsLocked = 0;
+    private static int pinsLocked = 0;
     private bool isInteracting = false;
     private bool isLocked = false;
+    private Renderer capRenderer;
+
+    void Start()
+    {
+        // Find the cap (child object) by name
+        Transform capTransform = transform.Find(capObjectName);
+        if (capTransform != null)
+        {
+            capRenderer = capTransform.GetComponent<Renderer>(); // Get Renderer of the cap
+            capRenderer.material = defaultMaterial; // Set default material at start
+        }
+        else
+        {
+            Debug.LogError("Pin cap child not found! Check if the name in the Inspector matches.");
+        }
+    }
 
     void Update()
     {
@@ -35,8 +51,7 @@ public class PinInteraction : MonoBehaviour
             // Gradually return the pin to the default position
             if (transform.localPosition != resetPosition.localPosition)
             {
-                //Debug.Log("Resetting pin");
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, resetPosition.localPosition, resetSpeed * (Time.deltaTime/2));
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, resetPosition.localPosition, resetSpeed * (Time.deltaTime / 2));
             }
         }
     }
@@ -54,6 +69,7 @@ public class PinInteraction : MonoBehaviour
         {
             if (!isLocked)
             {
+                ChangeCapColor(successMaterial); // Change cap color
                 LockPin();
             }
         }
@@ -61,13 +77,13 @@ public class PinInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Lockpick"))
+        if (other.CompareTag("Lockpick"))
         {
             isInteracting = false;
         }
         else if (other == successHitbox)
         {
-            //Debug.Log("Pin exited hitbox. Resetting all pins.");
+            ChangeCapColor(defaultMaterial); // Reset cap color
             ResetAllPins();
         }
     }
@@ -76,9 +92,7 @@ public class PinInteraction : MonoBehaviour
     {
         isLocked = true;
         pinsLocked++;
-        //Debug.Log("Pin locked! " + pinsLocked);
 
-        // Win condition when pins all locked
         if (pinsLocked == totalPins)
         {
             Debug.Log("All pins locked!");
@@ -89,22 +103,30 @@ public class PinInteraction : MonoBehaviour
     {
         Debug.Log("Pin went too high! Resetting all pins.");
 
-        // Resets all pins
+        // Reset all pins
         PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
         foreach (PinInteraction pin in allPins)
         {
             pin.ResetPin();
         }
 
-        // Resets counter
+        // Reset counter
         pinsLocked = 0;
     }
 
     private void ResetPin()
     {
-        // Reset pin position
         isLocked = false;
         isInteracting = false;
         transform.position = resetPosition.position;
+        ChangeCapColor(defaultMaterial); // Reset cap color
+    }
+
+    private void ChangeCapColor(Material newMaterial)
+    {
+        if (capRenderer != null)
+        {
+            capRenderer.material = newMaterial;
+        }
     }
 }
