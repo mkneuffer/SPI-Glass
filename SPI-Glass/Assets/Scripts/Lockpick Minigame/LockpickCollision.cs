@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PinInteraction : MonoBehaviour
 {
+    [SerializeField] Transform lockpick;
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
@@ -17,28 +18,45 @@ public class PinInteraction : MonoBehaviour
     private bool isInteracting = false;
     private bool isLocked = false;
     private Renderer capRenderer;
+    private Rigidbody rb;
+    private PickMovement pickMovement;
 
     void Start()
     {
-        // Find the cap (child object) by name
+        // Find the cap (child object)
         Transform capTransform = transform.Find(capObjectName);
         if (capTransform != null)
         {
-            capRenderer = capTransform.GetComponent<Renderer>(); // Get Renderer of the cap
-            capRenderer.material = defaultMaterial; // Set default material at start
+            capRenderer = capTransform.GetComponent<Renderer>();
+            capRenderer.material = defaultMaterial;
         }
         else
         {
             Debug.LogError("Pin cap child not found! Check if the name in the Inspector matches.");
         }
+
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        // Get reference to the PickMovement script
+        if (lockpick != null)
+        {
+            pickMovement = lockpick.GetComponent<PickMovement>();
+        }
+        else
+        {
+            Debug.LogError("Lockpick reference is missing! Assign it in the Inspector.");
+        }
     }
 
     void Update()
     {
-        if (isInteracting)
+        if (isInteracting && !isLocked && pickMovement != null)
         {
-            // Move the pin upward
-            transform.localPosition += Vector3.up * moveSpeed * Time.deltaTime;
+            // Move the pin upward based on pick velocity
+            rb.velocity = new Vector3(0, pickMovement.velocity.y, 0);
 
             // Check if the pin has crossed the success hitbox
             if (successHitbox.bounds.Contains(transform.position) && !isLocked)
@@ -48,11 +66,9 @@ public class PinInteraction : MonoBehaviour
         }
         else if (!isLocked)
         {
-            // Gradually return the pin to the default position
-            if (transform.localPosition != resetPosition.localPosition)
-            {
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, resetPosition.localPosition, resetSpeed * (Time.deltaTime / 2));
-            }
+            // Gradually return the pin to default position
+            rb.velocity = Vector3.zero; // Stop current movement
+            transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
         }
     }
 
@@ -108,6 +124,15 @@ public class PinInteraction : MonoBehaviour
         foreach (PinInteraction pin in allPins)
         {
             pin.ResetPin();
+        }
+
+        if (lockpick != null)
+        {
+            PickMovement pickMovement = lockpick.GetComponent<PickMovement>();
+            if (pickMovement != null)
+            {
+                pickMovement.ResetPickPosition();
+            }
         }
 
         // Reset counter

@@ -5,12 +5,28 @@ using UnityEngine;
 public class PickMovement : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 3f; // Pick speed
+    [SerializeField] Transform pickResetPosition;
     private Vector2 touchStartPos;
+    private Vector3 lastPosition;
+    public Vector3 velocity { get; private set; }
     private bool canMoveUp = true;
     private bool canMoveDown = true;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        lastPosition = transform.position;
+    }
 
     void Update()
     {
+        velocity = (transform.position - lastPosition) / Time.deltaTime; // Calculate velocity
+        lastPosition = transform.position; // Store position for next frame
+
         #if UNITY_EDITOR || UNITY_STANDALONE
         HandleMouseInput();
         #else
@@ -95,4 +111,11 @@ public class PickMovement : MonoBehaviour
             canMoveDown = true;
         }
     }
+
+public void ResetPickPosition()
+{
+    Debug.Log("Resetting pick position.");
+    transform.position = pickResetPosition.position;
+    rb.velocity = Vector3.zero; // Stop any movement
+}
 }
