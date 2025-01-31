@@ -19,14 +19,11 @@ public class BlackjackManager : MonoBehaviour
     List<GameObject> playerHandModel = new List<GameObject>();
     List<GameObject> dealerHandModel = new List<GameObject>();
 
-    [SerializeField] private TextMeshProUGUI playerHandText;
-    [SerializeField] private TextMeshProUGUI dealerHandText;
     [SerializeField] private GameObject gameEndPanel;
     [SerializeField] private TextMeshProUGUI gameEndText;
     [SerializeField] private GameObject HitButton;
     [SerializeField] private GameObject StandButton;
     [SerializeField] private GameObject ResetButton;
-    [SerializeField] private ARCameraManager cameraManager;
 
     [Header("Cards")]
     [SerializeField] private GameObject twoClub;
@@ -113,20 +110,7 @@ public class BlackjackManager : MonoBehaviour
                 tableActive = true;
                 DealHands();
             }
-
-            DisplayPlayerCards();
-            DisplayDealerCards();
         }
-    }
-
-    private void DisplayPlayerCards()
-    {
-
-    }
-
-    private void DisplayDealerCards()
-    {
-
     }
 
     //Deals two cards to both the dealer and the player
@@ -138,14 +122,11 @@ public class BlackjackManager : MonoBehaviour
 
         DrawCards("dealer", true);
         DrawCards("dealer", false);
-
-        UpdateHandsDisplay(false);
     }
 
     public void Hit()
     {
         DrawCards("player", true);
-        UpdateHandsDisplay(false);
         if (SumOfHand(playerHand) > 21)
         {
             DealersTurn();
@@ -154,7 +135,6 @@ public class BlackjackManager : MonoBehaviour
 
     public void DealersTurn()
     {
-        UpdateHandsDisplay(true);
         //Make corutine later so takes time
         while (SumOfHand(dealerHand) < 17)
         {
@@ -168,11 +148,7 @@ public class BlackjackManager : MonoBehaviour
         gameRunning = false;
         HitButton.SetActive(false);
         StandButton.SetActive(false);
-        for (int i = 1; i < dealerHandModel.Count; i++)
-        {
-            dealerHandModel[i].transform.Rotate(0, 180, 0);
-        }
-        UpdateHandsDisplay(true);
+        dealerHandModel[1].GetComponent<Card>().flipY(180);
         int playerScore = SumOfHand(playerHand);
         int dealerScore = SumOfHand(dealerHand);
         bool playerBusts = playerScore > 21;
@@ -221,14 +197,13 @@ public class BlackjackManager : MonoBehaviour
                 Card c = card1.GetComponent<Card>();
                 c.SetTotalCards(playerHand.Count);
             }
-            //cardModel.transform.position = playerHandModel[0].transform.position + new Vector3(.2f, 0, 0) * (playerHandModel.Count - 1);
         }
         else
         {
             dealerHand.Add(card);
             dealerHandModel.Add(cardModel);
             cardScript.InitialSetLocation(dealerHand.Count, "dealer", dealerHand.Count);
-            if (dealerHand.Count > 1)
+            if (dealerHand.Count == 2)
             {
                 cardModel.transform.Rotate(0, 180, 0);
             }
@@ -238,28 +213,8 @@ public class BlackjackManager : MonoBehaviour
                 c.SetTotalCards(dealerHand.Count);
             }
         }
-        // Quaternion rotation = Quaternion.identity;
-        // rotation.Set(Camera.main.transform.rotation.x, Camera.main.transform.rotation.y + 180, Camera.main.transform.rotation.z, rotation.w);
         cardModel.transform.localScale = new Vector3(150, 150, 150);
-        //cardModel.transform.rotation = cameraManager.transform.rotation;
     }
-
-    private void UpdateHandsDisplay(bool endOfGameDisplay)
-    {
-
-        if (endOfGameDisplay)
-        {
-            playerHandText.text = "Sum=" + SumOfHand(playerHand) + "\nPlayer's Hand: " + HandToString(playerHand);
-            dealerHandText.text = "Sum=" + SumOfHand(dealerHand) + "\nDealer's Hand: " + HandToString(dealerHand);
-        }
-        else
-        {
-            playerHandText.text = "Player's Hand: " + HandToString(playerHand);
-            dealerHandText.text = "Dealer's Hand: " + dealerHand[0].toString();
-        }
-    }
-
-
 
     private int SumOfHand(List<Card> hand)
     {

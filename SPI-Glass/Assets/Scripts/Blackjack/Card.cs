@@ -13,6 +13,7 @@ public class Card : MonoBehaviour
     int totalCards;
     Vector3 nextPosition;
     float speed = 100;
+    float rotationSpeed = 20;
 
     public void Update()
     {
@@ -50,14 +51,26 @@ public class Card : MonoBehaviour
         GetNextLocation();
     }
 
-    //public void SetLocation()
-
-
-
     public void SetTotalCards(int total)
     {
         totalCards = total;
         GetNextLocation();
+    }
+
+    public void flipY(float degrees)
+    {
+        StartCoroutine(Flip(degrees));
+    }
+
+    IEnumerator Flip(float degrees)
+    {
+        float count = 0;
+        while (count < degrees)
+        {
+            count += rotationSpeed;
+            transform.Rotate(0, rotationSpeed, 0);
+            yield return new WaitForSeconds(.01f);
+        }
     }
 
     public void setCard(string suit, string rank)
