@@ -11,23 +11,26 @@ public class Card : MonoBehaviour
     int cardListPos;
     string player = "";
     int totalCards;
+    Vector3 nextPosition;
+    float speed = 100;
 
     public void Update()
     {
-        UpdateLocation();
+        if (Vector3.Distance(nextPosition, transform.localPosition) > .5f)
+        {
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, nextPosition, speed * Time.deltaTime);
+        }
     }
 
-    private void UpdateLocation()
+    public void GetNextLocation()
     {
         Transform deck = transform.parent;
         Transform left;
         Transform right;
-        int mult = 1;
         if (player.Equals("player"))
         {
             left = deck.Find("PlayerAreaLeft");
             right = deck.Find("PlayerAreaRight");
-            //mult = -1;
         }
         else
         {
@@ -35,21 +38,26 @@ public class Card : MonoBehaviour
             right = deck.Find("DealerAreaRight");
         }
         float length = math.abs(left.localPosition.x - right.localPosition.x);
-        Debug.Log("Length: " + length + " leftX: " + left.localPosition.x + " rigthx: " + right.localPosition.x);
-        float xValue = left.localPosition.x - length / (totalCards + 1) * cardListPos * mult;
-        transform.localPosition = new Vector3(xValue, left.localPosition.y, left.localPosition.z);
+        float xValue = left.localPosition.x - length / (totalCards + 1) * cardListPos;
+        nextPosition = new Vector3(xValue, left.localPosition.y, left.localPosition.z);
     }
 
-    public void SetLocation(int cardListPos, string player, int totalCards)
+    public void InitialSetLocation(int cardListPos, string player, int totalCards)
     {
         this.cardListPos = cardListPos;
         this.player = player;
         this.totalCards = totalCards;
+        GetNextLocation();
     }
+
+    //public void SetLocation()
+
+
 
     public void SetTotalCards(int total)
     {
         totalCards = total;
+        GetNextLocation();
     }
 
     public void setCard(string suit, string rank)

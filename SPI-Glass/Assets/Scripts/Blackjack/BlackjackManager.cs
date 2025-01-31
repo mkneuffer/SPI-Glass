@@ -215,7 +215,7 @@ public class BlackjackManager : MonoBehaviour
         {
             playerHand.Add(card);
             playerHandModel.Add(cardModel);
-            cardScript.SetLocation(playerHand.Count, "player", playerHand.Count);
+            cardScript.InitialSetLocation(playerHand.Count, "player", playerHand.Count);
             foreach (GameObject card1 in playerHandModel)
             {
                 Card c = card1.GetComponent<Card>();
@@ -227,7 +227,7 @@ public class BlackjackManager : MonoBehaviour
         {
             dealerHand.Add(card);
             dealerHandModel.Add(cardModel);
-            cardScript.SetLocation(dealerHand.Count, "dealer", dealerHand.Count);
+            cardScript.InitialSetLocation(dealerHand.Count, "dealer", dealerHand.Count);
             if (dealerHand.Count > 1)
             {
                 cardModel.transform.Rotate(0, 180, 0);
