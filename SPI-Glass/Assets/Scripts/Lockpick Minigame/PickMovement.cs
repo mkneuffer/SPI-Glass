@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 3f; // Pick speed
+    [SerializeField] float moveSpeed; // Pick speed
     [SerializeField] Transform pickResetPosition;
     private Vector2 touchStartPos;
     private Vector3 lastPosition;

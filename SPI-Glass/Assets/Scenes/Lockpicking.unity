@@ -542,8 +542,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 1.0000001, y: 1, z: 1.0000002}
+  m_Center: {x: 0.000000059604645, y: -0.5, z: -0.00000008940697}
 --- !u!114 &286003949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -802,8 +802,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 1.0000001, y: 1, z: 1.0000002}
+  m_Center: {x: 0.000000059604645, y: -0.5, z: -0.00000008940697}
 --- !u!54 &337513755
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2424,7 +2424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4e92991842ef14fb1ee716c60501cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 5
   pickResetPosition: {fileID: 1483608653}
 --- !u!1 &1345735640
 GameObject:
@@ -3209,8 +3209,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 1, z: 1.0000002}
-  m_Center: {x: 0, y: 0.5, z: -0.00000008940697}
+  m_Size: {x: 1.0000001, y: 0.5, z: 1.0000002}
+  m_Center: {x: 0, y: 0.8, z: -0.00000008940697}
 --- !u!1 &1956340158
 GameObject:
   m_ObjectHideFlags: 0
@@ -3494,8 +3494,8 @@ SceneRoots:
   - {fileID: 1333464191}
   - {fileID: 286003947}
   - {fileID: 337513753}
-  - {fileID: 613738852}
   - {fileID: 1693449989}
+  - {fileID: 613738852}
   - {fileID: 234170607}
   - {fileID: 537381009}
   - {fileID: 1483608653}

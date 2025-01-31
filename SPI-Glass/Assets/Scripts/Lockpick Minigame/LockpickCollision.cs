@@ -17,6 +17,7 @@ public class PinInteraction : MonoBehaviour
     private static int pinsLocked = 0;
     private bool isInteracting = false;
     private bool isLocked = false;
+    private bool isResetting = false;
     private Renderer capRenderer;
     private Rigidbody rb;
     private PickMovement pickMovement;
@@ -53,7 +54,7 @@ public class PinInteraction : MonoBehaviour
 
     void Update()
     {
-        if (isInteracting && pickMovement != null)
+        if (isInteracting && pickMovement != null && !isResetting)
         {
             if (pickMovement.velocity.y > 0)
             {
@@ -69,6 +70,14 @@ public class PinInteraction : MonoBehaviour
             // Returns to default position if not locked & not interacted with
             rb.velocity = Vector3.zero; // Stop current movement
             transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
+            if(transform.position.y == resetPosition.position.y)
+            {
+                isLocked = true;
+            }
+            else
+            {
+                isLocked = false;
+            }
         }
     }
 
@@ -83,7 +92,7 @@ public class PinInteraction : MonoBehaviour
         }
         else if (other == successHitbox)
         {
-            if (!isLocked)
+            if (!isLocked && !isResetting)
             {
                 ChangeCapColor(successMaterial); // Change cap color
                 LockPin();
@@ -119,13 +128,6 @@ public class PinInteraction : MonoBehaviour
     {
         Debug.Log("Pin went too high! Resetting all pins.");
 
-        // Reset all pins
-        PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
-        foreach (PinInteraction pin in allPins)
-        {
-            pin.ResetPin();
-        }
-
         if (lockpick != null)
         {
             PickMovement pickMovement = lockpick.GetComponent<PickMovement>();
@@ -135,16 +137,20 @@ public class PinInteraction : MonoBehaviour
             }
         }
 
-        // Reset counter
-        pinsLocked = 0;
+        StartCoroutine(resetDelay());
     }
 
     private void ResetPin()
     {
         isLocked = false;
         isInteracting = false;
-        transform.position = resetPosition.position;
+        isResetting = true;
+        rb.velocity = Vector3.zero;
+        
+        transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
+        //transform.position = resetPosition.position;
         ChangeCapColor(defaultMaterial); // Reset cap color back to red
+        isResetting = false;
     }
 
     private void ChangeCapColor(Material newMaterial)
@@ -153,5 +159,20 @@ public class PinInteraction : MonoBehaviour
         {
             capRenderer.material = newMaterial; // Change cap color to red/green
         }
+    }
+
+    IEnumerator resetDelay()
+    {
+        yield return new WaitForSeconds(.5f);
+
+        // Reset all pins
+        PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
+        foreach (PinInteraction pin in allPins)
+        {
+            pin.ResetPin();
+        }
+
+        // Reset counter
+        pinsLocked = 0;
     }
 }
