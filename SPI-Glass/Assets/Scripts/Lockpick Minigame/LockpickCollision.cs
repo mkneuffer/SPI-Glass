@@ -9,9 +9,9 @@ public class PinInteraction : MonoBehaviour
     [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
     [SerializeField] Collider successHitbox;
-    [SerializeField] Material defaultMaterial; // Default cap material
-    [SerializeField] Material successMaterial; // Cap material when in correct position
-    [SerializeField] string capObjectName = "PinCap"; // Name of the child object for the cap
+    [SerializeField] Material defaultMaterial; // Default cap material (Red)
+    [SerializeField] Material successMaterial; // Cap material when in position (Green)
+    [SerializeField] string capObjectName = "PinCap"; // Name of Unity object
 
     private int totalPins = 2;
     private static int pinsLocked = 0;
@@ -24,7 +24,7 @@ public class PinInteraction : MonoBehaviour
 
     void Start()
     {
-        // Find the cap (child object)
+        // Find the cap object
         Transform capTransform = transform.Find(capObjectName);
         if (capTransform != null)
         {
@@ -41,7 +41,6 @@ public class PinInteraction : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
-        // Get reference to the PickMovement script
         if (lockpick != null)
         {
             pickMovement = lockpick.GetComponent<PickMovement>();
@@ -65,36 +64,25 @@ public class PinInteraction : MonoBehaviour
                 rb.velocity = Vector3.zero; // Pin only moves down when resetting position
             }
         }
-        else if (!isLocked)
+        else if (!isLocked && !isResetting)
         {
-            // Returns to default position if not locked & not interacted with
-            rb.velocity = Vector3.zero; // Stop current movement
+            // Returns to default position
+            rb.velocity = Vector3.zero;
             transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
-            if(transform.position.y == resetPosition.position.y)
-            {
-                isLocked = true;
-            }
-            else
-            {
-                isLocked = false;
-            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Lockpick"))
+        if (other.CompareTag("Lockpick") && !isResetting)
         {
-            if (!isInteracting)
-            {
-                isInteracting = true;
-            }
+            isInteracting = true;
         }
         else if (other == successHitbox)
         {
             if (!isLocked && !isResetting)
             {
-                ChangeCapColor(successMaterial); // Change cap color
+                ChangeCapColor(successMaterial);
                 LockPin();
             }
         }
@@ -137,19 +125,33 @@ public class PinInteraction : MonoBehaviour
             }
         }
 
-        StartCoroutine(resetDelay());
+        PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
+        foreach (PinInteraction pin in allPins)
+        {
+            pin.StartCoroutine(pin.ResetPinCoroutine());
+        }
+
+        // Reset counter
+        pinsLocked = 0;
     }
 
-    private void ResetPin()
+    private IEnumerator ResetPinCoroutine() // Coroutine for pin reset
     {
         isLocked = false;
         isInteracting = false;
         isResetting = true;
+
         rb.velocity = Vector3.zero;
-        
-        transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
-        //transform.position = resetPosition.position;
-        ChangeCapColor(defaultMaterial); // Reset cap color back to red
+
+        while (Vector3.Distance(transform.position, resetPosition.position) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, resetPosition.position, resetSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Checks if pin is fully reset
+        transform.position = resetPosition.position;
+        ChangeCapColor(defaultMaterial);
         isResetting = false;
     }
 
@@ -157,22 +159,7 @@ public class PinInteraction : MonoBehaviour
     {
         if (capRenderer != null)
         {
-            capRenderer.material = newMaterial; // Change cap color to red/green
+            capRenderer.material = newMaterial;
         }
-    }
-
-    IEnumerator resetDelay()
-    {
-        yield return new WaitForSeconds(.5f);
-
-        // Reset all pins
-        PinInteraction[] allPins = FindObjectsOfType<PinInteraction>();
-        foreach (PinInteraction pin in allPins)
-        {
-            pin.ResetPin();
-        }
-
-        // Reset counter
-        pinsLocked = 0;
     }
 }
