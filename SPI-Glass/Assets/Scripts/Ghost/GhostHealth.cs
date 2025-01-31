@@ -10,7 +10,15 @@ public class GhostHealth : MonoBehaviour
     [SerializeField] private Animator ghostAnimator;
     [SerializeField] private Animator movementAnimator;
     [SerializeField] private Rigidbody ghostRigidbody;
-    [SerializeField] private Collider selectedCollider; // Manually assign in Inspector
+    [SerializeField] private Collider selectedCollider;
+
+    [Header("Movement Animations")]
+    [SerializeField] private string[][] phaseAnimations =
+    {
+        new string[] { "Phase1A", "Phase1B", "Phase1C" },
+        new string[] { "Phase2A", "Phase2B", "Phase2C" },
+        new string[] { "Phase3A", "Phase3B", "Phase3C" }
+    };
 
     private int currentPhase = 0;
     private int currentHealth;
@@ -18,6 +26,9 @@ public class GhostHealth : MonoBehaviour
     private bool isStunned = false;
     private float flashlightTimer = 0f;
     private float flashlightThreshold = 5f;
+
+    private string lastMovementAnimation; // Stores last movement animation before stun
+    private float lastAnimationTime; // Stores animation time before pausing
 
     void Start()
     {
@@ -49,8 +60,22 @@ public class GhostHealth : MonoBehaviour
         currentHealth = phaseHealth[phase];
         Debug.Log($"Starting Phase {phase + 1} with {currentHealth} HP, Stun {stunDurations[phase]}s.");
 
-        movementAnimator.SetTrigger(phase == 0 ? "Phase1" : phase == 1 ? "Phase2" : "Phase3");
-        ghostAnimator.SetTrigger("Float");
+        ghostAnimator.Play("Float"); // Looping float animation
+        PlayRandomMovementAnimation();
+    }
+
+    private void PlayRandomMovementAnimation()
+    {
+        if (currentPhase < phaseAnimations.Length)
+        {
+            string[] animations = phaseAnimations[currentPhase];
+            if (animations.Length > 0)
+            {
+                lastMovementAnimation = animations[Random.Range(0, animations.Length)];
+                movementAnimator.CrossFade(lastMovementAnimation, 0.2f);
+                Debug.Log($"Playing movement animation: {lastMovementAnimation}");
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -97,8 +122,14 @@ public class GhostHealth : MonoBehaviour
         flashlightTimer = 0f;
         Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
 
-        ghostAnimator.SetTrigger("Stun");
-        movementAnimator.speed = 0;
+        ghostAnimator.Play("Stun"); // Looping Stun animation
+
+        // Pause movement animation by storing current time and stopping playback
+        AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
+        lastMovementAnimation = stateInfo.IsName(lastMovementAnimation) ? lastMovementAnimation : stateInfo.fullPathHash.ToString();
+        lastAnimationTime = stateInfo.normalizedTime;
+        
+        movementAnimator.speed = 0; // Pause movement animations
 
         Invoke(nameof(EndStun), stunDurations[currentPhase]);
     }
@@ -108,8 +139,18 @@ public class GhostHealth : MonoBehaviour
         isStunned = false;
         Debug.Log("Ghost is no longer stunned.");
 
-        movementAnimator.speed = 1;
-        ghostAnimator.SetTrigger("Float");
+        movementAnimator.speed = 1; // Resume movement animations
+        ghostAnimator.Play("Float"); // Resume floating animation
+
+        // Resume movement animation from where it was paused
+        if (!string.IsNullOrEmpty(lastMovementAnimation))
+        {
+            movementAnimator.Play(lastMovementAnimation, 0, lastAnimationTime);
+        }
+        else
+        {
+            PlayRandomMovementAnimation(); // Pick a new one if needed
+        }
     }
 
     private void TakeDamage(int damage)
