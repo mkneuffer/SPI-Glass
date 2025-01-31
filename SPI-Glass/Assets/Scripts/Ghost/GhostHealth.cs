@@ -6,12 +6,12 @@ public class GhostHealth : MonoBehaviour
     [SerializeField] private int[] phaseHealth = { 20, 10, 20 };
     [SerializeField] private float[] stunDurations = { 5f, 10f, 5f };
 
-    [Header("Animation References")]
+    [Header("References")]
     [SerializeField] private Animator ghostAnimator;
     [SerializeField] private Animator movementAnimator;
     [SerializeField] private Rigidbody ghostRigidbody;
+    [SerializeField] private Collider selectedCollider; // Manually assign in Inspector
 
-    private Collider ghostCollider;
     private int currentPhase = 0;
     private int currentHealth;
     private bool isAlive = true;
@@ -21,14 +21,12 @@ public class GhostHealth : MonoBehaviour
 
     void Start()
     {
-        ghostCollider = GetComponentInChildren<Collider>();
+        if (selectedCollider == null)
+        {
+            Debug.LogError("No Collider assigned in Inspector! Please assign one.");
+        }
+
         ghostRigidbody = GetComponent<Rigidbody>();
-
-        if (ghostCollider == null)
-            Debug.LogError("No Collider Found. Make sure the ghost has a collider.");
-        else
-            Debug.Log($"Ghost Collider Found: {ghostCollider.gameObject.name}");
-
         if (ghostRigidbody == null)
         {
             Debug.LogWarning("Ghost is missing a Rigidbody. Adding a kinematic one.");
@@ -63,11 +61,11 @@ public class GhostHealth : MonoBehaviour
         {
             Debug.Log("Ball hit detected.");
 
-            if (isStunned && isAlive) 
+            if (isStunned && isAlive)
             {
                 Debug.Log("Ghost is stunned. Taking 2 damage.");
                 TakeDamage(2);
-                Destroy(collision.gameObject, 0.1f); 
+                Destroy(collision.gameObject, 0.1f);
             }
             else
             {
@@ -78,7 +76,7 @@ public class GhostHealth : MonoBehaviour
 
     public void HandleFlashlight()
     {
-        if (isStunned || !isAlive) 
+        if (isStunned || !isAlive)
         {
             Debug.Log("Flashlight hit ghost but it is stunned or dead. No effect.");
             return;
