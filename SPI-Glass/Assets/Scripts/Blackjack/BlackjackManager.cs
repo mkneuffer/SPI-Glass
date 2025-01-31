@@ -117,16 +117,16 @@ public class BlackjackManager : MonoBehaviour
     private void DealHands()
     {
         gameRunning = true;
-        DrawCards("player", true);
-        DrawCards("player", true);
+        DrawCards("player");
+        DrawCards("player");
 
-        DrawCards("dealer", true);
-        DrawCards("dealer", false);
+        DrawCards("dealer");
+        DrawCards("dealer");
     }
 
     public void Hit()
     {
-        DrawCards("player", true);
+        DrawCards("player");
         if (SumOfHand(playerHand) > 21)
         {
             DealersTurn();
@@ -135,12 +135,21 @@ public class BlackjackManager : MonoBehaviour
 
     public void DealersTurn()
     {
-        //Make corutine later so takes time
+        StartCoroutine(DealerTurn());
+
+    }
+
+    IEnumerator DealerTurn()
+    {
+        dealerHandModel[1].GetComponent<Card>().flipY(180);
+        yield return new WaitForSeconds(.25f);
         while (SumOfHand(dealerHand) < 17)
         {
-            DrawCards("dealer", false);
+            DrawCards("dealer");
+            yield return new WaitForSeconds(.5f);
         }
         EndGame();
+
     }
 
     private void EndGame()
@@ -148,7 +157,7 @@ public class BlackjackManager : MonoBehaviour
         gameRunning = false;
         HitButton.SetActive(false);
         StandButton.SetActive(false);
-        dealerHandModel[1].GetComponent<Card>().flipY(180);
+
         int playerScore = SumOfHand(playerHand);
         int dealerScore = SumOfHand(dealerHand);
         bool playerBusts = playerScore > 21;
@@ -178,9 +187,9 @@ public class BlackjackManager : MonoBehaviour
             gameEndText.text = "YOU LOSE";
         }
         gameEndPanel.SetActive(true);
-    }
 
-    private void DrawCards(string hand, bool visible)
+    }
+    private void DrawCards(string hand)
     {
         Card card = deck.DrawCard();
         GameObject cardModel = CardToModel(card);
@@ -238,12 +247,20 @@ public class BlackjackManager : MonoBehaviour
 
     public void ResetGame()
     {
-        HitButton.SetActive(true);
-        StandButton.SetActive(true);
-        gameEndPanel.SetActive(false);
-        deck.CreateDeck();
-        playerHand.Clear();
-        dealerHand.Clear();
+        StartCoroutine(RestartGame());
+    }
+
+    IEnumerator RestartGame()
+    {
+        foreach (GameObject card in playerHandModel)
+        {
+            card.GetComponent<Card>().Reset();
+        }
+        foreach (GameObject card in dealerHandModel)
+        {
+            card.GetComponent<Card>().Reset();
+        }
+        yield return new WaitForSeconds(1f);
         foreach (GameObject card in playerHandModel)
         {
             Destroy(card);
@@ -252,6 +269,13 @@ public class BlackjackManager : MonoBehaviour
         {
             Destroy(card);
         }
+        HitButton.SetActive(true);
+        StandButton.SetActive(true);
+        gameEndPanel.SetActive(false);
+        deck.CreateDeck();
+        playerHand.Clear();
+        dealerHand.Clear();
+
         playerHandModel.Clear();
         dealerHandModel.Clear();
         DealHands();

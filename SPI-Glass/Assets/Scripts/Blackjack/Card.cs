@@ -93,6 +93,11 @@ public class Card : MonoBehaviour
 
     }
 
+    public void Reset()
+    {
+        nextPosition = new Vector3(0, 0, 0);
+    }
+
     public string getRank()
     {
         return rank;
