@@ -10,9 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1851319726237411372}
   - component: {fileID: 73606526028200281}
-  - component: {fileID: 1641192732452431379}
-  - component: {fileID: 6881714813396845281}
-  - component: {fileID: 5869662333671766472}
   m_Layer: 0
   m_Name: BlackjackManager
   m_TagString: Untagged
@@ -48,13 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck: {fileID: 6659615669686694591, guid: 798746c37cd206b4e9b6fdad58ef1826, type: 3}
-  playerHandText: {fileID: 0}
-  dealerHandText: {fileID: 0}
   gameEndPanel: {fileID: 0}
   gameEndText: {fileID: 0}
   HitButton: {fileID: 0}
   StandButton: {fileID: 0}
-  cameraManager: {fileID: 0}
+  ResetButton: {fileID: 0}
   twoClub: {fileID: 100000, guid: 270161fbc9dca6d4e9df3a22d51ebc57, type: 3}
   twoDiamond: {fileID: 100000, guid: db5c9937d5295c04983ef22a72d944ad, type: 3}
   twoHeart: {fileID: 100000, guid: c613a166e38964249b90f3849aeecbd2, type: 3}
@@ -108,75 +103,3 @@ MonoBehaviour:
   queenHeart: {fileID: 100000, guid: 8fef523a36fb4384dbd542c31b34f451, type: 3}
   queenSpade: {fileID: 100000, guid: da2d1fefc52dcde4db0b9c8ab07e55a3, type: 3}
   cardBox: {fileID: 100000, guid: b2f3a35b9b7b98b42ae41b95e5efde0a, type: 3}
---- !u!64 &1641192732452431379
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5802112439846168352}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -348084646293344055, guid: 60eea1f6663d1e345ba862e168ffae13, type: 3}
---- !u!33 &6881714813396845281
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5802112439846168352}
-  m_Mesh: {fileID: -348084646293344055, guid: 60eea1f6663d1e345ba862e168ffae13, type: 3}
---- !u!23 &5869662333671766472
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5802112439846168352}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: e3205edc05d5aa44480c1d99df065736, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
