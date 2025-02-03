@@ -5,6 +5,10 @@ public class GhostHealth : MonoBehaviour
     [Header("Phase Settings")]
     [SerializeField] private int[] phaseHealth = { 20, 10, 20 };
     [SerializeField] private float[] stunDurations = { 5f, 10f, 5f };
+    [SerializeField] private float[] flashlightThresholds = { 3f, 5f, 7f };
+
+    [Header("Cooldown Settings")]
+    [SerializeField] private float stunCooldownDuration = 3f; // 3 seconds of immunity after stun
 
     [Header("References")]
     [SerializeField] private Animator ghostAnimator;
@@ -24,11 +28,17 @@ public class GhostHealth : MonoBehaviour
     private int currentHealth;
     private bool isAlive = true;
     private bool isStunned = false;
+    private bool isInCooldown = false; // Cooldown status
     private float flashlightTimer = 0f;
-    private float flashlightThreshold = 5f;
 
-    private string lastMovementAnimation; // Stores last movement animation before stun
-    private float lastAnimationTime; // Stores animation time before pausing
+    private string lastMovementAnimation = "";
+
+    // UI Events
+    public delegate void StunCooldownEvent(bool isCooldownActive);
+    public event StunCooldownEvent OnStunCooldownChanged;
+
+    public delegate void GhostSpawnEvent();
+    public event GhostSpawnEvent OnGhostSpawned;
 
     void Start()
     {
@@ -45,6 +55,7 @@ public class GhostHealth : MonoBehaviour
             ghostRigidbody.isKinematic = true;
         }
 
+        OnGhostSpawned?.Invoke(); // Notify UI that ghost has spawned
         StartPhase(0);
     }
 
@@ -58,22 +69,33 @@ public class GhostHealth : MonoBehaviour
 
         currentPhase = phase;
         currentHealth = phaseHealth[phase];
-        Debug.Log($"Starting Phase {phase + 1} with {currentHealth} HP, Stun {stunDurations[phase]}s.");
+        isStunned = false;
+        isInCooldown = false; // Reset cooldown on phase change
+        flashlightTimer = 0f;
 
-        ghostAnimator.Play("Float"); // Looping float animation
-        PlayRandomMovementAnimation();
+        Debug.Log($"Starting Phase {phase + 1} | HP: {currentHealth} | Stun Time: {stunDurations[phase]}s | Flashlight Threshold: {flashlightThresholds[phase]}s");
+
+        ghostAnimator.Play("Float");
+        PlayNextMovementAnimation();
     }
 
-    private void PlayRandomMovementAnimation()
+    private void PlayNextMovementAnimation()
     {
         if (currentPhase < phaseAnimations.Length)
         {
             string[] animations = phaseAnimations[currentPhase];
+
             if (animations.Length > 0)
             {
-                lastMovementAnimation = animations[Random.Range(0, animations.Length)];
-                movementAnimator.CrossFade(lastMovementAnimation, 0.2f);
-                Debug.Log($"Playing movement animation: {lastMovementAnimation}");
+                string nextAnimation;
+                do
+                {
+                    nextAnimation = animations[Random.Range(0, animations.Length)];
+                } while (nextAnimation == lastMovementAnimation);
+
+                lastMovementAnimation = nextAnimation;
+                movementAnimator.CrossFade(nextAnimation, 0.2f);
+                Debug.Log($"Starting movement animation: {nextAnimation}");
             }
         }
     }
@@ -84,33 +106,27 @@ public class GhostHealth : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Ball"))
         {
-            Debug.Log("Ball hit detected.");
-
             if (isStunned && isAlive)
             {
                 Debug.Log("Ghost is stunned. Taking 2 damage.");
                 TakeDamage(2);
                 Destroy(collision.gameObject, 0.1f);
             }
-            else
-            {
-                Debug.Log("Ball hit ghost, but no damage (not stunned).");
-            }
         }
     }
 
     public void HandleFlashlight()
     {
-        if (isStunned || !isAlive)
+        if (isStunned || !isAlive || isInCooldown)
         {
-            Debug.Log("Flashlight hit ghost but it is stunned or dead. No effect.");
+            Debug.Log("Flashlight hit ghost but it is stunned, dead, or in cooldown. No effect.");
             return;
         }
 
         flashlightTimer += Time.deltaTime;
-        Debug.Log($"Flashlight on ghost: {flashlightTimer:F2} seconds");
+        Debug.Log($"Flashlight on ghost: {flashlightTimer:F2}s");
 
-        if (flashlightTimer >= flashlightThreshold)
+        if (flashlightTimer >= flashlightThresholds[currentPhase])
         {
             StunGhost();
         }
@@ -120,16 +136,10 @@ public class GhostHealth : MonoBehaviour
     {
         isStunned = true;
         flashlightTimer = 0f;
+
         Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
-
-        ghostAnimator.Play("Stun"); // Looping Stun animation
-
-        // Pause movement animation by storing current time and stopping playback
-        AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
-        lastMovementAnimation = stateInfo.IsName(lastMovementAnimation) ? lastMovementAnimation : stateInfo.fullPathHash.ToString();
-        lastAnimationTime = stateInfo.normalizedTime;
-        
-        movementAnimator.speed = 0; // Pause movement animations
+        ghostAnimator.Play("Stun");
+        movementAnimator.speed = 0;
 
         Invoke(nameof(EndStun), stunDurations[currentPhase]);
     }
@@ -137,26 +147,29 @@ public class GhostHealth : MonoBehaviour
     private void EndStun()
     {
         isStunned = false;
-        Debug.Log("Ghost is no longer stunned.");
+        isInCooldown = true; // Enter cooldown phase
+        Debug.Log("Ghost is no longer stunned. Entering cooldown.");
 
-        movementAnimator.speed = 1; // Resume movement animations
-        ghostAnimator.Play("Float"); // Resume floating animation
+        movementAnimator.speed = 1;
+        ghostAnimator.Play("Float");
 
-        // Resume movement animation from where it was paused
-        if (!string.IsNullOrEmpty(lastMovementAnimation))
-        {
-            movementAnimator.Play(lastMovementAnimation, 0, lastAnimationTime);
-        }
-        else
-        {
-            PlayRandomMovementAnimation(); // Pick a new one if needed
-        }
+        OnStunCooldownChanged?.Invoke(true); // Notify UI that cooldown started
+
+        Invoke(nameof(EndCooldown), stunCooldownDuration);
+    }
+
+    private void EndCooldown()
+    {
+        isInCooldown = false;
+        Debug.Log("Cooldown ended. Ghost can now be stunned again.");
+
+        OnStunCooldownChanged?.Invoke(false); // Notify UI that cooldown ended
     }
 
     private void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log($"Ghost took {damage} damage. Current health: {currentHealth}");
+        Debug.Log($"Ghost took {damage} damage. Remaining HP: {currentHealth}");
 
         if (currentHealth <= 0)
         {
@@ -180,5 +193,34 @@ public class GhostHealth : MonoBehaviour
     public bool IsStunned()
     {
         return isStunned;
+    }
+
+    public bool IsInCooldown()
+    {
+        return isInCooldown;
+    }
+
+    public float GetFlashlightProgress()
+    {
+        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]); 
+    }
+
+    public float GetHealthPercentage()
+    {
+        return Mathf.Clamp01((float)currentHealth / phaseHealth[currentPhase]);
+    }
+
+    void Update()
+    {
+        if (!isStunned && !isInCooldown)
+        {
+            AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
+
+            // Ensure animation fully completes before switching
+            if (stateInfo.normalizedTime >= 1.0f && stateInfo.IsTag("Move"))
+            {
+                PlayNextMovementAnimation();
+            }
+        }
     }
 }
