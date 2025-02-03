@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 129807405148345136}
   - component: {fileID: 2375176223820272736}
   m_Layer: 0
-  m_Name: Table_Square_00
+  m_Name: GamblingTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
