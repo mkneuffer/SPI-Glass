@@ -23,4 +23,9 @@ public class ItemData : MonoBehaviour
     {
         return itemIcon;
     }
+
+    public int getNum()
+    {
+        return itemNum;
+    }
 }

@@ -28,6 +28,7 @@ public class SemanticQuery : MonoBehaviour
     public int woodInProgressBar;
     [SerializeField] public int woodNeededToCraftGrail = 5;
     [SerializeField] private Animator transition;
+    private int touchTime = 0;
 
     [SerializeField] private XR_Placement xrPlacement; // Reference to the XR_Placement script
 
@@ -88,11 +89,14 @@ public class SemanticQuery : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
         {
             Vector2 pos = Input.mousePosition;
-            if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+            if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && touchTime == 0)
             {
                 Touch touch = Input.GetTouch(0);
                 pos = touch.position;
+                touchTime++;
             }
+            touchTime = 0;
+            Debug.Log("touch time reset");
 
             StartCoroutine(ProcessSegmentation(pos));
         }
