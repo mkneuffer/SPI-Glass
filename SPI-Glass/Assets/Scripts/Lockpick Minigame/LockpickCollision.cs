@@ -13,7 +13,7 @@ public class PinInteraction : MonoBehaviour
     [SerializeField] Material successMaterial; // Cap material when in position (Green)
     [SerializeField] string capObjectName = "PinCap"; // Name of Unity object
 
-    private int totalPins = 2;
+    private int totalPins = 5;
     private static int pinsLocked = 0;
     private bool isInteracting = false;
     private bool isLocked = false;
