@@ -7,6 +7,7 @@ using Ink.Parsed;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -24,6 +25,17 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private GameObject HitButton;
     [SerializeField] private GameObject StandButton;
     [SerializeField] private GameObject ResetButton;
+    [SerializeField] private Slider bettingSlider;
+    [SerializeField] private TextMeshProUGUI bettingAmountText;
+    [SerializeField] private GameObject bettingUIParent;
+    [SerializeField] private TextMeshProUGUI chipsAmountText;
+    [SerializeField] private TextMeshProUGUI chipsChangeText;
+    [SerializeField] private GameObject chipsPanel;
+    private int totalChips;
+    private int bettingChips;
+    [SerializeField] private int chipsNeededToLose = 250;
+    [SerializeField] private int chipsNeededToWin = 1000;
+
 
     [Header("Cards")]
     [SerializeField] private GameObject twoClub;
@@ -88,7 +100,10 @@ public class BlackjackManager : MonoBehaviour
         HitButton.SetActive(false);
         StandButton.SetActive(false);
         ResetButton.SetActive(false);
-
+        bettingUIParent.SetActive(false);
+        chipsChangeText.text = "";
+        totalChips = 500;
+        chipsPanel.SetActive(false);
         deck.CreateDeck();
         gameEndPanel.SetActive(false);
         gameRunning = true;
@@ -102,15 +117,24 @@ public class BlackjackManager : MonoBehaviour
         }
         if (table != null && table.activeInHierarchy)
         {
+            //Only actives once
             if (!tableActive)
             {
-                HitButton.SetActive(true);
-                StandButton.SetActive(true);
-                ResetButton.SetActive(true);
+                chipsAmountText.text = "Chips: " + totalChips.ToString();
+                chipsPanel.SetActive(true);
                 tableActive = true;
-                DealHands();
+                StartBetting();
             }
         }
+    }
+
+    private void StartGame()
+    {
+        HitButton.SetActive(true);
+        StandButton.SetActive(true);
+
+
+        DealHands();
     }
 
     //Deals two cards to both the dealer and the player
@@ -126,6 +150,8 @@ public class BlackjackManager : MonoBehaviour
 
     public void Hit()
     {
+        if (SumOfHand(playerHand) > 21)
+            return;
         DrawCards("player");
         if (SumOfHand(playerHand) > 21)
         {
@@ -135,11 +161,10 @@ public class BlackjackManager : MonoBehaviour
 
     public void DealersTurn()
     {
-        StartCoroutine(DealerTurn());
-
+        StartCoroutine(DealerTurnCoroutine());
     }
 
-    IEnumerator DealerTurn()
+    IEnumerator DealerTurnCoroutine()
     {
         dealerHandModel[1].GetComponent<Card>().flipY(180);
         yield return new WaitForSeconds(.25f);
@@ -149,7 +174,6 @@ public class BlackjackManager : MonoBehaviour
             yield return new WaitForSeconds(.5f);
         }
         EndGame();
-
     }
 
     private void EndGame()
@@ -164,31 +188,110 @@ public class BlackjackManager : MonoBehaviour
         bool dealerBusts = dealerScore > 21;
         if (playerScore == dealerScore)
         {
-            gameEndText.text = "DRAW";
+            //gameEndText.text = "DRAW";
+            StartCoroutine(AddChips(0));
         }
         else if (playerBusts && dealerBusts)
         {
-            gameEndText.text = "DRAW";
+            //gameEndText.text = "DRAW";
+            StartCoroutine(AddChips(0));
         }
         else if (playerBusts && !dealerBusts)
         {
-            gameEndText.text = "YOU LOSE";
+            //gameEndText.text = "YOU LOSE";
+            StartCoroutine(AddChips(-bettingChips));
+
         }
         else if (!playerBusts && dealerBusts)
         {
-            gameEndText.text = "YOU WIN";
+            //gameEndText.text = "YOU WIN";
+            StartCoroutine(AddChips(bettingChips));
         }
         else if (playerScore > dealerScore)
         {
-            gameEndText.text = "YOU WIN";
+            //gameEndText.text = "YOU WIN";
+            StartCoroutine(AddChips(bettingChips));
         }
         else
         {
-            gameEndText.text = "YOU LOSE";
+            //gameEndText.text = "YOU LOSE";
+            StartCoroutine(AddChips(-bettingChips));
         }
-        gameEndPanel.SetActive(true);
-
     }
+
+    private IEnumerator Quit()
+    {
+        yield return new WaitForSeconds(2f);
+        foreach (GameObject card in playerHandModel)
+        {
+            card.GetComponent<Card>().Reset();
+        }
+        foreach (GameObject card in dealerHandModel)
+        {
+            card.GetComponent<Card>().Reset();
+        }
+        yield return new WaitForSeconds(1f);
+        foreach (GameObject card in playerHandModel)
+        {
+            Destroy(card);
+        }
+        foreach (GameObject card in dealerHandModel)
+        {
+            Destroy(card);
+        }
+    }
+
+    private IEnumerator AddChips(int amount)
+    {
+        //Losing Chips
+        if (amount < 0)
+        {
+            chipsChangeText.color = Color.red;
+            chipsChangeText.text = amount.ToString();
+        }
+        //Gaining Chips
+        else if (amount > 0)
+        {
+            chipsChangeText.color = Color.green;
+            chipsChangeText.text = "+" + amount.ToString();
+        }
+        //Draw
+        else
+        {
+            chipsChangeText.color = Color.white;
+            chipsChangeText.text = "+" + amount.ToString();
+        }
+        yield return new WaitForSeconds(.75f);
+        while (totalChips != totalChips + amount)
+        {
+            totalChips += (int)Mathf.Sign(amount);
+            amount -= (int)Mathf.Sign(amount);
+            chipsAmountText.text = "Chips: " + totalChips.ToString();
+            if (amount < 0)
+                chipsChangeText.text = amount.ToString();
+            else
+                chipsChangeText.text = "+" + amount.ToString();
+            yield return new WaitForSeconds(.0001f);
+        }
+        chipsChangeText.text = "";
+        if (totalChips >= chipsNeededToWin)
+        {
+            gameEndPanel.SetActive(true);
+            gameEndText.text = "YOU WIN";
+            StartCoroutine(Quit());
+        }
+        else if (totalChips <= chipsNeededToLose)
+        {
+            gameEndPanel.SetActive(true);
+            gameEndText.text = "YOU LOSE";
+            StartCoroutine(Quit());
+        }
+        else
+        {
+            ResetButton.SetActive(true);
+        }
+    }
+
     private void DrawCards(string hand)
     {
         Card card = deck.DrawCard();
@@ -225,6 +328,7 @@ public class BlackjackManager : MonoBehaviour
         cardModel.transform.localScale = new Vector3(150, 150, 150);
     }
 
+    //Get the total value of the given hand
     private int SumOfHand(List<Card> hand)
     {
         int sum = 0;
@@ -247,10 +351,11 @@ public class BlackjackManager : MonoBehaviour
 
     public void ResetGame()
     {
-        StartCoroutine(RestartGame());
+        ResetButton.SetActive(false);
+        StartCoroutine(RestartGameCoroutine());
     }
 
-    IEnumerator RestartGame()
+    IEnumerator RestartGameCoroutine()
     {
         foreach (GameObject card in playerHandModel)
         {
@@ -269,16 +374,35 @@ public class BlackjackManager : MonoBehaviour
         {
             Destroy(card);
         }
-        HitButton.SetActive(true);
-        StandButton.SetActive(true);
-        gameEndPanel.SetActive(false);
+
         deck.CreateDeck();
         playerHand.Clear();
         dealerHand.Clear();
 
         playerHandModel.Clear();
         dealerHandModel.Clear();
-        DealHands();
+        gameEndPanel.SetActive(false);
+        StartBetting();
+    }
+
+    private void StartBetting()
+    {
+        bettingUIParent.SetActive(true);
+        bettingSlider.maxValue = totalChips;
+        UpdateFromSlider();
+    }
+
+    //Updates the betting text given the value of the slider
+    public void UpdateFromSlider()
+    {
+        bettingAmountText.text = "Betting: " + bettingSlider.value.ToString() + " Chips";
+    }
+
+    public void Bet()
+    {
+        bettingChips = (int)bettingSlider.value;
+        bettingUIParent.SetActive(false);
+        StartGame();
     }
 
     private string HandToString(List<Card> hand)
