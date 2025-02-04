@@ -11,7 +11,6 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private int playerHealth;
     [SerializeField] private float drainRate = 1.0f;
     [SerializeField] private Volume postProcessingVolume;
-    public GhostMovement ghostMovement;
     [SerializeField] private Animator transition;
 
     private Vignette vignette;
@@ -60,7 +59,7 @@ public class PlayerHealthManager : MonoBehaviour
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(3f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(6);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Stump 1");
     }
 
     private IEnumerator HealthCoroutine()

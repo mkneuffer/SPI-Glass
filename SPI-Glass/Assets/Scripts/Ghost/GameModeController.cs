@@ -8,45 +8,62 @@ public class GameModeController : MonoBehaviour
     public Button launcherModeButton;
     public Button flashlightModeButton;
 
-    private bool isFlashlightMode = false;
+    [Header("Flashlight Visibility Object")]
+    public GameObject objectToHide; // Assign in Inspector
+
+    private enum Mode { None, Launcher, Flashlight }
+    private Mode currentMode = Mode.None;
 
     void Start()
     {
         launcherModeButton.onClick.AddListener(SetLauncherMode);
         flashlightModeButton.onClick.AddListener(SetFlashlightMode);
 
-        SetLauncherMode();
+        SetNoneMode(); // Start in None mode
     }
 
     private void SetLauncherMode()
     {
-        isFlashlightMode = false;
+        currentMode = Mode.Launcher;
         launcher.enabled = true;
         flashlight.enabled = false;
+        UpdateObjectVisibility(false);
         Debug.Log("Switched to Launcher mode.");
     }
 
     private void SetFlashlightMode()
     {
-        isFlashlightMode = true;
+        currentMode = Mode.Flashlight;
         launcher.enabled = false;
         flashlight.enabled = false;
+        UpdateObjectVisibility(false);
         Debug.Log("Switched to Flashlight mode.");
+    }
+
+    private void SetNoneMode()
+    {
+        currentMode = Mode.None;
+        launcher.enabled = false;
+        flashlight.enabled = false;
+        UpdateObjectVisibility(false);
+        Debug.Log("Starting in None mode. No flashlight or launcher enabled.");
     }
 
     void Update()
     {
-        if (isFlashlightMode)
+        if (currentMode == Mode.Flashlight)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 flashlight.enabled = true;
+                UpdateObjectVisibility(true);
                 Debug.Log("Flashlight turned ON.");
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 flashlight.enabled = false;
+                UpdateObjectVisibility(false);
                 Debug.Log("Flashlight turned OFF.");
             }
 
@@ -75,6 +92,14 @@ public class GameModeController : MonoBehaviour
                 }
                 return;
             }
+        }
+    }
+
+    private void UpdateObjectVisibility(bool isVisible)
+    {
+        if (objectToHide != null)
+        {
+            objectToHide.SetActive(isVisible && currentMode == Mode.Flashlight);
         }
     }
 }

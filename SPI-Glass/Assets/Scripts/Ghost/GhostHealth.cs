@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GhostHealth : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GhostHealth : MonoBehaviour
     [SerializeField] private Animator movementAnimator;
     [SerializeField] private Rigidbody ghostRigidbody;
     [SerializeField] private Collider selectedCollider;
+
+    [Header("Fog Animation & Scene Transition")]
+    [SerializeField] private GameObject fogObject; // Assign fog object in the Inspector
+    [SerializeField] private string nextSceneName; // Assign next scene in the Inspector
 
     [Header("Movement Animations")]
     [SerializeField] private string[][] phaseAnimations =
@@ -185,9 +190,43 @@ public class GhostHealth : MonoBehaviour
 
     private void Die()
     {
+        if (!isAlive) return; // Prevent multiple calls
         isAlive = false;
-        Debug.Log("Ghost is dead.");
-        gameObject.SetActive(false);
+        Debug.Log("Ghost is dead. Playing fog animation and switching scene...");
+
+        // Play the fog animation
+        if (fogObject != null)
+        {
+            Animator fogAnimator = fogObject.GetComponent<Animator>();
+            if (fogAnimator != null)
+            {
+                fogAnimator.Play("FogIn"); // Play the fog animation
+            }
+            else
+            {
+                Debug.LogWarning("Fog object does not have an Animator component!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Fog object not assigned!");
+        }
+
+        // Schedule scene change after 3 seconds
+        Invoke(nameof(SwitchScene), 3f);
+    }
+
+    private void SwitchScene()
+    {
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            Debug.Log($"Switching to scene: {nextSceneName}");
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.LogError("Next scene name not assigned in the Inspector!");
+        }
     }
 
     public bool IsStunned()
@@ -216,7 +255,6 @@ public class GhostHealth : MonoBehaviour
         {
             AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
 
-            // Ensure animation fully completes before switching
             if (stateInfo.normalizedTime >= 1.0f && stateInfo.IsTag("Move"))
             {
                 PlayNextMovementAnimation();

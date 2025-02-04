@@ -179,6 +179,9 @@ MonoBehaviour:
   movementAnimator: {fileID: 2942017848081183024}
   ghostRigidbody: {fileID: 6560975589062673816}
   selectedCollider: {fileID: 8332101934507658376}
+  fogObject: {fileID: 4216137515402459398, guid: b010b834965fc4d8a9e071fe9b5628aa,
+    type: 3}
+  nextSceneName: Scene6
 --- !u!1 &1827576913717344052
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +404,7 @@ Transform:
   m_GameObject: {fileID: 4067379461171496874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.49, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
