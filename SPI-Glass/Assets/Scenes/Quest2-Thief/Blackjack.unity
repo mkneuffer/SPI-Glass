@@ -502,10 +502,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1632570178}
   m_HandleRect: {fileID: 263086706}
   m_Direction: 0
-  m_MinValue: 10
+  m_MinValue: 1
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 10
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2923,6 +2923,11 @@ PrefabInstance:
       propertyPath: cameraManager
       value: 
       objectReference: {fileID: 705753739}
+    - target: {fileID: 73606526028200281, guid: e0940c0904a79f1499563e3155da31fd,
+        type: 3}
+      propertyPath: startingChips
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 73606526028200281, guid: e0940c0904a79f1499563e3155da31fd,
         type: 3}
       propertyPath: dealerHandText

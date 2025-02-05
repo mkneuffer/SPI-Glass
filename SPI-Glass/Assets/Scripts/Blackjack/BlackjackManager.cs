@@ -33,6 +33,7 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private GameObject chipsPanel;
     private int totalChips;
     private int bettingChips;
+    [SerializeField] private int startingChips = 500;
     [SerializeField] private int chipsNeededToLose = 250;
     [SerializeField] private int chipsNeededToWin = 1000;
 
@@ -102,7 +103,7 @@ public class BlackjackManager : MonoBehaviour
         ResetButton.SetActive(false);
         bettingUIParent.SetActive(false);
         chipsChangeText.text = "";
-        totalChips = 500;
+        totalChips = startingChips;
         chipsPanel.SetActive(false);
         deck.CreateDeck();
         gameEndPanel.SetActive(false);
@@ -117,7 +118,7 @@ public class BlackjackManager : MonoBehaviour
         }
         if (table != null && table.activeInHierarchy)
         {
-            //Only actives once
+            //Only actives once when the table spawns
             if (!tableActive)
             {
                 chipsAmountText.text = "Chips: " + totalChips.ToString();
@@ -128,11 +129,11 @@ public class BlackjackManager : MonoBehaviour
         }
     }
 
-    private void StartGame()
+    //Actually start the round of blackjack
+    private void StartPlayingGame()
     {
         HitButton.SetActive(true);
         StandButton.SetActive(true);
-
 
         DealHands();
     }
@@ -148,8 +149,11 @@ public class BlackjackManager : MonoBehaviour
         DrawCards("dealer");
     }
 
+    //Player hits once, and draws one card
+    //If they bust, then automatically go to dealer
     public void Hit()
     {
+        //Prevents the player from spamming the button and drawing more cards after already busting
         if (SumOfHand(playerHand) > 21)
             return;
         DrawCards("player");
@@ -159,11 +163,14 @@ public class BlackjackManager : MonoBehaviour
         }
     }
 
+    //Button needs to call this so it needs to call a coroutine
+    //This is "Stand"
     public void DealersTurn()
     {
         StartCoroutine(DealerTurnCoroutine());
     }
 
+    //Dealer's second card flips over and draws cards until they have over 17
     IEnumerator DealerTurnCoroutine()
     {
         dealerHandModel[1].GetComponent<Card>().flipY(180);
@@ -176,6 +183,7 @@ public class BlackjackManager : MonoBehaviour
         EndGame();
     }
 
+    //Get's results of the game and determines who wins
     private void EndGame()
     {
         gameRunning = false;
@@ -219,30 +227,12 @@ public class BlackjackManager : MonoBehaviour
         }
     }
 
-    private IEnumerator Quit()
-    {
-        yield return new WaitForSeconds(2f);
-        foreach (GameObject card in playerHandModel)
-        {
-            card.GetComponent<Card>().Reset();
-        }
-        foreach (GameObject card in dealerHandModel)
-        {
-            card.GetComponent<Card>().Reset();
-        }
-        yield return new WaitForSeconds(1f);
-        foreach (GameObject card in playerHandModel)
-        {
-            Destroy(card);
-        }
-        foreach (GameObject card in dealerHandModel)
-        {
-            Destroy(card);
-        }
-    }
 
+
+    //Adds chips over time
     private IEnumerator AddChips(int amount)
     {
+        //Sets up string and sets color
         //Losing Chips
         if (amount < 0)
         {
@@ -262,25 +252,38 @@ public class BlackjackManager : MonoBehaviour
             chipsChangeText.text = "+" + amount.ToString();
         }
         yield return new WaitForSeconds(.75f);
+
+        int chipsChangePerStep = 1;
+        if (Math.Abs(amount) > 400)
+            chipsChangePerStep = 5;
+        else if (Math.Abs(amount) > 250)
+            chipsChangePerStep = 5;
+        else if (Math.Abs(amount) > 100)
+            chipsChangePerStep = 2;
+
+        //Increment/Decrement Chips
         while (totalChips != totalChips + amount)
         {
-            totalChips += (int)Mathf.Sign(amount);
-            amount -= (int)Mathf.Sign(amount);
+            totalChips += (int)Mathf.Sign(amount) * chipsChangePerStep;
+            amount -= (int)Mathf.Sign(amount) * chipsChangePerStep;
+
             chipsAmountText.text = "Chips: " + totalChips.ToString();
-            if (amount < 0)
+            if (chipsChangeText.color == Color.red)
                 chipsChangeText.text = amount.ToString();
             else
                 chipsChangeText.text = "+" + amount.ToString();
             yield return new WaitForSeconds(.0001f);
         }
         chipsChangeText.text = "";
-        if (totalChips >= chipsNeededToWin)
+
+        //Check for win/lose conditions
+        if (totalChips >= chipsNeededToWin) //win
         {
             gameEndPanel.SetActive(true);
             gameEndText.text = "YOU WIN";
             StartCoroutine(Quit());
         }
-        else if (totalChips <= chipsNeededToLose)
+        else if (totalChips <= chipsNeededToLose) //lose
         {
             gameEndPanel.SetActive(true);
             gameEndText.text = "YOU LOSE";
@@ -288,10 +291,36 @@ public class BlackjackManager : MonoBehaviour
         }
         else
         {
-            ResetButton.SetActive(true);
+            ResetButton.SetActive(true); //game is still going
         }
     }
 
+    //Stops the game of blackjack
+    private IEnumerator Quit()
+    {
+        gameRunning = false;
+        yield return new WaitForSeconds(2f);
+        foreach (GameObject card in playerHandModel)
+        {
+            card.GetComponent<Card>().Reset();
+        }
+        foreach (GameObject card in dealerHandModel)
+        {
+            card.GetComponent<Card>().Reset();
+        }
+        yield return new WaitForSeconds(1f);
+        foreach (GameObject card in playerHandModel)
+        {
+            Destroy(card);
+        }
+        foreach (GameObject card in dealerHandModel)
+        {
+            Destroy(card);
+        }
+
+    }
+
+    //Adds one card to the given hand
     private void DrawCards(string hand)
     {
         Card card = deck.DrawCard();
@@ -299,7 +328,7 @@ public class BlackjackManager : MonoBehaviour
         cardModel = Instantiate(cardModel, table.transform.GetChild(0));
         Card cardScript = cardModel.AddComponent<Card>();
 
-        if (hand.Equals("player"))
+        if (hand.Equals("player")) //player
         {
             playerHand.Add(card);
             playerHandModel.Add(cardModel);
@@ -310,7 +339,7 @@ public class BlackjackManager : MonoBehaviour
                 c.SetTotalCards(playerHand.Count);
             }
         }
-        else
+        else //dealer
         {
             dealerHand.Add(card);
             dealerHandModel.Add(cardModel);
@@ -349,14 +378,18 @@ public class BlackjackManager : MonoBehaviour
         return sum;
     }
 
+
+    //Restarts the game
     public void ResetGame()
     {
         ResetButton.SetActive(false);
         StartCoroutine(RestartGameCoroutine());
     }
 
+    //Restarts the game
     IEnumerator RestartGameCoroutine()
     {
+        //Moves cards back into deck
         foreach (GameObject card in playerHandModel)
         {
             card.GetComponent<Card>().Reset();
@@ -366,6 +399,8 @@ public class BlackjackManager : MonoBehaviour
             card.GetComponent<Card>().Reset();
         }
         yield return new WaitForSeconds(1f);
+
+        //Destroys all card objects
         foreach (GameObject card in playerHandModel)
         {
             Destroy(card);
@@ -385,36 +420,45 @@ public class BlackjackManager : MonoBehaviour
         StartBetting();
     }
 
+    //Sets up the betting phase
     private void StartBetting()
     {
         bettingUIParent.SetActive(true);
-        bettingSlider.maxValue = totalChips;
+        bettingSlider.maxValue = totalChips / 10;
         UpdateFromSlider();
     }
 
     //Updates the betting text given the value of the slider
     public void UpdateFromSlider()
     {
-        bettingAmountText.text = "Betting: " + bettingSlider.value.ToString() + " Chips";
+        bettingAmountText.text = "Betting: " + (bettingSlider.value * 10).ToString() + " Chips";
     }
 
+    //Called from "Bet" Button
     public void Bet()
     {
-        bettingChips = (int)bettingSlider.value;
+        bettingChips = (int)bettingSlider.value * 10;
         bettingUIParent.SetActive(false);
-        StartGame();
+        StartPlayingGame();
     }
 
+    //Converts the given hand into a readable string
     private string HandToString(List<Card> hand)
     {
         string output = "";
+        int index = 0;
         foreach (Card card in hand)
         {
-            output += card.toString() + ", ";
+            if (index < hand.Count - 1)
+                output += card.toString() + ", ";
+            else
+                output += card.toString();
+            index++;
         }
         return output;
     }
 
+    //Gets the model of the card given the card object
     private GameObject CardToModel(Card card)
     {
         if (card.getSuit() == "Hearts")
