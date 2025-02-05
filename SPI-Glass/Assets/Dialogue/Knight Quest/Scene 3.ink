@@ -1,10 +1,12 @@
+EXTERNAL SwitchToObjectDetection()
 EXTERNAL SwitchToScene4()
 
-You return with some sturdy sticks and quickly sit down to assemble them. #portrait:0 #speaker:0 #layout:left
-You had packed tape for restraining possessed people, but now you use it to secure the sticks together in the shape of a grail.
-After it’s done, you splash it with holy water.
-Archibald nods in approval.
-Smart move. The holy water will weaken the ghost when he touches it. #speaker:Archibald #portrait:archibald
-It’s a feeble attempt to replicate the Holy Grail, but it should work. #speaker:0 #portrait:0
+
+Find some trees and tap on them to collect some wood. #speaker:Archibald #portrait:archibald #layout:left-noninterrupt
+I’ll need five pieces to be able to make it into a grail.
+
+//Dialogue for stump scene
+Alright, help me out. #speaker:Archibald #portrait:archibald #layout:left-noninterrupt
+Align the pieces of wood so I can work on holding the grail together. //Stump scene
 ~SwitchToScene4()
 -> END

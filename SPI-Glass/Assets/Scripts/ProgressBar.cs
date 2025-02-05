@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//This script can be used to create any progress bar
 [ExecuteInEditMode()]
 public class ProgressBar : MonoBehaviour
 {

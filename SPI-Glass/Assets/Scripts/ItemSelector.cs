@@ -35,16 +35,4 @@ public class ItemSelector : MonoBehaviour
         holyWaterManager.enabled = true;
         Debug.Log("Holy Water is active");
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
