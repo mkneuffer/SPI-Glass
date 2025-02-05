@@ -12,6 +12,7 @@ TagManager:
   - Barrier
   - LowerBarrier
   - SideBarrier
+  - Boundary
   layers:
   - Default
   - TransparentFX
