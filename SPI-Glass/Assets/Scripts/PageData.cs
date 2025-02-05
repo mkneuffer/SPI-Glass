@@ -6,16 +6,6 @@ public class PageData : MonoBehaviour
 {
     [SerializeField] int pageNum;
     [SerializeField] GameObject page;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public int getPageNum()
     {
