@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private PuzzleManager puzzleManager;
     [SerializeField] private MoveGhost ghostManager;
     [SerializeField] private InventoryManager InventoryManager;
+    [SerializeField] private GameObject nameField;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
     [SerializeField] private Animator transition;
@@ -245,28 +246,32 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
-                    if (tagValue != "0")
+                    if (tagValue == "0")
+                    {
+                        SpeakerFrame.SetActive(false);
+                    }
+                    else if (tagValue == "Player")
+                    {
+                        displayNameText.text = "James";
+                    }
+                    //No portrait
+                    else
                     {
                         SpeakerFrame.SetActive(true);
                         displayNameText.text = tagValue;
                     }
-                    //No portrait
-                    else
-                    {
-                        SpeakerFrame.SetActive(false);
-                    }
                     break;
 
                 case PORTRAIT_TAG:
-                    if (tagValue != "0")
+                    if (tagValue == "0")
                     {
-                        PortraitFrame.SetActive(true);
-                        portraitAnimator.Play(tagValue);
+                        PortraitFrame.SetActive(false);
                     }
                     //No portrait
                     else
                     {
-                        PortraitFrame.SetActive(false);
+                        PortraitFrame.SetActive(true);
+                        portraitAnimator.Play(tagValue);
                     }
 
                     break;
@@ -385,6 +390,14 @@ public class DialogueManager : MonoBehaviour
                 {
                     InventoryManager.RemoveItemByType(item);
                 }
+            });
+        }
+
+        if (nameField != null)
+        {
+            currentStory.BindExternalFunction("openNameField", () =>
+            {
+                nameField.SetActive(true);
             });
         }
 

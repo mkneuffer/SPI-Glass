@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class SettingsSaving : MonoBehaviour
 {
     private string path = "";
     private string persistentPath = "";
     public SettingsData settingsData;
+    [SerializeField] private string inputField;
+    [SerializeField] private GameObject inputBox;
     // Start is called before the first frame update
     void Start()
     {
         setSettings();
         SetPaths();
+        setNameFieldActive(false);
     }
 
     private void SetPaths()
@@ -39,10 +43,29 @@ public class SettingsSaving : MonoBehaviour
     {
         if (settingsData == null)
         {
-            settingsData = new SettingsData(50f);
+            settingsData = new SettingsData(50f, "0");
             Debug.Log("default settings enabled with volume: " + settingsData.getVolume());
         }
 
+    }
+    public void setName(string name)
+    {
+        inputField = name;
+        settingsData.setName(inputField);
+        Debug.Log("name changed to: " + inputField);
+    }
+
+    public string getName()
+    {
+        return settingsData.getName();
+    }
+
+    public void setNameFieldActive(bool state)
+    {
+        if (inputBox != null)
+        {
+            inputBox.SetActive(state);
+        }
     }
 
     public void SaveData()

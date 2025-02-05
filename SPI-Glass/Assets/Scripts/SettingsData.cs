@@ -5,11 +5,13 @@ using UnityEngine;
 public class SettingsData
 {
     public float volume;
+    public string name;
 
 
-    public SettingsData(float volume)
+    public SettingsData(float volume, string name)
     {
         this.volume = volume;
+        this.name = name;
     }
 
     public override string ToString()
@@ -25,6 +27,15 @@ public class SettingsData
     public float getVolume()
     {
         return volume;
+    }
+    public string getName()
+    {
+        return name;
+    }
+
+    public void setName(string newName)
+    {
+        name = newName;
     }
 
     // Update is called once per frame
