@@ -11,6 +11,7 @@ public class PickMovement : MonoBehaviour
     public Vector3 velocity { get; private set; }
     private bool canMoveUp = true;
     private bool canMoveDown = true;
+    private bool canMoveRight = true;
     private Rigidbody rb;
 
     void Start()
@@ -47,7 +48,7 @@ public class PickMovement : MonoBehaviour
             else if (touch.phase == TouchPhase.Moved)
             {
                 Vector2 touchDelta = touch.position - touchStartPos;
-                if(canMoveUp && canMoveDown) // Collisions for touch detection
+                if(canMoveUp && canMoveDown && canMoveRight) // Collisions for touch detection
                 {
                     Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
                     transform.position += movement.normalized * moveSpeed * Time.deltaTime;
@@ -60,6 +61,12 @@ public class PickMovement : MonoBehaviour
                     touchStartPos = touch.position;
                 }
                 else if(!canMoveDown && touchDelta.y > 0)
+                {
+                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
+                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                    touchStartPos = touch.position;
+                }
+                else if(!canMoveRight && touchDelta.x < 0)
                 {
                     Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
                     transform.position += movement.normalized * moveSpeed * Time.deltaTime;
@@ -78,7 +85,7 @@ public class PickMovement : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             Vector2 mouseDelta = (Vector2)Input.mousePosition - touchStartPos;
-            if(canMoveUp && canMoveDown) // Collisions for mouse detection
+            if(canMoveUp && canMoveDown && canMoveRight) // Collisions for mouse detection
             {
                 Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
                 transform.position += movement.normalized * moveSpeed * Time.deltaTime;
@@ -91,6 +98,12 @@ public class PickMovement : MonoBehaviour
                 touchStartPos = Input.mousePosition;
             }
             else if(!canMoveDown && mouseDelta.y > 0)
+            {
+                Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
+                transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+                touchStartPos = Input.mousePosition;
+            }
+            else if(!canMoveRight && mouseDelta.x < 0)
             {
                 Vector3 movement = new Vector3(mouseDelta.x, mouseDelta.y, 0);
                 transform.position += movement.normalized * moveSpeed * Time.deltaTime;
@@ -111,6 +124,11 @@ public class PickMovement : MonoBehaviour
             //Debug.Log("Collided with lower barrier");
             canMoveDown = false;
         }
+        if(other.CompareTag("SideBarrier"))
+        {
+            //Debug.Log("Collided with side barrier");
+            canMoveRight = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -124,6 +142,11 @@ public class PickMovement : MonoBehaviour
         {
             //Debug.Log("Exited lower barrier");
             canMoveDown = true;
+        }
+        if(other.CompareTag("SideBarrier"))
+        {
+            //Debug.Log("Exited side barrier");
+            canMoveRight = true;
         }
     }
 

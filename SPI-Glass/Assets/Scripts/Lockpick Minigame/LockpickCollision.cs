@@ -106,7 +106,7 @@ public class PinInteraction : MonoBehaviour
         isLocked = true;
         pinsLocked++;
 
-        if (pinsLocked == totalPins)
+        if (pinsLocked == totalPins) // Win state for scene transition
         {
             Debug.Log("All pins locked!");
         }
