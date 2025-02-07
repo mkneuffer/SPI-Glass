@@ -88,8 +88,8 @@ public class StumpPlace : MonoBehaviour
             Vector3 directionToCamera = (Camera.main.transform.position - furthestValidPosition).normalized;
             directionToCamera.y = 0; // Keep the rotation on the horizontal plane
 
-            // Apply the rotation to face the camera
-            instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera);
+            // Apply the rotation to face the camera; used to be Quaternion.LookRotation(directionToCamera)
+            instantiatedPrefab.transform.rotation = Quaternion.identity; // Changed to zero out rotation
 
             // Make the prefab visible and enable animations
             instantiatedPrefab.SetActive(true);

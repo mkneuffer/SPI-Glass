@@ -7,6 +7,12 @@ TagManager:
   - Ghost
   - Flashlight
   - HolyWater
+  - Lockpick
+  - UpperBarrier
+  - Barrier
+  - LowerBarrier
+  - SideBarrier
+  - Boundary
   layers:
   - Default
   - TransparentFX
