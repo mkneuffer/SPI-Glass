@@ -185,9 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlanePrefab: {fileID: 5535526792576877438, guid: f910de70f83e14949b8052cbc376729c,
-    type: 3}
-  m_DetectionMode: -1
+  m_PlanePrefab: {fileID: 0}
+  m_DetectionMode: 1
 --- !u!114 &24205265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1810335270025799418, guid: bf4ed5275e8c343d093742571e7de456, type: 3}
-  minimumSpawnDistance: 5
-  maximumSpawnDistance: 10
+  minimumSpawnDistance: 4
+  maximumSpawnDistance: 7
 --- !u!1 &146446633
 GameObject:
   m_ObjectHideFlags: 0
@@ -2711,7 +2710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 60
   playerHealth: 60
-  drainRate: 1
+  drainRate: 0.25
   postProcessingVolume: {fileID: 1995985419}
   transition: {fileID: 0}
 --- !u!4 &1214568128
@@ -3853,15 +3852,15 @@ RectTransform:
   m_GameObject: {fileID: 1709879463}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.97092, y: 1.97093, z: 1.97093}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3.0000153, z: 3.0000153}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 204818553}
   m_Father: {fileID: 376347197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 16}
+  m_AnchoredPosition: {x: 20, y: 273}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1709879465
