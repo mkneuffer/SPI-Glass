@@ -7,7 +7,12 @@ TagManager:
   - Ghost
   - Flashlight
   - HolyWater
-  - Ball
+  - Lockpick
+  - UpperBarrier
+  - Barrier
+  - LowerBarrier
+  - SideBarrier
+  - Boundary
   layers:
   - Default
   - TransparentFX
@@ -16,8 +21,8 @@ TagManager:
   - Water
   - UI
   - Outlined
-  - Ball
-  - Ghost
+  - 
+  - 
   - 
   - 
   - 
