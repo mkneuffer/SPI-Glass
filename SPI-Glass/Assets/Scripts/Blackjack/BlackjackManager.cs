@@ -92,7 +92,6 @@ public class BlackjackManager : MonoBehaviour
     [SerializeField] private GameObject queenHeart;
     [SerializeField] private GameObject queenSpade;
     [SerializeField] private GameObject cardBox;
-    private bool gameRunning;
     private GameObject table;
     private bool tableActive = false;
 
@@ -107,7 +106,6 @@ public class BlackjackManager : MonoBehaviour
         chipsPanel.SetActive(false);
         deck.CreateDeck();
         gameEndPanel.SetActive(false);
-        gameRunning = true;
     }
 
     void Update()
@@ -141,7 +139,6 @@ public class BlackjackManager : MonoBehaviour
     //Deals two cards to both the dealer and the player
     private void DealHands()
     {
-        gameRunning = true;
         DrawCards("player");
         DrawCards("player");
 
@@ -186,7 +183,6 @@ public class BlackjackManager : MonoBehaviour
     //Get's results of the game and determines who wins
     private void EndGame()
     {
-        gameRunning = false;
         HitButton.SetActive(false);
         StandButton.SetActive(false);
 
@@ -298,7 +294,6 @@ public class BlackjackManager : MonoBehaviour
     //Stops the game of blackjack
     private IEnumerator Quit()
     {
-        gameRunning = false;
         yield return new WaitForSeconds(2f);
         foreach (GameObject card in playerHandModel)
         {
