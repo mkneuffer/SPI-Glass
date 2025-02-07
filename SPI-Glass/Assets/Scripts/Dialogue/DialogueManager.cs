@@ -21,7 +21,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject nameField;
     [SerializeField] private SettingsSaving settingsSaving;
     private Animator layoutAnimator;
-    [SerializeField] private float automaticTextSpeedPerWord;
     [SerializeField] private Animator transition;
     [SerializeField] private float transitionTime;
     [SerializeField] private PostProcessingSwitcher postProcessingSwitcher;
@@ -62,7 +61,6 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
         manuallyIncrement = true;
-        automaticTextSpeedPerWord = 0.5f;
 
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;

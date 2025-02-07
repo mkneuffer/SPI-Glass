@@ -12,10 +12,7 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private GhostMovement ghostMovement;
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private GameObject flashlightLight;
-
-    [SerializeField] private float raycastDistance = 50f;
     [SerializeField] private float interactionRadius = 100f;
-    [SerializeField] private float lowerScreenLimit = 100f;
 
     [SerializeField] private GameObject interactionDetectorPrefab;
     [SerializeField] private float maxDistance = 50f;
@@ -27,9 +24,7 @@ public class ReticleManager2 : MonoBehaviour
     [SerializeField] private Transform pointThrown;
     [SerializeField] private float throwForce = 10f;
 
-    private int mouseClicks;
     private Vector3 worldPos;
-    private bool start = false;
     private bool isTouch = false;
     private int hold = 0;
     private int activeItem;
@@ -38,12 +33,10 @@ public class ReticleManager2 : MonoBehaviour
     private bool isFlashlightEnabled = false;
     private bool isHolyWaterEnabled = false;
     private bool isMenuOpen = false;
-    private float holdDuration = 0f;
-    private float stunHoldDuration = 3f;
     private bool isFlashlightHeld = false;
     private bool holyWaterCooldown = false;
     private bool hasClicked = false;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +69,7 @@ public class ReticleManager2 : MonoBehaviour
             }
         }
 
-        if(!IsInteractionInput())
+        if (!IsInteractionInput())
         {
             hasClicked = false;
         }
@@ -86,7 +79,8 @@ public class ReticleManager2 : MonoBehaviour
             FlashlightInteraction();
             flashlightLight.SetActive(true);
         }
-        else {
+        else
+        {
             flashlightLight.SetActive(false);
         }
     }
@@ -101,10 +95,14 @@ public class ReticleManager2 : MonoBehaviour
         isFlashlightHeld = false;
     }
 
-    private void SetupListener() {
-        if(flashlightToggle != null) {
+    private void SetupListener()
+    {
+        if (flashlightToggle != null)
+        {
             flashlightToggle.onClick.AddListener(SelectFlashlight);
-        } else {
+        }
+        else
+        {
             Debug.Log("Flashlight not assigned");
         }
     }
@@ -152,7 +150,7 @@ public class ReticleManager2 : MonoBehaviour
         {
             isTouch = false;
             return;
-        } 
+        }
 
         //mousePos.x = Mathf.Clamp(mousePos.x, 0, Screen.width);
         //mousePos.y = Mathf.Clamp(mousePos.y, lowerScreenLimit, Screen.height);
@@ -164,7 +162,7 @@ public class ReticleManager2 : MonoBehaviour
 
         if (reticle != null)
         {
-            reticle.transform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);;
+            reticle.transform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0); ;
         }
         else
         {
@@ -174,8 +172,9 @@ public class ReticleManager2 : MonoBehaviour
         worldPos = worldPosition;
     }
 
-    public void FlashlightInteraction() {
-        if(isFlashlightEnabled) 
+    public void FlashlightInteraction()
+    {
+        if (isFlashlightEnabled)
         {
             //Debug.Log("Flashlight triggered");
             HandleInteraction();
@@ -261,7 +260,7 @@ public class ReticleManager2 : MonoBehaviour
             Debug.Log("Hit ghost with flashlight");
             flashlightManager.DoFlashlightDamage();
         }
-        else if (isHolyWaterEnabled == true && !holyWaterCooldown) 
+        else if (isHolyWaterEnabled == true && !holyWaterCooldown)
         {
             holyWaterCooldown = true;
             ghostMovement.HandleHealth(1);
@@ -284,7 +283,7 @@ public class ReticleManager2 : MonoBehaviour
         isFlashlightEnabled = true;
         isHolyWaterEnabled = false;
         Debug.Log("Flashlight selected");
-        if(flashlightToggle != null)
+        if (flashlightToggle != null)
         {
             flashlightToggle.gameObject.SetActive(true);
             flashlightToggle.interactable = true;
@@ -318,14 +317,14 @@ public class ReticleManager2 : MonoBehaviour
 
         GameObject holyWater = Instantiate(holyWaterPrefab, pointThrown.position, Quaternion.identity);
         //HolyWaterHitboxManager holyWaterHitbox = holyWater.GetComponent<HolyWaterHitboxManager>();
-       // if(holyWaterHitbox != null)
-      //  {
-       //     holyWaterHitbox.ghostMovement = ghostMovement;
-            //holyWaterHitbox.Initialize(targetPosition);
-      //  }
+        // if(holyWaterHitbox != null)
+        //  {
+        //     holyWaterHitbox.ghostMovement = ghostMovement;
+        //holyWaterHitbox.Initialize(targetPosition);
+        //  }
 
         Rigidbody rb = holyWater.GetComponent<Rigidbody>();
-        if(rb != null)
+        if (rb != null)
         {
             Vector3 direction = pointThrown.forward;
             rb.AddForce(direction * throwForce, ForceMode.Impulse);
@@ -334,7 +333,7 @@ public class ReticleManager2 : MonoBehaviour
 
         Vector3 startPosition = holyWater.transform.position;
         float maxDistance = 10f;
-        while(holyWater != null)
+        while (holyWater != null)
         {
             if (Vector3.Distance(startPosition, holyWater.transform.position) > maxDistance)
             {

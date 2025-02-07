@@ -18,7 +18,7 @@ public class InventoryManager : MonoBehaviour
     //[SerializeField] private GameObject itemList;
     //[SerializeField] private GameObject inventoryPrefab;
     //[SerializeField] private ItemUsageManager itemUsageManager;
-    private float defaultObjectLocation = -564;
+    //private float defaultObjectLocation = -564;
 
     //For Inventory Scene
     [SerializeField] private Image[] inventoryGrid;
@@ -46,19 +46,19 @@ public class InventoryManager : MonoBehaviour
     }
 
     private void CheckForHolyGrail()
-{
-    if (FindItemByName("Holy Grail Replica") != null)
     {
-        StartCoroutine(LoadScene9());
-    }
+        if (FindItemByName("Holy Grail Replica") != null)
+        {
+            StartCoroutine(LoadScene9());
+        }
 
-    IEnumerator LoadScene9()
+        IEnumerator LoadScene9()
         {
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(3f);
             UnityEngine.SceneManagement.SceneManager.LoadScene(9);
         }
-}
+    }
 
     public List<ItemData> GetInventory()
     {
