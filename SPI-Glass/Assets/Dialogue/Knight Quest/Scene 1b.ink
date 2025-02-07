@@ -1,10 +1,6 @@
-EXTERNAL SwitchToMap()
-EXTERNAL openNameField()
+﻿EXTERNAL SwitchToMap()
 
-It’s a quiet night. Bored, you remove the SPI emblem from your jacket and trace the ridges of the design aimlessly. #speaker:0 #portrait:0 #layout:left
-Your name is engraved into the back of the emblem. //Prompt for inserting player name
-~openNameField()
-When the metal has stolen all the heat from your fingertips, you return it where it belongs on your jacket, hands returning into warm pockets.
+When the metal has stolen all the heat from your fingertips, you return it where it belongs on your jacket, hands returning into warm pockets. #speaker:0 #portrait:0 #layout:left
 It’s freezing… I should’ve worn a thicker jacket. #speaker:Player #portrait:0
 Ah, the sudden drop in temperature explains itself when a man materializes a few steps in front of you. #speaker:0 #portrait:0
 A ghost! My holy water— #speaker:Player #portrait:0

@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private MoveGhost ghostManager;
     [SerializeField] private InventoryManager InventoryManager;
     [SerializeField] private GameObject nameField;
+    [SerializeField] private SettingsSaving settingsSaving;
     private Animator layoutAnimator;
     [SerializeField] private float automaticTextSpeedPerWord;
     [SerializeField] private Animator transition;
@@ -252,7 +253,7 @@ public class DialogueManager : MonoBehaviour
                     }
                     else if (tagValue == "Player")
                     {
-                        displayNameText.text = "James";
+                        displayNameText.text = settingsSaving.getName();
                     }
                     //No portrait
                     else
