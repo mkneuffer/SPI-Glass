@@ -5,7 +5,6 @@ using UnityEngine;
 public class PinInteraction : MonoBehaviour
 {
     [SerializeField] Transform lockpick;
-    [SerializeField] float moveSpeed = 3f;
     [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
     [SerializeField] Collider successHitbox;
