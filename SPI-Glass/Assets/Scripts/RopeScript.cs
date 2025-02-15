@@ -19,9 +19,9 @@ public class RopeScript : MonoBehaviour
         {
             GameObject instantiatedRope = Instantiate(ropeBody, transform);
             if (i == 0)
-                instantiatedRope.transform.position = ropeParts[i].transform.position - new Vector3(0, 0.5f, 0);
+                instantiatedRope.transform.position = ropeParts[i].transform.position - new Vector3(0, ropeBody.transform.localScale.y, 0);
             else
-                instantiatedRope.transform.position = ropeParts[i].transform.position - new Vector3(0, 1, 0);
+                instantiatedRope.transform.position = ropeParts[i].transform.position - new Vector3(0, ropeBody.transform.localScale.y * 2, 0);
             HingeJoint joint = instantiatedRope.GetComponent<HingeJoint>();
             if (joint != null)
             {
