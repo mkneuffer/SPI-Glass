@@ -9,6 +9,8 @@ public class RopeScript : MonoBehaviour
     [SerializeField] GameObject ropeHead;
     [SerializeField] GameObject ropeBody;
     [SerializeField] int length = 10;
+    [SerializeField] float force = 1000f;
+    [SerializeField] bool gravity = false;
     List<GameObject> ropeParts = new List<GameObject>();
 
     // Start is called before the first frame update
@@ -29,6 +31,24 @@ public class RopeScript : MonoBehaviour
                 joint.autoConfigureConnectedAnchor = true;
             }
             ropeParts.Add(instantiatedRope);
+        }
+        transform.Rotate(new Vector3(90, 0, 0));
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            for (int i = 1; i < ropeParts.Count; i++)
+            {
+                //ropeParts[i].GetComponent<Rigidbody>().useGravity = true;
+            }
+
+            Debug.Log("force applied");
+            Rigidbody rigidBody = ropeParts[ropeParts.Count - 1].GetComponent<Rigidbody>();
+            //rigidBody.AddForce(new Vector3(force, 0, 0));
+            GetComponent<Rigidbody>().AddForce(new Vector3(force, force, 0));
+            GetComponent<Rigidbody>().useGravity = gravity;
         }
     }
 }
