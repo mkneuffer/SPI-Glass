@@ -1,3 +1,5 @@
+EXTERNAL SwitchToBlackjack()
+
 What do you two think you’re doing? #speaker:Mafia Boss #portrait:0 #layout:left
 (15th century swear word) #speaker:Archibald #portrait:archibald
 Hi boss! We're just, uh, making sure teh crown is safe in its box!
@@ -13,3 +15,5 @@ Just because you were tricked doesn't mean you're innocent.
 Let's leave your fate up to chance. You know how to play Blackjack?
 If you win, I'll let you go unharmed. Otherwise...hmm. Might string you up by your ankles and hang you at the entrance.
 Of course we know how to play Blackjack! My wonderful servant, you do right? Yeah, go. You got this. #speaker:Archibald #portrait:archibald
+
+~SwitchToBlackjack()

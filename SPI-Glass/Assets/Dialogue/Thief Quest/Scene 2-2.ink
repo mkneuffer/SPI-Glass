@@ -1,3 +1,5 @@
+EXTERNAL SwitchToThiefScene3()
+
 Hi, friends. #speaker:??? #portrait:0 #layout:left
 … Archibald, you know this guy? #speaker:Player #portrait:0
 No, my friends aren’t total freaks like this guy. #speaker:Archibald #portrait:archibald
@@ -13,3 +15,5 @@ Let’s go, human! #speaker:Archibald #portrait:archibald
 Hey, I think you forgot to ask for my opinion…? #speaker:Player #portrait:0
 That was... easy… #speaker:Owl-Headed Ghost #portrait:0
 I’ll swoop in… after they fail…
+
+~SwitchToThiefScene3()
