@@ -15,6 +15,7 @@ TagManager:
   - Boundary
   - Ball
   - Mirror
+  - Rope
   layers:
   - Default
   - TransparentFX

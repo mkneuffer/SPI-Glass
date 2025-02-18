@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,18 +23,23 @@ public class GhostHealth : MonoBehaviour
     [SerializeField] private string nextSceneName; // Assign next scene in the Inspector
 
     [Header("Movement Animations")]
-    [SerializeField] private string[][] phaseAnimations =
+    [SerializeField]
+    private string[][] phaseAnimations =
     {
         new string[] { "Phase1A", "Phase1B", "Phase1C" },
         new string[] { "Phase2A", "Phase2B", "Phase2C" },
         new string[] { "Phase3A", "Phase3B", "Phase3C" }
     };
 
+    [Header("Rope Stuff")]
+    [SerializeField] private GameObject ropeOnGhost;
+
     private int currentPhase = 0;
     private int currentHealth;
     private bool isAlive = true;
     private bool isStunned = false;
     private bool isInCooldown = false; // Cooldown status
+    private bool canGetRoped = true;
     private float flashlightTimer = 0f;
 
     private string lastMovementAnimation = "";
@@ -118,6 +124,34 @@ public class GhostHealth : MonoBehaviour
                 Destroy(collision.gameObject, 0.1f);
             }
         }
+        else if (collision.gameObject.CompareTag("Rope") && canGetRoped)
+        {
+            if (isAlive)
+            {
+                Debug.Log("Get Roped");
+
+                DestoryTrueParent(collision.gameObject);
+                StartCoroutine(RopeDetectionTimer());
+                GameObject rope = Instantiate(ropeOnGhost, transform.GetChild(0));
+                rope.transform.position += new Vector3(-0.05f, 1f);
+            }
+        }
+    }
+
+    private void DestoryTrueParent(GameObject gameObject)
+    {
+        while (gameObject.transform.parent != null)
+        {
+            gameObject = gameObject.transform.parent.gameObject;
+        }
+        Destroy(gameObject, 0.1f);
+    }
+
+    IEnumerator RopeDetectionTimer()
+    {
+        canGetRoped = false;
+        yield return new WaitForSeconds(1);
+        canGetRoped = true;
     }
 
     public void HandleFlashlight()
@@ -241,7 +275,7 @@ public class GhostHealth : MonoBehaviour
 
     public float GetFlashlightProgress()
     {
-        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]); 
+        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]);
     }
 
     public float GetHealthPercentage()
