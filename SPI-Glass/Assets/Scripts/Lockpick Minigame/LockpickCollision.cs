@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PinInteraction : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PinInteraction : MonoBehaviour
     [SerializeField] Material defaultMaterial; // Default cap material (Red)
     [SerializeField] Material successMaterial; // Cap material when in position (Green)
     [SerializeField] string capObjectName = "PinCap"; // Name of Unity object
+
 
     private int totalPins = 5;
     private static int pinsLocked = 0;
@@ -103,12 +105,7 @@ public class PinInteraction : MonoBehaviour
     private void LockPin()
     {
         isLocked = true;
-        pinsLocked++;
-
-        if (pinsLocked == totalPins) // Win state for scene transition
-        {
-            Debug.Log("All pins locked!");
-        }
+        PinManager.Instance.LockPin(); // Notify PinManager
     }
 
     private void ResetAllPins()
@@ -134,7 +131,7 @@ public class PinInteraction : MonoBehaviour
         pinsLocked = 0;
     }
 
-    private IEnumerator ResetPinCoroutine() // Coroutine for pin reset
+    public IEnumerator ResetPinCoroutine() // Coroutine for pin reset
     {
         isLocked = false;
         isInteracting = false;
