@@ -4,7 +4,8 @@ public class Launcher : MonoBehaviour
 {
     public Rigidbody _prefabWithRigidbody;
     private bool _canLaunch = true; // Track cooldown state
-    [SerializeField] float ySpawningOffset = 0;
+    [SerializeField] Vector3 spawningOffset = new Vector3();
+    [SerializeField] Vector3 rotation = new Vector3();
     void Update()
     {
 #if UNITY_EDITOR
@@ -20,10 +21,14 @@ public class Launcher : MonoBehaviour
     private void LaunchBall()
     {
         // spawn in front of the camera
-        var pos = Camera.main.transform.position + new Vector3(0, ySpawningOffset);
+        var x = spawningOffset.x * Camera.main.transform.right;
+        var y = spawningOffset.y * Camera.main.transform.up;
+        var z = spawningOffset.z * Camera.main.transform.forward;
+        var pos = Camera.main.transform.position + x + y + z;
         var forw = Camera.main.transform.forward;
-        var thing = Instantiate(_prefabWithRigidbody, pos + (forw * 0.4f), Quaternion.identity);
 
+        var thing = Instantiate(_prefabWithRigidbody, pos + (forw * 0.4f), Quaternion.identity);
+        //thing.transform.LookAt(Camera.main.transform);
         thing.AddForce(forw * 800.0f);
 
         // Destroy the object after 5 seconds

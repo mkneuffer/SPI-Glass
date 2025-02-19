@@ -700,6 +700,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TriggerDialogue
       objectReference: {fileID: 0}
+    - target: {fileID: 799415784684545489, guid: 423bd68da21d5bf488807765561a8444,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7551041944617591382, guid: 423bd68da21d5bf488807765561a8444,
         type: 3}
       propertyPath: m_LocalPosition.x
