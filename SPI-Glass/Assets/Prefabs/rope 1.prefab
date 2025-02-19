@@ -278,10 +278,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d1f1c0d4bbd643842b5067986879d85e,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8783090699925002786}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d1f1c0d4bbd643842b5067986879d85e,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 458752647710537966}
     - targetCorrespondingSourceObject: {fileID: 6905609870639353253, guid: d1f1c0d4bbd643842b5067986879d85e,
         type: 3}
@@ -1588,21 +1584,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4156725263329806969}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8783090699925002786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3850241554738804520}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d39aeafd37f31df4eaa2b6e40c6dfc15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 1000
-  angle: 45
-  arCamera: {fileID: 0}
 --- !u!54 &458752647710537966
 Rigidbody:
   m_ObjectHideFlags: 0

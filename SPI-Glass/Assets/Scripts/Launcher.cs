@@ -4,7 +4,7 @@ public class Launcher : MonoBehaviour
 {
     public Rigidbody _prefabWithRigidbody;
     private bool _canLaunch = true; // Track cooldown state
-
+    [SerializeField] float ySpawningOffset = 0;
     void Update()
     {
 #if UNITY_EDITOR
@@ -20,7 +20,7 @@ public class Launcher : MonoBehaviour
     private void LaunchBall()
     {
         // spawn in front of the camera
-        var pos = Camera.main.transform.position;
+        var pos = Camera.main.transform.position + new Vector3(0, ySpawningOffset);
         var forw = Camera.main.transform.forward;
         var thing = Instantiate(_prefabWithRigidbody, pos + (forw * 0.4f), Quaternion.identity);
 

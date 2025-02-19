@@ -128,8 +128,6 @@ public class GhostHealth : MonoBehaviour
         {
             if (isAlive)
             {
-                Debug.Log("Get Roped");
-
                 DestoryTrueParent(collision.gameObject);
                 StartCoroutine(RopeDetectionTimer());
                 GameObject rope = Instantiate(ropeOnGhost, transform.GetChild(0));
