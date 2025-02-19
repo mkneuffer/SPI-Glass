@@ -342,6 +342,7 @@ MonoBehaviour:
   _prefabWithRigidbody: {fileID: 458752647710537966, guid: d577601efaf2f2047a38a039968dd8a6,
     type: 3}
   spawningOffset: {x: 1, y: 1, z: 0}
+  lookAt: 1
 --- !u!4 &2098247549
 Transform:
   m_ObjectHideFlags: 0
