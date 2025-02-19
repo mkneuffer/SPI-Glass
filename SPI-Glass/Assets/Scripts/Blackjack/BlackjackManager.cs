@@ -277,12 +277,16 @@ public class BlackjackManager : MonoBehaviour
         {
             gameEndPanel.SetActive(true);
             gameEndText.text = "YOU WIN";
+            PlayerPrefs.SetInt("DialogueState", 1); // Win dialogue
+            PlayerPrefs.Save();
             StartCoroutine(Quit());
         }
         else if (totalChips <= chipsNeededToLose) //lose
         {
             gameEndPanel.SetActive(true);
             gameEndText.text = "YOU LOSE";
+            PlayerPrefs.SetInt("DialogueState", 2); // Loss dialogue
+            PlayerPrefs.Save();
             StartCoroutine(Quit());
         }
         else
@@ -313,8 +317,10 @@ public class BlackjackManager : MonoBehaviour
             Destroy(card);
         }
 
+        yield return new WaitForSeconds(.5f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 6");
     }
-
+    
     //Adds one card to the given hand
     private void DrawCards(string hand)
     {
