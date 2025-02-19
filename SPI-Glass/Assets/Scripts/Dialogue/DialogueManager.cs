@@ -553,6 +553,23 @@ public class DialogueManager : MonoBehaviour
 
 
 
+
+        currentStory.BindExternalFunction("SwitchToMapInterlude", () =>
+        {
+            StartCoroutine(LoadSceneMapInterlude());
+        });
+
+        IEnumerator LoadSceneMapInterlude()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Map Interlude");
+        }
+
+
+
+
         // For Thief Scenes
         currentStory.BindExternalFunction("SwitchToThiefScene1", () =>
         {

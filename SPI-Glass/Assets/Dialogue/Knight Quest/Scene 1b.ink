@@ -1,4 +1,4 @@
-﻿EXTERNAL SwitchToMap()
+EXTERNAL SwitchToMap()
 
 When the metal has stolen all the heat from your fingertips, you return it where it belongs on your jacket, hands returning into warm pockets. #speaker:0 #portrait:0 #layout:left
 It’s freezing… I should’ve worn a thicker jacket. #speaker:Player #portrait:0
