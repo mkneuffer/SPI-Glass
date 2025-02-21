@@ -108,6 +108,7 @@ public class PinInteraction : MonoBehaviour
         if (pinsLocked == totalPins) // Win state for scene transition
         {
             Debug.Log("All pins locked!");
+            PinManager.Instance.LoadNextScene(); // PinManager will handle scene change from Lockpick
         }
     }
 

@@ -1,3 +1,5 @@
+EXTERNAL SwitchToThiefScene4()
+
 Why are we doing this again? #speaker:Player #portrait:0 #layout:left
 Have you really never heard of the [Crown Name]? Education at SPI must be lacking. #speaker:Archibald #portrait:archibald
 It’s a relic of power. Ghosts who are able to wear it can control those that are weaker than it.
@@ -13,3 +15,5 @@ My fellow ghosts, please excuse my unannounced visit. I have a very important me
 Important dude. Welcome. Come in. #speaker:Goon 1 #portrait:0
 And poor-looking one? #speaker:Goon 2 #portrait:0
 My servant. #speaker:Archibald #portrait:archibald
+
+~SwitchToThiefScene4()
