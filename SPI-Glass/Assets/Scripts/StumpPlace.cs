@@ -89,8 +89,9 @@ public class StumpPlace : MonoBehaviour
             directionToCamera.y = 0; // Keep the rotation on the horizontal plane
 
             // Apply the rotation to face the camera; used to be Quaternion.LookRotation(directionToCamera)
-            instantiatedPrefab.transform.rotation = Quaternion.identity; // Changed to zero out rotation
-
+            //instantiatedPrefab.transform.rotation = Quaternion.identity; // Changed to zero out rotation
+            instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera);
+            //instantiatedPrefab.transform.LookAt(Camera.main.transform);
             // Make the prefab visible and enable animations
             instantiatedPrefab.SetActive(true);
             isGhostVisible = true;
