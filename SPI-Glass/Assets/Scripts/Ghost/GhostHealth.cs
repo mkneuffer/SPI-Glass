@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,8 @@ public class GhostHealth : MonoBehaviour
     [SerializeField] private string nextSceneName; // Assign next scene in the Inspector
 
     [Header("Movement Animations")]
-    [SerializeField] private string[][] phaseAnimations =
+    [SerializeField]
+    private string[][] phaseAnimations =
     {
         new string[] { "Phase1A", "Phase1B", "Phase1C" },
         new string[] { "Phase2A", "Phase2B", "Phase2C" },
@@ -241,7 +243,7 @@ public class GhostHealth : MonoBehaviour
 
     public float GetFlashlightProgress()
     {
-        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]); 
+        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]);
     }
 
     public float GetHealthPercentage()

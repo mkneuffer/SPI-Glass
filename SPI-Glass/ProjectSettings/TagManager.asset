@@ -13,6 +13,9 @@ TagManager:
   - LowerBarrier
   - SideBarrier
   - Boundary
+  - Ball
+  - Mirror
+  - Rope
   layers:
   - Default
   - TransparentFX

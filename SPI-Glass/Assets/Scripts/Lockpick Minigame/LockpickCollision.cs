@@ -5,7 +5,6 @@ using UnityEngine;
 public class PinInteraction : MonoBehaviour
 {
     [SerializeField] Transform lockpick;
-    [SerializeField] float moveSpeed = 3f;
     [SerializeField] float resetSpeed = 5f;
     [SerializeField] Transform resetPosition;
     [SerializeField] Collider successHitbox;
@@ -109,6 +108,7 @@ public class PinInteraction : MonoBehaviour
         if (pinsLocked == totalPins) // Win state for scene transition
         {
             Debug.Log("All pins locked!");
+            PinManager.Instance.LoadNextScene(); // PinManager will handle scene change from Lockpick
         }
     }
 

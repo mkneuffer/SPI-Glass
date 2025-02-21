@@ -9,6 +9,13 @@ public class TriggerBranchDialogue : MonoBehaviour
     public bool state = false;
     public int dialogue;
 
+
+    void Start()
+    {
+        dialogue = PlayerPrefs.GetInt("DialogueState", 0); // Default
+    }
+
+
     // Update is called once per frame
     void Update()
     {

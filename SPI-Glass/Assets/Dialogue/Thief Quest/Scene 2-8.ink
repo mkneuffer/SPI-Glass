@@ -1,3 +1,5 @@
+EXTERNAL SwitchToThiefFight()
+
 What does Vincenzo mean by what he said…? Is the world becoming more dangerous? #speaker:Player #portrait:0 #layout:left
 I might have an idea, but let’s focus on the task at hand. He’ll probably be able to explain it better than I do anyway. #speaker:Archibald #portrait:archibald
 Where do we go and find that creepy, Owlish guy? #speaker:player #portrait:0
@@ -13,3 +15,4 @@ I like this idea! #speaker:Player #portrait:0
 Ghost: Running…? Guilty… Heehehe. Selfish, selfish human and ghost pair! Come back… Don’t run from me…! #speaker:Owlish Ghost #portrait:0
 I’m gonna shit my pants f*** I’m gonna shit my pants f***
 
+~SwitchToThiefFight()

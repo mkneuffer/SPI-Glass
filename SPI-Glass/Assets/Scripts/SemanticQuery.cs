@@ -37,6 +37,7 @@ public class SemanticQuery : MonoBehaviour
 
     private List<GameObject> woodObjects = new List<GameObject>();
     private Queue<GameObject> woodPool = new Queue<GameObject>();
+    private bool allowTapping = true;
 
     private void OnEnable()
     {
@@ -86,9 +87,11 @@ public class SemanticQuery : MonoBehaviour
 
         lastActionTime = Time.time;
 
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        if ((Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began) && allowTapping)
         {
+            allowTapping = false;
             Vector2 pos = Input.mousePosition;
+            StartCoroutine(AllowTappingTime());
             if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && touchTime == 0)
             {
                 Touch touch = Input.GetTouch(0);
@@ -127,6 +130,13 @@ public class SemanticQuery : MonoBehaviour
                 Debug.LogWarning("XR_Placement reference is not set!");
             }
         }
+    }
+
+    //Sets a 0.5 second delay between when it allows tapping
+    private IEnumerator AllowTappingTime()
+    {
+        yield return new WaitForSeconds(.5f);
+        allowTapping = true;
     }
 
     private IEnumerator ProcessSegmentation(Vector2 pos)
