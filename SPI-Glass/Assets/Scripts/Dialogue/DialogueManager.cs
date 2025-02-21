@@ -444,7 +444,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Map1");
         }
 
         currentStory.BindExternalFunction("SwitchToScene1", () =>
@@ -457,7 +457,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Scene1");
         }
 
         currentStory.BindExternalFunction("SwitchToScene2", () =>
@@ -470,7 +470,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Scene2");
         }
 
         currentStory.BindExternalFunction("SwitchToObjectDetection", () =>
@@ -483,7 +483,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Object Detection");
         }
 
         currentStory.BindExternalFunction("SwitchToScene3", () =>
@@ -496,7 +496,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Scene3");
         }
 
         currentStory.BindExternalFunction("SwitchToScene4", () =>
@@ -509,7 +509,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(5);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Scene4");
         }
 
         currentStory.BindExternalFunction("SwitchToGhostFight", () =>
@@ -535,7 +535,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Scene5");
         }
 
         currentStory.BindExternalFunction("SwitchToScene6", () =>
@@ -548,7 +548,150 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(8);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Scene6");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief1", () =>
+        {
+            StartCoroutine(LoadSceneThief1());
+        });
+
+        IEnumerator LoadSceneThief1()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 1");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief2", () =>
+        {
+            StartCoroutine(LoadSceneThief2());
+        });
+
+        IEnumerator LoadSceneThief2()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 2");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief3", () =>
+        {
+            StartCoroutine(LoadSceneThief3());
+        });
+
+        IEnumerator LoadSceneThief3()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 3");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief4", () =>
+        {
+            StartCoroutine(LoadSceneThief4());
+        });
+
+        IEnumerator LoadSceneThief4()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 4");
+        }
+        
+        currentStory.BindExternalFunction("SwitchToSceneThief5", () =>
+        {
+            StartCoroutine(LoadSceneThief5());
+        });
+
+        IEnumerator LoadSceneThief5()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 5");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief6", () =>
+        {
+            StartCoroutine(LoadSceneThief6());
+        });
+
+        IEnumerator LoadSceneThief6()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 6");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief7", () =>
+        {
+            StartCoroutine(LoadSceneThief7());
+        });
+
+        IEnumerator LoadSceneThief7()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 7");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief8", () =>
+        {
+            StartCoroutine(LoadSceneThief8());
+        });
+
+        IEnumerator LoadSceneThief8()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 8");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief9", () =>
+        {
+            StartCoroutine(LoadSceneThief9());
+        });
+
+        IEnumerator LoadSceneThief9()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 9");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief10", () =>
+        {
+            StartCoroutine(LoadSceneThief10());
+        });
+
+        IEnumerator LoadSceneThief10()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 10");
+        }
+
+        currentStory.BindExternalFunction("SwitchToSceneThief11", () =>
+        {
+            StartCoroutine(LoadSceneThief11());
+        });
+
+        IEnumerator LoadSceneThief11()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 11");
         }
 
 
