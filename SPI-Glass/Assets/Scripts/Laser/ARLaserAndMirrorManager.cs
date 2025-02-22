@@ -13,6 +13,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     public int inventoryCount2 = 5;
 
     public enum PrefabType { Type1, Type2 }
+    [SerializeField] private Launcher launcher;
     [Header("Active Prefab")]
     public PrefabType currentPrefab = PrefabType.Type1;
 
@@ -32,6 +33,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     private bool deletionTouchActive = false;
     // Threshold in pixels to differentiate a tap from a drag on the delete collider.
     private float deletionDragThreshold = 10f;
+    private bool active = true;
 
     void Awake()
     {
@@ -124,7 +126,11 @@ public class ARLaserAndMirrorManager : MonoBehaviour
                 }
             }
             // If nothing interactive was hit, attempt to place an object on an AR plane.
-            if (arRaycastManager.Raycast(screenPosition, raycastHits, TrackableType.PlaneWithinPolygon))
+            if (launcher != null && launcher.enabled == true && launcher.getCanLaunch())
+            {
+                launcher.LaunchBall();
+            }
+            else if (active && arRaycastManager.Raycast(screenPosition, raycastHits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = raycastHits[0].pose;
                 PlaceObject(hitPose);
@@ -227,5 +233,10 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     public class PlaceableData : MonoBehaviour
     {
         public PrefabType prefabType;
+    }
+
+    public void SetActive(bool active)
+    {
+        this.active = active;
     }
 }
