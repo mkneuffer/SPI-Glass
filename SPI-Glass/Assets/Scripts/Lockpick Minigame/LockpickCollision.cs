@@ -12,6 +12,7 @@ public class PinInteraction : MonoBehaviour
     [SerializeField] Material successMaterial; // Cap material when in position (Green)
     [SerializeField] string capObjectName = "PinCap"; // Name of Unity object
 
+
     private int totalPins = 5;
     private static int pinsLocked = 0;
     private bool isInteracting = false;
@@ -108,6 +109,7 @@ public class PinInteraction : MonoBehaviour
         if (pinsLocked == totalPins) // Win state for scene transition
         {
             Debug.Log("All pins locked!");
+            ChestAnimation.Instance.playChestAnim();
             PinManager.Instance.LoadNextScene(); // PinManager will handle scene change from Lockpick
         }
     }
