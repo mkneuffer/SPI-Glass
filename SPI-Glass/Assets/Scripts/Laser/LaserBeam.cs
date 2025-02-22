@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LaserBeam
 {
+    // Add static reference to track the last created laser
+    private static GameObject lastLaserObj;
+
     Vector3 pos, dir;
     GameObject laserObj;
     LineRenderer laser;
@@ -11,8 +14,16 @@ public class LaserBeam
 
     public LaserBeam(Vector3 pos, Vector3 dir, Material material)
     {
+        // Destroy the previous laser before creating a new one
+        if (lastLaserObj != null)
+        {
+            GameObject.Destroy(lastLaserObj);
+        }
+
         this.laserObj = new GameObject();
         this.laserObj.name = "Laser Beam";
+        // Store reference to current laser
+        lastLaserObj = this.laserObj;
 
         this.pos = pos;
         this.dir = dir;
@@ -58,17 +69,17 @@ public class LaserBeam
     }
 
     void CheckHit(RaycastHit hitInfo, Vector3 direction, LineRenderer laser)
-{
-    if(hitInfo.collider.gameObject.tag == "Mirror")
     {
-        Vector3 pos = hitInfo.point;
-        Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
-        CastRay(pos, dir, laser);
+        if(hitInfo.collider.gameObject.tag == "Mirror")
+        {
+            Vector3 pos = hitInfo.point;
+            Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
+            CastRay(pos, dir, laser);
+        }
+        else
+        {
+            laserIndices.Add(hitInfo.point);
+            UpdateLaser();
+        }
     }
-    else
-    {
-        laserIndices.Add(hitInfo.point);
-        UpdateLaser();
-    }
-}
 }
