@@ -41,11 +41,11 @@ public class LaserBeam
     void CastRay(Vector3 pos, Vector3 dir, LineRenderer laser)
     {
         laserIndices.Add(pos);
-        
+
         Ray ray = new Ray(pos, dir);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, 30, 1))
+        if (Physics.Raycast(ray, out hit, 30, 1))
         {
             CheckHit(hit, dir, laser);
         }
@@ -70,7 +70,7 @@ public class LaserBeam
 
     void CheckHit(RaycastHit hitInfo, Vector3 direction, LineRenderer laser)
     {
-        if(hitInfo.collider.gameObject.tag == "Mirror")
+        if (hitInfo.collider.gameObject.tag == "Mirror")
         {
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);

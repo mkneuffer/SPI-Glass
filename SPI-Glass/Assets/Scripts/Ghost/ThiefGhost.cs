@@ -26,9 +26,9 @@ public class ThiefGhost : MonoBehaviour
     [SerializeField]
     private string[][] phaseAnimations =
     {
-        new string[] { "Phase1A", "Phase1B", "Phase1C" },
-        new string[] { "Phase2A", "Phase2B", "Phase2C" },
-        new string[] { "Phase3A", "Phase3B", "Phase3C" }
+        new string[] { "Phase1AThief", "Phase1BThief", "Phase1CThief" },
+        new string[] { "Phase2AThief", "Phase2BThief", "Phase2CThief" },
+        new string[] { "Phase3AThief", "Phase3BThief", "Phase3CThief" }
     };
 
     [Header("Rope Stuff")]

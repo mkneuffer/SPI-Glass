@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressCircle: {fileID: 2071149908626699733}
   healthBar: {fileID: 8568100487972834325}
-  ghost: {fileID: 7179448019262599365}
+  ghost: {fileID: 0}
 --- !u!1 &1810335270025799418
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5978422236459862029}
-  - component: {fileID: 7179448019262599365}
   - component: {fileID: -6734800359805292072}
   m_Layer: 0
   m_Name: ThiefGhost
@@ -154,37 +153,6 @@ Transform:
   - {fileID: 8073648467652759327}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7179448019262599365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810335270025799418}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 866a127ffd0214ee9b4788121019adad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phaseHealth: 140000001e0000001e000000
-  stunDurations:
-  - 10
-  - 10
-  - 5
-  flashlightThresholds:
-  - 5
-  - 7
-  - 10
-  stunCooldownDuration: 3
-  ghostAnimator: {fileID: 9140964920565001546}
-  movementAnimator: {fileID: 2942017848081183024}
-  ghostRigidbody: {fileID: 6560975589062673816}
-  selectedCollider: {fileID: 8332101934507658376}
-  fogObject: {fileID: 4216137515402459398, guid: b010b834965fc4d8a9e071fe9b5628aa,
-    type: 3}
-  nextSceneName: Scene6
-  ropeOnGhost: {fileID: 919132149155446097, guid: 50ef18ee5fef8554c9fa5f117f6eb8f4,
-    type: 3}
 --- !u!114 &-6734800359805292072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +424,7 @@ Animator:
   m_GameObject: {fileID: 4067379461171496874}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fa9df7ba10f4946f5bbc70e567dcaadf, type: 2}
+  m_Controller: {fileID: 9100000, guid: b92467420a5fbfb43a43c096e828ff7c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
