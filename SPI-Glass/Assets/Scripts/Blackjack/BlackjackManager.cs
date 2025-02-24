@@ -20,8 +20,8 @@ public class BlackjackManager : MonoBehaviour
     List<GameObject> playerHandModel = new List<GameObject>();
     List<GameObject> dealerHandModel = new List<GameObject>();
 
-    [SerializeField] private GameObject gameEndPanel;
-    [SerializeField] private TextMeshProUGUI gameEndText;
+    //[SerializeField] private GameObject gameEndPanel;
+    //[SerializeField] private TextMeshProUGUI gameEndText;
     [SerializeField] private GameObject HitButton;
     [SerializeField] private GameObject StandButton;
     [SerializeField] private GameObject ResetButton;
@@ -35,7 +35,7 @@ public class BlackjackManager : MonoBehaviour
     private int bettingChips;
     [SerializeField] private int startingChips = 500;
     [SerializeField] private int chipsNeededToLose = 250;
-    [SerializeField] private int chipsNeededToWin = 1000;
+    [SerializeField] private int chipsNeededToWin = 1500;
 
 
     [Header("Cards")]
@@ -105,7 +105,7 @@ public class BlackjackManager : MonoBehaviour
         totalChips = startingChips;
         chipsPanel.SetActive(false);
         deck.CreateDeck();
-        gameEndPanel.SetActive(false);
+        //gameEndPanel.SetActive(false);
     }
 
     void Update()
@@ -275,16 +275,16 @@ public class BlackjackManager : MonoBehaviour
         //Check for win/lose conditions
         if (totalChips >= chipsNeededToWin) //win
         {
-            gameEndPanel.SetActive(true);
-            gameEndText.text = "YOU WIN";
+            //gameEndPanel.SetActive(true);
+            //gameEndText.text = "YOU WIN";
             PlayerPrefs.SetInt("DialogueState", 1); // Win dialogue
             PlayerPrefs.Save();
             StartCoroutine(Quit());
         }
         else if (totalChips <= chipsNeededToLose) //lose
         {
-            gameEndPanel.SetActive(true);
-            gameEndText.text = "YOU LOSE";
+            //gameEndPanel.SetActive(true);
+            //gameEndText.text = "YOU LOSE";
             PlayerPrefs.SetInt("DialogueState", 2); // Loss dialogue
             PlayerPrefs.Save();
             StartCoroutine(Quit());
@@ -417,7 +417,7 @@ public class BlackjackManager : MonoBehaviour
 
         playerHandModel.Clear();
         dealerHandModel.Clear();
-        gameEndPanel.SetActive(false);
+        //gameEndPanel.SetActive(false);
         StartBetting();
     }
 
