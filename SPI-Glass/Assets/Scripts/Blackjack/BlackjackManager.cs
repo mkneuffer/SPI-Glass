@@ -318,7 +318,7 @@ public class BlackjackManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(.5f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 6");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
     
     //Adds one card to the given hand

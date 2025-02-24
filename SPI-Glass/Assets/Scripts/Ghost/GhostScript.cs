@@ -187,7 +187,7 @@ public class GhostMovement : MonoBehaviour
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(3f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(7);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     //Swaps between two different waypoints

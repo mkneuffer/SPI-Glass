@@ -28,6 +28,6 @@ public class PinManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(.5f);
-        SceneManager.LoadScene("Thief Scene 5");
+        SceneManager.LoadScene(0);
     }
 }

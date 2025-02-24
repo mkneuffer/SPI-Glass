@@ -8,76 +8,79 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 697d8be581ba04e2dbe7998526acc5cf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene1.unity
     guid: 83b55601e56a42541a95c06a28c37678
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Map1.unity
     guid: a0f724681d7ae495a805cf0139db82bd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene2.unity
     guid: a3b15f7f23800ea44bda56909c691564
   - enabled: 1
-    path: Assets/Scenes/ObjectDetection.unity
-    guid: e701e73d0946b464fa4744cb076796ec
-  - enabled: 1
-    path: Assets/Scenes/Scene3.unity
-    guid: 7f00ff528182bcf4ea13864b34f7c02d
+    path: Assets/Scenes/Playtest.unity
+    guid: 1b7ce05d57519a040bf5c2e17cc5ffb1
   - enabled: 1
     path: Assets/Scenes/Scene4.unity
     guid: 5baa2426653113540b03d81813cfa93d
   - enabled: 1
-    path: Assets/Scenes/GhostFight.unity
-    guid: 6de8611e27b199e49b42ca8e61109018
-  - enabled: 1
+    path: Assets/Scenes/ObjectDetection.unity
+    guid: e701e73d0946b464fa4744cb076796ec
+  - enabled: 0
+    path: Assets/Scenes/Scene3.unity
+    guid: 7f00ff528182bcf4ea13864b34f7c02d
+  - enabled: 0
     path: Assets/Scenes/Scene5.unity
     guid: 2328a3bd7bc55fb44b6f7d9ef7edc9cc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Map Interlude.unity
     guid: c7f60b7f8ec039b49ae30f297e6e8a0c
   - enabled: 0
     path: Assets/Scenes/Scene6.unity
     guid: 5af7984781f782346a22df39974bc4ed
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 1.unity
     guid: 6fa4d2635d03b95498f1d135cc85fd1a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 2.unity
     guid: 2519cf509b03e4146a8141e60b4b9da6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 3.unity
     guid: db894b640fcee5c4ab40c4b6a81a9554
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 4.unity
     guid: a7c466fe8774f204c8e1307a5feaf8e4
   - enabled: 1
     path: Assets/Scenes/Quest2-Thief/Lockpicking.unity
     guid: ae64d5a96a6a4b949a662c17cdc1ae24
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 5.unity
     guid: 74e761fb30696f3418b0dae849026c61
   - enabled: 1
     path: Assets/Scenes/Quest2-Thief/Blackjack.unity
     guid: a27a9f0ca0ac8db4191b1cee703ff354
   - enabled: 1
+    path: Assets/Scenes/GhostFight.unity
+    guid: 6de8611e27b199e49b42ca8e61109018
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 6.unity
     guid: 4e7454b4d1e4b5245a5af4ab965d3706
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 7.unity
     guid: c5527ba4b49238e4bb92c7736391dc1d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 8.unity
     guid: ca26b94ff85e241429955f905a295c18
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/ThiefFight.unity
     guid: eeee1bb6a77256543a6273dac039a9a3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 9.unity
     guid: c4bab980e32ecf34b81debb9ac0de2ae
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 10.unity
     guid: 6dbee435bcbb24a4cb15357b3f1b213b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quest2-Thief/Thief Scene 11.unity
     guid: 48c639eb42cf3d74a9cf0a6e02c55155
   - enabled: 0

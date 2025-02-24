@@ -291,6 +291,6 @@ public class StackingGame : MonoBehaviour
         yield return new WaitForSeconds(transitionDuration);
 
         // Load the next scene
-        SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene(0);
     }
 }

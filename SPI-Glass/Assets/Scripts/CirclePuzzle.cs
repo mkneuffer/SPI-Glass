@@ -246,15 +246,7 @@ public class CirclePuzzle : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);  // Optional delay for user feedback
 
-        if (dialogueManager != null && nextInkJSON != null)
-        {
-            dialogueManager.EnterDialogueMode(nextInkJSON, true);
-            Debug.Log("Puzzle completed! Proceeding to the next part of the dialogue.");
-        }
-        else
-        {
-            Debug.LogError("DialogueManager or nextInkJSON is not assigned.");
-        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     int GetCircleIndex(Transform circle)
