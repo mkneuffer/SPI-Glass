@@ -1875,6 +1875,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   minimumSpawnDistance: 2
   maximumSpawnDistance: 4
+  useIdentityRotation: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

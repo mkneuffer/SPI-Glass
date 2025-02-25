@@ -9,6 +9,7 @@ public class StumpPlace : MonoBehaviour
     [SerializeField] private GameObject parent; // Will be the parent of the spawned prefab, leave black for no parents
     [SerializeField] private float minimumSpawnDistance = 1.0f; // Minimum distance to camera for spawning
     [SerializeField] private float maximumSpawnDistance = 10.0f; // Maximum distance to camera for spawning
+    [SerializeField] public bool useIdentityRotation;
     private ARRaycastManager raycastManager; // Reference to the ARRaycastManager
     private ARPlaneManager planeManager; // Reference to the ARPlaneManager
     private GameObject instantiatedPrefab; // The instantiated prefab
@@ -88,11 +89,14 @@ public class StumpPlace : MonoBehaviour
             Vector3 directionToCamera = (Camera.main.transform.position - furthestValidPosition).normalized;
             directionToCamera.y = 0; // Keep the rotation on the horizontal plane
 
-            // Apply the rotation to face the camera; used to be Quaternion.LookRotation(directionToCamera)
-            //instantiatedPrefab.transform.rotation = Quaternion.identity; // Changed to zero out rotation
-            instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera);
-            //instantiatedPrefab.transform.LookAt(Camera.main.transform);
-            // Make the prefab visible and enable animations
+            if (useIdentityRotation)
+            {
+                instantiatedPrefab.transform.rotation = Quaternion.identity; // Set rotation to zero
+            }
+            else
+            {
+                instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera); // Face the camera
+            }
             instantiatedPrefab.SetActive(true);
             isGhostVisible = true;
             EnablePrefabAnimations();
