@@ -40,6 +40,7 @@ public class ThiefGhost : MonoBehaviour
     private bool isStunned = false;
     private bool isInCooldown = false; // Cooldown status
     private bool canGetRoped = true;
+    private bool isRoped = false;
     private float flashlightTimer = 0f;
 
     private string lastMovementAnimation = "";
@@ -124,10 +125,11 @@ public class ThiefGhost : MonoBehaviour
                 Destroy(collision.gameObject, 0.1f);
             }
         }
-        else if (collision.gameObject.CompareTag("Rope") && canGetRoped)
+        else if (collision.gameObject.CompareTag("Rope") && canGetRoped && !isRoped)
         {
             if (isAlive)
             {
+                isRoped = true;
                 DestoryTrueParent(collision.gameObject);
                 StartCoroutine(RopeDetectionTimer());
                 GameObject rope = Instantiate(ropeOnGhost, transform.GetChild(0));
@@ -292,5 +294,10 @@ public class ThiefGhost : MonoBehaviour
                 PlayNextMovementAnimation();
             }
         }
+    }
+
+    public void HittingLaser()
+    {
+        Debug.Log("this ghost got hit");
     }
 }

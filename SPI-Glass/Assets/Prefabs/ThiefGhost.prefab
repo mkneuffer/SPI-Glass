@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: -6734800359805292072}
   m_Layer: 0
   m_Name: ThiefGhost
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 6149837000899364880}
   m_Layer: 0
   m_Name: Test
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

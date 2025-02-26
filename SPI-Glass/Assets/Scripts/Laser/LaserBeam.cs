@@ -27,8 +27,8 @@ public class LaserBeam
 
         this.pos = pos;
         this.dir = dir;
-
         this.laser = this.laserObj.AddComponent(typeof(LineRenderer)) as LineRenderer;
+
         this.laser.startWidth = 0.1f;
         this.laser.endWidth = 0.1f;
         this.laser.material = material;
@@ -75,6 +75,13 @@ public class LaserBeam
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
             CastRay(pos, dir, laser);
+        }
+        else if (hitInfo.collider.gameObject.tag == "Ghost")
+        {
+            ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
+            ghost.HittingLaser();
+            laserIndices.Add(hitInfo.point);
+            UpdateLaser();
         }
         else
         {

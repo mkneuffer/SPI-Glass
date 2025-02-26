@@ -24,10 +24,8 @@ public class ThiefFightManager : MonoBehaviour
     {
         if (itemName.Equals(currentlySelectedItem))
         {
-            Debug.Log("Item (" + itemName + ") already selected");
             return;
         }
-        Debug.Log("Selecting Item: " + itemName);
 
         if (itemName.Equals("rope"))
         {
