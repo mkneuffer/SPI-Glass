@@ -16,6 +16,9 @@ TagManager:
   - Ball
   - Mirror
   - Rope
+  - Delete
+  - Rotate
+  - Laser
   layers:
   - Default
   - TransparentFX

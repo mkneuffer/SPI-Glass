@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Vector3 = UnityEngine.Vector3;
 
 public class ThiefGhost : MonoBehaviour
 {
@@ -42,6 +44,7 @@ public class ThiefGhost : MonoBehaviour
     private bool canGetRoped = true;
     private bool isRoped = false;
     private float flashlightTimer = 0f;
+    private int movementDirection = 1; //1=forwards -1=backwards 0=stopped
 
     private string lastMovementAnimation = "";
 
@@ -52,8 +55,24 @@ public class ThiefGhost : MonoBehaviour
     public delegate void GhostSpawnEvent();
     public event GhostSpawnEvent OnGhostSpawned;
 
+    private Point[] phase1A = new Point[]{
+    new Point(new Vector3(0.3919599f, 0, 0.3480599f), 190),
+    new Point(new Vector3(-0.6354175f, 0, -0.1155693f), 308),
+    new Point(new Vector3(0.03632307f, 0, 1.791747f), 607),
+    new Point(new Vector3(0.1553136f, 0, 0.1605787f), 906),
+    new Point(new Vector3(0.30706f, 0, 0.34559f), 1060),
+    new Point(new Vector3(0.1312969f, 0, 0.1312969f), 1209)};
+
+    private int pathingIndex = 0;
+    private Point[] currentMovementPattern;
+    private float WRadius = .05f;
+    private GameObject ghostAnchor;
+
+
     void Start()
     {
+        ghostAnchor = transform.GetChild(0).gameObject;
+        currentMovementPattern = phase1A;
         if (selectedCollider == null)
         {
             Debug.LogError("No Collider assigned in Inspector! Please assign one.");
@@ -73,6 +92,7 @@ public class ThiefGhost : MonoBehaviour
 
     private void StartPhase(int phase)
     {
+        pathingIndex = 0;
         if (phase >= phaseHealth.Length)
         {
             Die();
@@ -93,23 +113,24 @@ public class ThiefGhost : MonoBehaviour
 
     private void PlayNextMovementAnimation()
     {
-        if (currentPhase < phaseAnimations.Length)
-        {
-            string[] animations = phaseAnimations[currentPhase];
 
-            if (animations.Length > 0)
-            {
-                string nextAnimation;
-                do
-                {
-                    nextAnimation = animations[Random.Range(0, animations.Length)];
-                } while (nextAnimation == lastMovementAnimation);
+        // if (currentPhase < phaseAnimations.Length)
+        // {
+        //     string[] animations = phaseAnimations[currentPhase];
 
-                lastMovementAnimation = nextAnimation;
-                movementAnimator.CrossFade(nextAnimation, 0.2f);
-                Debug.Log($"Starting movement animation: {nextAnimation}");
-            }
-        }
+        //     if (animations.Length > 0)
+        //     {
+        //         string nextAnimation;
+        //         do
+        //         {
+        //             nextAnimation = animations[Random.Range(0, animations.Length)];
+        //         } while (nextAnimation == lastMovementAnimation);
+
+        //         lastMovementAnimation = nextAnimation;
+        //         movementAnimator.CrossFade(nextAnimation, 0.2f);
+        //         Debug.Log($"Starting movement animation: {nextAnimation}");
+        //     }
+        // }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -171,15 +192,12 @@ public class ThiefGhost : MonoBehaviour
         }
     }
 
-    private void StunGhost()
+    public void StunGhost()
     {
         isStunned = true;
-        flashlightTimer = 0f;
 
         Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
         ghostAnimator.Play("Stun");
-        movementAnimator.speed = 0;
-
         Invoke(nameof(EndStun), stunDurations[currentPhase]);
     }
 
@@ -193,7 +211,11 @@ public class ThiefGhost : MonoBehaviour
         ghostAnimator.Play("Float");
 
         OnStunCooldownChanged?.Invoke(true); // Notify UI that cooldown started
+        movementDirection *= -1;
+        if (movementDirection == -1) //reverse
+        {
 
+        }
         Invoke(nameof(EndCooldown), stunCooldownDuration);
     }
 
@@ -285,19 +307,58 @@ public class ThiefGhost : MonoBehaviour
 
     void Update()
     {
-        if (!isStunned && !isInCooldown)
-        {
-            AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
+        GhostMovement();
+        // if (!isStunned && !isInCooldown)
+        // {
+        //     AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
 
-            if (stateInfo.normalizedTime >= 1.0f && stateInfo.IsTag("Move"))
-            {
-                PlayNextMovementAnimation();
-            }
-        }
+        //     if (stateInfo.normalizedTime >= 1.0f && stateInfo.IsTag("Move"))
+        //     {
+        //         PlayNextMovementAnimation();
+        //     }
+        // }
     }
 
-    public void HittingLaser()
+    private void GhostMovement()
     {
-        Debug.Log("this ghost got hit");
+        if (!isStunned)
+        {
+            if (Vector3.Distance(ghostAnchor.transform.localPosition, currentMovementPattern[pathingIndex].getPoints()) < WRadius)
+            {
+                pathingIndex = (pathingIndex + movementDirection) % currentMovementPattern.Length;
+            }
+            ghostAnchor.transform.localPosition = Vector3.MoveTowards(ghostAnchor.transform.localPosition, currentMovementPattern[pathingIndex].getPoints(), CalculateMovementSpeed());
+        }
+
+    }
+
+    private float CalculateMovementSpeed()
+    {
+        Vector3 currPos = currentMovementPattern[pathingIndex].getPoints();
+        Vector3 nextPos = currentMovementPattern[(pathingIndex + 1) % currentMovementPattern.Length].getPoints();
+        float distance = Vector3.Distance(currPos, nextPos);
+        return distance / currentMovementPattern[(pathingIndex + 1) % currentMovementPattern.Length].getFrames();
+    }
+
+    private struct Point
+    {
+        Vector3 points;
+        int frames;
+
+        public Point(Vector3 points, int frames) : this()
+        {
+            this.points = points;
+            this.frames = frames;
+        }
+
+        public Vector3 getPoints()
+        {
+            return points;
+        }
+
+        public int getFrames()
+        {
+            return frames;
+        }
     }
 }
