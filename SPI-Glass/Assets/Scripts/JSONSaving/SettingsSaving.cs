@@ -75,18 +75,19 @@ public class SettingsSaving : MonoBehaviour
     {
         if (inputBox != null)
         {
-            testImage.SetActive(true);
-            SaveData();
+            
             Vector3 newBoxPos = new Vector3(1000, 1000, 0);
             inputBox.transform.position = newBoxPos;
             dialogueManager.EnterDialogueMode(nextText, true);
+            SaveData();
         }
     }
 
     public void SaveData()
     {
-        string savePath = path;
+        string savePath = persistentPath;
 
+        testImage.SetActive(true);
         Debug.Log("Saving Data at " + savePath);
         string settings = JsonUtility.ToJson(settingsData);
         Debug.Log(settings);
@@ -98,7 +99,7 @@ public class SettingsSaving : MonoBehaviour
 
     public void LoadData()
     {
-        using StreamReader reader = new StreamReader(path);
+        using StreamReader reader = new StreamReader(persistentPath);
         string json = reader.ReadToEnd();
 
         SettingsData settings = JsonUtility.FromJson<SettingsData>(json);
