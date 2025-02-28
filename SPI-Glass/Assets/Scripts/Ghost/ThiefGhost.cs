@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
+using System.Linq.Expressions;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class ThiefGhost : MonoBehaviour
@@ -67,12 +70,19 @@ public class ThiefGhost : MonoBehaviour
     private Point[] currentMovementPattern;
     private float WRadius = .05f;
     private GameObject ghostAnchor;
+    private Vector3 direction;
+    [SerializeField] private float speed;
+
 
 
     void Start()
     {
+        int angle = Random.Range(0, 360);
+        direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+        speed = 5;
         ghostAnchor = transform.GetChild(0).gameObject;
         currentMovementPattern = phase1A;
+        movementAnimator.speed = 0;
         if (selectedCollider == null)
         {
             Debug.LogError("No Collider assigned in Inspector! Please assign one.");
@@ -320,6 +330,30 @@ public class ThiefGhost : MonoBehaviour
     }
 
     private void GhostMovement()
+    {
+
+
+        if (ghostAnchor.transform.localPosition.x > 5)
+        {
+            direction = Vector3.Reflect(direction, new Vector3(-1, 0, 0));
+        }
+        else if (ghostAnchor.transform.localPosition.x < -5)
+        {
+            direction = Vector3.Reflect(direction, new Vector3(1, 0, 0));
+        }
+        if (ghostAnchor.transform.localPosition.z > 5)
+        {
+            direction = Vector3.Reflect(direction, new Vector3(0, 0, 1));
+        }
+        else if (ghostAnchor.transform.localPosition.z < -5)
+        {
+            direction = Vector3.Reflect(direction, new Vector3(0, 0, -1));
+        }
+        ghostAnchor.transform.localPosition += direction * speed * Time.deltaTime;
+
+    }
+
+    private void OldGhostMovement()
     {
         if (!isStunned)
         {
