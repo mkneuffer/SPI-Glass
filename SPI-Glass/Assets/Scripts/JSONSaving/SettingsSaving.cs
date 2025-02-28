@@ -76,7 +76,7 @@ public class SettingsSaving : MonoBehaviour
         if (inputBox != null)
         {
             
-            Vector3 newBoxPos = new Vector3(1000, 1000, 0);
+            Vector3 newBoxPos = new Vector3(10000, 10000, 0);
             inputBox.transform.position = newBoxPos;
             dialogueManager.EnterDialogueMode(nextText, true);
             SaveData();
@@ -87,7 +87,6 @@ public class SettingsSaving : MonoBehaviour
     {
         string savePath = persistentPath;
 
-        testImage.SetActive(true);
         Debug.Log("Saving Data at " + savePath);
         string settings = JsonUtility.ToJson(settingsData);
         Debug.Log(settings);
