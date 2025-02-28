@@ -14,6 +14,7 @@ public class SettingsSaving : MonoBehaviour
     [SerializeField] private GameObject inputBox;
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private TextAsset nextText;
+    [SerializeField] private GameObject testImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +75,7 @@ public class SettingsSaving : MonoBehaviour
     {
         if (inputBox != null)
         {
+            testImage.SetActive(true);
             SaveData();
             Vector3 newBoxPos = new Vector3(1000, 1000, 0);
             inputBox.transform.position = newBoxPos;
