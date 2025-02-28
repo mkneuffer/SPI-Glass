@@ -79,9 +79,11 @@ public class LaserBeam
         else if (hitInfo.collider.gameObject.CompareTag("Ghost"))
         {
             ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
-            ghost.StunGhost(direction);
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
+            CastRay(hitInfo.point + Vector3.Normalize(direction) * 1, direction, laser);
+            ghost.StunGhost();
+
         }
         else
         {

@@ -10,7 +10,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     public GameObject prefab1;
     public GameObject prefab2;
     public int inventoryCount1 = 5;
-    public int inventoryCount2 = 5;
+    public int inventoryCount2 = 1;
 
     public enum PrefabType { Type1, Type2 }
     [SerializeField] private Launcher launcher;

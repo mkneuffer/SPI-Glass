@@ -290,7 +290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -0.00012207031}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &115377521
@@ -1998,7 +1998,7 @@ MonoBehaviour:
   prefab1: {fileID: 59418755697362400, guid: 5d73872b201044bff8ffe0f362fbc9c5, type: 3}
   prefab2: {fileID: 640852640591134413, guid: 84525d01e9ede4d23aad9d1a6084b333, type: 3}
   inventoryCount1: 5
-  inventoryCount2: 3
+  inventoryCount2: 1
   launcher: {fileID: 2098247548}
   currentPrefab: 0
   rotationSpeed: 5

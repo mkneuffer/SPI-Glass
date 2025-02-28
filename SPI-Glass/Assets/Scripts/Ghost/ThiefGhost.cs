@@ -15,9 +15,6 @@ public class ThiefGhost : MonoBehaviour
     [SerializeField] private float[] stunDurations = { 5f, 10f, 5f };
     [SerializeField] private float[] flashlightThresholds = { 3f, 5f, 7f };
 
-    [Header("Cooldown Settings")]
-    [SerializeField] private float stunCooldownDuration = 3f; // 3 seconds of immunity after stun
-
     [Header("References")]
     [SerializeField] private Animator ghostAnimator;
     [SerializeField] private Animator movementAnimator;
@@ -149,28 +146,27 @@ public class ThiefGhost : MonoBehaviour
         canGetRoped = true;
     }
 
-    public void StunGhost(Vector3 dir)
+    public void StunGhost()
     {
-        if (isStunned)
+        if (isStunned || isInCooldown)
         {
             return;
         }
         isStunned = true;
-        direction = RotateVector(direction, 180);
+        direction = direction * -1;
         Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
         ghostAnimator.Play("Stun");
         speed = 0;
         Invoke(nameof(EndStun), 3f);
     }
 
-    private Vector3 RotateVector(Vector3 vector, float degree)
-    {
-        float rad = degree * Mathf.Deg2Rad;
-        float x = Mathf.Cos(rad * vector.x) - Mathf.Sin(rad * vector.z);
-        float z = Mathf.Sin(rad * vector.x) + Mathf.Cos(rad * vector.z);
-        return new Vector3(x, vector.y, z);
-
-    }
+    // private Vector3 RotateVector(Vector3 vector, float degree)
+    // {
+    //     float rad = degree * Mathf.Deg2Rad;
+    //     float x = Mathf.Cos(rad * vector.x) - Mathf.Sin(rad * vector.z);
+    //     float z = Mathf.Sin(rad * vector.x) + Mathf.Cos(rad * vector.z);
+    //     return new Vector3(x, vector.y, z);
+    // }
 
     private void EndStun()
     {
@@ -182,7 +178,7 @@ public class ThiefGhost : MonoBehaviour
         ghostAnimator.Play("Float");
         speed = defaultSpeed;
         OnStunCooldownChanged?.Invoke(true); // Notify UI that cooldown started
-        Invoke(nameof(EndCooldown), stunCooldownDuration);
+        Invoke(nameof(EndCooldown), .25f);
     }
 
     private void EndCooldown()
@@ -286,22 +282,53 @@ public class ThiefGhost : MonoBehaviour
 
         if (ghostAnchor.transform.localPosition.x > 5)
         {
-            direction = Vector3.Reflect(direction, new Vector3(-1, 0, 0));
+            if (canXReflect)
+            {
+                StartCoroutine(XReflect());
+                direction = Vector3.Reflect(direction, new Vector3(-1, 0, 0));
+            }
         }
         else if (ghostAnchor.transform.localPosition.x < -5)
         {
-            direction = Vector3.Reflect(direction, new Vector3(1, 0, 0));
+            if (canXReflect)
+            {
+                StartCoroutine(XReflect());
+                direction = Vector3.Reflect(direction, new Vector3(1, 0, 0));
+            }
         }
         if (ghostAnchor.transform.localPosition.z > 5)
         {
-            direction = Vector3.Reflect(direction, new Vector3(0, 0, 1));
+            if (canZReflect)
+            {
+                StartCoroutine(ZReflect());
+                direction = Vector3.Reflect(direction, new Vector3(0, 0, 1));
+            }
         }
         else if (ghostAnchor.transform.localPosition.z < -5)
         {
-            direction = Vector3.Reflect(direction, new Vector3(0, 0, -1));
+            if (canZReflect)
+            {
+                StartCoroutine(ZReflect());
+                direction = Vector3.Reflect(direction, new Vector3(0, 0, -1));
+            }
         }
-        ghostAnchor.transform.localPosition += direction * speed * Time.deltaTime;
+        ghostAnchor.transform.localPosition += Vector3.Normalize(direction) * speed * Time.deltaTime;
+    }
 
+    private bool canXReflect = true;
+    private bool canZReflect = true;
+    IEnumerator XReflect()
+    {
+        canXReflect = false;
+        yield return new WaitForSeconds(1);
+        canXReflect = true;
+    }
+
+    IEnumerator ZReflect()
+    {
+        canZReflect = false;
+        yield return new WaitForSeconds(1);
+        canZReflect = true;
     }
 
     // private void OldGhostMovement()
