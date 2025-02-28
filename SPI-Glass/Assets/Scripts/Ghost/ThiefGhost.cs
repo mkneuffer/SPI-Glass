@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
@@ -22,22 +23,12 @@ public class ThiefGhost : MonoBehaviour
     [SerializeField] private Animator movementAnimator;
     [SerializeField] private Rigidbody ghostRigidbody;
     [SerializeField] private Collider selectedCollider;
+    [SerializeField] private GameObject ropeOnGhost;
 
     [Header("Fog Animation & Scene Transition")]
     [SerializeField] private GameObject fogObject; // Assign fog object in the Inspector
     [SerializeField] private string nextSceneName; // Assign next scene in the Inspector
 
-    [Header("Movement Animations")]
-    [SerializeField]
-    private string[][] phaseAnimations =
-    {
-        new string[] { "Phase1AThief", "Phase1BThief", "Phase1CThief" },
-        new string[] { "Phase2AThief", "Phase2BThief", "Phase2CThief" },
-        new string[] { "Phase3AThief", "Phase3BThief", "Phase3CThief" }
-    };
-
-    [Header("Rope Stuff")]
-    [SerializeField] private GameObject ropeOnGhost;
 
     private int currentPhase = 0;
     private int currentHealth;
@@ -46,10 +37,6 @@ public class ThiefGhost : MonoBehaviour
     private bool isInCooldown = false; // Cooldown status
     private bool canGetRoped = true;
     private bool isRoped = false;
-    private float flashlightTimer = 0f;
-    private int movementDirection = 1; //1=forwards -1=backwards 0=stopped
-
-    private string lastMovementAnimation = "";
 
     // UI Events
     public delegate void StunCooldownEvent(bool isCooldownActive);
@@ -57,31 +44,19 @@ public class ThiefGhost : MonoBehaviour
 
     public delegate void GhostSpawnEvent();
     public event GhostSpawnEvent OnGhostSpawned;
-
-    private Point[] phase1A = new Point[]{
-    new Point(new Vector3(0.3919599f, 0, 0.3480599f), 190),
-    new Point(new Vector3(-0.6354175f, 0, -0.1155693f), 308),
-    new Point(new Vector3(0.03632307f, 0, 1.791747f), 607),
-    new Point(new Vector3(0.1553136f, 0, 0.1605787f), 906),
-    new Point(new Vector3(0.30706f, 0, 0.34559f), 1060),
-    new Point(new Vector3(0.1312969f, 0, 0.1312969f), 1209)};
-
-    private int pathingIndex = 0;
-    private Point[] currentMovementPattern;
-    private float WRadius = .05f;
     private GameObject ghostAnchor;
     private Vector3 direction;
-    [SerializeField] private float speed;
+    [SerializeField] private float defaultSpeed = 5;
+    private float speed;
 
 
 
     void Start()
     {
-        int angle = Random.Range(0, 360);
+        float angle = Random.Range(0, 2 * Mathf.PI);
         direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
-        speed = 5;
+        speed = defaultSpeed;
         ghostAnchor = transform.GetChild(0).gameObject;
-        currentMovementPattern = phase1A;
         movementAnimator.speed = 0;
         if (selectedCollider == null)
         {
@@ -102,7 +77,6 @@ public class ThiefGhost : MonoBehaviour
 
     private void StartPhase(int phase)
     {
-        pathingIndex = 0;
         if (phase >= phaseHealth.Length)
         {
             Die();
@@ -113,7 +87,6 @@ public class ThiefGhost : MonoBehaviour
         currentHealth = phaseHealth[phase];
         isStunned = false;
         isInCooldown = false; // Reset cooldown on phase change
-        flashlightTimer = 0f;
 
         Debug.Log($"Starting Phase {phase + 1} | HP: {currentHealth} | Stun Time: {stunDurations[phase]}s | Flashlight Threshold: {flashlightThresholds[phase]}s");
 
@@ -147,16 +120,7 @@ public class ThiefGhost : MonoBehaviour
     {
         Debug.Log($"Collision detected with: {collision.gameObject.name} (Tag: {collision.gameObject.tag})");
 
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            if (isStunned && isAlive)
-            {
-                Debug.Log("Ghost is stunned. Taking 2 damage.");
-                TakeDamage(2);
-                Destroy(collision.gameObject, 0.1f);
-            }
-        }
-        else if (collision.gameObject.CompareTag("Rope") && canGetRoped && !isRoped)
+        if (collision.gameObject.CompareTag("Rope") && canGetRoped && !isRoped)
         {
             if (isAlive)
             {
@@ -185,30 +149,27 @@ public class ThiefGhost : MonoBehaviour
         canGetRoped = true;
     }
 
-    public void HandleFlashlight()
+    public void StunGhost(Vector3 dir)
     {
-        if (isStunned || !isAlive || isInCooldown)
+        if (isStunned)
         {
-            Debug.Log("Flashlight hit ghost but it is stunned, dead, or in cooldown. No effect.");
             return;
         }
-
-        flashlightTimer += Time.deltaTime;
-        Debug.Log($"Flashlight on ghost: {flashlightTimer:F2}s");
-
-        if (flashlightTimer >= flashlightThresholds[currentPhase])
-        {
-            StunGhost();
-        }
-    }
-
-    public void StunGhost()
-    {
         isStunned = true;
-
+        direction = RotateVector(direction, 180);
         Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
         ghostAnimator.Play("Stun");
-        Invoke(nameof(EndStun), stunDurations[currentPhase]);
+        speed = 0;
+        Invoke(nameof(EndStun), 3f);
+    }
+
+    private Vector3 RotateVector(Vector3 vector, float degree)
+    {
+        float rad = degree * Mathf.Deg2Rad;
+        float x = Mathf.Cos(rad * vector.x) - Mathf.Sin(rad * vector.z);
+        float z = Mathf.Sin(rad * vector.x) + Mathf.Cos(rad * vector.z);
+        return new Vector3(x, vector.y, z);
+
     }
 
     private void EndStun()
@@ -219,13 +180,8 @@ public class ThiefGhost : MonoBehaviour
 
         movementAnimator.speed = 1;
         ghostAnimator.Play("Float");
-
+        speed = defaultSpeed;
         OnStunCooldownChanged?.Invoke(true); // Notify UI that cooldown started
-        movementDirection *= -1;
-        if (movementDirection == -1) //reverse
-        {
-
-        }
         Invoke(nameof(EndCooldown), stunCooldownDuration);
     }
 
@@ -305,11 +261,6 @@ public class ThiefGhost : MonoBehaviour
         return isInCooldown;
     }
 
-    public float GetFlashlightProgress()
-    {
-        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]);
-    }
-
     public float GetHealthPercentage()
     {
         return Mathf.Clamp01((float)currentHealth / phaseHealth[currentPhase]);
@@ -353,46 +304,46 @@ public class ThiefGhost : MonoBehaviour
 
     }
 
-    private void OldGhostMovement()
-    {
-        if (!isStunned)
-        {
-            if (Vector3.Distance(ghostAnchor.transform.localPosition, currentMovementPattern[pathingIndex].getPoints()) < WRadius)
-            {
-                pathingIndex = (pathingIndex + movementDirection) % currentMovementPattern.Length;
-            }
-            ghostAnchor.transform.localPosition = Vector3.MoveTowards(ghostAnchor.transform.localPosition, currentMovementPattern[pathingIndex].getPoints(), CalculateMovementSpeed());
-        }
+    // private void OldGhostMovement()
+    // {
+    //     if (!isStunned)
+    //     {
+    //         if (Vector3.Distance(ghostAnchor.transform.localPosition, currentMovementPattern[pathingIndex].getPoints()) < WRadius)
+    //         {
+    //             pathingIndex = (pathingIndex + movementDirection) % currentMovementPattern.Length;
+    //         }
+    //         ghostAnchor.transform.localPosition = Vector3.MoveTowards(ghostAnchor.transform.localPosition, currentMovementPattern[pathingIndex].getPoints(), CalculateMovementSpeed());
+    //     }
 
-    }
+    // }
 
-    private float CalculateMovementSpeed()
-    {
-        Vector3 currPos = currentMovementPattern[pathingIndex].getPoints();
-        Vector3 nextPos = currentMovementPattern[(pathingIndex + 1) % currentMovementPattern.Length].getPoints();
-        float distance = Vector3.Distance(currPos, nextPos);
-        return distance / currentMovementPattern[(pathingIndex + 1) % currentMovementPattern.Length].getFrames();
-    }
+    // private float CalculateMovementSpeed()
+    // {
+    //     Vector3 currPos = currentMovementPattern[pathingIndex].getPoints();
+    //     Vector3 nextPos = currentMovementPattern[(pathingIndex + 1) % currentMovementPattern.Length].getPoints();
+    //     float distance = Vector3.Distance(currPos, nextPos);
+    //     return distance / currentMovementPattern[(pathingIndex + 1) % currentMovementPattern.Length].getFrames();
+    // }
 
-    private struct Point
-    {
-        Vector3 points;
-        int frames;
+    // private struct Point
+    // {
+    //     Vector3 points;
+    //     int frames;
 
-        public Point(Vector3 points, int frames) : this()
-        {
-            this.points = points;
-            this.frames = frames;
-        }
+    //     public Point(Vector3 points, int frames) : this()
+    //     {
+    //         this.points = points;
+    //         this.frames = frames;
+    //     }
 
-        public Vector3 getPoints()
-        {
-            return points;
-        }
+    //     public Vector3 getPoints()
+    //     {
+    //         return points;
+    //     }
 
-        public int getFrames()
-        {
-            return frames;
-        }
-    }
+    //     public int getFrames()
+    //     {
+    //         return frames;
+    //     }
+    // }
 }

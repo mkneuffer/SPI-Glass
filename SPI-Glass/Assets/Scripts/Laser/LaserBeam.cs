@@ -70,16 +70,16 @@ public class LaserBeam
 
     void CheckHit(RaycastHit hitInfo, Vector3 direction, LineRenderer laser)
     {
-        if (hitInfo.collider.gameObject.tag == "Mirror")
+        if (hitInfo.collider.gameObject.CompareTag("Mirror"))
         {
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
             CastRay(pos, dir, laser);
         }
-        else if (hitInfo.collider.gameObject.tag == "Ghost")
+        else if (hitInfo.collider.gameObject.CompareTag("Ghost"))
         {
             ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
-            ghost.StunGhost();
+            ghost.StunGhost(direction);
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
         }
