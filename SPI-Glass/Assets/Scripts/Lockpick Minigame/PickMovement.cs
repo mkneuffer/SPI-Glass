@@ -6,9 +6,13 @@ public class PickMovement : MonoBehaviour
 {
     [SerializeField] float moveSpeed; // Pick speed
     [SerializeField] Transform pickResetPosition;
+
     private Vector2 touchStartPos;
-    private Vector3 lastPosition;
-    public Vector3 velocity { get; private set; }
+    private Vector3 previousPosition;
+    public Vector3 velocity;
+    //private Vector3 targetVelocity;
+
+    private bool isTouching = false;
     private bool canMoveUp = true;
     private bool canMoveDown = true;
     private bool canMoveRight = true;
@@ -21,23 +25,19 @@ public class PickMovement : MonoBehaviour
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        lastPosition = transform.position;
+        previousPosition = transform.position;
     }
 
     void Update()
     {
-        velocity = (transform.position - lastPosition) / Time.deltaTime; // Calculates velocity for pins & pick
-        lastPosition = transform.position;
-
-        #if UNITY_EDITOR || UNITY_STANDALONE
-        HandleMouseInput();
-        #else
         HandleTouchInput();
-        #endif
+        velocity = (transform.position - previousPosition) / Time.deltaTime;
+        previousPosition = transform.position;
     }
 
     void HandleTouchInput()
     {
+        //Vector3 movement = Vector3.zero;
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -45,44 +45,33 @@ public class PickMovement : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 touchStartPos = touch.position;
+                isTouching = true;
             }
-            else if (touch.phase == TouchPhase.Moved)
+            else if (touch.phase == TouchPhase.Moved && isTouching)
             {
-                Vector2 touchDelta = touch.position - touchStartPos;
-                if(canMoveUp && canMoveDown && canMoveRight && canMoveLeft) // Collisions for touch detection
+                Vector2 touchDelta = touch.deltaPosition * 0.05f;
+                Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0).normalized * moveSpeed;
+                //rb.velocity = movement.normalized * moveSpeed;
+
+                if ((!canMoveUp && touchDelta.y > 0) ||
+                    (!canMoveDown && touchDelta.y < 0) ||
+                    (!canMoveRight && touchDelta.x > 0) ||
+                    (!canMoveLeft && touchDelta.x < 0))
                 {
-                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
-                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-                    touchStartPos = touch.position;
+                    movement = Vector3.zero; // Stop movement if colliding
                 }
-                else if(!canMoveUp && touchDelta.y < 0)
-                {
-                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
-                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-                    touchStartPos = touch.position;
-                }
-                else if(!canMoveDown && touchDelta.y > 0)
-                {
-                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
-                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-                    touchStartPos = touch.position;
-                }
-                else if(!canMoveRight && touchDelta.x < 0)
-                {
-                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
-                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-                    touchStartPos = touch.position;
-                }
-                else if(!canMoveLeft && touchDelta.x > 0)
-                {
-                    Vector3 movement = new Vector3(touchDelta.x, touchDelta.y, 0);
-                    transform.position += movement.normalized * moveSpeed * Time.deltaTime;
-                    touchStartPos = touch.position;
-                }
+
+                rb.velocity = movement; // Use Rigidbody velocity for movement
+            }
+            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+            {
+                isTouching = false;
+                rb.velocity = Vector3.zero;
             }
         }
     }
 
+/*
     void HandleMouseInput()
     {
         if (Input.GetMouseButtonDown(0))
@@ -124,7 +113,7 @@ public class PickMovement : MonoBehaviour
             }
         }
     }
-
+ */
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("UpperBarrier"))
@@ -175,8 +164,8 @@ public class PickMovement : MonoBehaviour
 
 public void ResetPickPosition()
 {
-    Debug.Log("Resetting pick position.");
-    transform.position = pickResetPosition.position;
-    rb.velocity = Vector3.zero; // Temporarily pause movement
+        Debug.Log("Resetting pick position.");
+        transform.position = pickResetPosition.position;
+        rb.velocity = Vector3.zero; // Temporarily pause movement
 }
 }

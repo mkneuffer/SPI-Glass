@@ -12,6 +12,8 @@ public class PinInteraction : MonoBehaviour
     [SerializeField] Material successMaterial; // Cap material when in position (Green)
     [SerializeField] string capObjectName = "PinCap"; // Name of Unity object
 
+    private float force = 2f; // base force of pin
+    private float forceMultiplier = 2f;
     private int totalPins = 5;
     private static int pinsLocked = 0;
     private bool isInteracting = false;
@@ -20,6 +22,7 @@ public class PinInteraction : MonoBehaviour
     private Renderer capRenderer;
     private Rigidbody rb;
     private PickMovement pickMovement;
+    private Collider pinCollider;
 
     void Start()
     {
@@ -54,13 +57,16 @@ public class PinInteraction : MonoBehaviour
     {
         if (isInteracting && pickMovement != null && !isResetting)
         {
-            if (pickMovement.velocity.y > 0)
+            float pickVelocityY = pickMovement.velocity.y;
+            
+            if (pickVelocityY > 0.1f) // Ensure small movements don't move the pin
             {
-                rb.velocity = new Vector3(0, pickMovement.velocity.y, 0);
+                float multiplier = IsTouchingPin() ? forceMultiplier : 1f; // Use velocity to move pins
+                rb.velocity = new Vector3(0, pickVelocityY * force * multiplier, 0);
             }
             else
             {
-                rb.velocity = Vector3.zero; // Pin only moves down when resetting position
+                rb.velocity = Vector3.zero;
             }
         }
         else if (!isLocked && !isResetting)
@@ -98,6 +104,20 @@ public class PinInteraction : MonoBehaviour
             ChangeCapColor(defaultMaterial);
             ResetAllPins();
         }
+    }
+
+    private bool IsTouchingPin()
+    {
+        if (pinCollider == null || lockpick == null) return false;
+
+        float pinTop = pinCollider.bounds.max.y;
+        float pinBottom = pinCollider.bounds.min.y;
+        float pinHeight = pinTop - pinBottom;
+
+        float contactPoint = lockpick.position.y;
+        float bottomThreshold = pinBottom + (pinHeight * 0.3f); // Bottom 30% of the pin
+
+        return contactPoint <= bottomThreshold; // If the pick is touching the top part
     }
 
     private void LockPin()
