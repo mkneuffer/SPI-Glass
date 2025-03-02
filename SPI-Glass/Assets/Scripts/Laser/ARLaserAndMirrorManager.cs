@@ -107,6 +107,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
             RaycastHit hitInfo;
+            LayerMask mask = LayerMask.GetMask("GhostCollider");
             if (Physics.Raycast(ray, out hitInfo))
             {
                 if (hitInfo.collider.CompareTag("Delete"))
@@ -125,11 +126,11 @@ public class ARLaserAndMirrorManager : MonoBehaviour
                     return;
                 }
             }
-            // If nothing interactive was hit, attempt to place an object on an AR plane.
             if (launcher != null && launcher.enabled == true && launcher.getCanLaunch())
             {
                 launcher.LaunchBall();
             }
+            // If nothing interactive was hit, attempt to place an object on an AR plane.
             else if (active && arRaycastManager.Raycast(screenPosition, raycastHits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = raycastHits[0].pose;
@@ -171,12 +172,13 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         PlaceableData data = obj.GetComponent<PlaceableData>();
         if (data != null)
         {
-            if (data.prefabType == PrefabType.Type1)
+            if (data.prefabType == PrefabType.Type1) //Mirror
             {
                 inventoryCount1++;
             }
-            else if (data.prefabType == PrefabType.Type2)
+            else if (data.prefabType == PrefabType.Type2) //Laser
             {
+                Destroy(GameObject.Find("Laser Beam"));
                 inventoryCount2++;
             }
         }

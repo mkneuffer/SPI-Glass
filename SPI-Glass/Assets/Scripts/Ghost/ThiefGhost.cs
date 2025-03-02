@@ -44,7 +44,7 @@ public class ThiefGhost : MonoBehaviour
     private GameObject ghostAnchor;
     private Vector3 direction;
     [SerializeField] private float defaultSpeed = 5;
-    private float speed;
+    [SerializeField] private float speed;
 
 
 

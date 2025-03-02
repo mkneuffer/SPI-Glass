@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LaserBeam
@@ -11,6 +12,11 @@ public class LaserBeam
     GameObject laserObj;
     LineRenderer laser;
     List<Vector3> laserIndices = new List<Vector3>();
+    ThiefGhost ghost;
+    private bool leftColliderHit;
+    private bool rightColliderHit;
+    private bool frontColliderHit;
+    private bool backColliderHit;
 
     public LaserBeam(Vector3 pos, Vector3 dir, Material material)
     {
@@ -34,7 +40,10 @@ public class LaserBeam
         this.laser.material = material;
         this.laser.startColor = Color.green;
         this.laser.endColor = Color.green;
-
+        leftColliderHit = false;
+        rightColliderHit = false;
+        frontColliderHit = false;
+        backColliderHit = false;
         CastRay(pos, dir, laser);
     }
 
@@ -43,17 +52,32 @@ public class LaserBeam
         laserIndices.Add(pos);
 
         Ray ray = new Ray(pos, dir);
-        RaycastHit hit;
+        RaycastHit[] hits = new RaycastHit[10];
+        int hitCount = Physics.RaycastNonAlloc(ray, hits, 30, 1);
 
-        if (Physics.Raycast(ray, out hit, 30, 1))
+        if (hitCount > 0)
         {
-            CheckHit(hit, dir, laser);
+            // Find and process the closest hits first
+            for (int i = 0; i < hitCount - 1; i++)
+            {
+                for (int j = i + 1; j < hitCount; j++)
+                {
+                    if (hits[j].distance < hits[i].distance)
+                    {
+                        // Swap elements to sort by distance (simple Bubble Sort swap)
+                        RaycastHit temp = hits[i];
+                        hits[i] = hits[j];
+                        hits[j] = temp;
+                    }
+                }
+            }
+            CheckHit(hits, dir, laser, hitCount, ray);
         }
         else
         {
             laserIndices.Add(ray.GetPoint(30));
-            UpdateLaser();
         }
+        UpdateLaser();
     }
 
     void UpdateLaser()
@@ -67,28 +91,76 @@ public class LaserBeam
             count++;
         }
     }
+    float rayOffset = 0.01f;
 
-    void CheckHit(RaycastHit hitInfo, Vector3 direction, LineRenderer laser)
+    void CheckHit(RaycastHit[] hits, Vector3 direction, LineRenderer laser, int hitCount, Ray ray)
     {
-        if (hitInfo.collider.gameObject.CompareTag("Mirror"))
+        bool collideWithMirror = false;
+        for (int i = 0; i < hitCount; i++)
         {
-            Vector3 pos = hitInfo.point;
-            Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
-            CastRay(pos, dir, laser);
+            Debug.Log($"Collision detected with: {hits[i].collider.gameObject.name} (Tag: {hits[i].collider.gameObject.tag})");
         }
-        else if (hitInfo.collider.gameObject.CompareTag("Ghost"))
+        for (int i = 0; i < hitCount; i++)
         {
-            ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
-            laserIndices.Add(hitInfo.point);
-            UpdateLaser();
-            CastRay(hitInfo.point + Vector3.Normalize(direction) * 1, direction, laser);
-            ghost.StunGhost();
+            RaycastHit hitInfo = hits[i];
+            //Debug.Log($"Collision detected with: {hitInfo.collider.gameObject.name} (Tag: {hitInfo.collider.gameObject.tag})");
+            if (hitInfo.collider.gameObject.CompareTag("Mirror"))
+            {
+                Vector3 pos = hitInfo.point;
+                Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
+                CastRay(pos, dir, laser);
+                collideWithMirror = true;
+                break;
+            }
 
+            if (hitInfo.collider.gameObject.CompareTag("Ghost"))
+            {
+                ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
+                // laserIndices.Add(hitInfo.point);
+                // UpdateLaser();
+                ghost.StunGhost();
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderFront"))
+            {
+                // laserIndices.Add(hitInfo.point);
+                // UpdateLaser();
+                Debug.Log("Front");
+                frontColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderBack"))
+            {
+                // laserIndices.Add(hitInfo.point);
+                // UpdateLaser();
+                Debug.Log("Back");
+                backColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderLeft"))
+            {
+                // laserIndices.Add(hitInfo.point);
+                // UpdateLaser();
+                Debug.Log("Left");
+                leftColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderRight"))
+            {
+                // laserIndices.Add(hitInfo.point);
+                // UpdateLaser();
+                Debug.Log("Right");
+                rightColliderHit = true;
+            }
+            else if (!collideWithMirror)
+            {
+                laserIndices.Add(hitInfo.point);
+                UpdateLaser();
+            }
         }
-        else
+        if (!collideWithMirror)
         {
-            laserIndices.Add(hitInfo.point);
-            UpdateLaser();
+            laserIndices.Add(ray.GetPoint(30));
+        }
+        if (leftColliderHit && rightColliderHit && frontColliderHit && backColliderHit)
+        {
+            Debug.Log("all collider hits");
         }
     }
 }

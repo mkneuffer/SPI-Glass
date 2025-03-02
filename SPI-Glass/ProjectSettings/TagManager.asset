@@ -18,7 +18,10 @@ TagManager:
   - Rope
   - Delete
   - Rotate
-  - Laser
+  - GhostLaserColliderLeft
+  - GhostLaserColliderRight
+  - GhostLaserColliderFront
+  - GhostLaserColliderBack
   layers:
   - Default
   - TransparentFX
@@ -27,7 +30,7 @@ TagManager:
   - Water
   - UI
   - Outlined
-  - 
+  - GhostCollider
   - 
   - 
   - 
