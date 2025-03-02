@@ -17,6 +17,10 @@ public class LaserBeam
     private bool rightColliderHit;
     private bool frontColliderHit;
     private bool backColliderHit;
+    private bool leftFrontColliderHit;
+    private bool rightFrontColliderHit;
+    private bool leftBackColliderHit;
+    private bool rightBackColliderHit;
 
     public LaserBeam(Vector3 pos, Vector3 dir, Material material)
     {
@@ -44,6 +48,10 @@ public class LaserBeam
         rightColliderHit = false;
         frontColliderHit = false;
         backColliderHit = false;
+        leftFrontColliderHit = false;
+        rightFrontColliderHit = false;
+        leftBackColliderHit = false;
+        rightBackColliderHit = false;
         CastRay(pos, dir, laser);
     }
 
@@ -91,8 +99,6 @@ public class LaserBeam
             count++;
         }
     }
-    float rayOffset = 0.01f;
-
     void CheckHit(RaycastHit[] hits, Vector3 direction, LineRenderer laser, int hitCount, Ray ray)
     {
         bool collideWithMirror = false;
@@ -116,37 +122,43 @@ public class LaserBeam
             if (hitInfo.collider.gameObject.CompareTag("Ghost"))
             {
                 ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
-                // laserIndices.Add(hitInfo.point);
-                // UpdateLaser();
                 ghost.StunGhost();
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderFront"))
             {
-                // laserIndices.Add(hitInfo.point);
-                // UpdateLaser();
-                Debug.Log("Front");
+                //Debug.Log("Front");
                 frontColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderBack"))
             {
-                // laserIndices.Add(hitInfo.point);
-                // UpdateLaser();
-                Debug.Log("Back");
+                //Debug.Log("Back");
                 backColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderLeft"))
             {
-                // laserIndices.Add(hitInfo.point);
-                // UpdateLaser();
-                Debug.Log("Left");
+                //Debug.Log("Left");
                 leftColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderRight"))
             {
-                // laserIndices.Add(hitInfo.point);
-                // UpdateLaser();
-                Debug.Log("Right");
+                //Debug.Log("Right");
                 rightColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderBackRight"))
+            {
+                rightBackColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderBackLeft"))
+            {
+                leftBackColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderFrontRight"))
+            {
+                rightFrontColliderHit = true;
+            }
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderFrontLeft"))
+            {
+                leftFrontColliderHit = true;
             }
             else if (!collideWithMirror)
             {
@@ -158,9 +170,21 @@ public class LaserBeam
         {
             laserIndices.Add(ray.GetPoint(30));
         }
-        if (leftColliderHit && rightColliderHit && frontColliderHit && backColliderHit)
+        int count = BoolToInt(leftBackColliderHit) + BoolToInt(rightBackColliderHit) + BoolToInt(leftFrontColliderHit) + BoolToInt(rightFrontColliderHit) + BoolToInt(leftColliderHit) + BoolToInt(backColliderHit) + BoolToInt(rightColliderHit) + BoolToInt(frontColliderHit);
+
+        if (count >= 8)
         {
-            Debug.Log("all collider hits");
+            Debug.Log("trapped");
         }
+
+        //if (leftColliderHit && rightColliderHit && frontColliderHit && backColliderHit)
+        //{
+        //}
+    }
+
+
+    private int BoolToInt(bool b)
+    {
+        return b ? 1 : 0;
     }
 }
