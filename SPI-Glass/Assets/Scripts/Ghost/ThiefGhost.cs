@@ -72,7 +72,7 @@ public class ThiefGhost : MonoBehaviour
 
     private void StartPhase(int phase)
     {
-        if (phase >= totalPhases - 1)
+        if (phase >= totalPhases)
         {
             Die();
             return;
@@ -83,7 +83,11 @@ public class ThiefGhost : MonoBehaviour
         isInCooldown = false; // Reset cooldown on phase change
         isRoped = false;
         trapped = false;
+        var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();
+        laserAndMirrorManager.DeleteAllObjects();
 
+
+        speed = defaultSpeed;
         Debug.Log($"Starting Phase {phase + 1}");
 
         ghostAnimator.Play("Float");
@@ -93,16 +97,18 @@ public class ThiefGhost : MonoBehaviour
     {
         Debug.Log($"Collision detected with: {collision.gameObject.name} (Tag: {collision.gameObject.tag})");
 
-        if (collision.gameObject.CompareTag("Rope") && canGetRoped && !isRoped && trapped)
+        if (collision.gameObject.CompareTag("Rope") && !isRoped && trapped)
         {
             if (isAlive)
             {
                 isRoped = true;
                 DestoryTrueParent(collision.gameObject);
-                StartCoroutine(RopeDetectionTimer());
+
                 GameObject rope = Instantiate(ropeOnGhost, transform.GetChild(0));
                 rope.transform.position += new Vector3(-0.05f, 1f);
-                AdvancePhase();
+                rope.tag = "DestroyThis";
+                Invoke(nameof(AdvancePhase), 1f);
+
             }
         }
     }
@@ -113,14 +119,7 @@ public class ThiefGhost : MonoBehaviour
         {
             gameObject = gameObject.transform.parent.gameObject;
         }
-        Destroy(gameObject, 0.1f);
-    }
-
-    IEnumerator RopeDetectionTimer()
-    {
-        canGetRoped = false;
-        yield return new WaitForSeconds(1);
-        canGetRoped = true;
+        Destroy(gameObject, 0.2f);
     }
 
     public void StunGhost()

@@ -9,6 +9,8 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     [Header("Prefabs & Inventory")]
     public GameObject prefab1;
     public GameObject prefab2;
+    public int inventoryMax1 = 5;
+    public int inventoryMax2 = 1;
     public int inventoryCount1 = 5;
     public int inventoryCount2 = 1;
 
@@ -42,6 +44,12 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         {
             Debug.LogError("ARRaycastManager component is required on the XR Origin.");
         }
+    }
+
+    void Start()
+    {
+        inventoryCount1 = inventoryMax1;
+        inventoryCount2 = inventoryMax2;
     }
 
     void Update()
@@ -213,6 +221,18 @@ public class ARLaserAndMirrorManager : MonoBehaviour
             data = obj.AddComponent<PlaceableData>();
         }
         data.prefabType = type;
+    }
+
+    public void DeleteAllObjects()
+    {
+        //Delete all mirrors/lasers
+        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("DestroyThis"))
+        {
+            inventoryCount1 = inventoryMax1;
+            inventoryCount2 = inventoryMax2;
+            Destroy(gameObject);
+        }
+        Destroy(GameObject.Find("Laser Beam"));
     }
 
     // Public methods for UI buttons to switch prefab types.
