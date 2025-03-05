@@ -102,10 +102,7 @@ public class LaserBeam
     void CheckHit(RaycastHit[] hits, Vector3 direction, LineRenderer laser, int hitCount, Ray ray)
     {
         bool collideWithMirror = false;
-        for (int i = 0; i < hitCount; i++)
-        {
-            Debug.Log($"Collision detected with: {hits[i].collider.gameObject.name} (Tag: {hits[i].collider.gameObject.tag})");
-        }
+
         for (int i = 0; i < hitCount; i++)
         {
             RaycastHit hitInfo = hits[i];
@@ -126,22 +123,18 @@ public class LaserBeam
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderFront"))
             {
-                //Debug.Log("Front");
                 frontColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderBack"))
             {
-                //Debug.Log("Back");
                 backColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderLeft"))
             {
-                //Debug.Log("Left");
                 leftColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderRight"))
             {
-                //Debug.Log("Right");
                 rightColliderHit = true;
             }
             else if (hitInfo.collider.gameObject.name.Equals("ColliderBackRight"))
@@ -172,14 +165,9 @@ public class LaserBeam
         }
         int count = BoolToInt(leftBackColliderHit) + BoolToInt(rightBackColliderHit) + BoolToInt(leftFrontColliderHit) + BoolToInt(rightFrontColliderHit) + BoolToInt(leftColliderHit) + BoolToInt(backColliderHit) + BoolToInt(rightColliderHit) + BoolToInt(frontColliderHit);
 
-        if (count >= 8)
-        {
-            Debug.Log("trapped");
-        }
-
-        //if (leftColliderHit && rightColliderHit && frontColliderHit && backColliderHit)
-        //{
-        //}
+        ThiefGhost thiefGhost = GameObject.Find("ThiefGhost(Clone)").GetComponent<ThiefGhost>();
+        //Ghost Trapped
+        thiefGhost.UpdateTrapped(count >= 8);
     }
 
 
