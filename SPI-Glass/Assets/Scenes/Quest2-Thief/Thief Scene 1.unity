@@ -163,7 +163,7 @@ PrefabInstance:
     - target: {fileID: 2329230387845938778, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_Color.a
-      value: 0.5058824
+      value: 0.7254902
       objectReference: {fileID: 0}
     - target: {fileID: 2329230387845938778, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
@@ -265,7 +265,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5724832338096234941, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
     m_RemovedGameObjects:
     - {fileID: 194061302179265775, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
     m_AddedGameObjects: []
@@ -274,6 +275,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1143840304}
+    - targetCorrespondingSourceObject: {fileID: 7338869652321950227, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1548948886}
   m_SourcePrefab: {fileID: 100100000, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
 --- !u!1 &1143840303 stripped
 GameObject:
@@ -294,6 +299,28 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: b19c17e1cfc4bad438d024ab3443b284, type: 2}
   m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!1 &1548948882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7338869652321950227, guid: 7f3adf094e7c3a84f938e554c474eab7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1143840302}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1548948886
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548948882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 6680a986df0087a4c9bb53a4a9e79d53, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 6680a986df0087a4c9bb53a4a9e79d53, type: 2}
+  m_WrapMode: 4
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0

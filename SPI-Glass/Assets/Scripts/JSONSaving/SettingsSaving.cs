@@ -14,6 +14,7 @@ public class SettingsSaving : MonoBehaviour
     [SerializeField] private GameObject inputBox;
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private TextAsset nextText;
+    [SerializeField] private GameObject testImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,16 +75,17 @@ public class SettingsSaving : MonoBehaviour
     {
         if (inputBox != null)
         {
-            SaveData();
-            Vector3 newBoxPos = new Vector3(1000, 1000, 0);
+            
+            Vector3 newBoxPos = new Vector3(10000, 10000, 0);
             inputBox.transform.position = newBoxPos;
             dialogueManager.EnterDialogueMode(nextText, true);
+            SaveData();
         }
     }
 
     public void SaveData()
     {
-        string savePath = path;
+        string savePath = persistentPath;
 
         Debug.Log("Saving Data at " + savePath);
         string settings = JsonUtility.ToJson(settingsData);
@@ -96,7 +98,7 @@ public class SettingsSaving : MonoBehaviour
 
     public void LoadData()
     {
-        using StreamReader reader = new StreamReader(path);
+        using StreamReader reader = new StreamReader(persistentPath);
         string json = reader.ReadToEnd();
 
         SettingsData settings = JsonUtility.FromJson<SettingsData>(json);
