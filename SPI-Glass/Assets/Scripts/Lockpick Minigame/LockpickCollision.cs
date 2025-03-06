@@ -161,7 +161,9 @@ public class PinInteraction : MonoBehaviour
         isInteracting = false;
         isResetting = true;
 
+        rb.isKinematic = true; // Temporarily disable physics before resetting
         rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
         while (Vector3.Distance(transform.position, resetPosition.position) > 0.01f)
         {
@@ -169,9 +171,12 @@ public class PinInteraction : MonoBehaviour
             yield return null;
         }
 
-        // Checks if pin is fully reset
         transform.position = resetPosition.position;
         ChangeCapColor(defaultMaterial);
+
+        yield return new WaitForSeconds(0.1f);
+        rb.isKinematic = false;
+
         isResetting = false;
     }
 
