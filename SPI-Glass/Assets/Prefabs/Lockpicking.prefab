@@ -2486,8 +2486,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4e92991842ef14fb1ee716c60501cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
+  moveSpeed: 0.1
   pickResetPosition: {fileID: 1584439653915019483}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!54 &4229556142457925522
 Rigidbody:
   m_ObjectHideFlags: 0
