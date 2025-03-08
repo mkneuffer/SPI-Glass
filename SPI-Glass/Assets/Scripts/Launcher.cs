@@ -6,20 +6,24 @@ public class Launcher : MonoBehaviour
     private bool _canLaunch = true; // Track cooldown state
     [SerializeField] Vector3 spawningOffset = new Vector3();
     [SerializeField] bool lookAt = false;
+    [SerializeField] bool useTouchFromARLaserAndMirrorManager = false;
 
     void Update()
     {
+        if (!useTouchFromARLaserAndMirrorManager)
+        {
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0) && _canLaunch)
+            if (Input.GetMouseButtonDown(0) && _canLaunch)
 #else
         if (Input.touchCount > 0 && _canLaunch)
 #endif
-        {
-            LaunchBall();
+            {
+                LaunchBall();
+            }
         }
     }
 
-    private void LaunchBall()
+    public void LaunchBall()
     {
         // spawn in front of the camera
         var x = spawningOffset.x * Camera.main.transform.right;
@@ -48,5 +52,10 @@ public class Launcher : MonoBehaviour
         _canLaunch = false;
         yield return new WaitForSeconds(1.0f); // 1-second cooldown
         _canLaunch = true;
+    }
+
+    public bool getCanLaunch()
+    {
+        return _canLaunch;
     }
 }

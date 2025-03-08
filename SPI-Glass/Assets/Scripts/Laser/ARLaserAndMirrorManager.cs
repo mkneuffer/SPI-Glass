@@ -9,10 +9,13 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     [Header("Prefabs & Inventory")]
     public GameObject prefab1;
     public GameObject prefab2;
+    public int inventoryMax1 = 5;
+    public int inventoryMax2 = 1;
     public int inventoryCount1 = 5;
-    public int inventoryCount2 = 5;
+    public int inventoryCount2 = 1;
 
     public enum PrefabType { Type1, Type2 }
+    [SerializeField] private Launcher launcher;
     [Header("Active Prefab")]
     public PrefabType currentPrefab = PrefabType.Type1;
 
@@ -32,6 +35,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     private bool deletionTouchActive = false;
     // Threshold in pixels to differentiate a tap from a drag on the delete collider.
     private float deletionDragThreshold = 10f;
+    private bool active = true;
 
     void Awake()
     {
@@ -40,6 +44,12 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         {
             Debug.LogError("ARRaycastManager component is required on the XR Origin.");
         }
+    }
+
+    void Start()
+    {
+        inventoryCount1 = inventoryMax1;
+        inventoryCount2 = inventoryMax2;
     }
 
     void Update()
@@ -105,6 +115,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
             RaycastHit hitInfo;
+            LayerMask mask = LayerMask.GetMask("GhostCollider");
             if (Physics.Raycast(ray, out hitInfo))
             {
                 if (hitInfo.collider.CompareTag("Delete"))
@@ -123,8 +134,12 @@ public class ARLaserAndMirrorManager : MonoBehaviour
                     return;
                 }
             }
+            if (launcher != null && launcher.enabled == true && launcher.getCanLaunch())
+            {
+                launcher.LaunchBall();
+            }
             // If nothing interactive was hit, attempt to place an object on an AR plane.
-            if (arRaycastManager.Raycast(screenPosition, raycastHits, TrackableType.PlaneWithinPolygon))
+            else if (active && arRaycastManager.Raycast(screenPosition, raycastHits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = raycastHits[0].pose;
                 PlaceObject(hitPose);
@@ -165,12 +180,13 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         PlaceableData data = obj.GetComponent<PlaceableData>();
         if (data != null)
         {
-            if (data.prefabType == PrefabType.Type1)
+            if (data.prefabType == PrefabType.Type1) //Mirror
             {
                 inventoryCount1++;
             }
-            else if (data.prefabType == PrefabType.Type2)
+            else if (data.prefabType == PrefabType.Type2) //Laser
             {
+                Destroy(GameObject.Find("Laser Beam"));
                 inventoryCount2++;
             }
         }
@@ -207,6 +223,18 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         data.prefabType = type;
     }
 
+    public void DeleteAllObjects()
+    {
+        //Delete all mirrors/lasers
+        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("DestroyThis"))
+        {
+            inventoryCount1 = inventoryMax1;
+            inventoryCount2 = inventoryMax2;
+            Destroy(gameObject);
+        }
+        Destroy(GameObject.Find("Laser Beam"));
+    }
+
     // Public methods for UI buttons to switch prefab types.
     public void SetPrefabType1()
     {
@@ -227,5 +255,10 @@ public class ARLaserAndMirrorManager : MonoBehaviour
     public class PlaceableData : MonoBehaviour
     {
         public PrefabType prefabType;
+    }
+
+    public void SetActive(bool active)
+    {
+        this.active = active;
     }
 }

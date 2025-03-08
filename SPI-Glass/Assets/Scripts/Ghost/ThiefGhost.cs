@@ -1,48 +1,37 @@
+using System;
 using System.Collections;
+using System.Linq.Expressions;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 public class ThiefGhost : MonoBehaviour
 {
-    [Header("Phase Settings")]
-    [SerializeField] private int[] phaseHealth = { 20, 10, 20 };
-    [SerializeField] private float[] stunDurations = { 5f, 10f, 5f };
-    [SerializeField] private float[] flashlightThresholds = { 3f, 5f, 7f };
-
-    [Header("Cooldown Settings")]
-    [SerializeField] private float stunCooldownDuration = 3f; // 3 seconds of immunity after stun
 
     [Header("References")]
     [SerializeField] private Animator ghostAnimator;
     [SerializeField] private Animator movementAnimator;
     [SerializeField] private Rigidbody ghostRigidbody;
     [SerializeField] private Collider selectedCollider;
+    [SerializeField] private GameObject ropeOnGhost;
 
     [Header("Fog Animation & Scene Transition")]
     [SerializeField] private GameObject fogObject; // Assign fog object in the Inspector
     [SerializeField] private string nextSceneName; // Assign next scene in the Inspector
 
-    [Header("Movement Animations")]
-    [SerializeField]
-    private string[][] phaseAnimations =
-    {
-        new string[] { "Phase1A", "Phase1B", "Phase1C" },
-        new string[] { "Phase2A", "Phase2B", "Phase2C" },
-        new string[] { "Phase3A", "Phase3B", "Phase3C" }
-    };
-
-    [Header("Rope Stuff")]
-    [SerializeField] private GameObject ropeOnGhost;
 
     private int currentPhase = 0;
-    private int currentHealth;
+    private int totalPhases = 3;
     private bool isAlive = true;
     private bool isStunned = false;
     private bool isInCooldown = false; // Cooldown status
     private bool canGetRoped = true;
-    private float flashlightTimer = 0f;
+    private bool isRoped = false;
+    private bool trapped = false;
 
-    private string lastMovementAnimation = "";
 
     // UI Events
     public delegate void StunCooldownEvent(bool isCooldownActive);
@@ -50,9 +39,21 @@ public class ThiefGhost : MonoBehaviour
 
     public delegate void GhostSpawnEvent();
     public event GhostSpawnEvent OnGhostSpawned;
+    private GameObject ghostAnchor;
+    private Vector3 direction;
+
+    [SerializeField] private float defaultSpeed = 5;
+    [SerializeField] private float speed;
+
+
 
     void Start()
     {
+        float angle = Random.Range(0, 2 * Mathf.PI);
+        direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+        speed = defaultSpeed;
+        ghostAnchor = transform.GetChild(0).gameObject;
+        movementAnimator.speed = 0;
         if (selectedCollider == null)
         {
             Debug.LogError("No Collider assigned in Inspector! Please assign one.");
@@ -66,72 +67,48 @@ public class ThiefGhost : MonoBehaviour
             ghostRigidbody.isKinematic = true;
         }
 
-        OnGhostSpawned?.Invoke(); // Notify UI that ghost has spawned
         StartPhase(0);
     }
 
     private void StartPhase(int phase)
     {
-        if (phase >= phaseHealth.Length)
+        if (phase >= totalPhases)
         {
             Die();
             return;
         }
 
         currentPhase = phase;
-        currentHealth = phaseHealth[phase];
         isStunned = false;
         isInCooldown = false; // Reset cooldown on phase change
-        flashlightTimer = 0f;
+        isRoped = false;
+        trapped = false;
+        var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();
+        laserAndMirrorManager.DeleteAllObjects();
 
-        Debug.Log($"Starting Phase {phase + 1} | HP: {currentHealth} | Stun Time: {stunDurations[phase]}s | Flashlight Threshold: {flashlightThresholds[phase]}s");
+
+        speed = defaultSpeed;
+        Debug.Log($"Starting Phase {phase + 1}");
 
         ghostAnimator.Play("Float");
-        PlayNextMovementAnimation();
-    }
-
-    private void PlayNextMovementAnimation()
-    {
-        if (currentPhase < phaseAnimations.Length)
-        {
-            string[] animations = phaseAnimations[currentPhase];
-
-            if (animations.Length > 0)
-            {
-                string nextAnimation;
-                do
-                {
-                    nextAnimation = animations[Random.Range(0, animations.Length)];
-                } while (nextAnimation == lastMovementAnimation);
-
-                lastMovementAnimation = nextAnimation;
-                movementAnimator.CrossFade(nextAnimation, 0.2f);
-                Debug.Log($"Starting movement animation: {nextAnimation}");
-            }
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log($"Collision detected with: {collision.gameObject.name} (Tag: {collision.gameObject.tag})");
 
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            if (isStunned && isAlive)
-            {
-                Debug.Log("Ghost is stunned. Taking 2 damage.");
-                TakeDamage(2);
-                Destroy(collision.gameObject, 0.1f);
-            }
-        }
-        else if (collision.gameObject.CompareTag("Rope") && canGetRoped)
+        if (collision.gameObject.CompareTag("Rope") && !isRoped && trapped)
         {
             if (isAlive)
             {
+                isRoped = true;
                 DestoryTrueParent(collision.gameObject);
-                StartCoroutine(RopeDetectionTimer());
+
                 GameObject rope = Instantiate(ropeOnGhost, transform.GetChild(0));
                 rope.transform.position += new Vector3(-0.05f, 1f);
+                rope.tag = "DestroyThis";
+                Invoke(nameof(AdvancePhase), 1f);
+
             }
         }
     }
@@ -142,57 +119,36 @@ public class ThiefGhost : MonoBehaviour
         {
             gameObject = gameObject.transform.parent.gameObject;
         }
-        Destroy(gameObject, 0.1f);
+        Destroy(gameObject, 0.2f);
     }
 
-    IEnumerator RopeDetectionTimer()
+    public void StunGhost()
     {
-        canGetRoped = false;
-        yield return new WaitForSeconds(1);
-        canGetRoped = true;
-    }
-
-    public void HandleFlashlight()
-    {
-        if (isStunned || !isAlive || isInCooldown)
+        if (isStunned || isInCooldown)
         {
-            Debug.Log("Flashlight hit ghost but it is stunned, dead, or in cooldown. No effect.");
             return;
         }
-
-        flashlightTimer += Time.deltaTime;
-        Debug.Log($"Flashlight on ghost: {flashlightTimer:F2}s");
-
-        if (flashlightTimer >= flashlightThresholds[currentPhase])
-        {
-            StunGhost();
-        }
-    }
-
-    private void StunGhost()
-    {
         isStunned = true;
-        flashlightTimer = 0f;
-
-        Debug.Log($"Ghost is stunned for {stunDurations[currentPhase]} seconds.");
+        direction = direction * -1;
+        Debug.Log($"Ghost is stunned.");
         ghostAnimator.Play("Stun");
-        movementAnimator.speed = 0;
-
-        Invoke(nameof(EndStun), stunDurations[currentPhase]);
+        speed = 0;
+        Invoke(nameof(EndStun), 3f);
     }
 
     private void EndStun()
     {
-        isStunned = false;
-        isInCooldown = true; // Enter cooldown phase
-        Debug.Log("Ghost is no longer stunned. Entering cooldown.");
+        if (!trapped)
+        {
+            isStunned = false;
+            isInCooldown = true; // Enter cooldown phase
+            Debug.Log("Ghost is no longer stunned. Entering cooldown.");
 
-        movementAnimator.speed = 1;
-        ghostAnimator.Play("Float");
+            ghostAnimator.Play("Float");
 
-        OnStunCooldownChanged?.Invoke(true); // Notify UI that cooldown started
-
-        Invoke(nameof(EndCooldown), stunCooldownDuration);
+            speed = defaultSpeed;
+            Invoke(nameof(EndCooldown), .1f);
+        }
     }
 
     private void EndCooldown()
@@ -203,15 +159,22 @@ public class ThiefGhost : MonoBehaviour
         OnStunCooldownChanged?.Invoke(false); // Notify UI that cooldown ended
     }
 
-    private void TakeDamage(int damage)
+    public void UpdateTrapped(bool isTrapped)
     {
-        currentHealth -= damage;
-        Debug.Log($"Ghost took {damage} damage. Remaining HP: {currentHealth}");
-
-        if (currentHealth <= 0)
+        if (trapped == isTrapped)
         {
-            AdvancePhase();
+            return;
         }
+        trapped = isTrapped;
+        if (isTrapped)
+        {
+            speed = 0;
+        }
+        else
+        {
+            speed = defaultSpeed;
+        }
+        Debug.Log($"Trapped is set to {trapped}");
     }
 
     private void AdvancePhase()
@@ -271,26 +234,61 @@ public class ThiefGhost : MonoBehaviour
         return isInCooldown;
     }
 
-    public float GetFlashlightProgress()
-    {
-        return isInCooldown ? 0 : Mathf.Clamp01(flashlightTimer / flashlightThresholds[currentPhase]);
-    }
-
-    public float GetHealthPercentage()
-    {
-        return Mathf.Clamp01((float)currentHealth / phaseHealth[currentPhase]);
-    }
-
     void Update()
     {
-        if (!isStunned && !isInCooldown)
-        {
-            AnimatorStateInfo stateInfo = movementAnimator.GetCurrentAnimatorStateInfo(0);
+        GhostMovement();
+    }
 
-            if (stateInfo.normalizedTime >= 1.0f && stateInfo.IsTag("Move"))
+    private void GhostMovement()
+    {
+        if (ghostAnchor.transform.localPosition.x > 5)
+        {
+            if (canXReflect)
             {
-                PlayNextMovementAnimation();
+                StartCoroutine(XReflect());
+                direction = Vector3.Reflect(direction, new Vector3(-1, 0, 0));
             }
         }
+        else if (ghostAnchor.transform.localPosition.x < -5)
+        {
+            if (canXReflect)
+            {
+                StartCoroutine(XReflect());
+                direction = Vector3.Reflect(direction, new Vector3(1, 0, 0));
+            }
+        }
+        if (ghostAnchor.transform.localPosition.z > 5)
+        {
+            if (canZReflect)
+            {
+                StartCoroutine(ZReflect());
+                direction = Vector3.Reflect(direction, new Vector3(0, 0, 1));
+            }
+        }
+        else if (ghostAnchor.transform.localPosition.z < -5)
+        {
+            if (canZReflect)
+            {
+                StartCoroutine(ZReflect());
+                direction = Vector3.Reflect(direction, new Vector3(0, 0, -1));
+            }
+        }
+        ghostAnchor.transform.localPosition += Vector3.Normalize(direction) * speed * Time.deltaTime;
+    }
+
+    private bool canXReflect = true;
+    private bool canZReflect = true;
+    IEnumerator XReflect()
+    {
+        canXReflect = false;
+        yield return new WaitForSeconds(1);
+        canXReflect = true;
+    }
+
+    IEnumerator ZReflect()
+    {
+        canZReflect = false;
+        yield return new WaitForSeconds(1);
+        canZReflect = true;
     }
 }
