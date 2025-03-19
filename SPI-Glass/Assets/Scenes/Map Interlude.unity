@@ -3561,6 +3561,11 @@ PrefabInstance:
       propertyPath: inkJSONDialogue
       value: 
       objectReference: {fileID: 4900000, guid: af039d0f68f2f7043bb5015b5720c2f0, type: 3}
+    - target: {fileID: 5053544994420865340, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5920100592731701922, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: postProcessingSwitcher

@@ -716,6 +716,168 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1001 &340475033
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 145114046945955102, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 308598641408974698, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4551145067973560782, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: inkJSONDialogue
+      value: 
+      objectReference: {fileID: 4900000, guid: af039d0f68f2f7043bb5015b5720c2f0, type: 3}
+    - target: {fileID: 5053544994420865340, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920100592731701922, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: postProcessingSwitcher
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786375636976488601, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_Name
+      value: _FullGamePrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786375636976488601, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909747676435218743, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869924733931011456, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7002206231417343082, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 340475035}
+  m_SourcePrefab: {fileID: 100100000, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
+--- !u!1 &340475034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7002206231417343082, guid: 7f3adf094e7c3a84f938e554c474eab7,
+    type: 3}
+  m_PrefabInstance: {fileID: 340475033}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &340475035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340475034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &421680754
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inInventory: 0
-  name: Flashlight
+  itemName: 
   itemNum: 0
   itemIcon: {fileID: 21300000, guid: cb56e47d43f746b43a41b7096cddb5df, type: 3}
   itemModel: {fileID: 0}
@@ -1200,6 +1362,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DialogueManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010383709685775075, guid: 5448b6722b902de4ba1c3dfdbefec495,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8802379721165927036, guid: 5448b6722b902de4ba1c3dfdbefec495,
         type: 3}
@@ -2088,6 +2255,7 @@ MonoBehaviour:
   Inventory:
   - {fileID: 421680756}
   - {fileID: 2029487536}
+  items: []
   currentItem: {fileID: 0}
   transition: {fileID: 0}
   reticleManager: {fileID: 1271266691}
@@ -2831,18 +2999,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ef3fae6a9d5104bb319b526adcd46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reticle: {fileID: 1271266686}
-  ghostLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  flashlightManager: {fileID: 1802302154}
-  ghostMovement: {fileID: 2130492252}
-  raycastDistance: 50
-  interactionRadius: 3
-  lowerScreenLimit: 200
-  interactionDetectorPrefab: {fileID: 7941405224578499646}
-  maxDistance: 50
-  scaleSpeed: 5
 --- !u!114 &1271266688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2921,9 +3077,7 @@ MonoBehaviour:
   ghostMovement: {fileID: 2130492252}
   inventoryManager: {fileID: 824951945}
   flashlightLight: {fileID: 1818287733}
-  raycastDistance: 50
   interactionRadius: 3
-  lowerScreenLimit: 200
   interactionDetectorPrefab: {fileID: 7941405224578499646}
   maxDistance: 50
   scaleSpeed: 5
@@ -5232,7 +5386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inInventory: 0
-  name: Holy Water
+  itemName: 
   itemNum: 1
   itemIcon: {fileID: 21300000, guid: 979378e55ca5b0546a5b430cc3ca0616, type: 3}
   itemModel: {fileID: 0}
@@ -5363,7 +5517,6 @@ MonoBehaviour:
   playerHealth: 60
   drainRate: 1
   postProcessingVolume: {fileID: 2110415811}
-  ghostMovement: {fileID: 2130492252}
   transition: {fileID: 0}
 --- !u!4 &2033040120
 Transform:
@@ -6161,7 +6314,6 @@ SceneRoots:
   - {fileID: 2135383268}
   - {fileID: 622547604}
   - {fileID: 10063177}
-  - {fileID: 1483721882}
   - {fileID: 1352945265}
   - {fileID: 597509928}
   - {fileID: 699125123}
@@ -6172,4 +6324,6 @@ SceneRoots:
   - {fileID: 824951946}
   - {fileID: 153916806}
   - {fileID: 78891509}
+  - {fileID: 1483721882}
   - {fileID: 659609503}
+  - {fileID: 340475033}
