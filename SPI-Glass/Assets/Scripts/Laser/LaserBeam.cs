@@ -61,7 +61,7 @@ public class LaserBeam
 
         Ray ray = new Ray(pos, dir);
         RaycastHit[] hits = new RaycastHit[10];
-        int hitCount = Physics.RaycastNonAlloc(ray, hits, 30, 1);
+        int hitCount = Physics.RaycastNonAlloc(ray, hits, 30);
 
         if (hitCount > 0)
         {

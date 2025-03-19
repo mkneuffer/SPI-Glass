@@ -116,7 +116,7 @@ public class ARLaserAndMirrorManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
             RaycastHit hitInfo;
             LayerMask mask = LayerMask.GetMask("GhostCollider");
-            if (Physics.Raycast(ray, out hitInfo))
+            if (Physics.Raycast(ray, out hitInfo, 50, ~mask))
             {
                 if (hitInfo.collider.CompareTag("Delete"))
                 {
