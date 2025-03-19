@@ -5,6 +5,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
@@ -28,7 +29,6 @@ public class ThiefGhost : MonoBehaviour
     private bool isAlive = true;
     private bool isStunned = false;
     private bool isInCooldown = false; // Cooldown status
-    private bool canGetRoped = true;
     private bool isRoped = false;
     private bool trapped = false;
 
@@ -44,6 +44,7 @@ public class ThiefGhost : MonoBehaviour
 
     [SerializeField] private float defaultSpeed = 5;
     [SerializeField] private float speed;
+    [SerializeField] private GameObject ghostModel;
 
 
 
@@ -239,6 +240,8 @@ public class ThiefGhost : MonoBehaviour
 
     void Update()
     {
+        ghostModel.transform.rotation = Quaternion.LookRotation(direction);
+        ghostModel.transform.Rotate(new Vector3(0, -90));
         GhostMovement();
     }
 
