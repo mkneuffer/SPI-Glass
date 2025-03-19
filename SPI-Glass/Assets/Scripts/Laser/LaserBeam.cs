@@ -12,7 +12,7 @@ public class LaserBeam
     GameObject laserObj;
     LineRenderer laser;
     List<Vector3> laserIndices = new List<Vector3>();
-    ThiefGhost ghost;
+    private float lineWidth = 0.05f;
     private bool leftColliderHit;
     private bool rightColliderHit;
     private bool frontColliderHit;
@@ -39,8 +39,8 @@ public class LaserBeam
         this.dir = dir;
         this.laser = this.laserObj.AddComponent(typeof(LineRenderer)) as LineRenderer;
 
-        this.laser.startWidth = 0.1f;
-        this.laser.endWidth = 0.1f;
+        this.laser.startWidth = lineWidth;
+        this.laser.endWidth = lineWidth;
         this.laser.material = material;
         this.laser.startColor = Color.green;
         this.laser.endColor = Color.green;
@@ -65,14 +65,13 @@ public class LaserBeam
 
         if (hitCount > 0)
         {
-            // Find and process the closest hits first
+            // Process the closest hits first by sorting (bubble sort)
             for (int i = 0; i < hitCount - 1; i++)
             {
                 for (int j = i + 1; j < hitCount; j++)
                 {
                     if (hits[j].distance < hits[i].distance)
                     {
-                        // Swap elements to sort by distance (simple Bubble Sort swap)
                         RaycastHit temp = hits[i];
                         hits[i] = hits[j];
                         hits[j] = temp;
@@ -157,6 +156,7 @@ public class LaserBeam
             {
                 laserIndices.Add(hitInfo.point);
                 UpdateLaser();
+                break;
             }
         }
         if (!collideWithMirror)

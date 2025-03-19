@@ -83,8 +83,11 @@ public class ThiefGhost : MonoBehaviour
         isInCooldown = false; // Reset cooldown on phase change
         isRoped = false;
         trapped = false;
-        var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();
-        laserAndMirrorManager.DeleteAllObjects();
+        if (phase != 0)
+        {
+            var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();
+            laserAndMirrorManager.DeleteAllObjects();
+        }
 
 
         speed = defaultSpeed;
