@@ -174,7 +174,7 @@ public class ThiefGhost : MonoBehaviour
         {
             speed = 0;
         }
-        else
+        else if (!isStunned)
         {
             speed = defaultSpeed;
         }
