@@ -50,8 +50,6 @@ public class ThiefGhost : MonoBehaviour
 
     void Start()
     {
-        float angle = Random.Range(0, 2 * Mathf.PI);
-        direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
         speed = defaultSpeed;
         ghostAnchor = transform.GetChild(0).gameObject;
         movementAnimator.speed = 0;
@@ -79,11 +77,14 @@ public class ThiefGhost : MonoBehaviour
             return;
         }
 
+        float angle = Random.Range(0, 2 * Mathf.PI);
+        direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
         currentPhase = phase;
         isStunned = false;
         isInCooldown = false; // Reset cooldown on phase change
         isRoped = false;
         trapped = false;
+
         if (phase != 0)
         {
             var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();

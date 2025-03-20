@@ -120,19 +120,19 @@ public class LaserBeam
                 ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
                 ghost.StunGhost();
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderFront"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderFront"))
             {
                 frontColliderHit = true;
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderBack"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderBack"))
             {
                 backColliderHit = true;
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderLeft"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderLeft"))
             {
                 leftColliderHit = true;
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderRight"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderRight"))
             {
                 rightColliderHit = true;
             }
