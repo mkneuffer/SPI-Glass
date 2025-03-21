@@ -327,7 +327,6 @@ MonoBehaviour:
   inputBox: {fileID: 323846413}
   dialogueManager: {fileID: 567000995}
   nextText: {fileID: 4900000, guid: 5b058bc37814ecd49bec848fe05ac114, type: 3}
-  testImage: {fileID: 0}
 --- !u!114 &567000995 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5920100592731701922, guid: 7f3adf094e7c3a84f938e554c474eab7,
@@ -376,7 +375,7 @@ PrefabInstance:
     - target: {fileID: 7869924733931011456, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
