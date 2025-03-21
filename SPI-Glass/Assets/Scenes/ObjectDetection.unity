@@ -1175,7 +1175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &844181598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1272,23 +1272,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4551145067973560782, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
+      propertyPath: inkJSONPrompt
+      value: 
+      objectReference: {fileID: 4900000, guid: 817517d7c26f222488b25fb8f83a6766, type: 3}
+    - target: {fileID: 4551145067973560782, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
       propertyPath: inkJSONDialogue
       value: 
-      objectReference: {fileID: 4900000, guid: af039d0f68f2f7043bb5015b5720c2f0, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4559008868551173854, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5053544994420865340, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5306678996872908374, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5920100592731701922, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
@@ -1834,7 +1839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 885, y: 0}
   m_SizeDelta: {x: 389.056, y: 452.917}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1785280661

@@ -24,4 +24,9 @@ public class TestTriggerDialogue : MonoBehaviour
             state = true;
         }
     }
+
+    public void setState(bool set)
+    {
+        state = set;
+    }
 }
