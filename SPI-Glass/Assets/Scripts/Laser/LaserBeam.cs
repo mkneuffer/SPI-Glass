@@ -22,6 +22,8 @@ public class LaserBeam
     private bool leftBackColliderHit;
     private bool rightBackColliderHit;
 
+
+    //Every frame, a new laser object is created
     public LaserBeam(Vector3 pos, Vector3 dir, Material material)
     {
         // Destroy the previous laser before creating a new one
@@ -55,10 +57,12 @@ public class LaserBeam
         CastRay(pos, dir, laser);
     }
 
+    //Shoots a ray from a point
     void CastRay(Vector3 pos, Vector3 dir, LineRenderer laser)
     {
         laserIndices.Add(pos);
 
+        //Gets all objects hit by raycast within 30 units
         Ray ray = new Ray(pos, dir);
         RaycastHit[] hits = new RaycastHit[10];
         int hitCount = Physics.RaycastNonAlloc(ray, hits, 30);
@@ -78,9 +82,10 @@ public class LaserBeam
                     }
                 }
             }
+            //After sorting hits by distance, process them
             CheckHit(hits, dir, laser, hitCount, ray);
         }
-        else
+        else //If doesn't hit anything, just add a point 30 units away to the line renderer
         {
             laserIndices.Add(ray.GetPoint(30));
         }
@@ -114,12 +119,13 @@ public class LaserBeam
                 collideWithMirror = true;
                 break;
             }
-
+            //Check if laser hits ghost
             if (hitInfo.collider.gameObject.CompareTag("Ghost"))
             {
                 ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
                 ghost.StunGhost();
             }
+            //Check if the ghost is trapped
             else if (hitInfo.collider.gameObject.name.Equals("ColliderFront"))
             {
                 frontColliderHit = true;
@@ -152,6 +158,7 @@ public class LaserBeam
             {
                 leftFrontColliderHit = true;
             }
+            //If laser hits something else and thilas ray hasn't hit a mirror, add that point to index
             else if (!collideWithMirror)
             {
                 laserIndices.Add(hitInfo.point);
@@ -163,6 +170,7 @@ public class LaserBeam
         {
             laserIndices.Add(ray.GetPoint(30));
         }
+
         int count = BoolToInt(leftBackColliderHit) + BoolToInt(rightBackColliderHit) + BoolToInt(leftFrontColliderHit) + BoolToInt(rightFrontColliderHit) + BoolToInt(leftColliderHit) + BoolToInt(backColliderHit) + BoolToInt(rightColliderHit) + BoolToInt(frontColliderHit);
 
         ThiefGhost thiefGhost = GameObject.Find("ThiefGhost(Clone)").GetComponent<ThiefGhost>();
@@ -170,7 +178,8 @@ public class LaserBeam
         thiefGhost.UpdateTrapped(count >= 8);
     }
 
-
+    //Converts a boolean to an integer
+    //True -> 1, False -> 0
     private int BoolToInt(bool b)
     {
         return b ? 1 : 0;

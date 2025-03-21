@@ -31,6 +31,7 @@ public class ThiefGhost : MonoBehaviour
     private bool isInCooldown = false; // Cooldown status
     private bool isRoped = false;
     private bool trapped = false;
+    private float stunCooldown = 0.1f;
 
 
     // UI Events
@@ -118,6 +119,7 @@ public class ThiefGhost : MonoBehaviour
         }
     }
 
+    //Given an object, destorys it's entire heirarchy
     private void DestoryTrueParent(GameObject gameObject)
     {
         while (gameObject.transform.parent != null)
@@ -127,6 +129,7 @@ public class ThiefGhost : MonoBehaviour
         Destroy(gameObject, 0.2f);
     }
 
+    //Stuns the ghost
     public void StunGhost()
     {
         if (isStunned || isInCooldown)
@@ -138,9 +141,11 @@ public class ThiefGhost : MonoBehaviour
         Debug.Log($"Ghost is stunned.");
         ghostAnimator.Play("Stun");
         speed = 0;
+        //After 3 seconds, end the stun
         Invoke(nameof(EndStun), 3f);
     }
 
+    //Stops the ghost from being stunned and starts a cooldown for when it can be stunned again
     private void EndStun()
     {
         if (!trapped)
@@ -152,18 +157,20 @@ public class ThiefGhost : MonoBehaviour
             ghostAnimator.Play("Float");
 
             speed = defaultSpeed;
-            Invoke(nameof(EndCooldown), .1f);
+            Invoke(nameof(EndCooldown), stunCooldown);
         }
     }
 
+
+    //Ends the cooldown between stuns and allows the ghost to be stunned again
     private void EndCooldown()
     {
         isInCooldown = false;
         Debug.Log("Cooldown ended. Ghost can now be stunned again.");
-
-        OnStunCooldownChanged?.Invoke(false); // Notify UI that cooldown ended
     }
 
+    //Updates whether the ghost is trapped or not
+    //If new value is the same as old value, just do nothing
     public void UpdateTrapped(bool isTrapped)
     {
         if (trapped == isTrapped)
@@ -182,12 +189,15 @@ public class ThiefGhost : MonoBehaviour
         Debug.Log($"Trapped is set to {trapped}");
     }
 
+    //Goes to the next phase of the fight
     private void AdvancePhase()
     {
         Debug.Log($"Phase {currentPhase + 1} completed.");
         StartPhase(currentPhase + 1);
     }
 
+    //Ghost dies
+    //Go to next scene after 3 seconds
     private void Die()
     {
         if (!isAlive) return; // Prevent multiple calls
@@ -216,6 +226,7 @@ public class ThiefGhost : MonoBehaviour
         Invoke(nameof(SwitchScene), 3f);
     }
 
+    //Switches scene to scene corresponding to nextSceneName
     private void SwitchScene()
     {
         if (!string.IsNullOrEmpty(nextSceneName))
@@ -246,8 +257,11 @@ public class ThiefGhost : MonoBehaviour
         GhostMovement();
     }
 
+    //Handles the thief ghost's movement
+    //Ghost moves around on the floor and bounces off of walls
     private void GhostMovement()
     {
+
         if (ghostAnchor.transform.localPosition.x > 5)
         {
             if (canXReflect)

@@ -223,6 +223,8 @@ public class ARLaserAndMirrorManager : MonoBehaviour
         data.prefabType = type;
     }
 
+    //Deletes all lasers/mirrors from the world
+    //Deletes all objects with "DestroyThis" tag
     public void DeleteAllObjects()
     {
         //Delete all mirrors/lasers
