@@ -1835,10 +1835,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4551145067973560782, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: inkJSONPrompt
+      value: 
+      objectReference: {fileID: 4900000, guid: 33e1ef7b80e96fb46ac6fbfc78f966b4, type: 3}
     - target: {fileID: 5053544994420865340, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5306678996872908374, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
@@ -1983,6 +1988,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   minimumSpawnDistance: 4
   maximumSpawnDistance: 7
+  useIdentityRotation: 0
 --- !u!114 &1249585635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1997,6 +2003,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab1: {fileID: 59418755697362400, guid: 5d73872b201044bff8ffe0f362fbc9c5, type: 3}
   prefab2: {fileID: 640852640591134413, guid: 84525d01e9ede4d23aad9d1a6084b333, type: 3}
+  inventoryMax1: 5
+  inventoryMax2: 1
   inventoryCount1: 5
   inventoryCount2: 1
   launcher: {fileID: 2098247548}

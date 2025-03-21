@@ -24,6 +24,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Animator transition;
     [SerializeField] private float transitionTime;
     [SerializeField] private PostProcessingSwitcher postProcessingSwitcher;
+    [SerializeField] private TextAsset scene4Prompt;
+    [SerializeField] private TestTriggerDialogue triggerDialogue;
 
 
 
@@ -397,6 +399,31 @@ public class DialogueManager : MonoBehaviour
             currentStory.BindExternalFunction("openNameField", () =>
             {
                 nameField.SetActive(true);
+            });
+        }
+
+        {
+            currentStory.BindExternalFunction("scene4Func", () =>
+            {
+                Debug.Log("scene 4 func started");
+                if (scene4Prompt != null)
+                {
+                    EnterDialogueMode(scene4Prompt, false, 0.6f);
+                }
+                else
+                {
+                    Debug.LogWarning("no scene 4 prompt found");
+                }
+
+                XR_Placement placement = FindObjectOfType<XR_Placement>();
+                if (placement != null)
+                {
+                    placement.SpawnGhost(); // Makes the prefab visible
+                }
+                else
+                {
+                    Debug.LogWarning("XR_Placement script not found in the scene.");
+                }
             });
         }
 
