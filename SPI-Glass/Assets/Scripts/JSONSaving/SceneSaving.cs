@@ -54,18 +54,11 @@ public class SceneSaving : MonoBehaviour
         {
             LoadData();
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Test2");
-            sceneData.nextScene();
-            SaveData();
-        }
     }
 
     private void setScene()
     {
-        sceneData = new SceneData(0, 0);
+        sceneData = new SceneData(0);
     }
 
     public void SaveData()
@@ -98,5 +91,10 @@ public class SceneSaving : MonoBehaviour
     public void loadGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(loadScene);
+    }
+
+    public void nextScene()
+    {
+        sceneData.nextScene();
     }
 }

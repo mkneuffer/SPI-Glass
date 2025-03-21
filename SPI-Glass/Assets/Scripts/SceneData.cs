@@ -8,10 +8,9 @@ public class SceneData
     public int scene;
     public int quest;
 
-    public SceneData(int scene, int quest)
+    public SceneData(int scene)
     {
         this.scene = scene;
-        this.quest = quest;
     }
     // Start is called before the first frame update
 
