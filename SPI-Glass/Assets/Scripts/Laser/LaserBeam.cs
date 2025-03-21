@@ -12,7 +12,7 @@ public class LaserBeam
     GameObject laserObj;
     LineRenderer laser;
     List<Vector3> laserIndices = new List<Vector3>();
-    ThiefGhost ghost;
+    private float lineWidth = 0.05f;
     private bool leftColliderHit;
     private bool rightColliderHit;
     private bool frontColliderHit;
@@ -22,6 +22,8 @@ public class LaserBeam
     private bool leftBackColliderHit;
     private bool rightBackColliderHit;
 
+
+    //Every frame, a new laser object is created
     public LaserBeam(Vector3 pos, Vector3 dir, Material material)
     {
         // Destroy the previous laser before creating a new one
@@ -39,8 +41,8 @@ public class LaserBeam
         this.dir = dir;
         this.laser = this.laserObj.AddComponent(typeof(LineRenderer)) as LineRenderer;
 
-        this.laser.startWidth = 0.1f;
-        this.laser.endWidth = 0.1f;
+        this.laser.startWidth = lineWidth;
+        this.laser.endWidth = lineWidth;
         this.laser.material = material;
         this.laser.startColor = Color.green;
         this.laser.endColor = Color.green;
@@ -55,33 +57,35 @@ public class LaserBeam
         CastRay(pos, dir, laser);
     }
 
+    //Shoots a ray from a point
     void CastRay(Vector3 pos, Vector3 dir, LineRenderer laser)
     {
         laserIndices.Add(pos);
 
+        //Gets all objects hit by raycast within 30 units
         Ray ray = new Ray(pos, dir);
         RaycastHit[] hits = new RaycastHit[10];
-        int hitCount = Physics.RaycastNonAlloc(ray, hits, 30, 1);
+        int hitCount = Physics.RaycastNonAlloc(ray, hits, 30);
 
         if (hitCount > 0)
         {
-            // Find and process the closest hits first
+            // Process the closest hits first by sorting (bubble sort)
             for (int i = 0; i < hitCount - 1; i++)
             {
                 for (int j = i + 1; j < hitCount; j++)
                 {
                     if (hits[j].distance < hits[i].distance)
                     {
-                        // Swap elements to sort by distance (simple Bubble Sort swap)
                         RaycastHit temp = hits[i];
                         hits[i] = hits[j];
                         hits[j] = temp;
                     }
                 }
             }
+            //After sorting hits by distance, process them
             CheckHit(hits, dir, laser, hitCount, ray);
         }
-        else
+        else //If doesn't hit anything, just add a point 30 units away to the line renderer
         {
             laserIndices.Add(ray.GetPoint(30));
         }
@@ -115,25 +119,26 @@ public class LaserBeam
                 collideWithMirror = true;
                 break;
             }
-
+            //Check if laser hits ghost
             if (hitInfo.collider.gameObject.CompareTag("Ghost"))
             {
                 ThiefGhost ghost = hitInfo.transform.gameObject.GetComponent<ThiefGhost>();
                 ghost.StunGhost();
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderFront"))
+            //Check if the ghost is trapped
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderFront"))
             {
                 frontColliderHit = true;
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderBack"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderBack"))
             {
                 backColliderHit = true;
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderLeft"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderLeft"))
             {
                 leftColliderHit = true;
             }
-            else if (hitInfo.collider.gameObject.CompareTag("GhostLaserColliderRight"))
+            else if (hitInfo.collider.gameObject.name.Equals("ColliderRight"))
             {
                 rightColliderHit = true;
             }
@@ -153,16 +158,19 @@ public class LaserBeam
             {
                 leftFrontColliderHit = true;
             }
+            //If laser hits something else and thilas ray hasn't hit a mirror, add that point to index
             else if (!collideWithMirror)
             {
                 laserIndices.Add(hitInfo.point);
                 UpdateLaser();
+                break;
             }
         }
         if (!collideWithMirror)
         {
             laserIndices.Add(ray.GetPoint(30));
         }
+
         int count = BoolToInt(leftBackColliderHit) + BoolToInt(rightBackColliderHit) + BoolToInt(leftFrontColliderHit) + BoolToInt(rightFrontColliderHit) + BoolToInt(leftColliderHit) + BoolToInt(backColliderHit) + BoolToInt(rightColliderHit) + BoolToInt(frontColliderHit);
 
         ThiefGhost thiefGhost = GameObject.Find("ThiefGhost(Clone)").GetComponent<ThiefGhost>();
@@ -170,7 +178,8 @@ public class LaserBeam
         thiefGhost.UpdateTrapped(count >= 8);
     }
 
-
+    //Converts a boolean to an integer
+    //True -> 1, False -> 0
     private int BoolToInt(bool b)
     {
         return b ? 1 : 0;

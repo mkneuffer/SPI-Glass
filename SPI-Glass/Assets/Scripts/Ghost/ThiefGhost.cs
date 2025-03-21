@@ -5,6 +5,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
@@ -28,9 +29,9 @@ public class ThiefGhost : MonoBehaviour
     private bool isAlive = true;
     private bool isStunned = false;
     private bool isInCooldown = false; // Cooldown status
-    private bool canGetRoped = true;
     private bool isRoped = false;
     private bool trapped = false;
+    private float stunCooldown = 0.1f;
 
 
     // UI Events
@@ -44,13 +45,12 @@ public class ThiefGhost : MonoBehaviour
 
     [SerializeField] private float defaultSpeed = 5;
     [SerializeField] private float speed;
+    [SerializeField] private GameObject ghostModel;
 
 
 
     void Start()
     {
-        float angle = Random.Range(0, 2 * Mathf.PI);
-        direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
         speed = defaultSpeed;
         ghostAnchor = transform.GetChild(0).gameObject;
         movementAnimator.speed = 0;
@@ -78,13 +78,19 @@ public class ThiefGhost : MonoBehaviour
             return;
         }
 
+        float angle = Random.Range(0, 2 * Mathf.PI);
+        direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
         currentPhase = phase;
         isStunned = false;
         isInCooldown = false; // Reset cooldown on phase change
         isRoped = false;
         trapped = false;
-        var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();
-        laserAndMirrorManager.DeleteAllObjects();
+
+        if (phase != 0)
+        {
+            var laserAndMirrorManager = GameObject.Find("XR Origin").GetComponent<ARLaserAndMirrorManager>();
+            laserAndMirrorManager.DeleteAllObjects();
+        }
 
 
         speed = defaultSpeed;
@@ -113,6 +119,7 @@ public class ThiefGhost : MonoBehaviour
         }
     }
 
+    //Given an object, destorys it's entire heirarchy
     private void DestoryTrueParent(GameObject gameObject)
     {
         while (gameObject.transform.parent != null)
@@ -122,6 +129,7 @@ public class ThiefGhost : MonoBehaviour
         Destroy(gameObject, 0.2f);
     }
 
+    //Stuns the ghost
     public void StunGhost()
     {
         if (isStunned || isInCooldown)
@@ -133,9 +141,11 @@ public class ThiefGhost : MonoBehaviour
         Debug.Log($"Ghost is stunned.");
         ghostAnimator.Play("Stun");
         speed = 0;
+        //After 3 seconds, end the stun
         Invoke(nameof(EndStun), 3f);
     }
 
+    //Stops the ghost from being stunned and starts a cooldown for when it can be stunned again
     private void EndStun()
     {
         if (!trapped)
@@ -147,18 +157,20 @@ public class ThiefGhost : MonoBehaviour
             ghostAnimator.Play("Float");
 
             speed = defaultSpeed;
-            Invoke(nameof(EndCooldown), .1f);
+            Invoke(nameof(EndCooldown), stunCooldown);
         }
     }
 
+
+    //Ends the cooldown between stuns and allows the ghost to be stunned again
     private void EndCooldown()
     {
         isInCooldown = false;
         Debug.Log("Cooldown ended. Ghost can now be stunned again.");
-
-        OnStunCooldownChanged?.Invoke(false); // Notify UI that cooldown ended
     }
 
+    //Updates whether the ghost is trapped or not
+    //If new value is the same as old value, just do nothing
     public void UpdateTrapped(bool isTrapped)
     {
         if (trapped == isTrapped)
@@ -170,19 +182,22 @@ public class ThiefGhost : MonoBehaviour
         {
             speed = 0;
         }
-        else
+        else if (!isStunned)
         {
             speed = defaultSpeed;
         }
         Debug.Log($"Trapped is set to {trapped}");
     }
 
+    //Goes to the next phase of the fight
     private void AdvancePhase()
     {
         Debug.Log($"Phase {currentPhase + 1} completed.");
         StartPhase(currentPhase + 1);
     }
 
+    //Ghost dies
+    //Go to next scene after 3 seconds
     private void Die()
     {
         if (!isAlive) return; // Prevent multiple calls
@@ -211,6 +226,7 @@ public class ThiefGhost : MonoBehaviour
         Invoke(nameof(SwitchScene), 3f);
     }
 
+    //Switches scene to scene corresponding to nextSceneName
     private void SwitchScene()
     {
         if (!string.IsNullOrEmpty(nextSceneName))
@@ -236,11 +252,16 @@ public class ThiefGhost : MonoBehaviour
 
     void Update()
     {
+        ghostModel.transform.rotation = Quaternion.LookRotation(direction);
+        ghostModel.transform.Rotate(new Vector3(0, -90));
         GhostMovement();
     }
 
+    //Handles the thief ghost's movement
+    //Ghost moves around on the floor and bounces off of walls
     private void GhostMovement()
     {
+
         if (ghostAnchor.transform.localPosition.x > 5)
         {
             if (canXReflect)
