@@ -1,0 +1,1 @@
+﻿{"inkVersion":21,"root":[["^Find some trees and tap on them to collect some wood. ","#","^Speaker:Archibald ","/#","#","^portrait:archibald ","/#","#","^layout:left","/#","\n","^I’ll need five pieces to be able to make it into a grail.","\n","end",["done",{"#f":5,"#n":"g-0"}],null],"done",{"#f":1}],"listDefs":{}}

@@ -10,6 +10,7 @@ public class SceneSaving : MonoBehaviour
     private string path = "";
     private string persistentPath = "";
     public SceneData sceneData;
+    public int loadScene;
     // Start is called before the first frame update
     void Awake()
     {
@@ -86,5 +87,16 @@ public class SceneSaving : MonoBehaviour
         string json = reader.ReadToEnd();
 
         SceneData scene = JsonUtility.FromJson<SceneData>(json);
+        loadScene = scene.getScene();
+    }
+
+    public void LoadNewGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scene1");
+    }
+
+    public void loadGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(loadScene);
     }
 }

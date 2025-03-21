@@ -19,6 +19,12 @@ public class SceneData
     {
         scene++;
     }
+
+    public int getScene()
+    {
+        return scene;
+    }
+
     void Start()
     {
         
