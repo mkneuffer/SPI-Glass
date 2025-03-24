@@ -14,7 +14,6 @@ public class SettingsSaving : MonoBehaviour
     [SerializeField] private GameObject inputBox;
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private TextAsset nextText;
-    [SerializeField] private GameObject testImage;
     // Start is called before the first frame update
     void Start()
     {

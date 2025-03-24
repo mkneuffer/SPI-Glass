@@ -18,10 +18,6 @@ TagManager:
   - Rope
   - Delete
   - Rotate
-  - GhostLaserColliderLeft
-  - GhostLaserColliderRight
-  - GhostLaserColliderFront
-  - GhostLaserColliderBack
   - DestroyThis
   layers:
   - Default
