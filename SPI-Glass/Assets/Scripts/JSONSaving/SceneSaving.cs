@@ -11,6 +11,8 @@ public class SceneSaving : MonoBehaviour
     private string persistentPath = "";
     public SceneData sceneData;
     public int loadScene;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject loadGameMenu;
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,6 +35,8 @@ public class SceneSaving : MonoBehaviour
             LoadData();
             Debug.Log("loading data");
         }
+        mainMenu.SetActive(true);
+        loadGameMenu.SetActive(false);
 
         
     }
@@ -88,13 +92,21 @@ public class SceneSaving : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scene1");
     }
 
-    public void loadGame()
+    public void loadQuest2()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(loadScene);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 1");
+    }
+
+    public void changeMenu(bool change)
+    {
+        loadGameMenu.SetActive(change);
+        mainMenu.SetActive(!change);
     }
 
     public void nextScene()
     {
         sceneData.nextScene();
     }
+
+
 }
