@@ -9,8 +9,8 @@ Ok… And why are we just trusting that random ghost on the street? #speaker:Pla
 Because if what he said is true and we missed the opportunity, I would tear out my eyeballs out of regret. Obviously. #speaker:Archibald #portrait:archibald
 … #speaker:Player #portrait:0
 Here we are. #speaker:Archibald #portrait:archibald
-Yo. Who’re you? #speaker:Goon 1 #portrait:goon1neutral
-Hmmhm? Blonde one… look rich. Other one… look broke. #speaker:Goon 2 #portrait:goon2neutral
+Yo. Who’re you? #speaker:Goon 1 #portrait:MafiaGoon1
+Hmmhm? Blonde one… look rich. Other one… look broke. #speaker:Goon 2 #portrait:MafiaGoon2
 -> choice
 
 === choice ===
@@ -25,8 +25,8 @@ Hmmhm? Blonde one… look rich. Other one… look broke. #speaker:Goon 2 #portra
 
 === continue ===
 My fellow ghosts, please excuse my unannounced visit. I have a very important meeting with your boss. #speaker:Archibald #portrait:archibald
-Important dude. Welcome. Come in. #speaker:Goon 1 #portrait:goon1neutral
-And poor-looking one? #speaker:Goon 2 #portrait:goon2neutral
+Important dude. Welcome. Come in. #speaker:Goon 1 #portrait:MafiaGoon1
+And poor-looking one? #speaker:Goon 2 #portrait:MafiaGoon2
 My servant. #speaker:Archibald #portrait:archibald
 ~SwitchToThiefScene4()
 -> END
