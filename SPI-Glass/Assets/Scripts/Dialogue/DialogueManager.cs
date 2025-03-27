@@ -970,9 +970,11 @@ public class DialogueManager : MonoBehaviour
 
         IEnumerator LoadThiefMap1()
         {
+            Debug.Log("loading thief map 1");
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
+            Debug.Log("second load");
             UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Map 1");
         }
 
