@@ -35,8 +35,12 @@ public class SceneSaving : MonoBehaviour
             LoadData();
             Debug.Log("loading data");
         }
-        mainMenu.SetActive(true);
-        loadGameMenu.SetActive(false);
+        if (mainMenu != null && loadGameMenu != null)
+        {
+            mainMenu.SetActive(true);
+            loadGameMenu.SetActive(false);
+        }
+        
 
         
     }

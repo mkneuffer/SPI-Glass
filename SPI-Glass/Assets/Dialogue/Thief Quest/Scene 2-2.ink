@@ -1,4 +1,4 @@
-EXTERNAL SwitchToThiefScene3()
+EXTERNAL SwitchToThiefMap1()
 
 Hi, friends. #speaker:Owlish Ghost #portrait:thiefneutral #layout:left
 … Archibald, you know this guy? #speaker:Player #portrait:0
@@ -26,6 +26,6 @@ Well, this guy doesn’t mind it, so it won’t be a problem! #speaker:Archibald
 Here… A map…  If they catch you… death is guaranteed… #speaker:Owlish Ghost #portrait:thiefneutral
 Let’s go, human! #speaker:Archibald, #portrait:archibald
 Hey, I think you forgot to ask for my opinion…? #speaker:Player #portrait:0
-~SwitchToThiefScene3()
+~ SwitchToThiefMap1()
 
 -> END

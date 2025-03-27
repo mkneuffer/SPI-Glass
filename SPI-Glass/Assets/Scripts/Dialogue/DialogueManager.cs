@@ -963,6 +963,32 @@ public class DialogueManager : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 11");
         }
 
+        currentStory.BindExternalFunction("SwitchToThiefMap1", () =>
+        {
+            StartCoroutine(LoadThiefMap1());
+        });
+
+        IEnumerator LoadThiefMap1()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Map 1");
+        }
+
+        currentStory.BindExternalFunction("SwitchToThiefMap2", () =>
+        {
+            StartCoroutine(LoadThiefMap2());
+        });
+
+        IEnumerator LoadThiefMap2()
+        {
+            dialoguePanel.SetActive(false);
+            transition.SetTrigger("Start");
+            yield return new WaitForSeconds(transitionTime);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Map 2");
+        }
+
 
 
 
