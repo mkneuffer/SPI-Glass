@@ -1,4 +1,4 @@
-﻿EXTERNAL SwitchToThiefFight()
+EXTERNAL SwitchToThiefFight()
 
 Psst. #speaker:Owlish Ghost #portrait:thiefneutral
 Is that— #speaker:Player #portrait:0
