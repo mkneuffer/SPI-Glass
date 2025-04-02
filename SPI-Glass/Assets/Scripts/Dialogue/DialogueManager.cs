@@ -510,7 +510,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Object Detection");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ObjectDetection");
         }
 
         currentStory.BindExternalFunction("SwitchToScene3", () =>
