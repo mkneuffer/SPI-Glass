@@ -10,10 +10,11 @@ public class StumpPlace : MonoBehaviour
     [SerializeField] private float minimumSpawnDistance = 1.0f; // Minimum distance to camera for spawning
     [SerializeField] private float maximumSpawnDistance = 10.0f; // Maximum distance to camera for spawning
     [SerializeField] public bool useIdentityRotation;
+    [SerializeField] private bool dontSpawnImmediately = false;
     private ARRaycastManager raycastManager; // Reference to the ARRaycastManager
     private ARPlaneManager planeManager; // Reference to the ARPlaneManager
     private GameObject instantiatedPrefab; // The instantiated prefab
-    private bool isGhostVisible = false; // Tracks visibility state
+    private bool objectPlaced = false; // Tracks whether object has been placed yet
 
     public static System.Action<Transform> OnGhostSpawned;
 
@@ -43,7 +44,7 @@ public class StumpPlace : MonoBehaviour
 
     void Update()
     {
-        if (!isGhostVisible)
+        if (!objectPlaced)
         {
             TryPlacePrefab();
         }
@@ -97,12 +98,15 @@ public class StumpPlace : MonoBehaviour
             {
                 instantiatedPrefab.transform.rotation = Quaternion.LookRotation(directionToCamera); // Face the camera
             }
-            instantiatedPrefab.SetActive(true);
-            isGhostVisible = true;
-            EnablePrefabAnimations();
+            if (!dontSpawnImmediately)
+            {
+                instantiatedPrefab.SetActive(true);
+                EnablePrefabAnimations();
+                // Call the OnGhostSpawned event
+                OnGhostSpawned?.Invoke(instantiatedPrefab.transform);
+            }
+            objectPlaced = true;
 
-            // Call the OnGhostSpawned event
-            OnGhostSpawned?.Invoke(instantiatedPrefab.transform);
 
             // Debug log for successful placement
             Debug.Log($"Prefab positioned and made visible at {furthestValidPosition} on a valid plane at distance {furthestValidDistance}.");
@@ -118,7 +122,7 @@ public class StumpPlace : MonoBehaviour
         if (instantiatedPrefab != null && instantiatedPrefab.activeSelf)
         {
             instantiatedPrefab.SetActive(false); // Make the prefab invisible
-            isGhostVisible = false; // Reset visibility flag
+            objectPlaced = false; // Reset visibility flag
             DisablePrefabAnimations(); // Stop any animations or effects
             Debug.Log("Ghost has been hidden.");
         }
@@ -144,5 +148,17 @@ public class StumpPlace : MonoBehaviour
         {
             animator.enabled = false;
         }
+    }
+
+    public void EnableObject()
+    {
+        if (!objectPlaced)
+        {
+            return;
+        }
+        instantiatedPrefab.SetActive(true);
+        EnablePrefabAnimations();
+        // Call the OnGhostSpawned event
+        OnGhostSpawned?.Invoke(instantiatedPrefab.transform);
     }
 }

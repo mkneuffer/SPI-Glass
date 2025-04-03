@@ -32,7 +32,7 @@ public class SemanticQuery : MonoBehaviour
     [SerializeField] private bool testing = false;
     private int touchTime = 0;
 
-    [SerializeField] private XR_Placement xrPlacement; // Reference to the XR_Placement script
+    [SerializeField] private StumpPlace stumpPlace; // Reference to the StumpPlace script
 
     private float actionInterval = 0.05f; // Limit processing to every 50ms
     private float lastActionTime = 0.0f;
@@ -123,13 +123,13 @@ public class SemanticQuery : MonoBehaviour
         // Trigger the prefab spawn when enough wood is collected
         if (woodInProgressBar >= woodNeededToCraftGrail)
         {
-            if (xrPlacement != null)
+            if (stumpPlace != null)
             {
-                xrPlacement.SpawnGhost();
+                stumpPlace.EnableObject();
             }
             else
             {
-                Debug.LogWarning("XR_Placement reference is not set!");
+                Debug.LogWarning("StumpPlace reference is not set!");
             }
         }
     }

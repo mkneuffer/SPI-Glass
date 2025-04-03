@@ -965,7 +965,7 @@ MonoBehaviour:
   woodSpeed: 3700
   transition: {fileID: 844181599}
   testing: 1
-  xrPlacement: {fileID: 0}
+  stumpPlace: {fileID: 991402184}
 --- !u!114 &505250066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,6 +1371,18 @@ PrefabInstance:
       insertIndex: 6
       addedObject: {fileID: 417246946}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 308598641408974698, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 991402184}
+    - targetCorrespondingSourceObject: {fileID: 308598641408974698, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 991402186}
+    - targetCorrespondingSourceObject: {fileID: 308598641408974698, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 991402185}
     - targetCorrespondingSourceObject: {fileID: 7002206231417343082, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       insertIndex: -1
@@ -1426,6 +1438,57 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &991402183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 308598641408974698, guid: 7f3adf094e7c3a84f938e554c474eab7,
+    type: 3}
+  m_PrefabInstance: {fileID: 991402180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &991402184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991402183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2af1325a2ee44ab3b5b4a9fe6969359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6800554348828630263, guid: eecccd038955f46ab8727ca09a2b4601, type: 3}
+  parent: {fileID: 0}
+  minimumSpawnDistance: 2
+  maximumSpawnDistance: 6
+  useIdentityRotation: 0
+  dontSpawnImmediately: 1
+--- !u!114 &991402185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991402183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastPrefab: {fileID: 0}
+--- !u!114 &991402186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991402183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlanePrefab: {fileID: 0}
+  m_DetectionMode: -1
 --- !u!1 &1252746122
 GameObject:
   m_ObjectHideFlags: 0
