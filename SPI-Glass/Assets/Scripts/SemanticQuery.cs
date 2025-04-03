@@ -27,10 +27,12 @@ public class SemanticQuery : MonoBehaviour
     public int woodCount;
     public int woodInProgressBar;
     [SerializeField] public int woodNeededToCraftGrail = 5;
+    [SerializeField] private float woodSpeed = 3700;
     [SerializeField] private Animator transition;
+    [SerializeField] private bool testing = false;
     private int touchTime = 0;
 
-    [SerializeField] private XR_Placement xrPlacement; // Reference to the XR_Placement script
+    [SerializeField] private StumpPlace stumpPlace; // Reference to the StumpPlace script
 
     private float actionInterval = 0.05f; // Limit processing to every 50ms
     private float lastActionTime = 0.0f;
@@ -99,19 +101,19 @@ public class SemanticQuery : MonoBehaviour
                 touchTime++;
             }
             touchTime = 0;
-            Debug.Log("touch time reset");
 
             StartCoroutine(ProcessSegmentation(pos));
         }
 
-        Vector3 goingTo = new Vector3(0 + 210, Screen.height - 1 - 260, -1);
+        Vector3 goingTo = new Vector3(Screen.width - 195, Screen.height - 1 - 150, -1);
         foreach (GameObject wood in woodObjects)
         {
-            if (wood != null)
+            if (wood != null && wood.activeSelf)
             {
-                wood.transform.position = Vector3.MoveTowards(wood.transform.position, goingTo, Time.deltaTime * 1000);
-                if (Vector3.Distance(goingTo, wood.transform.position) < 150)
+                wood.transform.position = Vector3.MoveTowards(wood.transform.position, goingTo, Time.deltaTime * woodSpeed);
+                if (Vector3.Distance(goingTo, wood.transform.position) < 100)
                 {
+                    wood.transform.position = new Vector3();
                     ReturnToPool(wood);
                     woodInProgressBar++;
                 }
@@ -121,13 +123,13 @@ public class SemanticQuery : MonoBehaviour
         // Trigger the prefab spawn when enough wood is collected
         if (woodInProgressBar >= woodNeededToCraftGrail)
         {
-            if (xrPlacement != null)
+            if (stumpPlace != null)
             {
-                xrPlacement.SpawnGhost();
+                stumpPlace.EnableObject();
             }
             else
             {
-                Debug.LogWarning("XR_Placement reference is not set!");
+                Debug.LogWarning("StumpPlace reference is not set!");
             }
         }
     }
@@ -135,7 +137,7 @@ public class SemanticQuery : MonoBehaviour
     //Sets a 0.5 second delay between when it allows tapping
     private IEnumerator AllowTappingTime()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         allowTapping = true;
     }
 
@@ -147,10 +149,9 @@ public class SemanticQuery : MonoBehaviour
         if (list.Count > 0)
         {
             channel = list[0];
-
             foreach (var channelToObject in ChannelToObjects)
             {
-                if ("foliage" == channel && woodCount < woodNeededToCraftGrail)
+                if (("foliage" == channel || testing) && woodCount < woodNeededToCraftGrail)
                 {
                     woodCount++;
                     GameObject newObject = GetPooledObject();
