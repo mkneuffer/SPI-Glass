@@ -21,20 +21,6 @@ public class SceneSaving : MonoBehaviour
     
     void Start()
     {
-        setScene();
-        SetPaths();
-        LoadData();
-        if (path == null)
-        {
-            setScene();
-            SetPaths();
-            Debug.Log("setting default scene");
-        }
-        else
-        {
-            LoadData();
-            Debug.Log("loading data");
-        }
         if (mainMenu != null && loadGameMenu != null)
         {
             mainMenu.SetActive(true);
@@ -44,52 +30,14 @@ public class SceneSaving : MonoBehaviour
 
         
     }
-
-    private void SetPaths()
-    {
-        path = Application.dataPath + Path.AltDirectorySeparatorChar + "SceneData.json";
-        persistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "SceneData.json";
-    }
     
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveData();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadData();
-        }
-    }
 
     private void setScene()
     {
         sceneData = new SceneData(0);
     }
 
-    public void SaveData()
-    {
-        string savePath = path;
-
-        Debug.Log("Saving Data at " + savePath);
-        string scene = JsonUtility.ToJson(sceneData);
-        Debug.Log(scene);
-
-
-        using StreamWriter writer = new StreamWriter(savePath);
-        writer.Write(scene);
-    }
-
-    public void LoadData()
-    {
-        using StreamReader reader = new StreamReader(path);
-        string json = reader.ReadToEnd();
-
-        SceneData scene = JsonUtility.FromJson<SceneData>(json);
-        loadScene = scene.getScene();
-    }
 
     public void LoadNewGame()
     {
