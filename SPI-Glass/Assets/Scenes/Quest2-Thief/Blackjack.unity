@@ -1942,7 +1942,7 @@ PrefabInstance:
     - target: {fileID: 8432137563421758757, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8934875888724931366, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
@@ -2622,6 +2622,7 @@ MonoBehaviour:
   minimumSpawnDistance: 2
   maximumSpawnDistance: 5
   useIdentityRotation: 0
+  dontSpawnImmediately: 0
 --- !u!114 &2115113556
 MonoBehaviour:
   m_ObjectHideFlags: 0
