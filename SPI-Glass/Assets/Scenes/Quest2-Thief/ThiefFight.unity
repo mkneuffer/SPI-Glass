@@ -1855,6 +1855,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: _FullGamePrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7869924733931011456, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8312220943446399640, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1910,12 +1915,12 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5170396110069565814, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 621424329}
+      insertIndex: 1
+      addedObject: {fileID: 73424377}
     - targetCorrespondingSourceObject: {fileID: 5170396110069565814, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 73424377}
+      addedObject: {fileID: 621424329}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 308598641408974698, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
@@ -1969,8 +1974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlanePrefab: {fileID: 5535526792576877438, guid: f910de70f83e14949b8052cbc376729c,
-    type: 3}
+  m_PlanePrefab: {fileID: 0}
   m_DetectionMode: 1
 --- !u!114 &1249585634
 MonoBehaviour:

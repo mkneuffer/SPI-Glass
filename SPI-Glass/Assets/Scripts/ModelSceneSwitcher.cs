@@ -6,6 +6,7 @@ public class SceneSwitcherOnClick : MonoBehaviour
 {
     public Animator transition;
     public float transitionTime = 3f;
+    [SerializeField] string sceneToSwitch;
 
     void OnMouseDown()
     {
@@ -16,6 +17,6 @@ public class SceneSwitcherOnClick : MonoBehaviour
     {
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(sceneToSwitch);
     }
 }

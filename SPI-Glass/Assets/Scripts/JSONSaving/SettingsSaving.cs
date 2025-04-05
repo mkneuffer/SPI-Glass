@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class SettingsSaving : MonoBehaviour
 {
-    private string path = "";
     private string persistentPath = "";
     public SettingsData settingsData;
     [SerializeField] private string inputField;
@@ -15,7 +14,19 @@ public class SettingsSaving : MonoBehaviour
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private TextAsset nextText;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        if (FindObjectsOfType<SettingsSaving>().Length > 1)
+        {
+            Destroy(gameObject);  // Destroy the duplicate
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);  // Make this object persist across scenes
+        }
+    }
+
+        void Start()
     {
         setSettings();
         SetPaths();
@@ -24,21 +35,13 @@ public class SettingsSaving : MonoBehaviour
 
     private void SetPaths()
     {
-        path = Application.dataPath + Path.AltDirectorySeparatorChar + "SettingsData.json";
-        persistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "SettingsData.json";
+        persistentPath = Path.Combine(Application.persistentDataPath, "SettingsData.json");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveData();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadData();
-        }
+
     }
 
     private void setSettings()
@@ -78,31 +81,50 @@ public class SettingsSaving : MonoBehaviour
             Vector3 newBoxPos = new Vector3(10000, 10000, 0);
             inputBox.transform.position = newBoxPos;
             dialogueManager.EnterDialogueMode(nextText, true);
+            Debug.Log("saving data");
             SaveData();
+            Debug.Log("saved");
         }
     }
 
     public void SaveData()
     {
-        string savePath = persistentPath;
+        try
+        {
+            Debug.Log("Saving Data at " + persistentPath);
+            string settingsJson = JsonUtility.ToJson(settingsData);
+            Debug.Log(settingsJson);
 
-        Debug.Log("Saving Data at " + savePath);
-        string settings = JsonUtility.ToJson(settingsData);
-        Debug.Log(settings);
+            // Use StreamWriter to save the settings in the persistent data path
+            File.WriteAllText(persistentPath, settingsJson);  // File.WriteAllText is a simpler method for saving text files
 
-
-        using StreamWriter writer = new StreamWriter(savePath);
-        writer.Write(settings);
+            Debug.Log("Data saved successfully.");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error saving data: " + ex.Message);
+        }
     }
 
     public void LoadData()
     {
-        using StreamReader reader = new StreamReader(persistentPath);
-        string json = reader.ReadToEnd();
-
-        SettingsData settings = JsonUtility.FromJson<SettingsData>(json);
-        Debug.Log(settings.ToString());
-        settingsData = settings;
-
+        try
+        {
+            if (File.Exists(persistentPath))  // Check if the file exists before attempting to load
+            {
+                string json = File.ReadAllText(persistentPath);
+                SettingsData loadedSettings = JsonUtility.FromJson<SettingsData>(json);
+                Debug.Log("Loaded settings: " + loadedSettings.ToString());
+                settingsData = loadedSettings;
+            }
+            else
+            {
+                Debug.LogWarning("Settings file not found at " + persistentPath);
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error loading data: " + ex.Message);
+        }
     }
 }

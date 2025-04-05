@@ -1,9 +1,9 @@
-EXTERNAL SwitchToThiefScene3()
+EXTERNAL SwitchToThiefMap1()
 
-Hi, friends. #speaker:Owlish Ghost #portrait:thiefneutral #layout:left
+Hi, friends. #speaker:Owlish Ghost #portrait:Thief #layout:left
 … Archibald, you know this guy? #speaker:Player #portrait:0
 No, my friends aren’t total freaks like this guy. #speaker:Archibald #portrait:archibald
-You want a job…? You look like you need some work… #speaker:Owlish Ghost #portrait:thiefneutral
+You want a job…? You look like you need some work… #speaker:Owlish Ghost #portrait:Thief
 -> choice
 
 === choice ===
@@ -18,14 +18,14 @@ You want a job…? You look like you need some work… #speaker:Owlish Ghost #po
 	-> continue
 
 === continue ===
-The Nachzehrer’s Crown... heard of it…? …Want to claim it for yourself? #speaker:Owlish Ghost #portrait:thiefneutral
+The Nachzehrer’s Crown... heard of it…? …Want to claim it for yourself? #speaker:Owlish Ghost #portrait:Thief
 No, and no— #speaker:Player #portrait:0
 Hold on, the Nachzehrer’s Crown? If it’s what I’m thinking of… Yes. Human, say yes. #speaker:Archibald #portrait:archibald
-Kept by the mafia… They’re bad… It’s a dangerous job… #speaker:Owlish Ghost #portrait:thiefneutral
+Kept by the mafia… They’re bad… It’s a dangerous job… #speaker:Owlish Ghost #portrait:Thief
 Well, this guy doesn’t mind it, so it won’t be a problem! #speaker:Archibald #portrait:archibald
-Here… A map…  If they catch you… death is guaranteed… #speaker:Owlish Ghost #portrait:thiefneutral
+Here… A map…  If they catch you… death is guaranteed… #speaker:Owlish Ghost #portrait:Thief
 Let’s go, human! #speaker:Archibald, #portrait:archibald
 Hey, I think you forgot to ask for my opinion…? #speaker:Player #portrait:0
-~SwitchToThiefScene3()
+~ SwitchToThiefMap1()
 
 -> END
