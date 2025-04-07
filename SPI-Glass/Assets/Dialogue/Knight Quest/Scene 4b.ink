@@ -2,7 +2,7 @@ EXTERNAL SwitchToGhostFight()
 EXTERNAL SpawnGhost()
 EXTERNAL DeleteGhost()
 
-Behind you! He’s back! #speaker:Archibald #portrait:archibald layout:left
+Behind you! He’s back! #speaker:Archibald #portrait:archibald  #layout:left
 ~SpawnGhost()
 He’s weaker now, thanks to the grail. #speaker:Archibald #portrait:archibald
 Traitor. Where is the Holy Grail? #speaker:Knight Ghost #portrait:knight1

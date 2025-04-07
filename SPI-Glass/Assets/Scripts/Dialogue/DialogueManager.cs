@@ -134,7 +134,7 @@ public class DialogueManager : MonoBehaviour
         //Reset display name, portrait and layout
         displayNameText.text = "???";
         portraitAnimator.Play("default");
-        layoutAnimator.Play("right");
+        layoutAnimator.Play("left");
         if (this.manuallyIncrement == true)
         {
             ContinueStory();
@@ -550,7 +550,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GhostFight");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Stump 1");
         }
 
         currentStory.BindExternalFunction("SwitchToScene5", () =>
@@ -630,7 +630,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 4");
         }
-        
+
         currentStory.BindExternalFunction("SwitchToSceneThief5", () =>
         {
             StartCoroutine(LoadSceneThief5());
@@ -784,7 +784,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 3");
         }
-        
+
 
 
 
@@ -864,7 +864,7 @@ public class DialogueManager : MonoBehaviour
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             UnityEngine.SceneManagement.SceneManager.LoadScene("Thief Scene 6");
-        }        
+        }
 
 
 
