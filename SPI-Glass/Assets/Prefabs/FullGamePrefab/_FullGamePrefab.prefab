@@ -755,6 +755,21 @@ PrefabInstance:
       propertyPath: settingsSaving
       value: 
       objectReference: {fileID: 2674503092867178146}
+    - target: {fileID: 6754168023813154198, guid: 6156793bd6047c5489305305b8693a84,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6754168023813154198, guid: 6156793bd6047c5489305305b8693a84,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6754168023813154198, guid: 6156793bd6047c5489305305b8693a84,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -3413
+      objectReference: {fileID: 0}
     - target: {fileID: 6904818223309047407, guid: 6156793bd6047c5489305305b8693a84,
         type: 3}
       propertyPath: m_Name
