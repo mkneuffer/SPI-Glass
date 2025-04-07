@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca9263f708aa2d4cb11343334c96927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsData: {fileID: 0}
   inputField: 
   inputBox: {fileID: 323846413}
   dialogueManager: {fileID: 567000995}
@@ -427,7 +428,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2674503092867178146, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
+    - {fileID: 6165930743418750382, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
+    - {fileID: 8139036112965037020, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5170396110069565814, guid: 7f3adf094e7c3a84f938e554c474eab7,
@@ -439,6 +443,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 575849198}
+    - targetCorrespondingSourceObject: {fileID: 4943127683092759361, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 830228355}
+    - targetCorrespondingSourceObject: {fileID: 4943127683092759361, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 830228356}
   m_SourcePrefab: {fileID: 100100000, guid: 7f3adf094e7c3a84f938e554c474eab7, type: 3}
 --- !u!1 &575849197 stripped
 GameObject:
@@ -496,6 +508,44 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 575849196}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &830228353 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4943127683092759361, guid: 7f3adf094e7c3a84f938e554c474eab7,
+    type: 3}
+  m_PrefabInstance: {fileID: 575849196}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &830228355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830228353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ac436adc49006468cf4499b4106ca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: 50
+  name: 
+  scene: 0
+--- !u!114 &830228356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830228353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca9263f708aa2d4cb11343334c96927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsData: {fileID: 0}
+  inputField: 
+  inputBox: {fileID: 0}
+  dialogueManager: {fileID: 0}
+  nextText: {fileID: 0}
 --- !u!1 &862628705
 GameObject:
   m_ObjectHideFlags: 0

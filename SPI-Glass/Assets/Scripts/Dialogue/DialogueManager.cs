@@ -395,7 +395,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         if (nameField != null)
-            Debug.Log("name field detected");
         {
             currentStory.BindExternalFunction("openNameField", () =>
             {
@@ -498,6 +497,7 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
+            settingsSaving.changeScene();
             UnityEngine.SceneManagement.SceneManager.LoadScene("Scene2");
         }
 

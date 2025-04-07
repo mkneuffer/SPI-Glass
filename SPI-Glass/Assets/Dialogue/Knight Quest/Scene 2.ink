@@ -2,7 +2,7 @@ EXTERNAL SpawnGhost()
 EXTERNAL EnterGhostWorld()
 EXTERNAL SwitchToObjectDetection()
 
-We can traverse into the Ghost World here. #speaker:Archibald #portrait:archibald
+We can traverse into the Ghost World here. #speaker:0 #portrait:archibald
 ~EnterGhostWorld()
 ~SpawnGhost()
 The Holy Grail… I need to find the grail… #speaker:Knight Ghost #portrait:knight1

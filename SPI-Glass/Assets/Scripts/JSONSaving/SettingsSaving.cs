@@ -15,16 +15,24 @@ public class SettingsSaving : MonoBehaviour
     [SerializeField] private TextAsset nextText;
     // Start is called before the first frame update
 
-    void Start()
+    void Awake()
     {
-        setSettings();
-        SetPaths();
-        setNameFieldActive(false);
+        settingsData = FindObjectOfType<SettingsData>();
+
+        if (FindObjectsOfType<SettingsSaving>().Length > 1 && settingsData.getScene() == true)
+        {
+            Debug.Log("multiple settings saving found");
+            Destroy(gameObject);  // Destroy the duplicate
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);  // Make this object persist across scenes
+        }
     }
 
-    private void SetPaths()
+    void Start()
     {
-        persistentPath = Path.Combine(Application.persistentDataPath, "SettingsData.json");
+        setNameFieldActive(false);
     }
 
     // Update is called once per frame
@@ -33,15 +41,6 @@ public class SettingsSaving : MonoBehaviour
 
     }
 
-    private void setSettings()
-    {
-        if (settingsData == null)
-        {
-            settingsData = new SettingsData(50f, "0");
-            Debug.Log("default settings enabled with volume: " + settingsData.getVolume());
-        }
-
-    }
     public void setName(string name)
     {
         inputField = name;
@@ -70,50 +69,12 @@ public class SettingsSaving : MonoBehaviour
             Vector3 newBoxPos = new Vector3(10000, 10000, 0);
             inputBox.transform.position = newBoxPos;
             dialogueManager.EnterDialogueMode(nextText, true);
-            Debug.Log("saving data");
-            SaveData();
-            Debug.Log("saved");
+            settingsData.setName(inputField);
         }
     }
 
-    public void SaveData()
+    public void changeScene()
     {
-        try
-        {
-            Debug.Log("Saving Data at " + persistentPath);
-            string settingsJson = JsonUtility.ToJson(settingsData);
-            Debug.Log(settingsJson);
-
-            // Use StreamWriter to save the settings in the persistent data path
-            File.WriteAllText(persistentPath, settingsJson);  // File.WriteAllText is a simpler method for saving text files
-
-            Debug.Log("Data saved successfully.");
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("Error saving data: " + ex.Message);
-        }
-    }
-
-    public void LoadData()
-    {
-        try
-        {
-            if (File.Exists(persistentPath))  // Check if the file exists before attempting to load
-            {
-                string json = File.ReadAllText(persistentPath);
-                SettingsData loadedSettings = JsonUtility.FromJson<SettingsData>(json);
-                Debug.Log("Loaded settings: " + loadedSettings.ToString());
-                settingsData = loadedSettings;
-            }
-            else
-            {
-                Debug.LogWarning("Settings file not found at " + persistentPath);
-            }
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("Error loading data: " + ex.Message);
-        }
+        settingsData.sceneCheck();
     }
 }

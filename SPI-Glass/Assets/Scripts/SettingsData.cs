@@ -2,16 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SettingsData
+public class SettingsData : MonoBehaviour
 {
     public float volume;
     public string name;
+    public bool scene;
 
 
     public SettingsData(float volume, string name)
     {
         this.volume = volume;
         this.name = name;
+        this.scene = false;
+    }
+
+    private void Awake()
+    {
+        var settingsDataList = FindObjectsOfType<SettingsData>();
+        if (settingsDataList.Length > 1)
+        {
+            for (int i = 0; i < settingsDataList.Length; i++)
+            {
+                Debug.Log("multiple settings data found at " + settingsDataList[i].transform.name);
+            }
+            
+            Destroy(this.gameObject);  // Destroy the duplicate
+        }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public override string ToString()
@@ -31,6 +48,17 @@ public class SettingsData
     public string getName()
     {
         return name;
+    }
+
+    public void sceneCheck()
+    {
+        Debug.Log("changing scene");
+        scene = true;
+    }
+
+    public bool getScene()
+    {
+        return scene;
     }
 
     public void setName(string newName)
