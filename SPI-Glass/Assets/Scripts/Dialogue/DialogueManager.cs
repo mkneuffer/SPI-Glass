@@ -395,6 +395,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         if (nameField != null)
+            Debug.Log("name field detected");
         {
             currentStory.BindExternalFunction("openNameField", () =>
             {

@@ -14,19 +14,8 @@ public class SettingsSaving : MonoBehaviour
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private TextAsset nextText;
     // Start is called before the first frame update
-    private void Awake()
-    {
-        if (FindObjectsOfType<SettingsSaving>().Length > 1)
-        {
-            Destroy(gameObject);  // Destroy the duplicate
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);  // Make this object persist across scenes
-        }
-    }
 
-        void Start()
+    void Start()
     {
         setSettings();
         SetPaths();
