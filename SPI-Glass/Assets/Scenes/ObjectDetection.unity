@@ -964,7 +964,7 @@ MonoBehaviour:
   woodNeededToCraftGrail: 5
   woodSpeed: 3700
   transition: {fileID: 844181599}
-  testing: 1
+  testing: 0
   stumpPlace: {fileID: 991402184}
 --- !u!114 &505250066
 MonoBehaviour:
