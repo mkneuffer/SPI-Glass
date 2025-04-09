@@ -17,14 +17,19 @@ public class SettingsSaving : MonoBehaviour
 
     void Start()
     {
-        setSettings();
         SetPaths();
         setNameFieldActive(false);
     }
 
+    private void Awake()
+    {
+        LoadData();
+        setSettings();
+    }
+
     private void SetPaths()
     {
-        persistentPath = Path.Combine(Application.persistentDataPath, "SettingsData.json");
+        persistentPath = Application.dataPath + Path.AltDirectorySeparatorChar + "SaveData.json";
     }
 
     // Update is called once per frame
@@ -35,12 +40,13 @@ public class SettingsSaving : MonoBehaviour
 
     private void setSettings()
     {
+        
         if (settingsData == null)
         {
             settingsData = new SettingsData(50f, "0");
             Debug.Log("default settings enabled with volume: " + settingsData.getVolume());
         }
-
+        
     }
     public void setName(string name)
     {
@@ -101,6 +107,7 @@ public class SettingsSaving : MonoBehaviour
         {
             if (File.Exists(persistentPath))  // Check if the file exists before attempting to load
             {
+                Debug.Log("loading data");
                 string json = File.ReadAllText(persistentPath);
                 SettingsData loadedSettings = JsonUtility.FromJson<SettingsData>(json);
                 Debug.Log("Loaded settings: " + loadedSettings.ToString());

@@ -253,7 +253,7 @@ public class DialogueManager : MonoBehaviour
                     }
                     else if (tagValue == "Player")
                     {
-                        displayNameText.text = settingsSaving.getName();
+                        displayNameText.text = "You";
                     }
                     //No portrait
                     else
