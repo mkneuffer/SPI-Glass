@@ -62,6 +62,7 @@ public class GhostHealth : MonoBehaviour
             ghostRigidbody.isKinematic = true;
         }
         movementAnimator.enabled = true;
+        
         OnGhostSpawned?.Invoke(); // Notify UI that ghost has spawned
         StartPhase(0);
     }

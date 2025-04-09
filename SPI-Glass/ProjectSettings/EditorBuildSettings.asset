@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene4.unity
     guid: 5baa2426653113540b03d81813cfa93d
   - enabled: 1
+    path: Assets/Scenes/Stump 1.unity
+    guid: 559e0172ecfa24f23b1b08dd1f4cd7eb
+  - enabled: 0
     path: Assets/Scenes/GhostFight.unity
     guid: 6de8611e27b199e49b42ca8e61109018
   - enabled: 1
