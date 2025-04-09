@@ -61,7 +61,7 @@ public class GhostHealth : MonoBehaviour
             ghostRigidbody = gameObject.AddComponent<Rigidbody>();
             ghostRigidbody.isKinematic = true;
         }
-
+        movementAnimator.enabled = true;
         OnGhostSpawned?.Invoke(); // Notify UI that ghost has spawned
         StartPhase(0);
     }
@@ -215,6 +215,7 @@ public class GhostHealth : MonoBehaviour
         }
 
         // Schedule scene change after 3 seconds
+        movementAnimator.enabled = false;
         Invoke(nameof(SwitchScene), 3f);
     }
 

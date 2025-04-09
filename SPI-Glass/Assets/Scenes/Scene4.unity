@@ -142,8 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8922475436868412269, guid: 9253c4d98912441f3b1fe27ad6a576e8, type: 3}
   parent: {fileID: 0}
-  minimumSpawnDistance: 2.94
-  maximumSpawnDistance: 8.55
+  minimumSpawnDistance: 2
+  maximumSpawnDistance: 6
   useIdentityRotation: 0
   dontSpawnImmediately: 0
 --- !u!114 &33371580
@@ -273,6 +273,16 @@ PrefabInstance:
       propertyPath: inkJSONDialogue
       value: 
       objectReference: {fileID: 4900000, guid: 3663b479b8b76ba4cba04d7ae3de9794, type: 3}
+    - target: {fileID: 5287548149888623769, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5287548149888623769, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00012207031
+      objectReference: {fileID: 0}
     - target: {fileID: 5920100592731701922, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: scene4Prompt

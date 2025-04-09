@@ -234,8 +234,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6800554348828630263, guid: eecccd038955f46ab8727ca09a2b4601, type: 3}
+  parent: {fileID: 0}
   minimumSpawnDistance: 2
   maximumSpawnDistance: 4
+  useIdentityRotation: 0
+  dontSpawnImmediately: 0
 --- !u!114 &24205268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,8 +270,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1810335270025799418, guid: bf4ed5275e8c343d093742571e7de456, type: 3}
-  minimumSpawnDistance: 4
-  maximumSpawnDistance: 7
+  parent: {fileID: 0}
+  minimumSpawnDistance: 2
+  maximumSpawnDistance: 6
+  useIdentityRotation: 0
+  dontSpawnImmediately: 0
 --- !u!1 &146446633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,10 +1386,13 @@ MonoBehaviour:
   puzzleManager: {fileID: 0}
   ghostManager: {fileID: 0}
   InventoryManager: {fileID: 0}
-  automaticTextSpeedPerWord: 0
+  nameField: {fileID: 0}
+  settingsSaving: {fileID: 0}
   transition: {fileID: 793328087}
   transitionTime: 3
   postProcessingSwitcher: {fileID: 0}
+  scene4Prompt: {fileID: 0}
+  triggerDialogue: {fileID: 0}
   choices:
   - {fileID: 0}
   - {fileID: 0}
@@ -1869,6 +1878,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabWithRigidbody: {fileID: 3594783523787754470, guid: 07e1d21133d144a6fb998428b80a535e,
     type: 3}
+  spawningOffset: {x: 0, y: 0, z: 0}
+  lookAt: 0
+  useTouchFromARLaserAndMirrorManager: 0
 --- !u!4 &1063376971
 Transform:
   m_ObjectHideFlags: 0
@@ -2003,11 +2015,7 @@ GameObject:
   - component: {fileID: 1117002595}
   - component: {fileID: 1117002594}
   - component: {fileID: 1117002593}
-  - component: {fileID: 1117002592}
-  - component: {fileID: 1117002591}
   - component: {fileID: 1117002590}
-  - component: {fileID: 1117002589}
-  - component: {fileID: 1117002599}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2031,18 +2039,6 @@ Transform:
   - {fileID: 1007060726}
   m_Father: {fileID: 1097759685}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1117002589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117002587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e5b14a9a28f6417caef70d171109b72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1117002590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2056,49 +2052,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetFrameRate: 30
---- !u!114 &1117002591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117002587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11aa8f461d05f45f68d7b81ed08f1f9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetFrameRate: 30
-  _optimalOcclusionDistanceMode: 0
-  _preferSmoothEdges: 1
-  _principalOccludee: {fileID: 0}
-  _isOcclusionStabilizationEnabled: 1
-  _isOcclusionSuppressionEnabled: 1
-  _suppressionChannels:
-  - ground
-  _useCustomBackgroundMaterial: 0
-  _customBackgroundMaterial: {fileID: 0}
-  _bypassOcclusionManagerUpdates: 0
-  _overrideOcclusionManagerSettings: 1
-  _semanticSegmentationManager: {fileID: 1117002590}
-  _meshManager: {fileID: 1742912466}
---- !u!114 &1117002592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117002587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15f82cc229284894964d2d30806969d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HumanSegmentationStencilMode: 3
-  m_HumanSegmentationDepthMode: 2
-  m_EnvironmentDepthMode: 3
-  m_EnvironmentDepthTemporalSmoothing: 1
-  m_OcclusionPreferenceMode: 0
 --- !u!114 &1117002593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2335,18 +2288,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1117002599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117002587}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 476ef91786a314387b5db2ea7c493c80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1141270422
 GameObject:
   m_ObjectHideFlags: 0
@@ -2695,7 +2636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1214568127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2967,7 +2908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inInventory: 0
-  name: Flashlight
+  itemName: 
   itemNum: 0
   itemIcon: {fileID: 21300000, guid: cb56e47d43f746b43a41b7096cddb5df, type: 3}
   itemModel: {fileID: 0}
@@ -3589,7 +3530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inInventory: 0
-  name: Holy Water
+  itemName: 
   itemNum: 1
   itemIcon: {fileID: 21300000, guid: 979378e55ca5b0546a5b430cc3ca0616, type: 3}
   itemModel: {fileID: 0}

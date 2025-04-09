@@ -672,8 +672,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1810335270025799418, guid: 8a642b6e3f5234cd0b333b3bcb6b6f93, type: 3}
   parent: {fileID: 0}
-  minimumSpawnDistance: 4
-  maximumSpawnDistance: 10
+  minimumSpawnDistance: 2
+  maximumSpawnDistance: 5
   useIdentityRotation: 0
   dontSpawnImmediately: 0
 --- !u!114 &1405677966
