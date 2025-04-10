@@ -161,4 +161,9 @@ public class StumpPlace : MonoBehaviour
         // Call the OnGhostSpawned event
         OnGhostSpawned?.Invoke(instantiatedPrefab.transform);
     }
+
+    public void replaceObject()
+    {
+        TryPlacePrefab();
+    }
 }
