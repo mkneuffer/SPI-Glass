@@ -1392,7 +1392,7 @@ PrefabInstance:
     - target: {fileID: 286057865022383122, guid: 97839c8635dc2457196de064133b7a19,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659160906367569205, guid: 97839c8635dc2457196de064133b7a19,
         type: 3}
@@ -4009,7 +4009,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a9816146c7ce6489dad0124fb9688a8e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2728892082364250921, guid: a9816146c7ce6489dad0124fb9688a8e,
         type: 3}
@@ -4154,7 +4154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transition: {fileID: 1387914795}
   transitionTime: 3
-  sceneToSwitch: 
+  sceneToSwitch: Thief Scene 1
 --- !u!1 &1573762708
 GameObject:
   m_ObjectHideFlags: 0
