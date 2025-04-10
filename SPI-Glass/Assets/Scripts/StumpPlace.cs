@@ -84,6 +84,7 @@ public class StumpPlace : MonoBehaviour
         // If we found a valid plane, update the prefab's position and rotation
         if (furthestValidPlane != null)
         {
+
             instantiatedPrefab.transform.position = furthestValidPosition;
 
             // Calculate the direction to face the camera
@@ -164,6 +165,6 @@ public class StumpPlace : MonoBehaviour
 
     public void replaceObject()
     {
-        TryPlacePrefab();
+        DeleteGhost();
     }
 }
