@@ -95,8 +95,8 @@ public class ThiefGhost : MonoBehaviour
 
         speed = defaultSpeed;
         Debug.Log($"Starting Phase {phase + 1}");
-
-        ghostAnimator.Play("Float");
+        ghostAnimator.speed = 1;
+        ghostAnimator.Play("CrouchWalk");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -139,7 +139,7 @@ public class ThiefGhost : MonoBehaviour
         isStunned = true;
         direction = direction * -1;
         Debug.Log($"Ghost is stunned.");
-        ghostAnimator.Play("Stun");
+        ghostAnimator.Play("CrouchIdle");
         speed = 0;
         //After 3 seconds, end the stun
         Invoke(nameof(EndStun), 3f);
@@ -154,7 +154,7 @@ public class ThiefGhost : MonoBehaviour
             isInCooldown = true; // Enter cooldown phase
             Debug.Log("Ghost is no longer stunned. Entering cooldown.");
 
-            ghostAnimator.Play("Float");
+            ghostAnimator.Play("CrouchWalk");
 
             speed = defaultSpeed;
             Invoke(nameof(EndCooldown), stunCooldown);
@@ -180,10 +180,12 @@ public class ThiefGhost : MonoBehaviour
         trapped = isTrapped;
         if (isTrapped)
         {
+            ghostAnimator.Play("CrouchIdle");
             speed = 0;
         }
         else if (!isStunned)
         {
+            ghostAnimator.Play("CrouchWalk");
             speed = defaultSpeed;
         }
         Debug.Log($"Trapped is set to {trapped}");
