@@ -408,6 +408,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4377559000526907803, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1788737156}
+    - target: {fileID: 4377559000526907803, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: replaceObject
+      objectReference: {fileID: 0}
     - target: {fileID: 4551145067973560782, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: inkJSONDialogue

@@ -1835,6 +1835,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4377559000526907803, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1249585634}
+    - target: {fileID: 4377559000526907803, guid: 7f3adf094e7c3a84f938e554c474eab7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: replaceObject
+      objectReference: {fileID: 0}
     - target: {fileID: 4551145067973560782, guid: 7f3adf094e7c3a84f938e554c474eab7,
         type: 3}
       propertyPath: inkJSONPrompt
@@ -1993,6 +2003,7 @@ MonoBehaviour:
   minimumSpawnDistance: 4
   maximumSpawnDistance: 7
   useIdentityRotation: 0
+  dontSpawnImmediately: 0
 --- !u!114 &1249585635
 MonoBehaviour:
   m_ObjectHideFlags: 0
