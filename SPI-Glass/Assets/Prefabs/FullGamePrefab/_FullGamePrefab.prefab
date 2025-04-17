@@ -1224,6 +1224,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7077513006628759674, guid: d9473008db589f542a8412a43fecf086,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077513006628759674, guid: d9473008db589f542a8412a43fecf086,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 8730697006388742722, guid: d9473008db589f542a8412a43fecf086,
         type: 3}
       propertyPath: m_Name
