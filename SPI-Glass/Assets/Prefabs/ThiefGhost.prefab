@@ -483,7 +483,7 @@ MonoBehaviour:
   fogObject: {fileID: 4216137515402459398, guid: b010b834965fc4d8a9e071fe9b5628aa,
     type: 3}
   nextSceneName: Thief Scene 10
-  defaultSpeed: 5
+  defaultSpeed: 2
   speed: 0
   ghostModel: {fileID: 8922509543777792170}
 --- !u!1 &1861473180832742763
