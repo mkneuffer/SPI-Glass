@@ -57,7 +57,7 @@ MonoBehaviour:
   - 10
   stunCooldownDuration: 3
   ghostAnimator: {fileID: 9140964920565001546}
-  movementAnimator: {fileID: 2942017848081183024}
+  movementAnimator: {fileID: 0}
   ghostRigidbody: {fileID: 6560975589062673816}
   selectedCollider: {fileID: 8332101934507658376}
   fogObject: {fileID: 4216137515402459398, guid: b010b834965fc4d8a9e071fe9b5628aa,
@@ -141,7 +141,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7183485758789648558}
-  - component: {fileID: 2942017848081183024}
   m_Layer: 0
   m_Name: GhostAnchor
   m_TagString: Untagged
@@ -166,27 +165,6 @@ Transform:
   - {fileID: 8952922978813846055}
   m_Father: {fileID: 5978422236459862029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2942017848081183024
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4067379461171496874}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fa9df7ba10f4946f5bbc70e567dcaadf, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &103321807493384857
 PrefabInstance:
   m_ObjectHideFlags: 0
