@@ -12,6 +12,13 @@ Welcome to the SPI-Glass documentation. Here you’ll find an overview of our co
 
 ---
 
+## Videos
+
+- **Full Playthrough**: [Watch here](<FULL_PLAYTHROUGH_URL>)
+- **Game Trailer**: [Watch here](<GAME_TRAILER_URL>)
+
+---
+
 ## AR Tracking with **StumpPlace**
 
 The **StumpPlace** component encapsulates all AR plane detection and object-placement logic, built on top of Unity’s AR Foundation (or Niantic Lightship ARDK). It:
@@ -196,6 +203,12 @@ public class WoodCollector : MonoBehaviour
 
 ---
 
+> **Next Steps:**  
+> - Tweak AR surface filters in `StumpPlace` to ignore overly small planes.  
+> - Extend Ink scripts to support inventory checks for collected wood.  
+> - Retrain segmentation model with more wood-type samples for robustness.
+
+---
 
 *Happy coding!*  
 *— SPI-Glass Team*
