@@ -196,12 +196,6 @@ public class WoodCollector : MonoBehaviour
 
 ---
 
-> **Next Steps:**  
-> - Tweak AR surface filters in `StumpPlace` to ignore overly small planes.  
-> - Extend Ink scripts to support inventory checks for collected wood.  
-> - Retrain segmentation model with more wood-type samples for robustness.
-
----
 
 *Happy coding!*  
 *— SPI-Glass Team*
