@@ -1,34 +1,217 @@
-# SPI-Glass
+# SPI-Glass Documentation
 
-**SPI-Glass** is an Augmented Reality (AR) game developed in Unity as part of the Major Qualifying Project (MQP) at Worcester Polytechnic Institute (WPI). This repository contains the code and resources for the game, which leverages AR technology to create an immersive and interactive experience.
+Welcome to the SPI-Glass documentation. Here you’ll find an overview of our core systems: AR tracking, dialogue, and wood-collection via semantic segmentation.
+
+---
 
 ## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributors](#contributors)
-- [License](#license)
 
-## Introduction
-SPI-Glass is designed to push the boundaries of immersive gaming by incorporating AR elements that interact with the player's real-world environment. The game encourages strategic thinking, exploration, and interaction with AR objects, providing a unique gaming experience.
+1. [AR Tracking with **StumpPlace**](#ar-tracking-with-stumpplace)  
+2. [Dialogue System](#dialogue-system)  
+3. [Semantic Segmentation for Wood Collection](#semantic-segmentation-for-wood-collection)  
 
-## Features
-- Immersive AR gameplay with Unity
-- Interactable 3D objects
-- Real-time environment scanning and object placement
-- Strategic puzzle elements
-- Cross-platform support for AR-compatible devices
+---
 
-## Technologies Used
-- **Unity**: Primary game engine used for development
-- **AR Foundation**: Unity's package for building AR applications
-- **C#**: Main programming language for game logic
-- **Blender**: Used for creating and optimizing 3D models
-- **Git**: Version control system
+## AR Tracking with **StumpPlace**
 
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/SPI-Glass.git
+The **StumpPlace** component encapsulates all AR plane detection and object-placement logic, built on top of Unity’s AR Foundation (or Niantic Lightship ARDK). It:
+
+- **Listens** for user input (touch or click).
+- **Performs** an AR raycast against detected horizontal surfaces.
+- **Instantiates** a stump prefab at the hit location.
+- **Creates** and **manages** AR anchors so that stumps stay locked to the real-world position as tracking data updates.
+
+<details>
+<summary>Example: StumpPlace.cs (simplified)</summary>
+
+```csharp
+using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
+
+[RequireComponent(typeof(ARRaycastManager))]
+public class StumpPlace : MonoBehaviour
+{
+    [SerializeField] private GameObject stumpPrefab;
+    private ARRaycastManager raycastManager;
+
+    void Awake()
+    {
+        raycastManager = GetComponent<ARRaycastManager>();
+    }
+
+    void Update()
+    {
+        if (Input.touchCount == 0)
+            return;
+
+        var touch = Input.GetTouch(0);
+        if (touch.phase != TouchPhase.Began)
+            return;
+
+        // Raycast into the AR scene
+        if (raycastManager.Raycast(touch.position, out var hits, TrackableType.PlaneWithinPolygon))
+        {
+            // Place stump at the first hit pose
+            var pose = hits[0].pose;
+            var stump = Instantiate(stumpPrefab, pose.position, pose.rotation);
+            // Anchor the stump so it stays fixed in world space
+            stump.AddComponent<ARAnchor>();
+        }
+    }
+}
+```
+</details>
+
+---
+
+## Dialogue System
+
+We leverage [Inkle’s Ink](https://www.inklestudios.com/ink/) for a flexible, branching narrative:
+
+1. **Script files** live under `Assets/Dialogues/*.ink`.
+2. At runtime, `DialogueManager`  
+   - **Loads** the chosen `.ink.json` via Unity’s `TextAsset`.  
+   - **Advances** text with `story.Continue()`.  
+   - **Presents** choices as UI buttons.  
+   - **Handles** player selections, feeding them back into `story.ChooseChoiceIndex(...)`.
+3. **Callbacks** trigger in-game events (e.g. spawning objects, playing sounds).
+
+<details>
+<summary>Key excerpts from DialogueManager.cs</summary>
+
+```csharp
+using Ink.Runtime;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DialogueManager : MonoBehaviour
+{
+    [SerializeField] private TextAsset inkJSON;
+    [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private GameObject choicesContainer;
+    [SerializeField] private Button choiceButtonPrefab;
+
+    private Story story;
+
+    public void StartDialogue()
+    {
+        story = new Story(inkJSON.text);
+        DisplayNextLine();
+    }
+
+    void DisplayNextLine()
+    {
+        if (!story.canContinue) { EndDialogue(); return; }
+
+        dialogueText.text = story.Continue();
+        CreateChoiceButtons();
+    }
+
+    void CreateChoiceButtons()
+    {
+        // Clear old buttons
+        foreach (Transform t in choicesContainer.transform) Destroy(t.gameObject);
+
+        for (int i = 0; i < story.currentChoices.Count; i++)
+        {
+            var choice = story.currentChoices[i];
+            var btn = Instantiate(choiceButtonPrefab, choicesContainer.transform);
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = choice.text;
+            int index = i;
+            btn.onClick.AddListener(() => OnChoiceSelected(index));
+        }
+    }
+
+    void OnChoiceSelected(int index)
+    {
+        story.ChooseChoiceIndex(index);
+        DisplayNextLine();
+    }
+
+    void EndDialogue()
+    {
+        // Cleanup and signal end of dialogue
+    }
+}
+```
+</details>
+
+---
+
+## Semantic Segmentation for Wood Collection
+
+To detect and collect “wood” in the player’s environment, we integrate a custom semantic-segmentation model via Unity Barracuda:
+
+1. **Camera feed** frames are passed to the **SegmentationRunner**, which  
+   - **Preprocesses** the image into a tensor.  
+   - **Runs** inference on our trained “wood detector” model.  
+   - **Returns** a binary mask highlighting wood-pixels.
+2. On **touch input**, we sample the mask at the tapped pixel.  
+   - **If** that pixel belongs to wood, we spawn a “wood fragment” collectible at the corresponding world raycast hit.
+3. This pipeline ensures the user only collects actual wood surfaces, even in complex real-world scenes.
+
+<details>
+<summary>Pseudocode for segmentation in WoodCollector.cs</summary>
+
+```csharp
+using Unity.Barracuda;
+using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+
+public class WoodCollector : MonoBehaviour
+{
+    [SerializeField] private NNModel segmentationModel;
+    [SerializeField] private GameObject woodPrefab;
+    private IWorker worker;
+    private ARCameraManager cameraManager;
+
+    void Start()
+    {
+        var model = ModelLoader.Load(segmentationModel);
+        worker = WorkerFactory.CreateWorker(model);
+        cameraManager = FindObjectOfType<ARCameraManager>();
+    }
+
+    void Update()
+    {
+        if (Input.touchCount == 0) return;
+        if (Input.GetTouch(0).phase != TouchPhase.Began) return;
+
+        // 1) Perform AR raycast to get world hit
+        // 2) Request latest camera frame
+        cameraManager.TryAcquireLatestCpuImage(out var image);
+        var mask = RunSegmentation(image);
+        image.Dispose();
+
+        // 3) Sample mask at touch.x/y
+        if (mask.IsWoodPixel(touchX, touchY))
+        {
+            // Spawn wood collectible
+            Instantiate(woodPrefab, hitPose.position, Quaternion.identity);
+        }
+    }
+
+    private Tensor RunSegmentation(XRCpuImage image)
+    {
+        // Convert image to Tensor, dispatch to worker, retrieve mask tensor
+    }
+
+    void OnDestroy() => worker.Dispose();
+}
+```
+</details>
+
+---
+
+> **Next Steps:**  
+> - Tweak AR surface filters in `StumpPlace` to ignore overly small planes.  
+> - Extend Ink scripts to support inventory checks for collected wood.  
+> - Retrain segmentation model with more wood-type samples for robustness.
+
+---
+
+*Happy coding!*  
+*— SPI-Glass Team*
+
