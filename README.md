@@ -14,8 +14,8 @@ Welcome to the SPI-Glass documentation. Here you’ll find an overview of our co
 
 ## Videos
 
-- **Full Playthrough**: [Watch here](<FULL_PLAYTHROUGH_URL>)
-- **Game Trailer**: [Watch here](<GAME_TRAILER_URL>)
+- **Full Playthrough**: [Watch here](<https://www.youtube.com/watch?v=oYqmurLRoHE>)
+- **Game Trailer**: [Watch here](https://youtube.com/shorts/QzAqoT1zwnc)
 
 ---
 
