@@ -20,6 +20,7 @@ The **StumpPlace** component encapsulates all AR plane detection and object-plac
 - **Performs** an AR raycast against detected horizontal surfaces.
 - **Instantiates** a stump prefab at the hit location.
 - **Creates** and **manages** AR anchors so that stumps stay locked to the real-world position as tracking data updates.
+- **Distance Filtering**: Configurable `minDistance` and `maxDistance` settings ensure stumps are only placed within the desired range from the user’s viewpoint.
 
 <details>
 <summary>Example: StumpPlace.cs (simplified)</summary>
@@ -33,6 +34,8 @@ using UnityEngine.XR.ARSubsystems;
 public class StumpPlace : MonoBehaviour
 {
     [SerializeField] private GameObject stumpPrefab;
+    [SerializeField] private float minDistance = 0.5f;
+    [SerializeField] private float maxDistance = 3.0f;
     private ARRaycastManager raycastManager;
 
     void Awake()
@@ -42,20 +45,17 @@ public class StumpPlace : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchCount == 0)
-            return;
-
+        if (Input.touchCount == 0) return;
         var touch = Input.GetTouch(0);
-        if (touch.phase != TouchPhase.Began)
-            return;
+        if (touch.phase != TouchPhase.Began) return;
 
-        // Raycast into the AR scene
         if (raycastManager.Raycast(touch.position, out var hits, TrackableType.PlaneWithinPolygon))
         {
-            // Place stump at the first hit pose
             var pose = hits[0].pose;
+            float distance = Vector3.Distance(Camera.main.transform.position, pose.position);
+            if (distance < minDistance || distance > maxDistance) return;
+
             var stump = Instantiate(stumpPrefab, pose.position, pose.rotation);
-            // Anchor the stump so it stays fixed in world space
             stump.AddComponent<ARAnchor>();
         }
     }
@@ -111,7 +111,6 @@ public class DialogueManager : MonoBehaviour
 
     void CreateChoiceButtons()
     {
-        // Clear old buttons
         foreach (Transform t in choicesContainer.transform) Destroy(t.gameObject);
 
         for (int i = 0; i < story.currentChoices.Count; i++)
@@ -130,10 +129,7 @@ public class DialogueManager : MonoBehaviour
         DisplayNextLine();
     }
 
-    void EndDialogue()
-    {
-        // Cleanup and signal end of dialogue
-    }
+    void EndDialogue() { /* Cleanup and signal end of dialogue */ }
 }
 ```
 </details>
@@ -176,19 +172,14 @@ public class WoodCollector : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchCount == 0) return;
-        if (Input.GetTouch(0).phase != TouchPhase.Began) return;
+        if (Input.touchCount == 0 || Input.GetTouch(0).phase != TouchPhase.Began) return;
 
-        // 1) Perform AR raycast to get world hit
-        // 2) Request latest camera frame
         cameraManager.TryAcquireLatestCpuImage(out var image);
         var mask = RunSegmentation(image);
         image.Dispose();
 
-        // 3) Sample mask at touch.x/y
         if (mask.IsWoodPixel(touchX, touchY))
         {
-            // Spawn wood collectible
             Instantiate(woodPrefab, hitPose.position, Quaternion.identity);
         }
     }
